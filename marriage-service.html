@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Marriage Services</title>
+<style>
+  /* Include box-sizing to avoid overflow */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: url('bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0 40px 40px 40px;
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 20px 40px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: #2a4d9b; /* blue */
+    border-bottom: 3px solid #c0392b; /* red underline */
+    display: inline-block;
+    padding-bottom: 6px;
+  }
+  header h1 span {
+    color: #c0392b; /* red */
+  }
+  img {
+    display: block;
+    margin: 120px auto 30px auto;
+    width: 320px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .button-grid {
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .service-button {
+    background-color: #f1c40f;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+  }
+  .service-button:hover {
+    background-color: #d4ac0d;
+  }
+  .back-button {
+    margin-top: 40px;
+    background-color: #f1c40f;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    text-align: center;
+    display: inline-block;
+    float: left;
+    max-width: 180px;
+  }
+  .back-button:hover {
+    background-color: #d17b0a;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Marriage <span>Services</span></h1>
+</header>
+
+<img src="example.jpg" alt="Marriage Services Image" />
+<br>
+<br>
+<br>
+
+<div class="button-grid">
+  <a class="service-button" href="Marriage-Schedule-of-Appointment.html" target="_blank">
+    Schedule of Appointment
+  </a>
+  <a class="service-button" href="Request-for-Marriage-Certificate-Home Delivery.html" target="_blank">
+    Request for Marriage Certificate – Certified True Copy (Home Delivery)
+  </a>
+  <a class="service-button" href="Marriage-License-Registration.html" target="_blank">
+    Marriage License Registration
+  </a>
+  <a class="service-button" href="Marriage-Certificate-Registration.html" target="_blank">
+    Marriage Certificate Registration
+  </a>
+  <a class="service-button" href="Delayed-Registration-of-Certificate-of-Marriage.html" target="_blank">
+    Delayed Registration of Certificate of Marriage
+  </a>
+  <a class="service-button" href="Request-for-Correction-of-Marriage-Certificate.html" target="_blank">
+    Request for Correction of Marriage Certificate
+  </a>
+</div>
+
+<a class="back-button" href="index.html">BACK</a>
+
+</body>
+</html>
