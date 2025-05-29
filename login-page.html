@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Civil Registrar Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8f7f2;
+      font-family: 'Roboto', Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background-color: #ffffff;
+      padding: 80px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-container img {
+      width: 150px;
+      margin-bottom: 40px;
+    }
+
+    .login-container h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.4;
+    }
+
+    .login-container p {
+      margin: 10px 0 30px;
+      font-size: 14px;
+    }
+
+    .login-container a {
+      color: #0066cc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .login-container label {
+      display: block;
+      text-align: left;
+      margin: 15px 0 5px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0b3b91;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .go-home {
+      margin-top: 25px;
+      font-size: 13px;
+    }
+
+    .go-home a {
+      color: #666;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .go-home a:hover,
+    .login-container a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="logo-chris.png" alt="City Civil Registrar Logo">
+
+    <h2>Sign In to Civil Registrar<br>Information System</h2>
+    <p>New Here? <a href="https://github.com/signup" target="_blank">Create Your Account Here</a></p>
+
+    <form>
+      <label for="email">Email Address</label>
+      <input type="text" id="email" name="email" placeholder="Enter e-mail address or username">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password">
+
+      <button type="submit">Sign In</button>
+    </form>
+
+    <div class="go-home">
+      <a href="https://github.com/yourusername" target="_blank">Go Back Home</a>
+    </div>
+  </div>
+</body>
+</html>

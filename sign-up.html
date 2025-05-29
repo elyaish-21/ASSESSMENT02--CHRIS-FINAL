@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create an Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #f8f7f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 400px;
+      max-width: 90%;
+    }
+
+    .container img {
+      display: block;
+      margin: 0 auto;
+      height: 100px;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    p {
+      text-align: center;
+      font-size: 14px;
+      color: gray;
+    }
+
+    p a {
+      color: blue;
+      text-decoration: none;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    form label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .checkbox-container input {
+      margin-right: 10px;
+    }
+
+    .checkbox-container a {
+      color: blue;
+      text-decoration: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #2f5acf;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .go-back {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .go-back a {
+      text-decoration: none;
+      color: #2f5acf;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo-chris.png" alt="City Civil Registry Logo">
+    <h2>Create an Account</h2>
+    <p>Already have an account? <a href="https://your-signin-link.com">Sign in here</a></p>
+
+    <form>
+      <label>First Name</label>
+      <input type="text" placeholder="Enter your firstname" required>
+
+      <label>Last Name</label>
+      <input type="text" placeholder="Enter your lastname" required>
+
+      <label>Email</label>
+      <input type="email" placeholder="example@gmail.com" required>
+
+      <label>Mobile Number</label>
+      <input type="tel" placeholder="Enter your mobile number" required>
+
+      <label>Password</label>
+      <input type="password" placeholder="Enter your password" required>
+
+      <small>Use 8 or more characters with a mix of letters, numbers & symbols.</small>
+
+      <label>Confirm Password</label>
+      <input type="password" placeholder="Confirm Password" required>
+
+      <div class="checkbox-container">
+        <input type="checkbox" required />
+        <label>I Agree <a href="#">Terms and conditions</a></label>
+      </div>
+
+      <button class="submit-btn" type="submit">Submit</button>
+    </form>
+
+    <div class="go-back">
+      <a href="https://your-homepage-link.com">Go Back Home</a>
+    </div>
+  </div>
+</body>
+</html>
