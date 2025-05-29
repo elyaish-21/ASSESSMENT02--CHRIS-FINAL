@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birth Schedule of Appointment | CRIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('bgg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      max-width: 750px;
+      width: 90%;
+      padding: 40px;
+      margin: 40px auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-top: 18px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+      background-color: #fff;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    input[type="file"] {
+      margin-top: 8px;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .message {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #dff0d8;
+      color: #3c763d;
+      text-align: center;
+      border-radius: 8px;
+      display: none;
+      font-size: 1rem;
+    }
+
+    .requirements {
+      margin-bottom: 30px;
+      background-color: #f0f4f8;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .requirements ul {
+      margin-left: 20px;
+      padding-left: 10px;
+    }
+
+    .requirements ul li {
+      margin-bottom: 10px;
+      color: #444;
+    }
+
+    .subgroup {
+      margin-top: 8px;
+      margin-left: 20px;
+    }
+
+    .subgroup li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="requirements">
+    <h2>📋 Birth Registration Requirements</h2>
+
+    <h3>✅ General Requirements</h3>
+    <ul>
+      <li><strong>Certificate of Live Birth (COLB):</strong> Filled out and signed (issued by hospital or filled out by midwife or parents for home births)</li>
+      <li><strong>Valid IDs of Parents:</strong> Government-issued IDs (e.g., Passport, Driver’s License, UMID, PhilHealth ID, Voter’s ID)</li>
+    </ul>
+
+    <h3>📝 Additional Based on Circumstances</h3>
+    <ul>
+      <li><strong>For Hospital Births:</strong>
+        <ul class="subgroup">
+          <li>Hospital Certificate of Birth</li>
+          <li>Marriage Certificate of Parents (PSA or Local Civil Registry copy)</li>
+        </ul>
+      </li>
+
+      <li><strong>For Home Births:</strong>
+        <ul class="subgroup">
+          <li>Affidavit of Home Birth</li>
+          <li>Barangay Certificate (certifying birth at stated place and date)</li>
+          <li>Affidavit of Two Disinterested Persons</li>
+          <li>Sketch or Map of Birthplace (sometimes required)</li>
+        </ul>
+      </li>
+
+      <li><strong>If Parents Are Not Married:</strong>
+        <ul class="subgroup">
+          <li>Affidavit of Acknowledgment/Admission of Paternity</li>
+          <li>Affidavit to Use the Surname of the Father (AUSF)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h2>📅 Schedule a Birth Appointment Registration</h2>
+  <form id="appointmentForm">
+    <label for="requester">Full Name of Requester</label>
+    <input type="text" id="requester" required>
+
+    <label for="childName">Child’s Full Name</label>
+    <input type="text" id="childName" required>
+
+    <label for="date">Preferred Date</label>
+    <input type="date" id="date" required>
+
+    <label for="time">Preferred Time</label>
+    <input type="time" id="time" required>
+
+    <label for="purpose">Purpose of Appointment</label>
+    <select id="purpose" required>
+      <option value="">Select...</option>
+      <option>Registration of New Birth</option>
+      <option>Correction of Birth Certificate</option>
+      <option>Request for Certified Copy</option>
+      <option>Late Registration</option>
+      <option>Others</option>
+    </select>
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" required>
+
+    <label for="phone">Mobile Number</label>
+    <input type="text" id="phone" required>
+
+    <label for="docs">Supporting Document (optional)</label>
+    <input type="file" id="docs" accept="application/pdf,image/*">
+
+    <button type="submit">Submit Appointment</button>
+    <div id="successMsg" class="message">✅ Appointment successfully scheduled!</div>
+  </form>
+</div>
+
+<script>
+  document.getElementById("appointmentForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    document.getElementById("successMsg").style.display = "block";
+    this.reset();
+  });
+</script>
+
+</body>
+</html>
