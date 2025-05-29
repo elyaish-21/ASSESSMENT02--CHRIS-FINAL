@@ -178,13 +178,11 @@
   </div>
 
   <!-- Confirmation Modal -->
-  <div id="sms-confirmation">
-    <div class="modal-content">
-      <h3>Thank you for creating an account!</h3>
-      <p>You will receive an SMS and Email shortly confirming your account creation.</p>
-      <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
-    </div>
-  </div>
+ <div class="modal-content">
+  <h3>Thank you for creating an account!</h3>
+  <p>Your registration was successful. A confirmation email and SMS have been sent to your contact details. Please check your inbox to complete the verification process.</p>
+  <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+</div>
 
   <script>
     document.getElementById('signup-form').addEventListener('submit', function(e) {
