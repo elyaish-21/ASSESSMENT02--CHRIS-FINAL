@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marriage Certificate Registration</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', Arial, sans-serif;
+      background: url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+
+      padding: 40px 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 900px;
+      width: 95%;
+    }
+
+    h1, legend {
+      text-align: center;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    fieldset {
+      border: none;
+      border-top: 2px solid #ccc;
+      margin-bottom: 25px;
+      padding-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #34495e;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #2980b9;
+      box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 150px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      cursor: crosshair;
+      background-color: #fafafa;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    .clear-btn {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 12px;
+      margin-bottom: 15px;
+      background-color: #6c757d;
+      border-radius: 4px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .clear-btn:hover {
+      background-color: #5a6268;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 14px;
+      background-color: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1c5980;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <form class="form-card" id="marriageForm">
+      <h1>Marriage Certificate Registration</h1>
+      
+      <fieldset>
+        <legend>Marriage Details</legend>
+        <label>Date of Marriage:</label><input type="date" id="marriage_date" required>
+        <label>Place of Marriage:</label><input type="text" id="marriage_place" required>
+        <label>Officiant Name:</label><input type="text" id="officiant_name" required>
+        <label>Type of Ceremony:</label>
+        <select id="ceremony_type" required>
+          <option value="">-- Select --</option>
+          <option value="civil">Civil</option>
+          <option value="religious">Religious</option>
+        </select>
+        <label>Witnesses' Information:</label>
+        <textarea id="witnesses" rows="3" placeholder="Enter names and brief details of witnesses" required></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>Spouse 1 Details</legend>
+        <label>Full Name:</label><input type="text" id="spouse1_name" required>
+        <label>Date of Birth:</label><input type="date" id="spouse1_dob" required>
+        <label>Place of Birth:</label><input type="text" id="spouse1_birthplace" required>
+        <label>Nationality:</label><input type="text" id="spouse1_nationality" required>
+        <label>Address:</label><input type="text" id="spouse1_address" required>
+        <label>Father's Full Name:</label><input type="text" id="spouse1_father" required>
+        <label>Mother's Full Name:</label><input type="text" id="spouse1_mother" required>
+        <label>Civil Status (Before Marriage):</label>
+        <select id="spouse1_status" required>
+          <option value="">-- Select --</option>
+          <option value="Single">Single</option>
+          <option value="Widowed">Widowed</option>
+          <option value="Divorced">Divorced</option>
+          <option value="Annulled">Annulled</option>
+        </select>
+        <label>Religion:</label><input type="text" id="spouse1_religion" required>
+        <label>Signature (Draw Below):</label><canvas id="spouse1-signature" tabindex="0"></canvas>
+        <button type="button" class="clear-btn" onclick="clearCanvas('spouse1-signature')">Clear Signature</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Spouse 2 Details</legend>
+        <label>Full Name:</label><input type="text" id="spouse2_name" required>
+        <label>Date of Birth:</label><input type="date" id="spouse2_dob" required>
+        <label>Place of Birth:</label><input type="text" id="spouse2_birthplace" required>
+        <label>Nationality:</label><input type="text" id="spouse2_nationality" required>
+        <label>Address:</label><input type="text" id="spouse2_address" required>
+        <label>Father's Full Name:</label><input type="text" id="spouse2_father" required>
+        <label>Mother's Full Name:</label><input type="text" id="spouse2_mother" required>
+        <label>Civil Status (Before Marriage):</label>
+        <select id="spouse2_status" required>
+          <option value="">-- Select --</option>
+          <option value="Single">Single</option>
+          <option value="Widowed">Widowed</option>
+          <option value="Divorced">Divorced</option>
+          <option value="Annulled">Annulled</option>
+        </select>
+        <label>Religion:</label><input type="text" id="spouse2_religion" required>
+        <label>Signature (Draw Below):</label><canvas id="spouse2-signature" tabindex="0"></canvas>
+        <button type="button" class="clear-btn" onclick="clearCanvas('spouse2-signature')">Clear Signature</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Upload Documents</legend>
+        <label>Marriage Contract or Certificate:</label><input type="file" required>
+        <label>Valid IDs of both parties:</label><input type="file" multiple required>
+        <label>Affidavit of Marriage (if applicable):</label><input type="file">
+      </fieldset>
+
+      <button type="button" onclick="submitMarriageForm()">Submit</button>
+    </form>
+  </div>
+
+<script>
+function clearCanvas(id) {
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function isCanvasEmpty(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext("2d");
+  const pixelBuffer = new Uint32Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
+  return !pixelBuffer.some(color => color !== 0);
+}
+
+function clearAllFields() {
+  document.getElementById("marriageForm").reset();
+  clearCanvas("spouse1-signature");
+  clearCanvas("spouse2-signature");
+}
+
+function generateRegistryNumber() {
+  const now = new Date();
+  return `MC-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now.getTime().toString().slice(-5)}`;
+}
+
+function submitMarriageForm() {
+  if (!confirm("Are you sure you want to submit and download the certificate?")) return;
+
+  if (isCanvasEmpty('spouse1-signature') || isCanvasEmpty('spouse2-signature')) {
+    alert('Please provide both signatures.');
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const groomName = document.getElementById('spouse1_name').value;
+  const groomDob = new Date(document.getElementById('spouse1_dob').value).toLocaleDateString();
+  const groomNationality = document.getElementById('spouse1_nationality').value;
+  const groomStatus = document.getElementById('spouse1_status').value;
+  const groomAddress = document.getElementById('spouse1_address').value;
+
+  const brideName = document.getElementById('spouse2_name').value;
+  const brideDob = new Date(document.getElementById('spouse2_dob').value).toLocaleDateString();
+  const brideNationality = document.getElementById('spouse2_nationality').value;
+  const brideStatus = document.getElementById('spouse2_status').value;
+  const brideAddress = document.getElementById('spouse2_address').value;
+
+  const marriageDate = new Date(document.getElementById('marriage_date').value).toLocaleDateString();
+  const marriagePlace = document.getElementById('marriage_place').value;
+  const officiantName = document.getElementById('officiant_name').value;
+  const witnesses = document.getElementById('witnesses').value.split('\n');
+
+  const today = new Date();
+  const registryNumber = generateRegistryNumber();
+  const issueDate = `${today.toLocaleDateString('en-US', { month: 'long' })} ${today.getDate()}, ${today.getFullYear()}`;
+
+  doc.setFont("Times", "bold");
+  doc.setFontSize(14);
+  doc.rect(10, 10, 190, 270);
+  doc.text("Republic of the Philippines", 105, 25, { align: "center" });
+  doc.setFontSize(12);
+  doc.text("Civil Registry Office", 105, 32, { align: "center" });
+  doc.text("City of Manila", 105, 38, { align: "center" });
+  doc.text("National Capital Region (NCR)", 105, 44, { align: "center" });
+  doc.setFontSize(18);
+  doc.text("MARRIAGE CERTIFICATE", 105, 54, { align: "center" });
+
+  doc.setFontSize(12);
+  doc.setFont("Times", "normal");
+  doc.setLineHeightFactor(1.5);
+
+  let y = 65;
+  const lines = [
+    "This certifies that:",
+    `${groomName}, born on ${groomDob},`,
+    `of legal age, ${groomNationality}, and ${groomStatus},`,
+    `residing at ${groomAddress},`,
+    "",
+    "and",
+    `${brideName}, born on ${brideDob},`,
+    `of legal age, ${brideNationality}, and ${brideStatus},`,
+    `residing at ${brideAddress},`,
+    "",
+    `were lawfully joined together in marriage on this day,`,
+    `${marriageDate}, at ${marriagePlace}.`,
+    "",
+    `The marriage was solemnized by ${officiantName},`,
+    `with the authority vested under the laws of the Republic of the Philippines.`,
+    "",
+    "The ceremony was witnessed by the undersigned witnesses:",
+    `Witness 1: ${witnesses[0] || "________________"}`,
+    `Witness 2: ${witnesses[1] || "________________"}`
+  ];
+  lines.forEach(line => {
+    doc.text(line, 105, y, { align: "center" });
+    y += 7;
+  });
+
+  y += 10;
+  const s1Canvas = document.getElementById('spouse1-signature');
+  const s1Image = s1Canvas.toDataURL("image/png");
+  doc.addImage(s1Image, "PNG", 30, y, 60, 30);
+
+  const s2Canvas = document.getElementById('spouse2-signature');
+  const s2Image = s2Canvas.toDataURL("image/png");
+  doc.addImage(s2Image, "PNG", 120, y, 60, 30);
+
+  y += 35;
+  doc.setFont("Times", "bold");
+  doc.text(groomName, 60, y, { align: "center" });
+  doc.text(brideName, 150, y, { align: "center" });
+  y += 7;
+  doc.setFont("Times", "normal");
+  doc.text("(Signature of Groom)", 60, y, { align: "center" });
+  doc.text("(Signature of Bride)", 150, y, { align: "center" });
+
+  y += 15;
+  doc.setFont("Times", "bold");
+  doc.text(officiantName, 105, y, { align: "center" });
+  y += 7;
+  doc.setFont("Times", "normal");
+  doc.text("(Officiating Officer)", 105, y, { align: "center" });
+
+  y += 15;
+  doc.text(`Issued this ${issueDate} at Manila, Philippines.`, 105, y, { align: "center" });
+
+  y += 10;
+  doc.setFont("Times", "italic");
+  doc.text(`Registry No.: ${registryNumber}`, 105, y, { align: "center" });
+
+  doc.save("Marriage_Certificate.pdf");
+  clearAllFields();
+}
+
+window.onload = () => {
+  ["spouse1-signature", "spouse2-signature"].forEach(id => {
+    const canvas = document.getElementById(id);
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    canvas.addEventListener("mousedown", () => drawing = true);
+    canvas.addEventListener("mouseup", () => { drawing = false; ctx.beginPath(); });
+    canvas.addEventListener("mouseout", () => drawing = false);
+    canvas.addEventListener("mousemove", (e) => {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#000";
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    });
+  });
+};
+</script>
+
+
+</body>
+</html>
