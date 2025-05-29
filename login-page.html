@@ -118,4 +118,19 @@
     </div>
   </div>
 </body>
+<div id="login-confirmation">
+  <div class="modal-content">
+    <h3>Welcome Back!</h3>
+    <p>You’ve successfully signed in. Redirecting to your dashboard...</p>
+    <button onclick="document.getElementById('login-confirmation').style.display='none'">OK</button>
+  </div>
+</div>
+
+<script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent actual form submission
+    document.getElementById('login-confirmation').style.display = 'flex'; // Show modal
+  });
+</script>
+
 </html>
