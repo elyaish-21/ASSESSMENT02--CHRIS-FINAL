@@ -144,29 +144,29 @@
     <p>Already have an account? <a href="https://your-signin-link.com">Sign in here</a></p>
 
     <form id="signup-form">
-      <label>First Name</label>
-      <input type="text" placeholder="Enter your firstname" required>
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" name="firstname" placeholder="Enter your firstname" required>
 
-      <label>Last Name</label>
-      <input type="text" placeholder="Enter your lastname" required>
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" name="lastname" placeholder="Enter your lastname" required>
 
-      <label>Email</label>
-      <input type="email" placeholder="example@gmail.com" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
 
-      <label>Mobile Number</label>
-      <input type="tel" placeholder="Enter your mobile number" required>
+      <label for="mobile">Mobile Number</label>
+      <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
 
-      <label>Password</label>
-      <input type="password" placeholder="Enter your password" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
       <small>Use 8 or more characters with a mix of letters, numbers & symbols.</small>
 
-      <label>Confirm Password</label>
-      <input type="password" placeholder="Confirm Password" required>
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
 
       <div class="checkbox-container">
-        <input type="checkbox" required />
-        <label>I Agree <a href="#">Terms and conditions</a></label>
+        <input type="checkbox" id="terms" required />
+        <label for="terms">I Agree <a href="#">Terms and conditions</a></label>
       </div>
 
       <button class="submit-btn" type="submit">Submit</button>
@@ -178,11 +178,13 @@
   </div>
 
   <!-- Confirmation Modal -->
- <div class="modal-content">
-  <h3>Thank you for creating an account!</h3>
-  <p>Your registration was successful. A confirmation email and SMS have been sent to your contact details. Please check your inbox to complete the verification process.</p>
-  <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
-</div>
+  <div id="sms-confirmation">
+    <div class="modal-content">
+      <h3>Thank you for creating an account!</h3>
+      <p>Your registration was successful. A confirmation email and SMS have been sent to your contact details. Please check your inbox to complete the verification process.</p>
+      <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+    </div>
+  </div>
 
   <script>
     document.getElementById('signup-form').addEventListener('submit', function(e) {
