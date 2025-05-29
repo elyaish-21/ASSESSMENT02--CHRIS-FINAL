@@ -14,6 +14,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      flex-direction: column;
     }
 
     .login-container {
@@ -94,44 +95,62 @@
     .login-container a:hover {
       text-decoration: underline;
     }
+
     #login-confirmation {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
 
-.modal-content {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-}
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
 
-.modal-content h3 {
-  margin-bottom: 10px;
-}
+    .modal-content h3 {
+      margin-bottom: 10px;
+    }
 
-.modal-content button {
-  padding: 10px 20px;
-  background-color: #0b3b91;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  margin-top: 15px;
-  cursor: pointer;
-}
+    .modal-content button {
+      padding: 10px 20px;
+      background-color: #0b3b91;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    #home-page {
+      display: none;
+      text-align: center;
+      padding: 50px;
+    }
+
+    #home-page h1 {
+      font-size: 28px;
+      color: #0b3b91;
+    }
+
+    #home-page p {
+      font-size: 16px;
+      color: #333;
+    }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <img src="logo-chris.png" alt="City Civil Registrar Logo">
 
+  <!-- Login Page -->
+  <div class="login-container" id="login-container">
+    <img src="logo-chris.png" alt="City Civil Registrar Logo">
     <h2>Sign In to Civil Registrar<br>Information System</h2>
     <p>New Here? <a href="sign-up.html" target="_blank">Create Your Account Here</a></p>
 
@@ -146,23 +165,38 @@
     </form>
 
     <div class="go-home">
-      <a href="index.html" target="_blank">Go Back Home</a>
+      <a href="#" onclick="goHome()">Go Back Home</a>
     </div>
   </div>
-</body>
-<div id="login-confirmation">
-  <div class="modal-content">
-    <h3>Welcome Back!</h3>
-    <p>You’ve successfully signed in. Redirecting to your dashboard...</p>
-    <button onclick="document.getElementById('login-confirmation').style.display='none'">OK</button>
+
+  <!-- Login Confirmation Modal -->
+  <div id="login-confirmation">
+    <div class="modal-content">
+      <h3>Welcome Back!</h3>
+      <p>You’ve successfully signed in. Redirecting to your dashboard...</p>
+      <button onclick="document.getElementById('login-confirmation').style.display='none'">OK</button>
+    </div>
   </div>
-</div>
 
-<script>
-  document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent actual form submission
-    document.getElementById('login-confirmation').style.display = 'flex'; // Show modal
-  });
-</script>
+  <!-- Home Page Content -->
+  <div id="home-page">
+    <h1>Welcome to the Civil Registrar Home Page</h1>
+    <p>This is the main content of the home page. You can place dashboard or other content here.</p>
+  </div>
 
+  <script>
+    // Show login confirmation modal
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent actual form submission
+      document.getElementById('login-confirmation').style.display = 'flex'; // Show modal
+    });
+
+    // Go Home logic
+    function goHome() {
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('home-page').style.display = 'block';
+    }
+  </script>
+
+</body>
 </html>
