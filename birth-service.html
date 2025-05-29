@@ -50,42 +50,40 @@
   }
 
   .button-grid {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto 30px auto;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px 30px;
-  }
-
-  .button-row {
-    grid-column: span 2;
-    display: flex;
-    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
   }
 
   .service-button {
     background-color: #f1c40f;
-    border: none;
-    padding: 15px 30px;
+    border: 2px solid #d4ac0d; /* added border */
+    padding: 15px 20px;
     border-radius: 30px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     text-decoration: none;
     color: black;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, border-color 0.3s;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     text-align: center;
-    min-width: 380px;  /* Set minimum width to match widest button */
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     white-space: normal;
   }
   .service-button:hover {
     background-color: #d4ac0d;
+    border-color: #b7950b;
   }
   .back-button {
     margin-top: 40px;
     background-color: #f39c12;
-    border: none;
+    border: 2px solid #d17b0a;
     padding: 15px 30px;
     border-radius: 30px;
     font-size: 16px;
@@ -101,6 +99,7 @@
   }
   .back-button:hover {
     background-color: #d17b0a;
+    border-color: #a85f07;
   }
 </style>
 </head>
@@ -111,9 +110,7 @@
 </header>
 
 <img src="example.jpg" alt="Birth Services Image" />
-<br>
-<br>
-<br>
+<br><br><br>
 
 <div class="button-grid">
   <a class="service-button" href="Schedule-a-Birth-Appointmen-Registration.html" target="_blank">
@@ -128,11 +125,13 @@
   <a class="service-button" href="Request-for-Correction-of-Birth-Certificate.html" target="_blank">
     Request for Correction of Birth Certificate
   </a>
-  <div class="button-row">
-    <a class="service-button" href="Affidavit-for-Delayed-Registration-of-Birth.html" target="_blank">
-      Delayed Registration Of Birth (Beyond 30 Days)
-    </a>
-  </div>
+  <a class="service-button" href="Affidavit-for-Delayed-Registration-of-Birth.html" target="_blank">
+    Delayed Registration Of Birth (Beyond 30 Days)
+  </a>
+  <a class="service-button" href="Another-Service.html" target="_blank">
+    <!-- Add a sixth button or placeholder if needed -->
+    Another Birth Service
+  </a>
 </div>
 
 <a class="back-button" href="index.html">BACK</a>
