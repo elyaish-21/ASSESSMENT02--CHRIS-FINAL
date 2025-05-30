@@ -18,6 +18,12 @@
     }
 
     header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -79,6 +85,7 @@
       justify-content: flex-start;
       padding-left: 80px;
       color: rgb(12, 12, 12);
+      padding-top: 80px; /* Added padding to offset fixed header */
     }
     .hero-content {
       position: relative;
@@ -186,31 +193,31 @@
       </div>
     </div>
   </section>
-<section id="our-services" style="padding: 60px 40px; background-color: #f9f8f3;">
-  <h2 style="font-size: 36px; color: #e3342f; font-weight: 800; text-align: center; margin-bottom: 5px;">OUR SERVICES</h2>
-  <p style="font-size: 20px; color: #2c2c2c; text-align: center; margin-bottom: 40px;">Civil Registry Information System</p>
 
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 1200px; margin: 0 auto;">
+  <section id="our-services" style="padding: 60px 40px; background-color: #f9f8f3;">
+    <h2 style="font-size: 36px; color: #e3342f; font-weight: 800; text-align: center; margin-bottom: 5px;">OUR SERVICES</h2>
+    <p style="font-size: 20px; color: #2c2c2c; text-align: center; margin-bottom: 40px;">Civil Registry Information System</p>
 
-    <div style="background-color: #ffffff; border-radius: 15px; width: 320px; padding: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-      <h3 style="color: #e3342f; margin-top: 0;">Birth Services</h3>
-      <div style="background-color: #2e7d1f; height: 150px; border-radius: 10px; margin: 15px 0;"></div>
-      <a href="login-page.html" style="display: inline-block; background-color: #003d91; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none;">Start Now</a>
+    <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; max-width: 1200px; margin: 0 auto;">
+      <div style="background-color: #ffffff; border-radius: 15px; width: 320px; padding: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
+        <h3 style="color: #e3342f; margin-top: 0;">Birth Services</h3>
+        <div style="background-color: #2e7d1f; height: 150px; border-radius: 10px; margin: 15px 0;"></div>
+        <a href="login-page.html" style="display: inline-block; background-color: #003d91; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none;">Start Now</a>
+      </div>
+
+      <div style="background-color: #ffffff; border-radius: 15px; width: 320px; padding: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
+        <h3 style="color: #e3342f; margin-top: 0;">Marriage Services</h3>
+        <div style="background-color: #2e7d1f; height: 150px; border-radius: 10px; margin: 15px 0;"></div>
+        <a href="login-page.html" style="display: inline-block; background-color: #003d91; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none;">Start Now</a>
+      </div>
+
+      <div style="background-color: #ffffff; border-radius: 15px; width: 320px; padding: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
+        <h3 style="color: #e3342f; margin-top: 0;">Death Services</h3>
+        <div style="background-color: #2e7d1f; height: 150px; border-radius: 10px; margin: 15px 0;"></div>
+        <a href="login-page.html" style="display: inline-block; background-color: #003d91; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none;">Start Now</a>
+      </div>
     </div>
-
-    <div style="background-color: #ffffff; border-radius: 15px; width: 320px; padding: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-      <h3 style="color: #e3342f; margin-top: 0;">Marriage Services</h3>
-      <div style="background-color: #2e7d1f; height: 150px; border-radius: 10px; margin: 15px 0;"></div>
-      <a href="login-page.html" style="display: inline-block; background-color: #003d91; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none;">Start Now</a>
-    </div>
-
-    <div style="background-color: #ffffff; border-radius: 15px; width: 320px; padding: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-      <h3 style="color: #e3342f; margin-top: 0;">Death Services</h3>
-      <div style="background-color: #2e7d1f; height: 150px; border-radius: 10px; margin: 15px 0;"></div>
-      <a href="login-page.html" style="display: inline-block; background-color: #003d91; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none;">Start Now</a>
-    </div>
-  </div>
-</section>
+  </section>
 
 </body>
 </html>
