@@ -26,7 +26,6 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       z-index: 1000;
       text-align: left;
-      font-family: 'Arial', sans-serif;
     }
 
     header h1 {
@@ -57,16 +56,12 @@
       margin: 0 auto 30px auto;
     }
 
-    .grid-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .double-row, .triple-row {
+      display: flex;
+      justify-content: center;
       gap: 30px;
       margin-bottom: 30px;
-    }
-
-    .center-row {
-      justify-content: center;
-      grid-template-columns: repeat(2, 1fr);
+      flex-wrap: wrap;
     }
 
     .service-button {
@@ -83,10 +78,12 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       text-align: center;
       min-height: 100px;
+      width: 300px; /* fixed width for uniform size */
       display: flex;
       align-items: center;
       justify-content: center;
       white-space: normal;
+      text-align: center;
     }
 
     .service-button:hover {
@@ -95,7 +92,9 @@
     }
 
     .back-button {
-      margin-top: 40px;
+      position: fixed;
+      bottom: 40px;
+      left: 40px;
       background-color: #f1c40f;
       border: 2px solid #d4ac0d;
       padding: 15px 30px;
@@ -106,15 +105,13 @@
       text-decoration: none;
       color: black;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: fit-content;
       text-align: center;
-      display: inline-block;
-      float: left;
-      max-width: 180px;
     }
 
     .back-button:hover {
-      background-color: #f1c40f;
-      border: 2px solid #d4ac0d;
+      background-color: #d4ac0d;
+      border-color: #b7950b;
     }
   </style>
 </head>
@@ -127,38 +124,39 @@
   <img src="example.jpg" alt="Death Services Image" />
 
   <div class="button-grid">
-  <div class="grid-row">
-    <a class="service-button" href="Death-service.html" target="_blank">
-      Overview of Death Services
-    </a>
-    <a class="service-button" href="Death-Schedule.html" target="_blank">
-      Schedule of Appointment
-    </a>
-    <a class="service-button" href="Death-Registration.html" target="_blank">
-      Death Registration
-    </a>
-  </div>
-  <div class="grid-row">
-    <a class="service-button" href="Delayed-Registration.html" target="_blank">
-      Delayed Death Registration
-    </a>
-    <a class="service-button" href="Correction-Of-Death-Certificate.html" target="_blank">
-      Correction of Death Certificate
-    </a>
-    <a class="service-button" href="Death-Cert-Request.html" target="_blank">
-      Request for Death Certificate – Certified True Copy
-    </a>
-  </div>
-  <div class="grid-row center-row">
-    <a class="service-button" href="Burial-Permit.html" target="_blank">
-      Burial Permit Application
-    </a>
-    <a class="service-button" href="Cremation-Permit.html" target="_blank">
-      Cremation Permit Application
-    </a>
-  </div>
-</div>
+    <!-- Row 1: Two buttons -->
+    <div class="double-row">
+      <a class="service-button" href="Death-Schedule.html" target="_blank">
+        Schedule of Appointment
+      </a>
+      <a class="service-button" href="Delayed-Registration.html" target="_blank">
+        Delayed Death Registration
+      </a>
+    </div>
 
+    <!-- Row 2: Three buttons -->
+    <div class="triple-row">
+      <a class="service-button" href="Delayed-Registration.html" target="_blank">
+        Delayed Death Registration
+      </a>
+      <a class="service-button" href="Death-Cert-Request.html" target="_blank">
+        Request for Death Certificate – Certified True Copy (Home Delivery)
+      </a>
+      <a class="service-button" href="Correction-Of-Death-Certificate.html" target="_blank">
+        Correction of Death Certificate
+      </a>
+    </div>
+
+    <!-- Row 3: Two buttons -->
+    <div class="double-row">
+      <a class="service-button" href="Burial-Permit.html" target="_blank">
+        Burial Permit Application
+      </a>
+      <a class="service-button" href="Cremation-Permit.html" target="_blank">
+        Cremation Permit Application
+      </a>
+    </div>
+  </div>
 
   <a class="back-button" href="index.html">BACK</a>
 
