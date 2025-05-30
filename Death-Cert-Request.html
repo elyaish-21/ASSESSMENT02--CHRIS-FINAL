@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Request for Death Certificate</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+        <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', Arial, sans-serif;
+      background: url('bgg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      color: #333;
+    }
+
+    label {
+      font-weight: 500;
+      margin-top: 15px;
+      display: block;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      margin-top: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="number"]:focus,
+    input[type="email"]:focus {
+      border-color: #28a745;
+      outline: none;
+    }
+
+    input[type="file"] {
+      margin-top: 8px;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .address-section input {
+      margin-top: 8px;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #2980b9;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    /* Confirmation Modal */
+    #sms-confirmation {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      margin: 15% auto;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .modal-content button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #0069d9;
+    }
+        </style>
+
+    </head>
+    <body>
+        <section>
+            <div class="container">
+                <h2>Request for Death Certificate<br> (Home Delivery)</h2>
+                <div class="CertRequest">
+                    <form onsubmit="event.preventDefault(); showSMSConfirmation();">
+                        <label for="registry">Registry</label>
+                        <input type="text" id="" placeholder="Enter Registry Number" required>
+
+                        <label for="fullname">Fullname</label>
+                        <input type="text" id="fullname" placeholder="Firs Name, Middle Initial, Last Name" required>
+
+                        <label for="birt">Date of Birth</label>
+                        <input type="date" id="birt" required>
+
+                        <label for="sex">Sex</label>
+                        <select name="sex" id="sex">
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+
+                        <label for="occupation">Occupation</label>
+                        <input type="text" id="occupation" placeholder="Occupation" required>
+
+                        <label for="relation">Relationship to the Deceased</label>
+                        <input type="text" id="relation" placeholder="ex. son, wife, father, etc." required>
+
+                        <label for="number">Number of Copies</label>
+                        <input type="number" id="copies" min="1" value="1" required>
+
+                        <h3>Delivery Address</h3>
+                        <input type="text" id="houseNo" placeholder="House No. Street" required>
+
+                        <input type="text" id="brgy" placeholder="Barangay" required>
+
+                        <input type="text" id="city" placeholder="City/Municipality" required>
+
+                        <input type="text" id="province" placeholder="Province" required>
+
+
+                        <input type="number" id="zip_code" placeholder="Zip Code" required>
+
+                        <label for="contact">Contact No.</label>
+                        <input type="tel" id="contact" placeholder="Contact No." required>
+
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Email Address" required>
+
+                        <label for="Upload">Upload Both Valid ID of the Parents</label>
+                        <input type="file" id="idupload" accept="image/*,application/pdf">
+                    
+                        <label style="margin-top: 20px;">
+                          <input type="checkbox" required> I certify that the information provided is true and correct.
+                        </label>
+                    
+                        <button type="submit">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <div id="sms-confirmation">
+            <div class="modal-content">
+              <h3>Request Submitted!</h3>
+              <p>You will receive an SMS shortly confirming your request.</p>
+              <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+            </div>
+        </div>
+        <script>
+            function showSMSConfirmation() {
+              document.getElementById('sms-confirmation').style.display = 'block';
+              document.querySelector('form').reset();
+            }
+          </script>
+    </body>
+</html>

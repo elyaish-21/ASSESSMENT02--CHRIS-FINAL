@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Burial Permit Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        section {
+            padding: 10px;
+        }
+
+        .deceased-name, .DateAndTime, .Place, .Disposition {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .Cremation-DateAndTime, .Parents, .SexAndBirth {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .death-registration, .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .death-registration h1, .container h1 {
+            text-align: center;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        .death-registration h2, h3{
+            text-align: center;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        .fees {
+            text-align: left;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="file"],
+        input[type="email"],
+        input[type="number"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+            margin-left: 10px;
+        }
+
+        .form canvas {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .submit {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+
+        .submit:hover {
+            background-color: #0056b3;
+        }
+
+        .success-message {
+            margin-top: 20px;
+            padding: 15px;
+            display: none;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            background-color: #d4edda;
+            color: #155724;
+            text-align: center;
+        }
+
+        .clear {
+            width: auto;
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-top: 5px;
+            background-color: #007bff;
+            border-radius: 4px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .clear:hover {
+            background-color: #0056b3;
+        }
+
+        .requirements {
+            margin-bottom: 40px;
+            background-color: #f0f4f8;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .requirements ul {
+        margin-left: 20px;
+        }
+
+        .requirements ul li {
+        margin-bottom: 8px;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            text-align: center;
+            border-radius: 8px;
+            display: none;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="container">
+            <div class="requirements">
+                <h1>📋 Burial Permit Requirements</h1>
+                <h3>✅ General Requirements</h3>
+                <ul>
+                    <li><strong>Death Certificate:</strong> Should be Registered.</li>
+                    <li><strong>Valid IDs:</strong> Government-issued IDs (e.g., Passport, Driver’s License)</li>
+                    <li><strong>Certificate of No Public Health Hazard (COPPH):</strong> Ensures the burial site is safe</li>
+                    <li><strong>Barangay Clearance:</strong> From the deceased's residence</li>
+                    <li><strong>Clearance from Local Health Office</strong></li>
+                </ul>
+
+                <h3>📝 Optional</h3>
+                <ul>
+                    <li><strong>Autopsy Report:</strong> Signed by a medical examiner</li>
+                    <li><strong>Transfer Permit (if needed):</strong> For deaths outside the locality</li>
+                    <li><strong>Other Documents (If needed)</strong></li>
+                </ul>
+            </div>
+
+            <h1>Burial Permit</h1>
+            <hr>
+            <div class="Burial-form">
+                <form id="deathform" action="">
+                    <h3>Deceased Personal Information</h3>
+                    <div class="deceased-name">
+                        <div class="first">
+                            <label for="firstname">First Name:</label>
+                            <input type="text" id="firstname" placeholder="First Name" required>
+                        </div>
+                        <div class="middle">
+                            <label for="middlename">Middle Name:</label>
+                            <input type="text" id="middlename" placeholder="Middle Name">
+                        </div>
+                        <div class="last">
+                            <label for="lastname">Last Name:</label>
+                            <input type="text" id="lastname" placeholder="Last Name" required>
+                        </div>
+                    </div>
+
+                    <label for="sex">Sex</label>
+                    <select id="sex" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+
+                    <div class="DateAndTime">
+                        <div class="DeathDate">
+                            <label for="deathDate">Date of Death</label>
+                            <input type="date" id="deathDate" required>
+                        </div>
+                        <div class="DeathTime">
+                            <label for="time">Time of Death</label>
+                            <input type="time" id="time" required>
+                        </div>
+                        <div class="PlaceDate">
+                            <label for="placeOfDeath">Place of Death</label>
+                            <input type="text" id="placeOfDeath" placeholder="e.g. Home, Hospital - Full Address" required>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <h3>Cause of Death</h3>
+                    <label for="Cause">Cause of Death</label>
+                    <input type="text" id="Cause" placeholder="Cause of Death" required>
+
+                    <label for="external">Death by External Causes</label>
+                    <input type="text" id="external" placeholder="External Causes">
+
+                    <label for="autopsy">Autopsy</label><br>
+                    <input type="radio" name="autopsy" value="yes" required>Yes
+                    <input type="radio" name="autopsy" value="no">No
+                    <hr>
+
+                    <h3>Physician</h3>
+                    <label for="physicianName">Certifying Physician's Name</label>
+                    <input type="text" id="physicianName" placeholder="Full Name" required>
+
+                    <label for="licenseNumber">License Number</label>
+                    <input type="text" id="licenseNumber" placeholder="License Number" required>
+                    <hr>
+
+                    <h3>Type of Disposition</h3>
+                    <label for="disposition">Type of Disposition</label>
+                    <select id="disposition" required>
+                        <option value="">Select</option>
+                        <option value="burial">Burial</option>
+                    </select>
+
+                    <label for="dispositionPlace">Place of Burial/Cremation</label>
+                    <input type="text" id="dispositionPlace" placeholder="Cemetery/Crematorium Name & Address" required>
+
+                    <label for="dispositionDate">Date of Burial/Cremation</label>
+                    <input type="date" id="dispositionDate" required>
+
+                    <label for="fee">Fees to be paid</label>
+                    <ul class="fees">
+                        <li>Burial Permit - P 100.00</li>
+                        <li>Entrance/Transfer Permit - P 100.00</li>
+                    </ul>
+                    <hr>
+
+                    <h3>Informant Details</h3>
+                    <label for="informantName">Informant's Name</label>
+                    <input type="text" id="informantName" placeholder="Full Name" required>
+
+                    <label for="relationship">Relationship to Deceased</label>
+                    <input type="text" id="relationship" placeholder="e.g. Son, Wife, Neighbor" required>
+
+                    <label for="informantContact">Contact Number</label>
+                    <input type="tel" id="informantContact" placeholder="e.g. +63..." required>
+
+                    <label for="signature">Signature</label>
+                    <canvas id="signature" width="300" height="100" style="border:1px solid #000"></canvas><br>
+                    <button type="button" class="clear" onclick="clearCanvas('signature')">Clear</button>
+                    <hr>
+
+                    <h3>Upload Requirement</h3>
+                    <label>Upload Autopsy Report</label>
+                    <input type="file" accept="image/*,application/pdf">
+
+                    <label>Upload Valid ID</label>
+                    <input type="file" accept="image/*,application/pdf">
+
+                    <label>Upload Requester's Valid ID</label>
+                    <input type="file" accept="image/*,application/pdf">
+
+                    <label>Clearance from Local Health Office</label>
+                    <input type="file" accept="image/*,application/pdf">
+
+                    <label>Certificate of No Public Health Hazard (COPPH)</label>
+                    <input type="file" accept="image/*,application/pdf">
+
+                    <button type="button" class="submit" onclick="submitForm()">Submit</button>
+                    <div id="success-message" class="success-message"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function clearCanvas(id) {
+            const canvas = document.getElementById(id);
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function clearAllFields() {
+            document.getElementById("deathform").reset();
+            clearCanvas('signature');
+        }
+
+        function validateForm() {
+            const form = document.getElementById("deathform");
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return false;
+            }
+
+            const canvas = document.getElementById("signature");
+            const blank = document.createElement('canvas');
+            blank.width = canvas.width;
+            blank.height = canvas.height;
+            if (canvas.toDataURL() === blank.toDataURL()) {
+                alert("Please provide your signature.");
+                return false;
+            }
+            return true;
+        }
+
+
+        function submitForm() {
+            const successDiv = document.getElementById('success-message');
+
+            if (!validateForm()) {
+                return;
+            }
+
+            successDiv.style.display = 'block';
+            successDiv.style.backgroundColor = '#fff3cd';
+            successDiv.style.color = '#856404';
+            successDiv.textContent = "Please wait, generating and sending the certificate...";
+
+            setTimeout(() => {
+                generateCertificate();
+
+                successDiv.style.backgroundColor = '#d4edda';
+                successDiv.style.color = '#155724';
+                successDiv.textContent = "Successfully registered! Certificate has been sent via email.";
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                clearAllFields();
+
+            }, 3000);
+        }
+
+        function generateCertificate() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setLineWidth(1);
+            doc.rect(10, 10, 190, 277);
+
+            const firstName = document.getElementById("firstname").value.trim();
+            const middleName = document.getElementById("middlename").value.trim();
+            const lastName = document.getElementById("lastname").value.trim();
+            const sex = document.getElementById("sex").value;
+            const deathDate = document.getElementById("deathDate").value;
+            const time = document.getElementById("time").value;
+            const placeOfDeath = document.getElementById("placeOfDeath").value.trim();
+            const cause = document.getElementById("Cause").value.trim();
+            const external = document.getElementById("external").value.trim();
+            const physicianName = document.getElementById("physicianName").value.trim();
+            const licenseNumber = document.getElementById("licenseNumber").value.trim();
+            const informantName = document.getElementById("informantName").value.trim();
+            const relationship = document.getElementById("relationship").value.trim();
+            const informantContact = document.getElementById("informantContact").value.trim();
+            const disposition = document.getElementById("disposition").value;
+            const dispositionPlace = document.getElementById("dispositionPlace").value.trim();
+            const dispositionDate = document.getElementById("dispositionDate").value;
+
+            const burialFee = "P 100.00";
+            const transferFee = "P 100.00";
+
+            doc.setFont("Times", "Bold");
+            doc.setFontSize(14);
+            doc.text("REPUBLIC OF THE PHILIPPINES", 105, 20, { align: "center" });
+            doc.text("OFFICE OF THE LOCAL GOVERNMENT UNIT", 105, 27, { align: "center" });
+
+            doc.setFontSize(18);
+            doc.text("BURIAL PERMIT CERTIFICATE", 105, 40, { align: "center" });
+
+            doc.setFont("Times", "Normal");
+            doc.setFontSize(12);
+            let y = 55;
+
+            function addLine(label, value) {
+                doc.text(`${label}:`, 20, y);
+                doc.text(`${value}`, 70, y);
+                y += 8;
+            }
+
+            addLine("Full Name", `${firstName} ${middleName} ${lastName}`);
+            addLine("Sex", sex);
+            addLine("Date of Death", deathDate);
+            addLine("Time of Death", time);
+            addLine("Place of Death", placeOfDeath);
+            addLine("Cause of Death", cause);
+            addLine("External Cause (if any)", external);
+
+            y += 5;
+            doc.setFont("Times", "Bold");
+            doc.text("Physician Information", 20, y);
+            doc.setFont("Times", "Normal");
+            y += 8;
+            addLine("Certifying Physician's Name", physicianName);
+            addLine("License Number", licenseNumber);
+
+            y += 5;
+            doc.setFont("Times", "Bold");
+            doc.text("Informant Details", 20, y);
+            doc.setFont("Times", "Normal");
+            y += 8;
+            addLine("Informant Name", informantName);
+            addLine("Relationship", relationship);
+            addLine("Contact Number", informantContact);
+
+            y += 5;
+            doc.setFont("Times", "Bold");
+            doc.text("Disposition Details", 20, y);
+            doc.setFont("Times", "Normal");
+            y += 8;
+            addLine("Type of Disposition", disposition);
+            addLine("Place of Burial/Cremation", dispositionPlace);
+            addLine("Date of Burial/Cremation", dispositionDate);
+
+            y += 10;
+            doc.setFont("Times", "Bold");
+            doc.text("Fees Paid", 20, y);
+            doc.setFont("Times", "Normal");
+            y += 8;
+            addLine("Burial Permit", burialFee);
+            addLine("Entrance/Transfer Permit", transferFee);
+
+            y += 15;
+
+            doc.text("_________________________", 20, y);
+            doc.text("Signature of Certifying Physician", 20, y + 6);
+            doc.text("_________________________", 130, y);
+            doc.text("Signature of Informant", 130, y + 6);
+
+            const canvas = document.getElementById("signature");
+            const imgData = canvas.toDataURL("image/png");
+
+            doc.addImage(imgData, 'PNG', 130, y - 20, 50, 30);
+
+            doc.save(`Burial_Permit_Certificate_${lastName}_${firstName}.pdf`);
+        }
+
+        window.onload = () => {
+            const canvas = document.getElementById("signature");
+            const ctx = canvas.getContext("2d");
+            let drawing = false;
+
+            canvas.addEventListener("mousedown", () => drawing = true);
+            canvas.addEventListener("mouseup", () => { drawing = false; ctx.beginPath(); });
+            canvas.addEventListener("mouseout", () => drawing = false);
+            canvas.addEventListener("mousemove", (e) => {
+                if (!drawing) return;
+                const rect = canvas.getBoundingClientRect();
+                ctx.lineWidth = 2;
+                ctx.lineCap = "round";
+                ctx.strokeStyle = "#000";
+                ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+            });
+        };
+    </script>
+</body>
+</html>
