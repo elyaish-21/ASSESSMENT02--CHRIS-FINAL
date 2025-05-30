@@ -2,21 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Our Services</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <title>Death Services</title>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      padding: 0 40px 60px 40px; /* extra bottom padding for button */
-      font-family: 'Roboto', Arial, sans-serif;
+      font-family: Arial, sans-serif;
       background: url('bg.jpg') no-repeat center center fixed;
       background-size: cover;
-      min-height: 100vh;
+      margin: 0;
+      padding: 0 40px 40px 40px;
     }
 
     header {
@@ -29,7 +26,6 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       z-index: 1000;
       text-align: left;
-      font-family: 'Arial', sans-serif;
     }
 
     header h1 {
@@ -46,79 +42,61 @@
       color: #c0392b;
     }
 
-    #our-services {
-      padding: 120px 0 60px 0;
+    img {
+      display: block;
+      margin: 120px auto 30px auto;
+      width: 320px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    .services-container {
+    .button-grid {
+      max-width: 1200px;
+      margin: 0 auto 30px auto;
+    }
+
+    .double-row, .triple-row {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 30px;
-      max-width: 1400px;
-      margin: 0 auto;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
     }
 
-    .service-card {
-      background-color: #ffffff;
-      border-radius: 15px;
-      width: 380px;
-      height: 300px;
-      padding: 10px 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .service-card.birth h3,
-    .service-card.death h3 {
-      color: #007bff;
-    }
-
-    .service-card.marriage h3 {
-      color: #e3342f;
-    }
-
-    .service-card h3 {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .service-image {
-      height: 180px;
-      border-radius: 10px;
-      margin: 8px 0;
-      overflow: hidden;
-    }
-
-    .service-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 10px;
-    }
-
-    .service-link {
-      display: inline-block;
-      background-color: #003d91;
-      color: #fff;
-      padding: 8px 20px;
-      border-radius: 8px;
+    .service-button {
+      background-color: #f1c40f;
+      border: 2px solid #d4ac0d;
+      padding: 15px 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
       text-decoration: none;
-      font-size: 14px;
+      color: black;
+      transition: background-color 0.3s, border-color 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
+      min-height: 100px;
+      width: 300px; /* fixed width for uniform size */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: normal;
+      text-align: center;
     }
 
-    .service-link:hover {
-      background-color: #002b6b;
+    .service-button:hover {
+      background-color: #d4ac0d;
+      border-color: #b7950b;
     }
 
     .back-button {
-      margin-top: 40px;
+      position: fixed;
+      bottom: 40px;
+      left: 40px;
       background-color: #f1c40f;
-      border: none;
+      border: 2px solid #d4ac0d;
       padding: 15px 30px;
       border-radius: 30px;
       font-size: 16px;
@@ -127,78 +105,59 @@
       text-decoration: none;
       color: black;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: fit-content;
       text-align: center;
-      display: inline-block;
-      float: left;
-      max-width: 180px;
     }
 
     .back-button:hover {
-      background-color: #d17b0a;
+      background-color: #d4ac0d;
+      border-color: #b7950b;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Our <span>Services</span></h1>
+    <h1>Death <span>Services</span></h1>
   </header>
-  <br>
-    <br>
-        <br>
-            <br>
-                <br>
-            <br>
-        <br>
-    <br>
-<br>       
-    <section id="our-services">
-    <div class="services-container">
 
-      <!-- Birth Services -->
-      <div class="service-card birth">
-        <h3>Birth Services</h3>
-        <div class="service-image">
-          <a href="birth-service.html">
-            <img src="example.jpg" alt="Birth Services" />
-          </a>
-        </div>
-        <a href="birth-service.html" class="service-link">Start Now</a>
-      </div>
+  <img src="example.jpg" alt="Death Services Image" />
 
-      <!-- Marriage Services -->
-      <div class="service-card marriage">
-        <h3>Marriage Services</h3>
-        <div class="service-image">
-          <a href="marriage-service.html">
-            <img src="example.jpg" alt="Marriage Services" />
-          </a>
-        </div>
-        <a href="marriage-service.html" class="service-link">Start Now</a>
-      </div>
-
-      <!-- Death Services -->
-      <div class="service-card death">
-        <h3>Death Services</h3>
-        <div class="service-image">
-          <a href="death-service.html">
-            <img src="example.jpg" alt="Death Services" />
-          </a>
-        </div>
-        <a href="death-service.html" class="service-link">Start Now</a>
-      </div>
-
+  <div class="button-grid">
+    <!-- Row 1: Two buttons -->
+    <div class="double-row">
+      <a class="service-button" href="Death-Schedule.html" target="_blank">
+        Schedule of Appointment
+      </a>
+      <a class="service-button" href="Delayed-Registration.html" target="_blank">
+        Delayed Death Registration
+      </a>
     </div>
-  </section>
-  <br>
-    <br>
-        <br>
-            <br>
-                <br>
-            <br>
-        <br>
-    <br>
-<br>      
+
+    <!-- Row 2: Three buttons -->
+    <div class="triple-row">
+      <a class="service-button" href="Delayed-Registration.html" target="_blank">
+        Delayed Death Registration
+      </a>
+      <a class="service-button" href="Death-Cert-Request.html" target="_blank">
+        Request for Death Certificate – Certified True Copy (Home Delivery)
+      </a>
+      <a class="service-button" href="Correction-Of-Death-Certificate.html" target="_blank">
+        Correction of Death Certificate
+      </a>
+    </div>
+
+    <!-- Row 3: Two buttons -->
+    <div class="double-row">
+      <a class="service-button" href="Burial-Permit.html" target="_blank">
+        Burial Permit Application
+      </a>
+      <a class="service-button" href="Cremation-Permit.html" target="_blank">
+        Cremation Permit Application
+      </a>
+    </div>
+  </div>
+
   <a class="back-button" href="index.html">BACK</a>
 
 </body>
