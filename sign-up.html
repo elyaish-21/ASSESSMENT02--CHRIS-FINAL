@@ -15,7 +15,6 @@
       height: 100vh;
       margin: 0;
     }
-
     .container {
       background-color: white;
       padding: 40px;
@@ -23,63 +22,49 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       width: 400px;
       max-width: 90%;
-      position: relative;
     }
-
     .container img {
       display: block;
       margin: 0 auto;
       height: 100px;
     }
-
     h2 {
       text-align: center;
       margin: 10px 0;
     }
-
     p {
       text-align: center;
       font-size: 14px;
       color: gray;
     }
-
     p a {
       color: blue;
       text-decoration: none;
     }
-
-    form input[type="text"],
-    form input[type="email"],
-    form input[type="password"],
-    form input[type="tel"] {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
+    form input,
     form label {
-      font-weight: bold;
+      width: 100%;
       font-size: 14px;
     }
-
+    form input {
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
     .checkbox-container {
       display: flex;
       align-items: center;
       margin: 10px 0;
     }
-
     .checkbox-container input {
       margin-right: 10px;
     }
-
     .checkbox-container a {
       color: blue;
       text-decoration: none;
     }
-
     .submit-btn {
       width: 100%;
       background-color: #2f5acf;
@@ -91,18 +76,14 @@
       margin-top: 10px;
       cursor: pointer;
     }
-
     .go-back {
       text-align: center;
       margin-top: 10px;
     }
-
     .go-back a {
-      text-decoration: none;
       color: #2f5acf;
+      text-decoration: none;
     }
-
-    /* Modal Styling */
     #sms-confirmation {
       display: none;
       position: fixed;
@@ -113,19 +94,15 @@
       align-items: center;
       z-index: 999;
     }
-
     .modal-content {
       background-color: white;
       padding: 30px;
       border-radius: 10px;
       text-align: center;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
-
     .modal-content h3 {
       margin-bottom: 10px;
     }
-
     .modal-content button {
       padding: 10px 20px;
       background-color: #2f5acf;
@@ -145,24 +122,23 @@
 
     <form id="signup-form">
       <label for="firstname">First Name</label>
-      <input type="text" id="firstname" name="firstname" placeholder="Enter your firstname" required>
+      <input type="text" id="firstname" required>
 
       <label for="lastname">Last Name</label>
-      <input type="text" id="lastname" name="lastname" placeholder="Enter your lastname" required>
+      <input type="text" id="lastname" required>
 
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+      <input type="email" id="email" required>
 
       <label for="mobile">Mobile Number</label>
-      <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
+      <input type="tel" id="mobile" required>
 
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
+      <input type="password" id="password" required>
       <small>Use 8 or more characters with a mix of letters, numbers & symbols.</small>
 
       <label for="confirm-password">Confirm Password</label>
-      <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+      <input type="password" id="confirm-password" required>
 
       <div class="checkbox-container">
         <input type="checkbox" id="terms" required />
@@ -177,20 +153,55 @@
     </div>
   </div>
 
-  <!-- Confirmation Modal -->
   <div id="sms-confirmation">
     <div class="modal-content">
       <h3>Thank you for creating an account!</h3>
-      <p>Your registration was successful. A confirmation email and SMS have been sent to your contact details. Please check your inbox to complete the verification process.</p>
-      <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+      <p>Redirecting to login page...</p>
     </div>
   </div>
 
   <script>
-    document.getElementById('signup-form').addEventListener('submit', function(e) {
-      e.preventDefault(); // Prevent actual form submission
-      document.getElementById('sms-confirmation').style.display = 'flex'; // Show modal
-      this.reset(); // Optionally reset the form
+    document.getElementById('signup-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const firstname = document.getElementById('firstname').value.trim();
+      const lastname = document.getElementById('lastname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      const termsChecked = document.getElementById('terms').checked;
+
+      if (!firstname || !lastname || !email || !mobile || !password || !confirmPassword || !termsChecked) {
+        alert('Please complete all fields and agree to the terms.');
+        return;
+      }
+
+      if (password.length < 8) {
+        alert('Password must be at least 8 characters long.');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match.');
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      if (users.find(user => user.email === email)) {
+        alert('An account with this email already exists.');
+        return;
+      }
+
+      users.push({ firstname, lastname, email, mobile, password });
+      localStorage.setItem('users', JSON.stringify(users));
+
+      document.getElementById('sms-confirmation').style.display = 'flex';
+      this.reset();
+
+      setTimeout(() => {
+        window.location.href = 'login-page.html';
+      }, 3000);
     });
   </script>
 </body>
