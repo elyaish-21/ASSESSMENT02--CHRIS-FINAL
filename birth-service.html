@@ -19,36 +19,45 @@
     }
 
  header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background-color: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-header img.logo {
-  height: 60px;
-  margin-right: 20px;
-  flex-shrink: 0;
-}
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-.header-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-grow: 1;
-  text-align: left; 
-}
+    .logo-title img {
+      height: 60px;
+    }
 
-.header-text h2, .header-text h3 {
+   .logo-text h2 {
   margin: 0;
-  font-weight: 700;
   color: #2a4d9b;
+  font-size: 20px;
+  font-weight: bold;
 }
+
+.logo-text .city-name {
+  margin: 0;
+  color: #c0392b;
+  font-size: 20px;
+  font-weight: bold; /* added bold here */
+}
+
+
+    .logo-title span {
+      color: #c0392b;
+    }
 
 .header-text h2 {
   text-align: left;
@@ -214,10 +223,13 @@ header img.logo {
 
 <header>
   <img src="logo-chris.png" alt="City Logo" class="logo">
-  <div class="header-text">
+  <div class="logo-title">
+  <img src="logo-chris.png" alt="City Civil Registry Logo">
+  <div class="logo-text">
     <h2>Civil Registry Information System</h2>
-    <h3>City of Manila</h3>
+    <p class="city-name"><b>City of Manila</b></p>
   </div>
+</div>
  <div class="header-buttons">
   <a href="help.html" class="help-button">HELP</a>
   <a href="index.html" class="sign-out-button">SIGN OUT</a>
