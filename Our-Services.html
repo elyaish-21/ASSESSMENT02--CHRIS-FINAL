@@ -77,27 +77,40 @@ header img.logo {
   border-radius: 6px;
 }
 
-.buttons .help {
-  background-color: #ddd;
+.buttons a {
+  display: inline-block;
+  text-align: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-left: 10px;
 }
 
-.buttons .help:hover {
+/* HELP button style */
+.help-button {
+  background-color: #ddd;
+  color: black;
+}
+
+.help-button:hover {
   background-color: #e2dddd;
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.buttons .signout {
-  background-color: #e74c3c;
-  color: white;
+/* SIGN OUT button style */
+.signout-button {
+  background-color: #f70707;
+  color: #e9e3e3;
 }
 
-.buttons .signout:hover {
+.signout-button:hover {
   background-color: #f10707;
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
-
 
     h2 {
       text-align: center;
@@ -204,9 +217,10 @@ header img.logo {
     <h3>City of Manila</h3>
   </div>
   <div class="buttons">
-    <button class="help">HELP</button>
-    <button class="signout">SIGN OUT</button>
-  </div>
+  <a href="help.html" class="help-button">HELP</a>
+  <a href="index.html" class="signout-button">SIGN OUT</a>
+</div>
+
 </header>
 
 
