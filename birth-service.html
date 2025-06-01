@@ -3,150 +3,263 @@
 <head>
   <meta charset="UTF-8" />
   <title>Birth Services</title>
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
   <style>
-    *, *::before, *::after {
+    * {
       box-sizing: border-box;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: url('bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      padding: 0 40px 40px 40px;
+     font-family: 'Golos Text', sans-serif;
+    background: url('Birth-bg.jpg') center center fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
     }
 
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: white;
-      padding: 20px 40px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
-      text-align: left;
-      font-family: 'Arial', sans-serif;
-    }
+ header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 32px;
-      font-weight: 700;
+header img.logo {
+  height: 60px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+  text-align: left; 
+}
+
+.header-text h2, .header-text h3 {
+  margin: 0;
+  font-weight: 700;
+  color: #2a4d9b;
+}
+
+.header-text h2 {
+  text-align: left;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.header-text h3 {
+  font-size: 16px;
+  color: #c0392b;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.buttons .help {
+  background-color: #ddd;
+}
+
+.buttons .help:hover {
+  background-color: #e2dddd;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.buttons .signout {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.buttons .signout:hover {
+  background-color: #f10707;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+    h2 {
+      text-align: center;
       color: #2a4d9b;
-      border-bottom: 3px solid #c0392b;
-      display: inline-block;
-      padding-bottom: 6px;
+      margin: 30px 0 10px;
+      font-size: 32px;
     }
 
-    header h1 span {
+    h2 span {
       color: #c0392b;
     }
 
-    img {
-      display: block;
-      margin: 120px auto 30px auto;
-      width: 320px;
-      height: auto;
+    .services {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      border: 2px solid #ccc;
       border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      padding: 20px;
     }
 
-    .button-grid {
-      max-width: 1200px;
-      margin: 0 auto 30px auto;
+    .service-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+      background-color: #fefefe;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    .grid-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      margin-bottom: 30px;
+    .service-box img {
+      width: 70px;
+      height: 70px;
+      margin-right: 20px;
     }
 
-    .center-row {
-      justify-content: center;
-      grid-template-columns: repeat(2, 1fr);
+    .service-info {
+      flex-grow: 1;
+    }
+
+    .service-info h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #2a4d9b;
+    }
+
+    .service-info p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #333;
     }
 
     .service-button {
-      background-color: #f1c40f;
-      border: 2px solid #d4ac0d;
-      padding: 15px 20px;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      color: black;
-      transition: background-color 0.3s, border-color 0.3s;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      text-align: center;
-      min-height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: normal;
+   background-color: #2a4d9b;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 140px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 14px;
+  flex-shrink: 0; /* prevents shrinking */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
     }
 
     .service-button:hover {
-      background-color: #d4ac0d;
-      border-color: #b7950b;
+      background-color: #1a3270;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .back-button {
-      margin-top: 40px;
-      background-color: #f1c40f;
-      border: 2px solid #d4ac0d;
-      padding: 15px 30px;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      color: black;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      text-align: center;
       display: inline-block;
-      float: left;
-      max-width: 180px;
+    margin: 20px 0 20px 420px; /* Push to left */
+    text-align: center;
+    padding: 10px 15px;
+    background-color: #f70707;
+    text-decoration: none;
+    color: #e9e3e3;
+    border-radius: 5px;
+    font-weight: bold;
     }
-
     .back-button:hover {
-      background-color: #f1c40f;
-      border: 2px solid #d4ac0d;
+      background-color: #f10707;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Birth <span>Services</span></h1>
-  </header>
-
-  <img src="example.jpg" alt="Birth Services Image" />
-
-  <div class="button-grid">
-    <div class="grid-row">
-      <a class="service-button" href="Schedule-a-Birth-Appointmen-Registration.html" target="_blank">
-        Schedule of Appointment
-      </a>
-      <a class="service-button" href="Certificate-of-Live-Birth.html" target="_blank">
-        Birth Certificate Registration
-      </a>
-      <a class="service-button" href="Request-for-Correction-of-Birth-Certificate.html" target="_blank">
-        Request for Correction of Birth Certificate
-      </a>
-    </div>
-    <div class="grid-row center-row">
-      <a class="service-button" href="Request-for-Birth-Certificate-Home Delivery.html" target="_blank">
-        Request for Birth Certificate – Certified True Copy (Home Delivery)
-      </a>
-      <a class="service-button" href="Affidavit-for-Delayed-Registration-of-Birth.html" target="_blank">
-        Delayed Registration Of Birth (Beyond 30 Days)
-      </a>
-    </div>
+<header>
+  <img src="logo-chris.png" alt="City Logo" class="logo">
+  <div class="header-text">
+    <h2>Civil Registry Information System</h2>
+    <h3>City of Manila</h3>
   </div>
-  <a class="back-button" href="Our-Services.html">BACK</a>
+  <div class="buttons">
+    <button class="help">HELP</button>
+    <button class="signout">SIGN OUT</button>
+  </div>
+</header>
+
+
+<h2><b>BIRTH <span>SERVICES</span></b></h2>
+
+<div class="services">
+  <div class="service-box">
+    <img src="schedule-logo.png" alt="Schedule Logo">
+    <div class="service-info">
+      <h3>Schedule an Appointment</h3>
+      <p>This service is to book a visit to the civil registry office at your preferred date and time for faster and more organized service.</p>
+    </div>
+    <a href="#" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="registration-logo.png" alt="Registration Logo">
+    <div class="service-info">
+      <h3>Birth Certificate Registration</h3>
+      <p>This service is to officially register a child's birth, creating a legal record and issuing a government-recognized birth certificate.</p>
+    </div>
+    <a href="#" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="correction-logo.png" alt="Correction Logo">
+    <div class="service-info">
+      <h3>Request for Correction of Birth Certificate</h3>
+      <p>This service allows you to update or correct any errors found on an issued birth certificate, such as misspelled names, incorrect dates, or other personal details.</p>
+    </div>
+    <a href="#" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="request-home-delivery-logo.png" alt="Home Delivery Logo">
+    <div class="service-info">
+      <h3>Request for Birth Certificate with CTC (Home Delivery)</h3>
+      <p>This service lets you request an official copy of a birth certificate with a Certified True Copy (CTC) that will be delivered directly to your home.</p>
+    </div>
+    <a href="#" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="delayed-logo.png" alt="Delayed Registration Logo">
+    <div class="service-info">
+      <h3>Delayed Registration of Birth (Beyond 30 Days)</h3>
+      <p>This service is for individuals whose births were not registered within the standard 30-day period. It requires an affidavit and supporting documents to register the birth and issue a valid certificate.</p>
+    </div>
+    <a href="#" class="service-button">Click Here</a>
+  </div>
+</div>
+
+<a class="back-button" href="Our-Services.html">Back</a>
+
 </body>
 </html>
