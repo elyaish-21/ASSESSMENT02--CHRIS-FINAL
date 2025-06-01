@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create an Account</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
   <style>
     body {
-      font-family: 'Roboto', Arial, sans-serif;
+      font-family: 'Golos Text', sans-serif;
       background-color: #f8f7f2;
       display: flex;
       justify-content: center;
@@ -54,17 +54,23 @@
       box-sizing: border-box;
     }
     .checkbox-container {
-      display: flex;
-      align-items: center;
-      margin: 10px 0;
-    }
-    .checkbox-container input {
-      margin-right: 10px;
-    }
-    .checkbox-container a {
-      color: blue;
-      text-decoration: none;
-    }
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin: 10px 0;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .checkbox-container label,
+  .checkbox-container a {
+    margin-left: 2px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .checkbox-container a {
+    color: blue;
+    text-decoration: none;
+  }
     .submit-btn {
       width: 100%;
       background-color: #2f5acf;
@@ -84,7 +90,8 @@
       color: #2f5acf;
       text-decoration: none;
     }
-    #sms-confirmation {
+    #sms-confirmation,
+    #terms-modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
@@ -99,18 +106,26 @@
       padding: 30px;
       border-radius: 10px;
       text-align: center;
+      max-width: 500px;
     }
+    .modal-content p {
+    text-align: justify;
+    }
+
     .modal-content h3 {
       margin-bottom: 10px;
     }
     .modal-content button {
       padding: 10px 20px;
-      background-color: #2f5acf;
+      background-color: #1fb133;
       color: white;
       border: none;
       border-radius: 5px;
       margin-top: 15px;
       cursor: pointer;
+    }
+    .agree-btn {
+      background-color: #1fd43b;
     }
   </style>
 </head>
@@ -141,8 +156,9 @@
       <input type="password" id="confirm-password" required>
 
       <div class="checkbox-container">
-        <input type="checkbox" id="terms" required />
-        <label for="terms">I Agree <a href="#">Terms and conditions</a></label>
+        <input type="checkbox" id="terms" required>
+        <label for="terms">I Agree</label>
+        <a href="#" id="view-terms">Terms and Conditions</a>
       </div>
 
       <button class="submit-btn" type="submit">Submit</button>
@@ -153,10 +169,23 @@
     </div>
   </div>
 
+  <!-- SMS Confirmation Popup -->
   <div id="sms-confirmation">
     <div class="modal-content">
       <h3>Thank you for creating an account!</h3>
       <p>Redirecting to login page...</p>
+    </div>
+  </div>
+
+  <!-- Terms and Conditions Modal -->
+  <div id="terms-modal">
+    <div class="modal-content">
+      <h3>PRIVACY NOTICE</h3>
+      <p><strong>Terms and Conditions for Account Registration</strong><br>
+      By creating an account on the Civil Registry Information System (CRIS), you agree to provide accurate and truthful personal information and to use the system solely for lawful and official purposes related to civil registration services. You must be at least 18 years old and legally capable of entering into this agreement.</p>
+      <p>You are responsible for maintaining the confidentiality of your account credentials and for any activity that occurs under your account. Unauthorized use, submission of false information, or attempts to access restricted areas of the system may result in suspension or termination of your access and may lead to legal action.</p>
+      <p>Your personal data will be handled in accordance with our Privacy Policy and applicable data protection laws. By registering, you consent to the collection and processing of your information for official civil registry functions. CRIS may update these terms at any time, and continued use of your account implies acceptance of any changes.</p>
+      <button class="agree-btn" onclick="closeTermsModal()">AGREE</button>
     </div>
   </div>
 
@@ -203,6 +232,16 @@
         window.location.href = 'login-page.html';
       }, 3000);
     });
+
+    // Terms modal logic
+    document.getElementById('view-terms').addEventListener('click', function (e) {
+      e.preventDefault();
+      document.getElementById('terms-modal').style.display = 'flex';
+    });
+
+    function closeTermsModal() {
+      document.getElementById('terms-modal').style.display = 'none';
+    }
   </script>
 </body>
 </html>
