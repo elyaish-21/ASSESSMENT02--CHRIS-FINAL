@@ -77,22 +77,37 @@ header img.logo {
   border-radius: 6px;
 }
 
-.buttons .help {
-  background-color: #ddd;
+.help-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: white;
+  text-decoration: none;
+  color: #000;
+  border-radius: 5px;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  transition: all 0.2s ease-in-out;
 }
 
-.buttons .help:hover {
-  background-color: #e2dddd;
+.help-button:hover {
+  background-color: #f0f0f0;
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.buttons .signout {
-  background-color: #e74c3c;
-  color: white;
+/* Reuse the red style for Sign Out */
+.sign-out-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #f70707;
+  text-decoration: none;
+  color: #e9e3e3;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
 }
 
-.buttons .signout:hover {
+.sign-out-button:hover {
   background-color: #f10707;
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -203,10 +218,11 @@ header img.logo {
     <h2>Civil Registry Information System</h2>
     <h3>City of Manila</h3>
   </div>
-  <div class="buttons">
-    <button class="help">HELP</button>
-    <button class="signout">SIGN OUT</button>
-  </div>
+ <div class="header-buttons">
+  <a href="help.html" class="help-button">HELP</a>
+  <a href="index.html" class="sign-out-button">SIGN OUT</a>
+</div>
+
 </header>
 
 
