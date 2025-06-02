@@ -161,19 +161,20 @@
       margin-bottom: 0;
     }
 
-    .start-btn {
-      background-color: #003d91;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 10px;
+    .start-now {
       display: inline-block;
+      padding: 10px 15px;
+      background-color: #003d91;
+      text-decoration: none;
+      color: #e9e3e3;
+      border-radius: 5px;
       font-weight: bold;
-      margin-top: 0;
+      transition: all 0.2s ease-in-out;
     }
-
-    .start-btn:hover {
-      background-color: #002b6b;
+    .start-now:hover {
+      background-color: #003d91;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     /* Raise marriage container slightly */
@@ -215,21 +216,21 @@
       <div class="service-card birth">
         <h3>Birth Services</h3>
         <img src="birth-logo.png" alt="Birth Services">
-        <a href="birth-service.html" class="start-btn">Start Now</a>
+        <a href="birth-service.html" class="start-now">Start Now</a>
       </div>
 
       <!-- Marriage (raised higher) -->
       <div class="service-card marriage">
         <h3>Marriage Services</h3>
         <img src="marriage-logo.png" alt="Marriage Services">
-        <a href="marriage-service.html" class="start-btn">Start Now</a>
+        <a href="marriage-service.html" class="start-now">Start Now</a>
       </div>
 
       <!-- Death -->
       <div class="service-card death">
         <h3>Death Services</h3>
         <img src="death-logo.png" alt="Death Services">
-        <a href="Death-service.html" class="start-btn">Start Now</a>
+        <a href="Death-service.html" class="start-now">Start Now</a>
       </div>
     </div>
   </div>
