@@ -68,6 +68,10 @@
       margin-right: 8px;
     }
 
+    input:focus::placeholder {
+      color: transparent;
+    }
+
     button {
       margin-top: 25px;
       width: 100%;
@@ -141,10 +145,10 @@
     <input type="text" id="regno" name="regno" placeholder="Enter the Registry Number from your CMC" required>
 
     <label for="husbandname">Husband's Full Name</label>
-    <input type="text" id="husbandname" name="husbandname" required>
+    <input type="text" id="husbandname" name="husbandname" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="wifename">Wife's Full Name</label>
-    <input type="text" id="wifename" name="wifename" required>
+    <input type="text" id="wifename" name="wifename" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="marriagedate">Date of Marriage</label>
     <input type="date" id="marriagedate" name="marriagedate" required>

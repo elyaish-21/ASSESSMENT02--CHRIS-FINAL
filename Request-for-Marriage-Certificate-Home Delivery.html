@@ -72,6 +72,10 @@
       outline: none;
     }
 
+    input:focus::placeholder {
+      color: transparent;
+    }
+
     button {
       margin-top: 25px;
       width: 100%;
@@ -146,10 +150,10 @@
     <input type="text" id="regno" placeholder="Enter the Registry Number from your Marriage Certificate" required>
 
     <label for="husbandname">Husband's Full Name</label>
-    <input type="text" id="husbandname" required>
+    <input type="text" id="husbandname" placeholder="Last Name, First Name, Middle Initial" required>
 
     <label for="wifename">Wife's Full Name</label>
-    <input type="text" id="wifename" required>
+    <input type="text" id="wifename" placeholder="Last Name, First Name, Middle Initial" required>
 
     <label for="marriagedate">Date of Marriage</label>
     <input type="date" id="marriagedate" required>

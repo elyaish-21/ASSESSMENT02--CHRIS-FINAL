@@ -8,8 +8,8 @@
     body {
       margin: 0;
       padding: 0;
-       font-family: 'Golos Text', sans-serif;
-    background: url('Birth-bg.jpg') center center no-repeat fixed;
+      font-family: 'Golos Text', sans-serif;
+      background: url('Birth-bg.jpg') center center no-repeat fixed;
       background-size: cover;
       min-height: 100vh;
       display: flex;
@@ -68,6 +68,10 @@
 
     input[type="checkbox"] {
       margin-right: 8px;
+    }
+
+    input:focus::placeholder {
+      color: transparent;
     }
 
     button {
@@ -144,7 +148,7 @@
     <input type="text" id="regno" placeholder="Enter the Registry Number from your COLB" required>
 
     <label for="fullname">Full Name</label>
-    <input type="text" id="fullname" required>
+    <input type="text" id="fullname" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="dob">Date of Birth</label>
     <input type="date" id="dob" required>
@@ -153,10 +157,10 @@
     <input type="text" id="placebirth" required>
 
     <label for="fathername">Father's Full Name</label>
-    <input type="text" id="fathername" required>
+    <input type="text" id="fathername" placeholder="Last Name, First Name, Middle Initial" required>
 
     <label for="mothername">Mother's Maiden Name</label>
-    <input type="text" id="mothername" required>
+    <input type="text" id="mothername" placeholder="Last Name, First Name, Middle Initial" required>
 
    <label for="correctionType">What Type of Correction?</label>
 <select id="correctionType" onchange="toggleOtherCorrection()" required>

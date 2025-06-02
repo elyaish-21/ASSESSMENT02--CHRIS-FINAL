@@ -7,18 +7,18 @@
 
     <style>
         body {
-    margin: 0;
-    padding: 0;
-      font-family: 'Golos Text', sans-serif;
-    background: url('Death-bg.jpg') center center no-repeat fixed;
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+            margin: 0;
+            padding: 0;
+                font-family: 'Golos Text', sans-serif;
+            background: url('Death-bg.jpg') center center no-repeat fixed;
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         section {
             padding: 10px;
@@ -92,6 +92,10 @@
         input[type="radio"] {
             margin-right: 5px;
             margin-left: 10px;
+        }
+
+        input:focus::placeholder {
+            color: transparent;
         }
 
         .form canvas {
@@ -182,6 +186,10 @@
                 <form id="deathForm">
                     <h3>Deceased Personal Information</h3>
                     <div class="deceased-name">
+                        <div class="last">
+                            <label for="lastname">Last Name:</label>
+                            <input type="text" id="lastname" placeholder="Last Name" required>
+                        </div>                        
                         <div class="first">
                             <label for="firstname">First Name:</label>
                             <input type="text" id="firstname" placeholder="First Name" required>
@@ -189,10 +197,6 @@
                         <div class="middle">
                             <label for="middlename">Middle Name:</label>
                             <input type="text" id="middlename" placeholder="Middle Name">
-                        </div>
-                        <div class="last">
-                            <label for="lastname">Last Name:</label>
-                            <input type="text" id="lastname" placeholder="Last Name" required>
                         </div>
                     </div>
 
@@ -243,11 +247,11 @@
                     <div class="Parents">
                         <div class="Father">
                             <label for="FatherName">Name of Father</label>
-                            <input type="text" id="FatherName" placeholder="Name of Father" required>
+                            <input type="text" id="FatherName" placeholder="Last Name, First Name, Middle Name" required>
                         </div>
                         <div class="Mother">
                             <label for="MotherName">Name of Mother</label>
-                            <input type="text" id="MotherName" placeholder="Name of Mother" required>
+                            <input type="text" id="MotherName" placeholder="Last Name, First Name, Middle Name" required>
                         </div>
                     </div>
 
@@ -303,7 +307,7 @@
 
                     <h3>Informat Details</h3>
                     <label for="informantName">Informant's Name</label>
-                    <input type="text" id="informantName" placeholder="Full Name" required>
+                    <input type="text" id="informantName" placeholder="Last Name, First Name, Middle Name" required>
 
                     <label for="relationship">Relationship to Deceased</label>
                     <input type="text" id="relationship" placeholder="e.g. Son, Wife, Neighbor" required>

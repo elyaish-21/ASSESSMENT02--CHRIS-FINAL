@@ -64,6 +64,10 @@
       outline: none;
     }
 
+    input:focus::placeholder {
+        color: transparent;
+    }
+
     .checkbox-group {
       display: flex;
       align-items: center;
@@ -122,7 +126,7 @@
 
   <form id="delayedBirthForm">
     <label>Affiant's Name</label>
-    <input type="text" required />
+    <input type="text" placeholder="Last Name, First Name, Middle Name" required />
 
     <label>Legal Age</label>
     <input type="text" required />
@@ -164,7 +168,7 @@
       <label for="notMarried">Not married but acknowledged by father</label>
     </div>
     <label>Father's Name</label>
-    <input type="text" />
+    <input type="text" placeholder="Last Name, First Name, Middle Name" />
 
     <label>6. Reason for delay in registration</label>
     <input type="text" required />

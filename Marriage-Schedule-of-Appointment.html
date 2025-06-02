@@ -68,6 +68,10 @@
       margin-top: 8px;
     }
 
+    input:focus::placeholder {
+      color: transparent;
+    }
+
     button {
       margin-top: 25px;
       width: 100%;
@@ -132,10 +136,10 @@
   <h2>💍 Schedule a Marriage Certificate Appointment</h2>
   <form id="marriageForm">
     <label for="bride">Bride's Full Name</label>
-    <input type="text" id="bride" required>
+    <input type="text" id="bride" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="groom">Groom's Full Name</label>
-    <input type="text" id="groom" required>
+    <input type="text" id="groom" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="marriageDate">Date of Marriage</label>
     <input type="date" id="marriageDate" required>

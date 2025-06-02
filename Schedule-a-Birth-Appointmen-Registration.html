@@ -68,6 +68,10 @@
       margin-top: 8px;
     }
 
+    input:focus::placeholder {
+      color: transparent;
+    }
+
     button {
       margin-top: 25px;
       width: 100%;
@@ -182,10 +186,10 @@
   <h2>📅 Schedule a Birth Appointment Registration</h2>
   <form id="appointmentForm">
     <label for="requester">Full Name of Requester</label>
-    <input type="text" id="requester" required>
+    <input type="text" id="requester" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="childName">Child’s Full Name</label>
-    <input type="text" id="childName" required>
+    <input type="text" id="childName" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="date">Preferred Date</label>
     <input type="date" id="date" required>

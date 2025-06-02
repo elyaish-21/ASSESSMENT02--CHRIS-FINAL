@@ -75,6 +75,10 @@
     box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
   }
 
+  input:focus::placeholder {
+      color: transparent;
+  }
+
   /* Two column for child's name */
   .name-group {
     display: grid;
@@ -92,7 +96,7 @@
   }
 
   /* Mother's maiden name group */
-  .maiden-name-group {
+  .maiden-name-group, .father-name-group {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
@@ -242,9 +246,9 @@
 <hr>
   <label>Child's Name</label>
   <div class="name-group">
+    <input type="text" id="lastName" placeholder="Last" required>
     <input type="text" id="firstName" placeholder="First" required>
     <input type="text" id="middleName" placeholder="Middle" required>
-    <input type="text" id="lastName" placeholder="Last" required>
   </div>
 
   <label>Sex</label>
@@ -273,17 +277,17 @@
   </div>
 
   <label>Father's Name</label>
-  <input type="text" id="fatherName" required>
+  <input type="text" id="fatherName" placeholder="Last Name, First Name, Middle Initial" required>
 
   <label>Mother's Name</label>
-  <input type="text" id="motherName" required>
+  <input type="text" id="motherName" placeholder="Last Name, First Name, Middle Initial" required>
 <hr>
   <h3>Mother's Information</h3>
   <label>Maiden Name</label>
   <div class="maiden-name-group">
+    <input type="text" placeholder="Last" required>
     <input type="text" placeholder="First" required>
     <input type="text" placeholder="Middle" required>
-    <input type="text" placeholder="Last" required>
   </div>
 
   <div class="parent-info-group">
@@ -322,7 +326,12 @@
   </div>
 <hr>
   <h3>Father's Information</h3>
-  <div class="parent-info-group">
+  <div class="father-name-group">
+    <input type="text" id="lastName" placeholder="Last" required>
+    <input type="text" id="firstName" placeholder="First" required>
+    <input type="text" id="middleName" placeholder="Middle" required>
+  </div>
+  <div class="parent-info-group">  
     <div>
       <label>Occupation</label>
       <input type="text" required>

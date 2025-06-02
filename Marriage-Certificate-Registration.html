@@ -10,7 +10,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Golos Text', sans-serif;
-    background: url('Marriage-bg.jpg') center center no-repeat fixed;
+      background: url('Marriage-bg.jpg') center center no-repeat fixed;
       background-size: cover;
       min-height: 100vh;
       display: flex;
@@ -75,6 +75,10 @@
       box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
     }
 
+    input:focus::placeholder {
+      color: transparent;
+    }
+
     canvas {
       border: 1px solid #ccc;
       width: 100%;
@@ -132,7 +136,7 @@
         <legend>Marriage Details</legend>
         <label>Date of Marriage:</label><input type="date" id="marriage_date" required>
         <label>Place of Marriage:</label><input type="text" id="marriage_place" required>
-        <label>Officiant Name:</label><input type="text" id="officiant_name" required>
+        <label>Officiant Name:</label><input type="text" id="officiant_name" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Type of Ceremony:</label>
         <select id="ceremony_type" required>
           <option value="">-- Select --</option>
@@ -145,13 +149,13 @@
 
       <fieldset>
         <legend>Spouse 1 Details</legend>
-        <label>Full Name:</label><input type="text" id="spouse1_name" required>
+        <label>Full Name:</label><input type="text" id="spouse1_name" placeholder="Last Name, First Name, Middle Name" required>
         <label>Date of Birth:</label><input type="date" id="spouse1_dob" required>
         <label>Place of Birth:</label><input type="text" id="spouse1_birthplace" required>
         <label>Nationality:</label><input type="text" id="spouse1_nationality" required>
         <label>Address:</label><input type="text" id="spouse1_address" required>
-        <label>Father's Full Name:</label><input type="text" id="spouse1_father" required>
-        <label>Mother's Full Name:</label><input type="text" id="spouse1_mother" required>
+        <label>Father's Full Name:</label><input type="text" id="spouse1_father" placeholder="Last Name, First Name, Middle Initial" required>
+        <label>Mother's Full Name:</label><input type="text" id="spouse1_mother" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Civil Status (Before Marriage):</label>
         <select id="spouse1_status" required>
           <option value="">-- Select --</option>
@@ -167,13 +171,13 @@
 
       <fieldset>
         <legend>Spouse 2 Details</legend>
-        <label>Full Name:</label><input type="text" id="spouse2_name" required>
+        <label>Full Name:</label><input type="text" id="spouse2_name" placeholder="Last Name, First Name, Middle Name" required>
         <label>Date of Birth:</label><input type="date" id="spouse2_dob" required>
         <label>Place of Birth:</label><input type="text" id="spouse2_birthplace" required>
         <label>Nationality:</label><input type="text" id="spouse2_nationality" required>
         <label>Address:</label><input type="text" id="spouse2_address" required>
-        <label>Father's Full Name:</label><input type="text" id="spouse2_father" required>
-        <label>Mother's Full Name:</label><input type="text" id="spouse2_mother" required>
+        <label>Father's Full Name:</label><input type="text" id="spouse2_father" placeholder="Last Name, First Name, Middle Initial" required>
+        <label>Mother's Full Name:</label><input type="text" id="spouse2_mother" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Civil Status (Before Marriage):</label>
         <select id="spouse2_status" required>
           <option value="">-- Select --</option>

@@ -7,18 +7,18 @@
 
         <style>
              body {
-    margin: 0;
-    padding: 0;
-      font-family: 'Golos Text', sans-serif;
-    background: url('Death-bg.jpg') center center no-repeat fixed;
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+                margin: 0;
+                padding: 0;
+                  font-family: 'Golos Text', sans-serif;
+                background: url('Death-bg.jpg') center center no-repeat fixed;
+                background-size: cover;
+                background-position: center center;
+                background-attachment: fixed;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         
             .container {
               background: rgba(255, 255, 255, 0.95);
@@ -73,6 +73,10 @@
         
             input[type="checkbox"] {
               margin-right: 8px;
+            }
+
+            input:focus::placeholder {
+              color: transparent;
             }
         
             button {
@@ -147,7 +151,7 @@
                     <input type="text" id="registry" placeholder="Enter Registry Number" required>
 
                     <label for="fullname">Full Name</label>
-                    <input type="text" id="fullname" placeholder="First Name, Middle Name, Last Name" required>
+                    <input type="text" id="fullname" placeholder="Last Name, First Name, Middle Name" required>
 
                     <label for="date">Date of Birth</label>
                     <input type="date" id="date" required>
@@ -156,7 +160,7 @@
                     <input type="text" id="place" placeholder="Place of Birth" required>
 
                     <label for="deceased">Name of the Deceased</label>
-                    <input type="text" id="deceased" placeholder="First Name, Middle Name, Last Name" required>
+                    <input type="text" id="deceased" placeholder="Last Name, First Name, Middle Name" required>
 
                     <label for="relation">Relationship to the Deceased</label>
                     <input type="text" id="relation" placeholder="ex. son, wife, father, neighbor, etc" required>
