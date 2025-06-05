@@ -337,8 +337,8 @@
       <input type="text" required>
     </div>
     <div>
-      <label>Age at Time of This Birth</label>
-      <input type="text" required>
+      <label>Date of Birth</label>
+  <input type="date" id="birthDate" required>
     </div>
     <div>
       <label>Residence</label>
@@ -366,8 +366,8 @@
       <input type="text" required>
     </div>
     <div>
-      <label>Age at Time of This Birth</label>
-      <input type="text" required>
+      <label>Date of Birth</label>
+  <input type="date" id="birthDate" required>
     </div>
   </div>
 <hr>
@@ -507,62 +507,62 @@ function generateCertificate() {
   doc.text("Republic of the Philippines", 105, 30, { align: "center" });
 
   doc.setFontSize(12);
-  doc.text("Office of the Civil Registrar", 105, 38, { align: "center" });
-
-  doc.setFontSize(12);
-  doc.text("City of Manila", 105, 46, { align: "center" });
-  
-  doc.setFontSize(12);
+  doc.text("City of Manila", 105, 38, { align: "center" });
+  doc.text("Office of the Civil Registrar", 105, 46, { align: "center" });
   doc.text("National Capital Region (NCR)", 105, 54, { align: "center" });
 
+  doc.setFontSize(18);
+  doc.text("CERTIFICATE OF LIVE BIRTH", 105, 70, { align: "center" }); // moved down to avoid overlap
 
-  doc.setFontSize(12);
-  doc.setFont("Times", "bold");
-  doc.text("Registry No.:", 130, 25);
-  doc.setFont("Times", "normal");
-  doc.text(registryNumber, 160, 25);
+  // Registry number - placed below headers
+doc.setFontSize(12);
+doc.setFont("Times", "bold");
+doc.text("Registry No.:", 130, 75); // moved down
+doc.setFont("Times", "normal");
+doc.text(registryNumber, 160, 75); // moved down
 
-  let y = 65;
-  doc.setFont("Times", "bold");
-  doc.text("Full Name:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(fullName, 55, y);
+// Start main content a bit lower
+let y = 85;
+doc.setFont("Times", "bold");
+doc.text("Full Name:", 20, y);
+doc.setFont("Times", "normal");
+doc.text(fullName, 55, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Date of Birth:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(birthDate, 55, y);
+y += 10;
+doc.setFont("Times", "bold");
+doc.text("Date of Birth:", 20, y);
+doc.setFont("Times", "normal");
+doc.text(birthDate, 55, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Place of Birth:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(placeOfBirth, 55, y);
+y += 10;
+doc.setFont("Times", "bold");
+doc.text("Place of Birth:", 20, y);
+doc.setFont("Times", "normal");
+doc.text(placeOfBirth, 55, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Attendant:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(attendants.join(", "), 55, y);
+y += 10;
+doc.setFont("Times", "bold");
+doc.text("Attendant:", 20, y);
+doc.setFont("Times", "normal");
+doc.text(attendants.join(", "), 55, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Sex:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(sex, 55, y);
+y += 10;
+doc.setFont("Times", "bold");
+doc.text("Sex:", 20, y);
+doc.setFont("Times", "normal");
+doc.text(sex, 55, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Father's Name:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(father, 55, y);
+y += 10;
+doc.setFont("Times", "bold");
+doc.text("Father's Name:", 20, y);
+doc.setFont("Times", "normal");
+doc.text(father, 55, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Mother's Name:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(mother, 55, y);
+y += 10;
+doc.setFont("Times", "bold");
+doc.text("Mother's Name:", 20, y);
+doc.setFont("Times", "normal");
+doc.text(mother, 55, y);
 
   y += 20;
   doc.setFont("Times", "bold");
@@ -577,11 +577,6 @@ doc.text(splitText, 20, y += 10);
 
 y += splitText.length * 7 + 10;
 
-// Signatures side by side (keep default font size)
-doc.setFont("Times", "bold");
-doc.text("Father's Signature:", 20, y);
-doc.text("Mother's Signature:", 120, y); // Right-side label
-
 const fatherCanvas = document.getElementById("father-signature");
 const fatherImage = fatherCanvas.toDataURL("image/png");
 doc.addImage(fatherImage, "PNG", 20, y + 5, 60, 30); // Left image
@@ -590,7 +585,12 @@ const motherCanvas = document.getElementById("mother-signature");
 const motherImage = motherCanvas.toDataURL("image/png");
 doc.addImage(motherImage, "PNG", 120, y + 5, 60, 30); // Right image
 
-y += 45; // Move down after both signatures
+// Signatures side by side (keep default font size)
+doc.setFont("Times", "bold");
+doc.text("Father's Signature:", 20, y);
+doc.text("Mother's Signature:", 120, y); // Right-side label
+
+y += 65; // Move down after both signatures
 
 doc.setLineWidth(1);
 doc.rect(10, 10, 190, 270);
