@@ -196,6 +196,50 @@
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             }
+
+         #sms-confirmation {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      margin: 15% auto;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .modal-content button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #0069d9;
+    }
         </style>
     </head>
     <body>
@@ -224,8 +268,13 @@
 
                 <h1>Cremation Permit</h1>
                 <div class="Cremation-form">
-                    <form id="cremationForm" action="">
+                                            
+                    <form id="cremationForm" action="" onsubmit="event.preventDefault(); submitForm();">
                         <h3>Deceased Personal Information</h3>
+                        <div class="registry-number">
+                        <label for="regno">Registry Number <span style="color: red;">*</span></label>
+                        <input type="text" id="regno" placeholder="Enter the Registry Number from the Death Registration Certificate" required>
+                        </div>
                         <div class="deceased-name">
                             <div class="last">
                                 <label for="lastname">Last Name:</label>
@@ -249,20 +298,20 @@
                             <option value="female">Female</option>
                         </select>
     
-                        <div class="DateAndTime">
-                            <div class="DeathDate">
-                                <label for="deathDate">Date of Death</label>
-                                <input type="date" id="deathDate" required>
-                            </div>
-                            <div class="DeathTime">
-                                <label for="time">Time of Death</label>
-                                <input type="time" id="time" required>
-                            </div>
-                            <div class="PlaceDate">
-                                <label for="placeOfDeath">Place of Death</label>
-                                <input type="text" id="placeOfDeath" placeholder="e.g. Home, Hospital - Full Address" required>
-                            </div>
-                        </div>
+                         <div class="DateAndTime">
+        <div class="DeathDate">
+            <label for="deathDate">Date of Death</label>
+            <input type="date" id="deathDate" required>
+        </div>
+        <div class="DeathTime">
+            <label for="time">Time of Death</label>
+            <input type="time" id="time" required>
+        </div>
+        <div class="PlaceDate">
+            <label for="placeOfDeath">Place of Death</label>
+            <input type="text" id="placeOfDeath" placeholder="e.g. Home, Hospital - Full Address" required>
+        </div>
+    </div>
                         <hr>
 
                         <h3>Cause of Death</h3>
@@ -272,7 +321,7 @@
                         <label for="external">Death by External Causes</label>
                         <input type="text" id="external" placeholder="Death by External Causes">
     
-                        <label for="autopsy">Autopsy</label><br>
+                        <label for="autopsy">Autopsy Report Received?</label><br>
                         <input type="radio" name="autopsy" value="yes" required>Yes
                         <input type="radio" name="autopsy" value="no">No         
                         
@@ -354,176 +403,183 @@
                 </div>
             </div>
         </section>
+         <div id="sms-confirmation">
+  <div class="modal-content">
+    <h3>Request Submitted!</h3>
+<p>✅ <strong>Successfully registered!</strong><br>
+   A confirmation email has been sent. Your PDF certificate is downloading now.</p>
 
-        <script>
-            function clearCanvas(id) {
-                const canvas = document.getElementById(id);
-                const ctx = canvas.getContext("2d");
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+    <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+  </div>
+</div>
+
+         <script>
+        window.jsPDF = window.jspdf.jsPDF;
+
+        function clearCanvas(id) {
+            const canvas = document.getElementById(id);
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function clearAllFields() {
+            document.getElementById("cremationForm").reset();
+            clearCanvas('signature');
+        }
+
+        function showSMSConfirmation() {
+            document.getElementById('sms-confirmation').style.display = 'block';
+        }
+
+        function validateForm() {
+            const form = document.getElementById("cremationForm");
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return false;  // ✅ Fix: return false if not valid
             }
-    
-            function clearAllFields() {
-                document.getElementById("cremationForm").reset();
-                clearCanvas('signature');
-            }
-    
-            function generateCertificate() {
-                const doc = new jspdf.jsPDF({ unit: "mm", format: "a4" });
-                const pageWidth = doc.internal.pageSize.getWidth();
-                const pageHeight = doc.internal.pageSize.getHeight();
+            return true;
+        }
 
-                doc.setDrawColor(0);
-                doc.setLineWidth(0.5);
-                doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
+        function submitForm() {
+            const successDiv = document.getElementById('success-message');
+            if (!validateForm()) return;
 
-                doc.setFont("Times", "Bold");
-                doc.setFontSize(14);
-                doc.text("REPUBLIC OF THE PHILIPPINES", pageWidth / 2, 20, { align: "center" });
-                doc.text("OFFICE OF THE LOCAL GOVERNMENT UNIT", pageWidth / 2, 27, { align: "center" });
+            successDiv.style.display = 'block';
+            successDiv.style.backgroundColor = '#fff3cd';
+            successDiv.style.color = '#856404';
+            successDiv.textContent = "Please wait, generating and sending the certificate...";
 
-                doc.setFontSize(18);
-                doc.text("CREMATION PERMIT CERTIFICATE", pageWidth / 2, 40, { align: "center" });
+            setTimeout(() => {
+                generateCertificate();
+                successDiv.style.backgroundColor = '#d4edda';
+                successDiv.style.color = '#155724';
+                successDiv.textContent = "Thank you for waiting.";
+                showSMSConfirmation();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                clearAllFields();
+            }, 3000);
+        }
 
-                doc.setFont("Times", "Normal");
-                doc.setFontSize(12);
+   function generateCertificate() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
 
-                const lineGap = 8;
-                let y = 50;
+    // Border
+    doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
-                function addField(label, value) {
-                    doc.setFont("Times", "Bold");
-                    doc.text(`${label}:`, 20, y);
-                    doc.setFont("Times", "Normal");
-                    doc.text(value || "____________________", 70, y);
-                    y += lineGap;
-                }
+    // Header
+    doc.setFont("Times", "Bold");
+    doc.setFontSize(14);
+    doc.text("Republic of the Philippines", pageWidth / 2, 20, { align: "center" });
+    doc.text("City of Manila", pageWidth / 2, 28, { align: "center" });
+    doc.text("Office of the Civil Registrar", pageWidth / 2, 36, { align: "center" });
+    doc.text("National Capital Region (NCR)", pageWidth / 2, 44, { align: "center" });
 
-                const getValue = id => document.getElementById(id)?.value || "";
-                const radioValue = name => document.querySelector(`input[name="${name}"]:checked`)?.value || "";
+    // Title
+    doc.setFontSize(18);
+    doc.text("CREMATION PERMIT CERTIFICATE", pageWidth / 2, 54, { align: "center" });
 
-                const firstName = getValue("firstname");
-                const middleName = getValue("middlename");
-                const lastName = getValue("lastname");
-                const sex = getValue("sex");
-                const deathDate = getValue("deathDate");
-                const time = getValue("time");
-                const placeOfDeath = getValue("placeOfDeath");
-                const cause = getValue("Cause");
-                const external = getValue("external");
-                const autopsy = radioValue("autopsy");
+    // Content setup
+    doc.setFont("Times", "Normal");
+    doc.setFontSize(12);
 
-                const physicianName = getValue("physicianName");
-                const licenseNumber = getValue("licenseNumber");
+    let y = 66;
+    const lineGap = 10;
+    const sectionGap = 12;
 
-                const crematoriumName = getValue("crematoriumName");
-                const cremationDate = getValue("cremationDate");
-                const cremationTime = getValue("cremationTime");
-                const urn = radioValue("urn");
+    const getValue = id => document.getElementById(id)?.value || "";
+    const radioValue = name => document.querySelector(`input[name="${name}"]:checked`)?.value || "";
 
-                const informantName = getValue("informantName");
-                const relationship = getValue("relationship");
-                const informantContact = getValue("informantContact");
+    const addField = (label, value) => {
+        doc.setFont("Times", "Bold");
+        doc.text(`${label}:`, 20, y);
+        doc.setFont("Times", "Normal");
+        doc.text(value || "____________________", 70, y);
+        y += lineGap;
+    };
 
-                doc.setFont("Times", "Bold");
-                doc.text("Deceased Information", 20, y);
-                y += lineGap;
-                addField("Full Name", `${firstName} ${middleName} ${lastName}`);
-                addField("Sex", sex);
-                addField("Date of Death", deathDate);
-                addField("Time of Death", time);
-                addField("Place of Death", placeOfDeath);
-                addField("Cause of Death", cause);
-                addField("External Cause (if any)", external);
-                addField("Autopsy", autopsy);
+    // Fields
+    addField("Registry Number", getValue("regno"));
+    addField("Full Name", `${getValue("firstname")} ${getValue("middlename")} ${getValue("lastname")}`);
+    addField("Sex", getValue("sex"));
+    addField("Date of Death", getValue("deathDate"));
+    addField("Time of Death", getValue("time"));
+    addField("Place of Death", getValue("placeOfDeath"));
+    addField("Cause of Death", getValue("Cause"));
+    addField("External Cause (if any)", getValue("external"));
+    addField("Autopsy", radioValue("autopsy"));
 
-                y += 4;
-                doc.setFont("Times", "Bold");
-                doc.text("Physician Information", 20, y);
-                y += lineGap;
-                addField("Physician's Name", physicianName);
-                addField("License Number", licenseNumber);
+    // Physician Info
+    y += sectionGap;
+    doc.setFont("Times", "Bold");
+    doc.text("Physician Information", 20, y);
+    y += lineGap;
+    addField("Physician's Name", getValue("physicianName"));
+    addField("License Number", getValue("licenseNumber"));
 
-                y += 4;
-                doc.setFont("Times", "Bold");
-                doc.text("Cremation Details", 20, y);
-                y += lineGap;
-                addField("Crematorium Address", crematoriumName);
-                addField("Cremation Date", cremationDate);
-                addField("Cremation Time", cremationTime);
-                addField("Urn Required", urn);
+    // Cremation Info
+    y += sectionGap;
+    doc.setFont("Times", "Bold");
+    doc.text("Cremation Details", 20, y);
+    y += lineGap;
+    addField("Crematorium Address", getValue("crematoriumName"));
+    addField("Cremation Date", getValue("cremationDate"));
+    addField("Cremation Time", getValue("cremationTime"));
+    addField("Urn Required", radioValue("urn"));
 
-                y += 4;
-                doc.setFont("Times", "Bold");
-                doc.text("Informant Details", 20, y);
-                y += lineGap;
-                addField("Informant Name", informantName);
-                addField("Relationship", relationship);
-                addField("Contact Number", informantContact);
+   // Signature
+y += sectionGap + 10;
 
-                y += 10;
-                doc.setFont("Times", "Bold");
-                doc.text("Fees Paid", 20, y);
-                y += lineGap;
-                addField("Cremation Permit", "P 150.00");
-                addField("Transfer Permit \n(if applicable)", "P 100.00");
+// Prevent it from going too close to bottom border
+const maxY = pageHeight - 40;
+if (y > maxY) y = maxY;
 
-                y += 15;
+const signatureX = pageWidth - 70; // Ensures it doesn't go beyond right border
+const signatureLineY = y;
+const signatureTextY = y + 6;
+const signatureImageY = y - 20;
+const signatureImageWidth = 50;
+const signatureImageHeight = 20;
 
-                doc.text("_________________________", 130, y);
-                doc.text("Signature of Informant", 130, y + 6);
+doc.text("_________________________", signatureX, signatureLineY);
+doc.text("Signature of Informant", signatureX, signatureTextY);
 
-                const canvas = document.getElementById("signature");
-                const imgData = canvas.toDataURL("image/png");
-
-                doc.addImage(imgData, 'PNG', 130, y - 20, 50, 30);
-
-
-                doc.save(`Cremation_Permit_Certificate_${lastName}_${firstName}.pdf`);
-            }
+// Add signature image safely within bounds
+const canvas = document.getElementById("signature");
+if (canvas) {
+    const imgData = canvas.toDataURL("image/png");
+    doc.addImage(imgData, 'PNG', signatureX, signatureImageY, signatureImageWidth, signatureImageHeight);
+}
 
 
-            
-            function submitForm() {
-                const successDiv = document.getElementById('success-message');
+    // Save
+    const fileName = `Cremation_Permit_Certificate_${getValue("lastname")}_${getValue("firstname")}.pdf`;
+    doc.save(fileName);
+}
 
-                successDiv.style.display = 'block';
-                successDiv.style.backgroundColor = '#fff3cd';
-                successDiv.style.color = '#856404';
-                successDiv.textContent = "Please wait, generating and sending the certificate...";
 
-                setTimeout(() => {
-                    generateCertificate();
+        window.onload = () => {
+            const canvas = document.getElementById("signature");
+            const ctx = canvas.getContext("2d");
+            let drawing = false;
 
-                    successDiv.style.backgroundColor = '#d4edda';
-                    successDiv.style.color = '#155724';
-                    successDiv.textContent = "Successfully registered! Certificate has been sent via email.";
-
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    clearAllFields();
-
-                }, 3000);
-            }
-            
-            window.onload = () => {
-                const canvas = document.getElementById("signature");
-                const ctx = canvas.getContext("2d");
-                let drawing = false;
-
-                canvas.addEventListener("mousedown", () => drawing = true);
-                canvas.addEventListener("mouseup", () => { drawing = false; ctx.beginPath(); });
-                canvas.addEventListener("mouseout", () => drawing = false);
-                canvas.addEventListener("mousemove", (e) => {
-                    if (!drawing) return;
-                    const rect = canvas.getBoundingClientRect();
-                    ctx.lineWidth = 2;
-                    ctx.lineCap = "round";
-                    ctx.strokeStyle = "#000";
-                    ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-                    ctx.stroke();
-                    ctx.beginPath();
-                    ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-                });
-            };
-        </script>
-    </body>
+            canvas.addEventListener("mousedown", () => drawing = true);
+            canvas.addEventListener("mouseup", () => { drawing = false; ctx.beginPath(); });
+            canvas.addEventListener("mouseout", () => drawing = false);
+            canvas.addEventListener("mousemove", (e) => {
+                if (!drawing) return;
+                const rect = canvas.getBoundingClientRect();
+                ctx.lineWidth = 2;
+                ctx.lineCap = "round";
+                ctx.strokeStyle = "#000";
+                ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+            });
+        };
+    </script>
+</body>
 </html>
