@@ -206,22 +206,54 @@
 
     <button type="submit">Submit</button>
   </form>
+</div>
 
-  <div id="confirmation" class="confirmation-message">
-    ✅ Your form has been submitted successfully.<br>
-    Please wait for a response via your phone number or Gmail.
+<div id="popup" style="display: none;">
+  <div style="
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  ">
+    <div style="
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    ">
+      <h2 style="margin-bottom: 10px;">Your form has been submitted successfully.</h2>
+      <p style="margin-bottom: 20px;">Please wait for a response via your phone number or Gmail.</p>
+      <button onclick="closePopup()" style="
+        padding: 10px 20px;
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+      ">OK</button>
+    </div>
   </div>
 </div>
 
 <script>
   const form = document.getElementById('delayedBirthForm');
-  const confirmation = document.getElementById('confirmation');
+  const popup = document.getElementById('popup');
 
   form.addEventListener('submit', function(event) {
     event.preventDefault();
-    confirmation.style.display = 'block';
+    popup.style.display = 'block';
     form.reset();
   });
+
+  function closePopup() {
+    popup.style.display = 'none';
+  }
 </script>
 
 </body>
