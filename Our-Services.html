@@ -182,6 +182,64 @@
       position: relative;
       top: -40px;
     }
+    
+    /* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* dim background */
+  font-family: 'Golos Text', sans-serif;
+}
+
+.modal-content {
+  background-color: white;
+  margin: 8% auto;
+  padding: 25px 30px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  color: #000;
+  font-weight: bold;
+  line-height: 1.6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+}
+
+.modal-content:hover {
+  transform: scale(1.01);
+}
+
+/* Close button styling */
+.close-button {
+  color: #000;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 26px;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  padding: 2px 10px;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.2s ease-in-out;
+}
+
+.close-button:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+
   </style>
 </head>
 <body>
@@ -196,7 +254,7 @@
 </div>
 
 <div class="header-buttons">
-  <a href="help.html" class="help-button">HELP</a>
+<button class="help-button" onclick="openHelp()">HELP</button>
   <a href="index.html" class="sign-out-button">SIGN OUT</a>
 </div>
 
@@ -234,6 +292,63 @@
       </div>
     </div>
   </div>
+ <!-- Help Modal -->
+<div id="helpModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" onclick="closeHelp()">&times;</span>
+    <h2>Need Help?</h2>
+    <p>Welcome to the <strong>Civil Registry Information System</strong> of the City of Manila! This platform was designed to make your civil registration needs faster, easier, and more accessible.</p>
+
+    <p>Here’s a brief guide to help you navigate our services:</p>
+
+    <ul>
+      <li>
+        <strong>Birth Services:</strong> 
+        <br />- Register a newly born child.
+        <br />- Request a Certified True Copy of a birth certificate.
+        <br />- Submit late birth registration or correction of entries.
+      </li>
+      <li>
+        <strong>Marriage Services:</strong> 
+        <br />- Apply for a marriage license.
+        <br />- Register your marriage certificate.
+        <br />- Request a Certified True Copy of a marriage certificate.
+        <br />- Submit a request for correction or annotation.
+      </li>
+      <li>
+        <strong>Death Services:</strong> 
+        <br />- Register a death and issue a death certificate.
+        <br />- Request a Certified True Copy of a death certificate.
+        <br />- Correct information on an existing death record.
+      </li>
+    </ul>
+
+    <p>Our goal is to provide you with a secure and streamlined experience. You can initiate your requests online and, where applicable, receive updates via SMS or email regarding your document’s status and availability.</p>
+
+    <p><strong>Need additional support?</strong> Don’t hesitate to contact us via email at <a href="mailto:support@manilacivil.gov.ph">support@manilacivil.gov.ph</a> or visit your nearest Civil Registry office for in-person assistance.</p>
+
+    <p><em>Thank you for using our system. We're here to serve you better.</em></p>
+  </div>
+</div>
+
+
+<script>
+  function openHelp() {
+    document.getElementById('helpModal').style.display = 'block';
+  }
+
+  function closeHelp() {
+    document.getElementById('helpModal').style.display = 'none';
+  }
+
+  // Optional: Close modal when clicking outside the box
+  window.onclick = function(event) {
+    const modal = document.getElementById('helpModal');
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
 
 </body>
 </html>
