@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registration of Live Birth</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Golos Text', sans-serif;
+    background: url('Birth-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-container {
+    background: url('NEW BG HP.jpg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 40px 0;
+    min-height: 100vh; /* full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-card {
+    background: rgba(255, 255, 255, 0.9); /* white with 90% opacity */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 90%;
+  }
+
+  h2, h3 {
+    text-align: center;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 25px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 1.0rem;
+    color: #34495e;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  select,
+  input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #2c3e50;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  select:focus,
+  input[type="file"]:focus {
+    outline: none;
+    border-color: #2980b9;
+    box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
+  }
+
+  input:focus::placeholder {
+      color: transparent;
+  }
+
+  /* Two column for child's name */
+  .name-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  /* Place of birth inputs in three columns */
+  .birthplace-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  /* Mother's maiden name group */
+  .maiden-name-group, .father-name-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  /* Group some related inputs in two columns for father's and mother's info */
+  .parent-info-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 30px;
+    margin-bottom: 20px;
+  }
+
+  /* Checkbox group styling */
+  .checkbox-group {
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .checkbox-group label {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #34495e;
+    user-select: none;
+  }
+
+  canvas {
+    border: 1px solid #ccc;
+    width: 100%;
+    height: 150px;
+    border-radius: 6px;
+    margin-top: 6px;
+    cursor: crosshair;
+    background-color: #fafafa;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+
+  canvas:focus {
+    outline: none;
+    border-color: #2980b9;
+    box-shadow: 0 0 6px rgba(41, 128, 185, 0.4);
+  }
+
+  button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 14px;
+    background-color: #2980b9;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #1c5980;
+  }
+
+  .clear-btn {
+    width: auto;
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-top: 5px;
+    background-color: #6c757d;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .clear-btn:hover {
+    background-color: #5a6268;
+  }
+
+  .success-message {
+    display: none;
+    margin-top: 25px;
+    padding: 18px;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  /* Affidavit paragraph styling */
+  p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+    margin: 18px 0 30px;
+  }
+
+  p input[type="text"] {
+    font-weight: 600;
+    padding: 6px 8px;
+    font-size: 0.95rem;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin: 0 6px;
+    transition: border-color 0.3s ease;
+  }
+
+  p input[type="text"]:focus {
+    outline: none;
+    border-color: #2980b9;
+    box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
+  }
+
+  .back-button {
+    display: inline-block;
+    margin: 20px 0 20px 10px; /* Push to left */
+    text-align: center;
+    padding: 10px 15px;
+    background-color: #f70707;
+    text-decoration: none;
+    color: #e9e3e3;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+
+  .back-button:hover {
+    background-color: #f10707;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 700px) {
+    .name-group,
+    .birthplace-group,
+    .maiden-name-group,
+    .parent-info-group {
+      grid-template-columns: 1fr;
+    }
+
+    p input[type="text"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    button, 
+    .clear-btn {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+<div class="form-card">
+  <a class="back-button" href="birth-service.html">Back</a>
+  <h2>Registration of Live Birth</h2>
+<hr>
+  <label>Child's Name</label>
+  <div class="name-group">
+    <input type="text" id="lastName" placeholder="Last" required>
+    <input type="text" id="firstName" placeholder="First" required>
+    <input type="text" id="middleName" placeholder="Middle" required>
+  </div>
+
+  <label>Sex</label>
+  <select id="sex" required>
+    <option>Male</option>
+    <option>Female</option>
+  </select>
+
+  <label>Date of Birth</label>
+  <input type="date" id="birthDate" required>
+
+  <label>Place of Birth</label>
+  <div class="birthplace-group">
+    <input type="text" id="birthPlace" placeholder="Hospital/Clinic/Street/Barangay" required>
+    <input type="text" id="birthCity" placeholder="City/Municipality" required>
+    <input type="text" id="birthProvince" placeholder="Province" required>
+  </div>
+
+  <label>Attendant</label>
+  <div class="checkbox-group">
+    <label><input type="checkbox" id="physician"> Physician</label>
+    <label><input type="checkbox" id="nurse"> Nurse</label>
+    <label><input type="checkbox" id="midwife"> Midwife</label>
+    <label><input type="checkbox" id="hilot"> Hilot</label>
+    <label><input type="checkbox" id="others"> Others</label>
+  </div>
+
+  <label>Father's Name</label>
+  <input type="text" id="fatherName" placeholder="Last Name, First Name, Middle Initial" required>
+
+  <label>Mother's Name</label>
+  <input type="text" id="motherName" placeholder="Last Name, First Name, Middle Initial" required>
+<hr>
+  <h3>Mother's Information</h3>
+  <label>Maiden Name</label>
+  <div class="maiden-name-group">
+    <input type="text" placeholder="Last" required>
+    <input type="text" placeholder="First" required>
+    <input type="text" placeholder="Middle" required>
+  </div>
+
+  <div class="parent-info-group">
+    <div>
+      <label>Citizenship</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Religion</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Total Children Born Alive</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>No. Still Living (including this birth)</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Now Dead</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Occupation</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Age at Time of This Birth</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Residence</label>
+      <input type="text" required>
+    </div>
+  </div>
+<hr>
+  <h3>Father's Information</h3>
+  <div class="father-name-group">
+    <input type="text" id="lastName" placeholder="Last" required>
+    <input type="text" id="firstName" placeholder="First" required>
+    <input type="text" id="middleName" placeholder="Middle" required>
+  </div>
+  <div class="parent-info-group">  
+    <div>
+      <label>Occupation</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Citizenship</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Religion</label>
+      <input type="text" required>
+    </div>
+    <div>
+      <label>Age at Time of This Birth</label>
+      <input type="text" required>
+    </div>
+  </div>
+<hr>
+  <h3>AFFIDAVIT OF ACKNOWLEDGEMENT/ADMISSION OF PATERNITY</h3>
+  <p>
+    We, <input type="text" id="affidavitFather" placeholder="Father's Full Name" required> and 
+    <input type="text" id="affidavitMother" placeholder="Mother's Full Name" required>,
+    parents/parent of the child mentioned in this Certificate of Live Birth, do hereby solemnly swear that the information contained herein are true
+    and correct to the best of our/my knowledge and belief.
+  </p>
+
+  <label>Upload Valid ID (Father)</label>
+  <input type="file" accept="image/*,application/pdf" required>
+
+  <label>Father's Signature (Draw Below)</label>
+  <canvas id="father-signature" tabindex="0"></canvas>
+  <button type="button" class="clear-btn" onclick="clearCanvas('father-signature')">Clear Signature</button>
+
+  <label>Upload Valid ID (Mother)</label>
+  <input type="file" accept="image/*,application/pdf" required>
+
+  <label>Mother's Signature (Draw Below)</label>
+  <canvas id="mother-signature" tabindex="0"></canvas>
+  <button type="button" class="clear-btn" onclick="clearCanvas('mother-signature')">Clear Signature</button>
+
+  <button type="button" onclick="submitForm()">Submit</button>
+  <div id="success-message" class="success-message"></div>
+</div>
+
+<script>
+  function clearCanvas(id) {
+    const canvas = document.getElementById(id);
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function clearAllFields() {
+    const inputs = document.querySelectorAll('input[type="text"], input[type="date"]');
+    inputs.forEach(input => input.value = '');
+    const selects = document.querySelectorAll('select');
+    selects.forEach(select => select.selectedIndex = 0);
+    const files = document.querySelectorAll('input[type="file"]');
+    files.forEach(file => file.value = '');
+
+    ["physician", "nurse", "midwife", "hilot", "others"].forEach(id => {
+      document.getElementById(id).checked = false;
+    });
+
+    document.getElementById("affidavitFather").value = "";
+    document.getElementById("affidavitMother").value = "";
+
+    clearCanvas('father-signature');
+    clearCanvas('mother-signature');
+  }
+  function generateRegistryNumber() {
+  const now = new Date();
+  return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+    .getTime()
+    .toString()
+    .slice(-5)}`;
+}
+
+
+function submitForm() {
+  const requiredInputs = document.querySelectorAll('input[type="text"], input[type="date"], select, input[type="file"]');
+  for (const input of requiredInputs) {
+    if (!input.value) {
+      alert("Please fill out all required fields.");
+      input.focus();
+      return;
+    }
+  }
+
+  const checkboxes = ["physician", "nurse", "midwife", "hilot", "others"];
+  const oneChecked = checkboxes.some(id => document.getElementById(id).checked);
+  if (!oneChecked) {
+    alert("Please select at least one attendant.");
+    return;
+  }
+
+  if (isCanvasEmpty("father-signature") || isCanvasEmpty("mother-signature")) {
+    alert("Please provide signatures for both parents.");
+    return;
+  }
+
+  if (confirm("Are you sure you want to submit and download the certificate?")) {
+    setTimeout(() => {
+      generateCertificate();
+
+      const successDiv = document.getElementById('success-message');
+      successDiv.style.display = 'block';
+      successDiv.style.backgroundColor = '#d4edda';
+      successDiv.style.color = '#155724';
+      successDiv.textContent = "Successfully registered! The Certificate of Live Birth PDF will be downloaded shortly.";
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      clearAllFields();
+
+      setTimeout(() => {
+        successDiv.style.display = 'none';
+      }, 5000);
+
+    }, 100);
+  } else {
+    alert("Submission cancelled.");
+  }
+}
+
+
+
+function generateCertificate() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const registryNumber = generateRegistryNumber();
+  const fullName = `${document.getElementById("firstName").value} ${document.getElementById("middleName").value} ${document.getElementById("lastName").value}`;
+  const birthDateRaw = document.getElementById("birthDate").value;
+  const birthDate = birthDateRaw ? new Date(birthDateRaw).toLocaleDateString() : "";
+  const placeOfBirth = `${document.getElementById("birthPlace").value}, ${document.getElementById("birthCity").value}, ${document.getElementById("birthProvince").value}`;
+  const sex = document.getElementById("sex").value;
+  const father = document.getElementById("fatherName").value;
+  const mother = document.getElementById("motherName").value;
+  const affidavitFather = document.getElementById("affidavitFather").value;
+  const affidavitMother = document.getElementById("affidavitMother").value;
+
+  let attendants = [];
+  if (document.getElementById("physician").checked) attendants.push("Physician");
+  if (document.getElementById("nurse").checked) attendants.push("Nurse");
+  if (document.getElementById("midwife").checked) attendants.push("Midwife");
+  if (document.getElementById("hilot").checked) attendants.push("Hilot");
+  if (document.getElementById("others").checked) attendants.push("Others");
+
+  doc.setFont("Times", "bold");
+  doc.setFontSize(16);
+  doc.text("Republic of the Philippines", 105, 30, { align: "center" });
+
+  doc.setFontSize(12);
+  doc.text("Office of the Civil Registrar", 105, 38, { align: "center" });
+
+  doc.setFontSize(12);
+  doc.text("City of Manila", 105, 46, { align: "center" });
+  
+  doc.setFontSize(12);
+  doc.text("National Capital Region (NCR)", 105, 54, { align: "center" });
+
+
+  doc.setFontSize(12);
+  doc.setFont("Times", "bold");
+  doc.text("Registry No.:", 130, 25);
+  doc.setFont("Times", "normal");
+  doc.text(registryNumber, 160, 25);
+
+  let y = 65;
+  doc.setFont("Times", "bold");
+  doc.text("Full Name:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(fullName, 55, y);
+
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Date of Birth:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(birthDate, 55, y);
+
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Place of Birth:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(placeOfBirth, 55, y);
+
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Attendant:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(attendants.join(", "), 55, y);
+
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Sex:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(sex, 55, y);
+
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Father's Name:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(father, 55, y);
+
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Mother's Name:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(mother, 55, y);
+
+  y += 20;
+  doc.setFont("Times", "bold");
+  doc.text("AFFIDAVIT OF ACKNOWLEDGEMENT/ADMISSION OF PATERNITY", 105, y, { align: "center" });
+
+ y += 10;
+doc.setFont("Times", "normal");
+doc.setFontSize(12); // Keep default label size
+const affidavitText = `We, ${affidavitFather} and ${affidavitMother}, parents/parent of the child mentioned in this Certificate of Live Birth, do hereby solemnly swear that the information contained herein are true and correct to the best of our/my knowledge and belief.`;
+const splitText = doc.splitTextToSize(affidavitText, 170);
+doc.text(splitText, 20, y += 10);
+
+y += splitText.length * 7 + 10;
+
+// Signatures side by side (keep default font size)
+doc.setFont("Times", "bold");
+doc.text("Father's Signature:", 20, y);
+doc.text("Mother's Signature:", 120, y); // Right-side label
+
+const fatherCanvas = document.getElementById("father-signature");
+const fatherImage = fatherCanvas.toDataURL("image/png");
+doc.addImage(fatherImage, "PNG", 20, y + 5, 60, 30); // Left image
+
+const motherCanvas = document.getElementById("mother-signature");
+const motherImage = motherCanvas.toDataURL("image/png");
+doc.addImage(motherImage, "PNG", 120, y + 5, 60, 30); // Right image
+
+y += 45; // Move down after both signatures
+
+doc.setLineWidth(1);
+doc.rect(10, 10, 190, 270);
+
+doc.save("Certificate_of_Live_Birth.pdf");
+
+}
+
+  
+function isCanvasEmpty(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext("2d");
+  const pixelBuffer = new Uint32Array(
+    ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+  );
+  return !pixelBuffer.some(color => color !== 0);
+}
+
+window.onload = () => {
+    const ids = ["father-signature", "mother-signature"];
+    ids.forEach(id => {
+      const canvas = document.getElementById(id);
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+
+      canvas.addEventListener("mousedown", () => drawing = true);
+      canvas.addEventListener("mouseup", () => { drawing = false; ctx.beginPath(); });
+      canvas.addEventListener("mouseout", () => drawing = false);
+      canvas.addEventListener("mousemove", (e) => {
+        if (!drawing) return;
+        const rect = canvas.getBoundingClientRect();
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "#000";
+        ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+      });
+    });
+  };
+</script>
+</body>
+</html>

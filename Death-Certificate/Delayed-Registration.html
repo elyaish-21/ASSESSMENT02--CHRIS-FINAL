@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Registration of Delayed Death Certificate</title>
+            <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+
+        <style>
+             body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Golos Text', sans-serif;
+                background: url('Death-bg.jpg') center center no-repeat fixed;
+                background-size: cover;
+                background-position: center center;
+                background-attachment: fixed;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            section {
+                padding: 10px;
+            }
+
+            .deceased-name, .DateAndTime, .Place, .Disposition {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+                margin-bottom: 25px;
+            }
+
+            .Cremation-DateAndTime, .Parents, .SexAndBirth {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                margin-bottom: 25px;
+            }
+
+            .death-registration, .container {
+                max-width: 700px;
+                margin: 50px auto;
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+
+            .death-registration h1, .container h1 {
+                text-align: center;
+                font-weight: 700;
+                color: #2c3e50;
+                margin-bottom: 25px;
+            }
+
+            .death-registration h2, h3{
+                text-align: center;
+                font-weight: 700;
+                color: #2c3e50;
+                margin-bottom: 25px;
+            }
+
+            .fees {
+                text-align: left;
+                color: #333;
+            }
+
+            label {
+                display: block;
+                margin-top: 15px;
+                font-weight: bold;
+                color: #555;
+            }
+
+            input[type="text"],
+            input[type="date"],
+            input[type="time"],
+            input[type="file"],
+            input[type="email"],
+            input[type="number"],
+            input[type="tel"],
+            select {
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+
+            input[type="radio"] {
+                margin-right: 5px;
+                margin-left: 10px;
+            }
+
+            input:focus::placeholder {
+                color: transparent;
+            }
+
+            .form canvas {
+                display: block;
+                margin-top: 10px;
+                margin-bottom: 20px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+            }
+
+            .submit {
+                margin-top: 20px;
+                padding: 12px 25px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                display: block;
+                width: 100%;
+            }
+
+            .submit:hover {
+                background-color: #0056b3;
+            }
+
+            .success-message {
+                margin-top: 20px;
+                padding: 15px;
+                display: none;
+                border: 1px solid #c3e6cb;
+                border-radius: 5px;
+                background-color: #d4edda;
+                color: #155724;
+                text-align: center;
+            }
+
+            .clear {
+                width: auto;
+                padding: 6px 12px;
+                font-size: 12px;
+                margin-top: 5px;
+                background-color: #007bff;
+                border-radius: 4px;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+            .clear:hover {
+                background-color: #0056b3;
+            }
+
+            .requirements {
+                margin-bottom: 40px;
+                background-color: #f0f4f8;
+                padding: 20px;
+                border-radius: 10px;
+            }
+
+            .requirements ul {
+            margin-left: 20px;
+            }
+
+            .requirements ul li {
+            margin-bottom: 8px;
+            }
+
+            #sms-confirmation {
+                display: none;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 1000;
+            }
+
+            .modal-content {
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                width: 90%;
+                max-width: 400px;
+                margin: 15% auto;
+                text-align: center;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .modal-content h3 {
+                margin-bottom: 15px;
+                color: #333;
+            }
+
+            .modal-content p {
+                margin-bottom: 20px;
+                color: #555;
+            }
+
+            .modal-content button {
+                padding: 10px 20px;
+                background-color: #28a745;
+                border: none;
+                color: white;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            .modal-content button:hover {
+                background-color: #218838;
+            }
+
+            .back-button {
+            display: inline-block;
+            margin: 20px 0 20px 10px; /* Push to left */
+            text-align: center;
+            padding: 10px 15px;
+            background-color: #f70707;
+            text-decoration: none;
+            color: #e9e3e3;
+            border-radius: 5px;
+            font-weight: bold;
+            }
+
+            .back-button:hover {
+            background-color: #f10707;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+        </style>
+
+    </head>
+    <body>
+        <section>
+            <div class="container">
+                <a class="back-button" href="Death-service.html">Back</a>
+                <div class="requirements">
+                    <h2>📋 Death Certificate Requirements</h2>
+                
+                    <h3>✅ General Requirements</h3>
+                    <ul>
+                      <li><strong>Death Certificate:</strong>This need to be accurate and completed.</li>
+                      <li><strong>Affidavit of Delayed Registration:</strong>This need to be signed by the Hospital, Attendant at death or nearest relative</li>
+                      <li><strong>Certificate of Burial/Cremation:</strong>This provides proof of the deceased disposition.</li>
+                      <li><strong>Negative Ceritification(PSA):</strong>This confirms the death has already been released in PSA but not registered in PSA database.</li>
+                      <li><strong>Valid ID:</strong> Government-issued IDs (e.g., Passport, Driver’s License, UMID, PhilHealth ID, Voter’s ID)</li>
+                    </ul>
+                
+                    <h3>📝 Optional</h3>
+                    <ul>
+                      <li><strong>Autopsy Report:</strong> The result of examination to determine the cause of death.</li>
+                    </ul>
+                  </div>
+
+                <h1>Delayed Registration for Death Certificate</h1>
+                <div class="DelayedRegistration">
+                    <form onsubmit="event.preventDefault(); showSMSConfirmation();">
+                        <label for="name">Name of the Requester</label>
+                        <input type="text" id="name" placeholder="Last Name, First Name Middle Initial" required>
+
+                        <label for="deceased">Deceased Name</label>
+                        <input type="text" id="deceased" placeholder="Last Name, First Name Middle Initial" required>
+
+                        <label for="reason">Reason for Delayed</label>
+                        <input type="text" id="reason" placeholder="Reason" required>
+
+                        <label for="date">Date the Deceased Died</label>
+                        <input type="date" id="date" required>
+
+                        <label for="time">Time the Deceased Died</label>
+                        <input type="time" id="time" required>
+
+                        <label for="mobile">Mobile no.</label>
+                        <input type="number" id="mobile" placeholder="####-###-####" required>
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="ex. Jm2312@gmail.com" required>
+
+                        <h3>Upload Documents</h3>
+                        <label for="DeathCertificate">Death Certificate</label>
+                        <input type="file" accept="image/*,application/pdf" >
+
+                        <label for="affidavit">Affidavit of Delayed Registration</label>
+                        <input type="file" accept="image/*,application/pdf" >
+
+                        <label for="ValidID">Valid ID</label>
+                        <input type="file" accept="image/*,application/pdf" >
+                        <label for="CertOfBurialOrCrem">Certificate of Burial/Cremation</label>
+                        <input type="file" accept="image/*,application/pdf" >
+                        <label for="Negative-PSA">Negative Ceritification (PSA)</label>
+                        <input type="file" accept="image/*,application/pdf" >
+                        <label for="Autopsy">Autopsy Report (OPTIONAL)</label>
+                        <input type="file" accept="image/*,application/pdf" >
+
+                        <button type="submit" class="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <div id="sms-confirmation">
+            <div class="modal-content">
+              <h3>Request Submitted!</h3>
+              <p>You will receive a confirmation message via SMS and Email once the Registration has been completed.</p>
+              <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+            </div>
+        </div>
+
+        <script>
+            function showSMSConfirmation() {
+            // Show the confirmation modal
+            document.getElementById('sms-confirmation').style.display = 'block';
+          
+            // Reset the form fields
+            document.querySelector('form').reset();
+          
+            // Hide the "Other" correction input if visible
+            document.getElementById('otherCorrectionContainer').style.display = 'none';
+          }
+          </script>
+        
+    </body>
+</html>

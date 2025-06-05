@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marriage License Registration</title>
+    <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Golos Text', sans-serif;
+    background: url('Marriage-bg.jpg') center center no-repeat fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      color: #333;
+    }
+
+    label {
+      font-weight: 500;
+      margin-top: 15px;
+      display: block;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      margin-top: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus {
+      border-color: #28a745;
+      outline: none;
+    }
+
+    input:focus::placeholder {
+      color: transparent;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #2980b9;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    #confirmation-message {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      margin: 15% auto;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .modal-content button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #218838;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin: 20px 0 20px 10px; /* Push to left */
+      text-align: center;
+      padding: 10px 15px;
+      background-color: #f70707;
+      text-decoration: none;
+      color: #e9e3e3;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      background-color: #f10707;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-card">
+  <a class="back-button" href="marriage-service.html">Back</a>
+  <h2>Marriage License Registration</h2>
+  <form onsubmit="event.preventDefault(); showConfirmation();">
+
+    <label for="brideName">Full Name of Bride</label>
+    <input type="text" id="brideName" name="brideName" placeholder="Last Name, First Name, Middle Name" required>
+
+    <label for="brideDOB">Bride's Date of Birth</label>
+    <input type="date" id="brideDOB" name="brideDOB" required>
+
+    <label for="groomName">Full Name of Groom</label>
+    <input type="text" id="groomName" name="groomName" placeholder="Last Name, First Name, Middle Name" required>
+
+    <label for="groomDOB">Groom's Date of Birth</label>
+    <input type="date" id="groomDOB" name="groomDOB" required>
+
+    <label for="marriageDate">Intended Date of Marriage</label>
+    <input type="date" id="marriageDate" name="marriageDate" required>
+
+    <label for="place">Place of Marriage</label>
+    <input type="text" id="place" name="place" required>
+
+    <label for="contact">Contact Number</label>
+    <input type="tel" id="contact" name="contact" required>
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="brideID">Bride's Valid ID (PDF)</label>
+    <input type="file" id="brideID" name="brideID" accept=".pdf" required>
+
+    <label for="groomID">Groom's Valid ID (PDF)</label>
+    <input type="file" id="groomID" name="groomID" accept=".pdf" required>
+
+    <label for="birthCerts">Birth Certificates (PDF)</label>
+    <input type="file" id="birthCerts" name="birthCerts" accept=".pdf" required>
+
+    <label for="cenomar">CENOMAR (PDF)</label>
+    <input type="file" id="cenomar" name="cenomar" accept=".pdf" required>
+
+    <label for="parentalConsent">Parental Consent (if under 21, PDF)</label>
+    <input type="file" id="parentalConsent" name="parentalConsent" accept=".pdf">
+
+    <label for="marriageCounseling">Marriage Counseling Certificate (PDF)</label>
+    <input type="file" id="marriageCounseling" name="marriageCounseling" accept=".pdf" required>
+
+    <label style="margin-top: 20px;">
+      <input type="checkbox" required> I certify that the information provided is true and correct.
+    </label>
+
+    <button type="submit">Submit Application</button>
+  </form>
+</div>
+
+<div id="confirmation-message">
+  <div class="modal-content">
+    <h3>Application Submitted!</h3>
+    <p>Your marriage license application has been submitted. You will receive a confirmation via SMS and email shortly.</p>
+    <button onclick="document.getElementById('confirmation-message').style.display='none'">OK</button>
+  </div>
+</div>
+
+<script>
+  function showConfirmation() {
+    document.getElementById('confirmation-message').style.display = 'block';
+    document.querySelector('form').reset();
+  }
+</script>
+
+</body>
+</html>

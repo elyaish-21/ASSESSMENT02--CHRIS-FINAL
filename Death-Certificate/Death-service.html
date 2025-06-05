@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Death Services</title>
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Golos Text', sans-serif;
+      background: url('Death-bg.jpg') center center fixed;
+      background-size: cover;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-title img {
+      height: 60px;
+    }
+
+    .logo-text h2 {
+      margin: 0;
+      color: #2a4d9b;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .logo-text .city-name {
+      margin: 0;
+      color: #c0392b;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .header-buttons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .help-button {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: white;
+      text-decoration: none;
+      color: #000;
+      border-radius: 5px;
+      font-weight: bold;
+      border: 2px solid #ccc;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .help-button:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .sign-out-button {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #f70707;
+      text-decoration: none;
+      color: #e9e3e3;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .sign-out-button:hover {
+      background-color: #f10707;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      font-family: 'Golos Text', sans-serif;
+      text-align: center;
+      color: #2a4d9b;
+      margin: 30px 0 10px;
+      font-size: 32px;
+    }
+
+    h2 span {
+      color: #c0392b;
+    }
+
+    .services {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .service-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+      background-color: #fefefe;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .service-box img {
+      width: 70px;
+      height: 70px;
+      margin-right: 20px;
+    }
+
+    .service-info {
+      flex-grow: 1;
+    }
+
+    .service-info h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #2a4d9b;
+    }
+
+    .service-info p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .service-button {
+      background-color: #2a4d9b;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      width: 140px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .service-button:hover {
+      background-color: #1a3270;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .back-button {
+      display: inline-block;
+      margin: 20px 0 20px 420px;
+      text-align: center;
+      padding: 10px 15px;
+      background-color: #f70707;
+      text-decoration: none;
+      color: #e9e3e3;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      background-color: #f10707;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-title">
+    <img src="../logo-chris.png" alt="City Civil Registry Logo">
+    <div class="logo-text">
+      <h2>Civil Registry Information System</h2>
+      <p class="city-name"><b>City of Manila</b></p>
+    </div>
+  </div>
+  <div class="header-buttons">
+    <a href="help.html" class="help-button">HELP</a>
+    <a href="index.html" class="sign-out-button">SIGN OUT</a>
+  </div>
+</header>
+
+<h2><b>DEATH <span>SERVICES</span></b></h2>
+
+<div class="services">
+  <div class="service-box">
+    <img src="../schedule-logo.png" alt="Schedule Logo">
+    <div class="service-info">
+      <h3>Schedule of Appointment</h3>
+      <p>Book a visit to the civil registry office for death-related services at your preferred date and time for a smoother process.</p>
+    </div>
+    <a href="Death-Schedule.html" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="../registration-logo.png" alt="Registration Logo">
+    <div class="service-info">
+      <h3>Death Registration</h3>
+      <p>Officially register a person's death to obtain a legal death certificate as required by law.</p>
+    </div>
+    <a href="Death-Registration.html" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="../delayed-logo.png" alt="Delayed Registration Logo">
+    <div class="service-info">
+      <h3>Delayed Death Registration</h3>
+      <p>Register a death that was not reported within the required period by submitting supporting documents and affidavits.</p>
+    </div>
+    <a href="Delayed-Registration.html" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="../request-home-delivery-logo.png" alt="Home Delivery Logo">
+    <div class="service-info">
+      <h3>Request for Death Certificate – Certified True Copy (Home Delivery)</h3>
+      <p>Order a certified true copy of a death certificate and have it delivered to your residence for convenience.</p>
+    </div>
+    <a href="Death-Cert-Request.html" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="../correction-logo.png" alt="Correction Logo">
+    <div class="service-info">
+      <h3>Correction of Death Certificate</h3>
+      <p>Request corrections to any clerical or typographical errors found on an issued death certificate.</p>
+    </div>
+    <a href="Correction-Of-Death-Certificate.html" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="burial-logo.png" alt="Burial Permit Logo">
+    <div class="service-info">
+      <h3>Burial Permit Application</h3>
+      <p>Apply for an official permit required for interment or burial of a deceased individual.</p>
+    </div>
+    <a href="Burial-Permit.html" class="service-button">Click Here</a>
+  </div>
+
+  <div class="service-box">
+    <img src="cremation-logo.png" alt="Cremation Permit Logo">
+    <div class="service-info">
+      <h3>Cremation Permit Application</h3>
+      <p>Submit the necessary documents to obtain a permit for cremation of a deceased person.</p>
+    </div>
+    <a href="Cremation-Permit.html" class="service-button">Click Here</a>
+  </div>  
+</div>
+
+<a class="back-button" href="../Our-Services.html">Back</a>
+
+</body>
+</html>

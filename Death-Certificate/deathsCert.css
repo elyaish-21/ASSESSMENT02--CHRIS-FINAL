@@ -1,0 +1,158 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+section {
+    padding: 10px;
+}
+
+.deceased-name, .DateAndTime, .Place, .Disposition {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.Cremation-DateAndTime, .Parents, .SexAndBirth {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.death-registration, .container {
+    max-width: 700px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.death-registration h1, .container h1 {
+    text-align: center;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 25px;
+}
+
+.death-registration h2, h3{
+    text-align: center;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 25px;
+}
+
+.fees {
+    text-align: left;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="file"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+.form canvas {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.submit {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+.submit:hover {
+    background-color: #0056b3;
+}
+
+.success-message {
+    margin-top: 20px;
+    padding: 15px;
+    display: none;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    background-color: #d4edda;
+    color: #155724;
+    text-align: center;
+}
+
+.clear {
+    width: auto;
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-top: 5px;
+    background-color: #007bff;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.clear:hover {
+    background-color: #0056b3;
+}
+
+.requirements {
+    margin-bottom: 40px;
+    background-color: #f0f4f8;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.requirements ul {
+margin-left: 20px;
+}
+
+.requirements ul li {
+margin-bottom: 8px;
+}
+
+.message {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #dff0d8;
+    color: #3c763d;
+    text-align: center;
+    border-radius: 8px;
+    display: none;
+    font-size: 1rem;
+}
