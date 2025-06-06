@@ -145,6 +145,12 @@
   text-align: center;
   transition: all 0.3s ease-in-out;
 }
+  .service-card img {
+  width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto 15px;
+}
 
 .service-card h3 {
   color: #c0392b;
@@ -238,8 +244,32 @@
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
+@media (max-width: 600px) {
+  .services-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
 
+  .service-card {
+    width: 90%;      /* take most of the mobile screen width */
+    max-width: 320px;
+    padding: 15px;
+  }
 
+  .service-card img {
+    width: 60%;      /* slightly smaller images on mobile */
+    max-width: 100px;
+  }
+
+  .main-content h1 {
+    font-size: 32px; /* smaller heading on mobile */
+  }
+
+  .main-content p {
+    font-size: 18px; /* smaller paragraph text */
+  }
+}
   </style>
 </head>
 <body>
