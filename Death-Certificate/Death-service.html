@@ -195,6 +195,44 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+      /* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.close-button {
+  color: #aaa;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #000;
+}
   </style>
 </head>
 <body>
@@ -208,7 +246,7 @@
     </div>
   </div>
   <div class="header-buttons">
-    <a href="help.html" class="help-button">HELP</a>
+<button class="help-button" onclick="openHelp()">HELP</button>
     <a href="index.html" class="sign-out-button">SIGN OUT</a>
   </div>
 </header>
@@ -281,6 +319,70 @@
 </div>
 
 <a class="back-button" href="../Our-Services.html">Back</a>
+<div id="helpModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" onclick="closeHelp()">&times;</span>
+    <h2>Need Help with Death Services?</h2>
+    <p>Welcome to the <strong>Civil Registry Information System of the City of Manila</strong>! This platform is dedicated to assisting residents and individuals with civil registration concerns related to deaths within Manila.</p>
 
+    <p>Here’s what you can do under <strong>Death Services</strong> in the City of Manila:</p>
+
+    <ul>
+      <li>
+        <strong>Schedule of Appointment:</strong>
+        <br />- Book a visit to the Civil Registry Office for death-related services at your preferred date and time for a smoother and more efficient process.
+      </li>
+      <li>
+        <strong>Death Registration:</strong>
+        <br />- Officially register a person’s death to obtain a legal death certificate as required by law.
+      </li>
+      <li>
+        <strong>Delayed Death Registration:</strong>
+        <br />- Register a death that was not reported within the required period by submitting supporting documents and affidavits.
+      </li>
+      <li>
+        <strong>Request for Death Certificate – Certified True Copy (Home Delivery):</strong>
+        <br />- Request a certified true copy of a death certificate and have it delivered to your residence for convenience.
+      </li>
+      <li>
+        <strong>Correction of Death Certificate:</strong>
+        <br />- Submit a request to correct any clerical or typographical errors found in an issued death certificate.
+      </li>
+      <li>
+        <strong>Burial Permit Application:</strong>
+        <br />- Apply for an official permit required for the burial or interment of a deceased individual.
+      </li>
+      <li>
+        <strong>Cremation Permit Application:</strong>
+        <br />- Submit the necessary documents to obtain a permit for the cremation of a deceased person.
+      </li>
+    </ul>
+
+    <p>These services are available only for deaths that occurred in the City of Manila. All applications are processed in accordance with local regulations and PSA guidelines.</p>
+
+    <p>You may initiate your requests online, and receive updates through SMS or email. For in-person follow-ups or submission of original documents, please proceed to the <strong>Manila Civil Registry Office</strong>.</p>
+
+    <p><strong>Need additional assistance?</strong> Email us at <a href="mailto:support@manilacivil.gov.ph">support@manilacivil.gov.ph</a> or visit the office during business hours.</p>
+
+    <p><em>We are committed to providing fast, accurate, and citizen-friendly services to everyone in Manila. Thank you for using our system.</em></p>
+  </div>
+</div>
+<script>
+  function openHelp() {
+    document.getElementById('helpModal').style.display = 'block';
+  }
+
+  function closeHelp() {
+    document.getElementById('helpModal').style.display = 'none';
+  }
+
+  // Optional: Close modal when clicking outside the box
+  window.onclick = function(event) {
+    const modal = document.getElementById('helpModal');
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
 </body>
 </html>
