@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  
+</head>
+
+<body>
+  
+  <!--Nav Bar-->
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h3>ADMIN <br />DASHBOARD <br /> <small>Civil Registry Information System</small></h3>
+      <ul>
+        <li class="active"><a href="#" onclick="showSection('overview')"><i class="fa fa-bar-chart" style="font-size:24px; transform: translateX(1.5rem);"></i>Overview</a></li>
+        <li><a href="#" onclick="showSection('birth')"><i class="fas fa-baby mr-3" style="font-size:24px; transform: translateX(1.5rem);" ></i> Birth Information</a></li>
+        <li><a href="#" onclick="showSection('marriage')"><i class="fas fa-solid fa-ring mr-3" style="font-size:24px; transform: translateX(1.5rem);" ></i> Marriage Information</a></li>
+        <li><a href="#" onclick="showSection('death')"><i class="fas fa-cross mr-3" style="font-size:24px; transform: translateX(1.5rem);" ></i> Death Information</a></li>
+      </ul>
+      <button class="logout-btn" onclick="location.href='login.html'"><i class="fas fa-sign-out-alt mr-3" style="font-size:24px; transform: translateX(-2rem);" ></i>Log-out</button>
+    </aside>
+
+
+    <main class="main-content">
+      <div id="overview" class="section">
+        <div class="header">
+          <h2>Overview</h2>
+        </div>
+
+        <div class="container">
+          <div class="BR">
+            <h3>Birth Records</h3>
+            <div class="count">150</div>
+            <div class="percentage">+20% this month</div>
+            <div class="icon-container">
+            <i class="fas fa-baby"></i>
+            </div>
+          </div>
+
+          <div class="MR">
+            <h3>Marriage Records</h3>
+            <div class="count">100</div>
+            <div class="percentage">+10% this month</div>
+            <div class="icon-container">
+            <i class="fas fa-solid fa-ring" ></i>
+            </div>
+          </div>
+
+          <div class="DR">
+            <h3>Death Records</h3>
+            <div class="count">7</div>
+            <div class="percentage">+12% this month</div>
+            <div class="icon-container">
+            <i class="fas fa-cross"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="graph-container">
+          <img src="Graph.png" alt="Graph showing monthly records submission" class="graph-image" />
+        </div> 
+        
+
+        <div class="container2">
+
+            <div class="activity-container">
+              <h3>Recent Activities</h3>
+                  <div class="activity">
+                        <div class="icon blue"><i class="fa-solid fa-plus"></i></div>
+                           <div class="info">
+                              <strong>New birth record added</strong>
+                                 <p>Lebron James - 10 minutes ago</p>
+                            </div>
+                  </div>
+
+                        <div class="activity">
+                          <div class="icon yellow"><i class="fa-solid fa-pen"></i></div>
+                            <div class="info">
+                              <strong>Marriage record updated</strong>
+                                <p>Nadine Calda & Jose Rizl - 45 minutes ago</p>
+                            </div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="icon red"><i class="fa-solid fa-trash"></i></div>
+                            <div class="info">
+                            <strong>Death record deleted</strong>
+                            <p>Admin User - 2 hours ago</p>
+                            </div>
+                        </div>
+          </div>
+
+                    <div class="pie-chart">
+                      <img src="pie.png" alt="Pie chart showing record types distribution" class="chart-image" />
+                    </div>
+      </div>
+  </div>
+
+      
+      <div id="birth" class="section" style="display: none;">
+        <div class="header">
+          <h2>Birth Informations</h2>
+
+            <div class="controls">
+              
+              <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
+              </div>
+
+             <!-- Add inside the birth section after the header -->
+            <div class="filter-header" onclick="toggleFilterPanel('birth-filter')"><i class="fas fa-filter mr-2"></i> Filter</div>
+
+                <div class="filter-panel" id="birth-filter">
+                  <div class="filter-group">
+                      <label for="requestType">Request Type:</label>
+                          <select id="requestType">
+                            <option value="">All</option>
+                            <option value="Schedule an Appointment_BR">Schedule an Appointment</option>
+                            <option value="Birth Certificate Registration">Birth Certificate Registration</option>
+                            <option value="Correction of Birth Certificate">Request for Correction of Birth Certificate</option>
+                            <option value="Home Delivery Birth">Request for Birth Certificate(Home Delivery)</option>
+                            <option value="Delayed Birth"> Delayed Registration of Birth (Beyond 30 days)</option>
+                          </select>
+                  </div>
+                  
+                  <div class="filter-group">
+                          <label for="startDate">From:</label>
+                          <input type="date" id="startDate">
+                  </div>
+                  <div class="filter-group">
+                          <label for="endDate">To:</label>
+                          <input type="date" id="endDate">
+                  </div>
+                          <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
+                          <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>     
+                  </div>
+             
+          </div>
+          
+        </div>
+        
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type of Request</th>
+              <th>Reg. No.</th>
+              <th>Date Registered</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-type="birth">
+              <td>Lebron James</td>
+              <td>Birth Certificate</td>
+              <td>REG-20250603-18345</td>
+              <td>12/30/1984</td>
+              <td>
+                <div class="actions">
+                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+                      <div class="action-menu">
+                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
+                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
+                      </div>
+                </div>
+              </td>
+            </tr>
+            <tr data-type="birth">
+              <td>Nadine Calda</td>
+              <td>Birth Certificate</td>
+              <td>REG-20250603-20498</td>
+              <td>08/05/2004</td>
+              <td>
+                <div class="actions">
+                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+                      <div class="action-menu">
+                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
+                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
+                      </div>
+                </div>
+              </td>
+            </tr>
+            <tr data-type="birth">
+              <td>Noel Torres</td>
+              <td>Birth Certificate</td>
+              <td>REG-20250603-14567</td>
+              <td>08/23/2004</td>
+              <td>
+               <div class="actions">
+                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+                      <div class="action-menu">
+                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
+                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
+                      </div>
+                </div>
+              </td>
+            </tr>
+            <tr data-type="birth">
+              <td>Jose Rizal</td>
+              <td>Birth Certificate</td>
+              <td>REG-20250603-30987</td>
+              <td>06/19/1861</td>
+              <td>
+               <div class="actions">
+                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+                      <div class="action-menu">
+                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
+                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
+                      </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="marriage" class="section" style="display: none;">
+        <div class="header">
+          <h2>Marriage Informations</h2>
+
+            <div class="controls">
+
+              <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
+              </div>
+
+              <!-- Add inside the birth section after the header -->
+            <div class="filter-header" onclick="toggleFilterPanel('marriage-filter')"><i class="fas fa-filter mr-2"></i> Filter</div>
+                <div class="filter-panel" id="marriage-filter">
+                  <div class="filter-group">
+                      <label for="requestType">Request Type:</label>
+                          <select id="requestType">
+                            <option value="">All</option>
+                            <option value="Schedule an Appointment_MR">Schedule an Appointment</option>
+                            <option value="Marriage Certificate Registration">Marriage Certificate Registration</option>
+                            <option value="Marriage License Registratio">Marriage License Registration</option>
+                            <option value="Home Delivery Marriage">Request for Marriage Certificate (Home Delivery)</option>
+                            <option value="Delayed Marriage">Delayed Registration of Certificate of Marriage</option>
+                            <option value="Correction of Marriage">Request for Correction of Marriage Certificate</option>
+                          </select>
+                  </div>
+                  
+                  <div class="filter-group">
+                          <label for="startDate">From:</label>
+                          <input type="date" id="startDate">
+                  </div>
+                  <div class="filter-group">
+                          <label for="endDate">To:</label>
+                          <input type="date" id="endDate">
+                  </div>
+                          <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
+                          <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>     
+                  </div>
+          </div>
+
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type of Request</th>
+              <th>Reg. No.</th>
+              <th>Date Registered</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-type="marriage">
+              <td>Maria Clara</td>
+              <td>Marriage Certificate</td>
+              <td>9876543210</td>
+              <td>02/14/2024</td>
+              
+              <td>
+                <div class="actions">
+                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+                      <div class="action-menu">
+                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
+                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
+                      </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="death" class="section" style="display: none;">
+        <div class="header">
+            <h2>Death Informations</h2>
+
+              <div class="controls">
+
+              <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
+              </div>
+
+             <!-- Add inside the birth section after the header -->
+            <div class="filter-header" onclick="toggleFilterPanel('death-filter')"><i class="fas fa-filter mr-2"></i> Filter</div>
+                <div class="filter-panel" id="death-filter">
+                  <div class="filter-group">
+                      <label for="requestType">Request Type:</label>
+                          <select id="requestType">
+                            <option value="">All</option>
+                            <option value="Schedule an Appointment_DR">Schedule an Appointment</option>
+                            <option value="Death Certificate Registration">Death Certificate Registration</option>
+                            <option value="Delayed Death">Delayed Death Registration</option>
+                            <option value="Home Delivery Death">Request for Death Certificate (Home Delivery)</option>
+                            <option value="Correction Death Certificate">Correction of Death Certificate</option>
+                            <option value="Burial Permit Application">Burial Permit Application</option>
+                            <option value="Cremation Permit Application">Cremation Permit Application</option>
+                          </select>
+                  </div>
+                  
+                  <div class="filter-group">
+                          <label for="startDate">From:</label>
+                          <input type="date" id="startDate">
+                  </div>
+                  <div class="filter-group">
+                          <label for="endDate">To:</label>
+                          <input type="date" id="endDate">
+                  </div>
+                          <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
+                          <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>     
+                  </div>
+          </div>
+
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type of Request</th>
+              <th>Reg. No.</th>
+              <th>Date Registered</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-type="death">
+              <td>Pedro Penduko</td>
+              <td>Death Certificate</td>
+              <td>1122334455</td>
+              <td>03/30/2024</td>
+              <td>
+                <div class="actions">
+                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+                      <div class="action-menu">
+                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
+                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
+                      </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+  // Filter functionality
+  function toggleFilterPanel(filterId) {
+  const filterpanel = document.getElementById(filterId);
+  filterpanel.classList.toggle("active");
+}
+
+function applyAdvancedFilter() {
+  const type = document.getElementById("requestType").value.trim();
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+
+  const rows = document.querySelectorAll("#birth table tbody tr");
+
+  rows.forEach(row => {
+    const rowType = row.cells[1].innerText.trim();
+    const rowDateText = row.cells[3].innerText.trim();
+    const rowDate = parseDate(rowDateText); // Date object
+
+    let matchesType = !type || rowType === type;
+    let matchesDate = true;
+
+    if (startDate && endDate && rowDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      matchesDate = rowDate >= start && rowDate <= end;
+    }
+
+    row.style.display = (matchesType && matchesDate) ? "" : "none";
+  });
+}
+
+function resetAdvancedFilter() {
+  document.getElementById("requestType").value = "";
+  document.getElementById("startDate").value = "";
+  document.getElementById("endDate").value = "";
+
+  document.querySelectorAll("#birth table tbody tr").forEach(row => {
+    row.style.display = "";
+  });
+}
+
+// Converts "MM/DD/YYYY" to Date object
+function parseDate(dateStr) {
+  const parts = dateStr.split("/");
+  if (parts.length !== 3) return null;
+  const [month, day, year] = parts;
+  return new Date(`${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);
+}
+
+
+//EDIT AND DELETE FUNCTIONALITY
+  function toggleMenu(ellipsis) {
+    const menu = ellipsis.nextElementSibling;
+
+    // Close all other menus
+    document.querySelectorAll('.action-menu').forEach(m => {
+      if (m !== menu) m.style.display = 'none';
+    });
+
+    // Toggle clicked menu
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.actions')) {
+      document.querySelectorAll('.action-menu').forEach(menu => {
+        menu.style.display = 'none';
+      });
+    }
+  });
+
+  function showSection(sectionId) {
+    const sections = document.querySelectorAll(".section");
+    sections.forEach(section => section.style.display = "none");
+    document.getElementById(sectionId).style.display = "block";
+
+    const menuItems = document.querySelectorAll(".sidebar li");
+    menuItems.forEach(item => item.classList.remove("active"));
+
+    const link = [...menuItems].find(item =>
+      item.querySelector("a").onclick?.toString().includes(sectionId)
+    );
+    if (link) link.classList.add("active");
+  }
+
+  function applyFilterOverview() {
+    const filterValue = document.getElementById("filterTypeOverview").value;
+    const searchText = document.getElementById("searchInputOverview").value.toLowerCase();
+    const rows = document.querySelectorAll("#overviewTableBody tr");
+
+    rows.forEach(row => {
+      const rowType = row.getAttribute("data-type");
+      const rowText = row.innerText.toLowerCase();
+
+      const matchesType = !filterValue || rowType === filterValue;
+      const matchesSearch = !searchText || rowText.includes(searchText);
+
+      row.style.display = matchesType && matchesSearch ? "" : "none";
+    });
+
+    showSection('overview');
+
+    const menuItems = document.querySelectorAll(".sidebar li");
+    menuItems.forEach(item => item.classList.remove("active"));
+    const overviewMenu = [...menuItems].find(item =>
+      item.querySelector("a").onclick?.toString().includes('overview')
+    );
+    if (overviewMenu) overviewMenu.classList.add("active");
+  }
+
+  function editRow(id) {
+    alert("Edit row ID: " + id);
+  }
+
+  function deleteRow(id) {
+    if (confirm("Are you sure you want to delete row ID: " + id + "?")) {
+      alert("Deleted row ID: " + id);
+    }
+  }
+
+  window.onload = function () {
+    showSection('overview');
+  };
+</script>
+
+</body>
+</html>
