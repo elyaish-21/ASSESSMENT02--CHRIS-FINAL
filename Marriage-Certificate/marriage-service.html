@@ -232,6 +232,18 @@
 .close-button:hover {
   color: #000;
 }
+    .ok-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.ok-button:hover {
+  background-color: #218838;
+}
   </style>
 </head>
 <body>
@@ -311,7 +323,6 @@
 <a class="back-button" href="../Our-Services.html">Back</a>
 <div id="helpModal" class="modal">
   <div class="modal-content">
-    <span class="close-button" onclick="closeHelp()">&times;</span>
     <h2>Need Help with Marriage Services?</h2>
     <p>Welcome to the <strong>Civil Registry Information System of the City of Manila</strong>! This platform is dedicated to assisting residents and individuals with marriage-related civil registration services within Manila.</p>
 
@@ -351,6 +362,7 @@
     <p><strong>Need additional assistance?</strong> Email us at <a href="mailto:support@manilacivil.gov.ph">support@manilacivil.gov.ph</a> or visit the office during business hours.</p>
 
     <p><em>We are committed to providing fast, accurate, and citizen-friendly services to everyone in Manila. Thank you for using our system.</em></p>
+       <button class="ok-button" onclick="closeHelp()">OK</button>
   </div>
 </div>
 <script>
