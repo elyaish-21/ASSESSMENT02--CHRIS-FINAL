@@ -31,6 +31,7 @@
       align-items: center;
       padding: 20px 60px;
       background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     .logo {
@@ -78,16 +79,16 @@
 
     .sign-in {
       display: inline-block;
-      padding: 10px 15px;
-      background-color: #f70707;
+      padding: 10px 20px;
+      background-color: #ED2224;
       text-decoration: none;
-      color: #e9e3e3;
+      color: #ffffff;
       border-radius: 5px;
       font-weight: bold;
       transition: all 0.2s ease-in-out;
     }
     .sign-in:hover {
-      background-color: #f10707;
+      background:linear-gradient(#ED2224, rgba(31, 30, 30, 0.758));
       transform: scale(1.05);
       color: #e9e3e3;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -138,11 +139,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 80px;
+  background-color: #F7F8F2;
   background-image: url('landing-page-bg.png');
   background-size: cover;
   background-position: right bottom;
   background-repeat: no-repeat;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 1px);
   margin-top: 80px;
   overflow: hidden;
 }
@@ -163,6 +165,13 @@
   height: auto;
   border-radius: 10px;
   margin-right: -80px;
+  top: 100px;
+}
+
+.learnmore {
+  padding: 60px 20px;
+  background: linear-gradient(#B8C4D7,#F7F8F2);
+  text-align: center;
 }
 
 
@@ -196,12 +205,12 @@
 }
 
 .btn:hover {
-  background-color: #c1121c;
+  background: linear-gradient(#254C9A, black);
 }
     
     .btn {
       display: inline-block;
-      background-color: #2d5be3;
+      background-color: #254C9A;
       color: white;
       padding: 10px 18px;
       border-radius: 6px;
@@ -263,7 +272,172 @@
   background-position: center;
 }
 
+.Video {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 20px;
+  
+}
 
+
+
+.footer{
+      position: relative;
+      transform: translatey(3.7rem);
+      bottom: 2px;
+      left: 0;
+      height: 180px;
+      margin-left: 0%;
+    
+      width: 79rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px 0px;
+      background-color: #F3DEC3;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.right-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: right;
+  position:absolute;
+  transform: translateX(-2.7rem);
+}
+
+.left-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: right;
+  position:absolute;
+  transform: translateX(73.4rem);
+}
+
+.address {
+  text-align: left;
+  margin-left: -8rem;
+}
+
+.social {
+  text-align: center;
+}
+
+.office-hours {
+  text-align: right;
+  margin-right: 3rem;
+}
+.telephone {
+  text-align: right;
+   margin-right: 3rem;
+  top: 0;
+}
+.sm-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+
+  /* General reset for spacing */
+  * {
+    max-width: 100%;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+    gap: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    height: auto;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .hero-image img {
+    width: 100%;
+    margin: 20px 0 0 0;
+    border-radius: 10px;
+  }
+
+  .about-flex {
+    flex-direction: column;
+    padding: 0 10px;
+  }
+
+    .about-left p,
+  .about-right p {
+    text-align: justify;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 0 5px;
+  }
+
+  .about-right {
+    padding: 15px;
+  }
+
+  .about-right h3 {
+    text-align: center;
+  }
+
+
+  .Video iframe {
+    width: 100%;
+    height: auto;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+    height: auto;
+  }
+
+  .footer > div {
+    margin-bottom: 20px;
+  }
+
+  .left-side,
+  .right-side {
+    display: none;
+  }
+
+  .address,
+  .social,
+  .office-hours,
+  .telephone {
+    text-align: center;
+    margin: 0;
+  }
+}
   </style>
 </head>
 <body>
@@ -289,8 +463,8 @@
       <span class="bold">Civil Registry</span><br />
       <span class="red bold">Information System</span>
     </h1>
-    <p>
-      Civil Registration made easy for you, ensuring a seamless and <br />
+    <p style="font-weight:500;">
+      Civil Registration made easy for you, ensuring a seamless and
       hassle-free process for all your essential documentation needs.
     </p>
     <a href="#how-it-works" class="btn">Learn More</a>
@@ -301,13 +475,14 @@
   </div>
 </section>
 
-  <section id="how-it-works" style="padding: 60px 20px; background-color: #f8f7f2; text-align: center;">
+
+  <section id="how-it-works" style="padding: 60px 20px;background: linear-gradient(#B8C4D7,#F7F8F2); text-align: center;">
     <h2 style="font-size: 36px; color: #e3342f; font-weight: 800; margin-bottom: 5px;">HOW IT WORKS?</h2>
     <p style="font-size: 20px; color: #2c2c2c; margin-bottom: 40px;">Civil Registry Information System</p>
 
     <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px;">
       <div style="display: flex; gap: 20px; align-items: center;">
-        <div style="width: 100px; text-align: center; background-color: #2d5be3; color: #fff; padding: 20px; border-radius: 10px; font-weight: bold;">
+        <div style="width: 100px; text-align: center; background-color: #254C9A; color: #fff; padding: 20px; border-radius: 10px; font-weight: bold;">
           STEP 1
         </div>
         <div style="flex: 1; border: 2px solid #e3342f; padding: 20px; border-radius: 20px; text-align: left;">
@@ -317,7 +492,7 @@
       </div>
 
       <div style="display: flex; gap: 20px; align-items: center;">
-        <div style="width: 100px; text-align: center; background-color: #2d5be3; color: #fff; padding: 20px; border-radius: 10px; font-weight: bold;">
+        <div style="width: 100px; text-align: center; background-color: #254C9A; color: #fff; padding: 20px; border-radius: 10px; font-weight: bold;">
           STEP 2
         </div>
         <div style="flex: 1; border: 2px solid #e3342f; padding: 20px; border-radius: 20px; text-align: left;">
@@ -327,7 +502,7 @@
       </div>
 
       <div style="display: flex; gap: 20px; align-items: center;">
-        <div style="width: 100px; text-align: center; background-color: #2d5be3; color: #fff; padding: 20px; border-radius: 10px; font-weight: bold;">
+        <div style="width: 100px; text-align: center; background-color: #254C9A; color: #fff; padding: 20px; border-radius: 10px; font-weight: bold;">
           STEP 3
         </div>
         <div style="flex: 1; border: 2px solid #e3342f; padding: 20px; border-radius: 20px; text-align: left;">
@@ -337,8 +512,9 @@
       </div>
     </div>
   </section>
+  
 
-  <section id="our-services" style="padding: 60px 40px; background-color: #f9f8f3;">
+  <section id="our-services" style="padding: 60px 40px; background:linear-gradient(#f8f7f2, #F4B8B5);">
     <h2 style="font-size: 36px; color: #e3342f; font-weight: 800; text-align: center; margin-bottom: 5px;">OUR SERVICES</h2>
     <p style="font-size: 20px; color: #2c2c2c; text-align: center; margin-bottom: 40px;">Civil Registry Information System</p>
 
@@ -372,7 +548,7 @@
 </div>
 
   <!-- ABOUT US Section -->
-<section id="about-us" style="padding: 80px 20px; background-color: #f8f7f2;">
+<section id="about-us" style="padding: 80px 20px;">
   <h2 style="font-size: 36px; color: #ec1c24; font-weight: 800; text-align: center; margin-bottom: 50px; font-family: 'Golos Text', sans-serif;">
     WHAT DO WE DO?
   </h2>
@@ -380,7 +556,7 @@
   <div class="about-flex">
     <div class="about-left">
       <p style="font-size: 16px; color: #2c2c2c; line-height: 1.8; font-family: 'Golos Text', sans-serif;">
-        <strong style="font-weight: 700;">The Civil Registry Information System<br>(CRIS)</strong> is a digital platform dedicated to modernizing how civil records are managed. We focus on supporting local government units by providing an efficient and reliable system for handling vital records such as birth, marriage, and death registrations.
+        <strong style="font-weight: 700;">The Civil Registry Information System<br>(CRIS)</strong> is a digital platform dedicated to modernizing how civil records are managed. We focus on supporting local government units by providing an efficient and reliable system for handling vital records such as birth, marriage, and death registrations. It streamlines processes, reduces manual errors, and enhances data accessibility. With CRIS, citizens can experience faster services and improved transparency in civil registry transactions.
       </p>
     </div>
 
@@ -391,48 +567,76 @@
       </p>
     </div>
   </div>
+  <div class="Video">
+    <iframe width="560" height="315" 
+    src="https://www.youtube.com/embed/4AsZ0S2TeyE?si=LjYRGDYXVSYDevul" 
+    title="YouTube video player" 
+    frameborder="5" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  </iframe>
+  </div>
 </section>
 
 <!-- CONTACT US Section -->
-<section id="contact-us" style="padding: 60px 2%; background-color: #f8f7f2; font-family: 'Golos Text', sans-serif;">
-  <h2 style="font-size: 36px; color: #e3342f; font-weight: 800; text-align: center; margin-bottom: 30px;">CONTACT US</h2>
+<div class="footer">
 
-  <div style="display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; font-size: 14px; color: #000;">
+    <section id="contact-us" style="font-family: 'Golos Text', sans-serif;"></section>
+                  <div class="right-side">
+                    <img src="Footer-right.png" alt="Footer Right Image" style="height: 180px; width: 50px;">
+                  </div>
 
-    <div style="flex: 1; min-width: 200px; text-align: left; margin: 10px;">
-      <h3 style="font-size: 16px; color: #e3342f; font-weight: 700; margin-bottom: 10px;">Address:</h3>
-      <p>
-        Room 117, Ground Floor<br>
-        <em>Manila City Hall</em><br>
-        Mayor Antonio J. Villegas<br>
-        Road Ermita, Manila, Philippines
-      </p>
-    </div>
 
-    <div style="flex: 1; min-width: 200px; text-align: center; margin: 10px;">
-      <h3 style="font-size: 16px; color: #e3342f; font-weight: 700; margin-bottom: 10px;">Social Media:</h3>
-      <p><strong>Facebook:</strong> City Civil Registry Office–Manila</p>
-      <p><strong>Instagram:</strong> @manilacro</p>
-      <p><strong>Twitter/X:</strong> @ManilaCRO</p>
-    </div>
+                      <div class="address">
+                        <h3>Address:</h3>
+                        <p>Room 117, Ground Floor<br>
+                        <em>Manila City Hall</em><br>
+                        Mayor Antonio J. Villegas Road<br>
+                        Ermita, Manila, Philippines
+                        </p>
+                      </div>
+              
 
-    <div style="flex: 1; min-width: 200px; text-align: right; margin: 10px;">
-      <h3 style="font-size: 16px; color: #e3342f; font-weight: 700; margin-bottom: 10px;">Office Hours:</h3>
-      <p>Monday to Friday<br>8:00 AM – 9:00 AM</p>
-    </div>
-  </div>
+                      <div class="social">
+                        <h3>Social Media:</h3>
+                        <p><strong>Facebook:</strong> City Civil Registry Office–Manila<br>
+                        <strong>Instagram:</strong> @manilacro<br>
+                        <strong>Twitter/X:</strong> @ManilaCRO</p>
 
-  <div style="text-align: center; margin-top: 20px;">
-    <h3 style="font-size: 16px; color: #e3342f; font-weight: 700; margin-bottom: 10px;">Telephone Numbers:</h3>
-    <p>0934 434 8789<br>(02) 8765 – 4321</p>
-  </div>
+                        <div class="sm-icons">
+                        <a href="https://www.facebook.com/ManilaCRO" target="_blank">
+                        <img src="fb-logo.png"  alt="fb logo" style="height: 30px; margin: 0 8px;" />
+                        </a>
 
-<div style="text-align: center; margin-top: 40px;">
-  <img src="fb-logo.png" alt="fb logo" style="height: 30px; margin: 0 8px;" />
-  <img src="ig-logo.png" alt="ig Logo" style="height: 30px; margin: 0 8px;" />
-  <img src="x-logo.png" alt="x logo" style="height: 30px; margin: 0 8px;" />
-</div>
+                        <a href=https://www.instagram.com/manilacro/ target="_blank">
+                        <img src="ig-logo.png" alt="ig Logo" style="height: 30px; margin: 0 8px;" />
+                        </a>
 
+                        <a href="https://x.com/ManilaCRO" target="_blank">
+                        <img src="x-logo.png" alt="x logo" style="height: 30px; margin: 0 8px;"/>
+                        </a>
+
+                        </div>
+                      </div>
+
+                      
+                      <div class="right-footer">
+                        <div class="office-hours">
+                          <h3>Office Hours:</h3>
+                          <p>Monday to Friday<br>8:00 AM – 9:00 AM</p>
+                        </div>
+                        <br>
+
+                        <div class="telephone">
+                          <h3>Telephone Numbers:</h3>
+                          <p>0934 434 8789<br>(02) 8765 – 4321</p>
+                        </div>
+                      </div>
+
+                      <div class="left-side">
+                        <img src="Footer-left.png" alt="Footer Left Image" style="height: 180px; width: 50px;">
+                    </div>
+      </section>
 
 </div>
 
