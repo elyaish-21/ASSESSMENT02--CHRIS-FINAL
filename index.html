@@ -19,41 +19,52 @@
       color: #000;
     }
 
-   header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  background-color: white;
-  border-bottom: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  flex-wrap: wrap;
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo img {
+      width: 70px;
+      height: 70px;
+    }
+
+    .logo-text h2 {
+  font-family: 'Krub', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #002d72;
+  margin-bottom: 2px;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
 
-.logo img {
-  height: 100px; /* Enlarged logo */
-  width: auto;
-}
+    .logo-text span {
+      font-size: 12px;
+      color: #e3342f;
+    }
 
-.logo-text h2 {
-  font-size: 1.5rem;
-  color: #133462;
-  margin: 0;
-}
-
-.logo-text span {
-  font-size: 1rem;
-  color: #8a1c10;
-  font-weight: bold;
-}
-
-.time-display {
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .time-display {
   margin-top: 5px;
   font-size: 0.95rem;
   color: #000; 
@@ -64,14 +75,8 @@
 }
 
 #time-display {
-  color: #000;
+  color: #000; 
 }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
 
     nav a {
   text-decoration: none;
@@ -83,6 +88,7 @@
    nav a:hover {
   color: #2d5be3;
     }
+
 
     .sign-in {
       display: inline-block;
@@ -454,6 +460,7 @@
     <div class="logo-text">
       <h2>Civil Registry Information System</h2>
       <span>City of Manila</span>
+
       <div class="time-display">
         <br>
         <strong>Philippine Standard Time:</strong><br />
@@ -468,6 +475,7 @@
     <a href="login-page.html" class="sign-in">SIGN IN</a>
   </nav>
 </header>
+
   <section class="hero">
   <div class="hero-content">
     <h1 class="title">
@@ -662,27 +670,6 @@
   }
 </script>
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-<script>
-  function updateTime() {
-    const options = {
-      timeZone: 'Asia/Manila',
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: '2-digit',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: true
-    };
-    const formatter = new Intl.DateTimeFormat('en-PH', options);
-    const now = new Date();
-    document.getElementById('time-display').textContent = formatter.format(now);
-  }
-
-  updateTime();
-  setInterval(updateTime, 1000);
-</script>
 
 <!-- Chatbot Features -->
 <style>
@@ -814,7 +801,7 @@
 <!-- Chatbox -->
 <div class="chatbox" id="chatbox">
   <div class="chatbox-header" id="chatbox-header">
-    <img src="chatbot_logo.png" alt="Chat Icon" />
+    <img src="images/chatbot_logo.png" alt="Chat Icon" />
     CRIS: Your Civil Registry Assistant
   </div>
   <div class="chatbox-body" id="chatbox-body">
@@ -832,7 +819,7 @@
 </div>
 
 <!-- Floating Button -->
-<button class="images/chatbot-btn" onclick="toggleChat()">
+<button class="chatbot-btn" onclick="toggleChat()">
   <img src="images/chatbot_icon.png" alt="Chat">
 </button>
 
@@ -955,6 +942,26 @@ function sendMessage() {
     document.body.style.userSelect = '';
   });
 </script>
+<script>
+  function updateTime() {
+    const options = {
+      timeZone: 'Asia/Manila',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true
+    };
+    const formatter = new Intl.DateTimeFormat('en-PH', options);
+    const now = new Date();
+    document.getElementById('time-display').textContent = formatter.format(now);
+  }
 
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>
 </body>
 </html>
