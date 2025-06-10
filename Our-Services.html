@@ -58,12 +58,14 @@
     .logo-title span {
       color: #c0392b;
     }
-   .time-display {
-  margin-top: 4px;
+  .time-display,
+.time-display span,
+#time-display {
   color: black !important;
   font-size: inherit;
   font-weight: normal;
 }
+
 
     .header-buttons {
       display: flex;
@@ -284,10 +286,11 @@
     <div class="logo-text">
       <h2>Civil Registry Information System</h2>
       <p class="city-name"><b>City of Manila</b></p>
-      <div class="time-display">
-        <br>
-        Philippine Standard Time: <span id="time-display">Loading...</span>
-      </div>
+     <div class="time-display">
+  <br>
+  <strong>Philippine Standard Time:</strong><br />
+  <span id="time-display">Loading...</span>
+</div>
     </div>
   </div>
   <div class="header-buttons">
@@ -663,19 +666,32 @@ function sendMessage() {
 </script>
 <script>
   function updateTime() {
-    const options = {
+    const dateOptions = {
+      timeZone: 'Asia/Manila',
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+      weekday: 'long'
+    };
+
+    const timeOptions = {
       timeZone: 'Asia/Manila',
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric',
       hour12: true
     };
-    const formatter = new Intl.DateTimeFormat('en-PH', options);
-    document.getElementById('time-display').textContent = formatter.format(new Date());
+
+    const now = new Date();
+    const formattedDate = new Intl.DateTimeFormat('en-PH', dateOptions).format(now);
+    const formattedTime = new Intl.DateTimeFormat('en-PH', timeOptions).format(now);
+
+    document.getElementById('time-display').textContent = `${formattedDate} at ${formattedTime}`;
   }
 
   updateTime();
   setInterval(updateTime, 1000);
 </script>
+
 </body>
 </html>
