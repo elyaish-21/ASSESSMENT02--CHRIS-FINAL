@@ -270,7 +270,7 @@
      <div class="time-display">
   <br>
   <strong>Philippine Standard Time:</strong><br />
-  <span id="time-display">Loading...</span>
+  <p id="localizedDateTime"></p>
 </div>
     </div>
   </div>
@@ -379,15 +379,82 @@
 </div>
 
 <div class="gtranslate_wrapper"></div>
-<script>
-  window.gtranslateSettings = {
-    "default_language":"en",
-    "wrapper_selector":".gtranslate_wrapper",
-    "switcher_horizontal_position":"right",
-    "switcher_vertical_position":"bottom",
-    "flag_style":"3d"
+<script>window.gtranslateSettings = {
+  "default_language":"...",
+  "languages":["en","tl","zh-CN","ta","fr","de","pt","es","ko","ru","sv","id","it"],
+  "wrapper_selector":".gtranslate_wrapper",
+  "switcher_horizontal_position":"right",
+  "flag_style":"3d"
   }
 </script>
+
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+
+<script>
+function normalizeLocale(lang) {
+  // Use tl-PH for Filipino if detected
+  if (lang === 'fil') return 'tl-PH';
+  return lang;
+}
+
+
+function updateDateTime(locale = 'en') {
+  const now = new Date();
+  document.getElementById('localizedDateTime').textContent = now.toLocaleString(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false // or true for 12-hour format
+  });
+}
+
+// Watch for GTranslate language change
+document.addEventListener("DOMContentLoaded", () => {
+  const observer = new MutationObserver(() => {
+    const lang = document.documentElement.lang || 'en';
+    updateDateTime(lang);
+  });
+
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+  updateDateTime(); // Initial display
+
+  // Optional: update time every second
+  setInterval(() => {
+    const lang = document.documentElement.lang || 'en';
+    updateDateTime(lang);
+  }, 1000);
+});
+</script>
+
+
+<!-- Display date somewhere -->
+
+
+<script>
+function updateDate(locale = 'en') {
+  const date = new Date();
+  document.getElementById('localizedDate').textContent = date.toLocaleDateString(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// Listen for GTranslate language change
+document.addEventListener("DOMContentLoaded", () => {
+  const observer = new MutationObserver(() => {
+    const lang = document.documentElement.lang || 'en';
+    updateDate(lang);
+  });
+
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+  updateDate(); // Initial load
+});
+</script>
+
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 <script>
   function openHelp() {
