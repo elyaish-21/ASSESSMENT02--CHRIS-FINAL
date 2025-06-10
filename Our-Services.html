@@ -58,18 +58,11 @@
     .logo-title span {
       color: #c0392b;
     }
-     .time-display {
-  margin-top: 5px;
-  font-size: 0.95rem;
-  color: #000; 
-}
-
-.time-display strong {
-  color: #000; 
-}
-
-#time-display {
-  color: #000; 
+   .time-display {
+  margin-top: 4px;
+  color: black;
+  font-size: inherit; /* Matches surrounding text */
+  font-weight: normal;
 }
 
     .header-buttons {
@@ -285,19 +278,23 @@
 </head>
 <body>
 
- <header>
+<header>
   <div class="logo-title">
     <img src="images/logo-chris.png" alt="City Civil Registry Logo">
     <div class="logo-text">
       <h2>Civil Registry Information System</h2>
       <p class="city-name"><b>City of Manila</b></p>
+      <div class="time-display">
+        Philippine Standard Time: <span id="time-display">Loading...</span>
+      </div>
     </div>
   </div>
   <div class="header-buttons">
-<button class="help-button" onclick="openHelp()">HELP</button>
+    <button class="help-button" onclick="openHelp()">HELP</button>
     <a href="index.html" class="sign-out-button">SIGN OUT</a>
   </div>
 </header>
+
 
   <div class="main-content">
     <h1>OUR <span>SERVICES</span></h1>
@@ -667,18 +664,13 @@ function sendMessage() {
   function updateTime() {
     const options = {
       timeZone: 'Asia/Manila',
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: '2-digit',
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric',
       hour12: true
     };
     const formatter = new Intl.DateTimeFormat('en-PH', options);
-    const now = new Date();
-    document.getElementById('time-display').textContent = formatter.format(now);
+    document.getElementById('time-display').textContent = formatter.format(new Date());
   }
 
   updateTime();
