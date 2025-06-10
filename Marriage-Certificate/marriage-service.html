@@ -40,7 +40,7 @@
     }
 
     .logo-title img {
-      height: 60px;
+      height: 80px;
     }
 
     .logo-text h2 {
@@ -56,6 +56,13 @@
       font-size: 20px;
       font-weight: bold;
     }
+     .time-display,
+.time-display span,
+#time-display {
+  color: black !important;
+  font-size: inherit;
+  font-weight: normal;
+}
 
     .header-buttons {
       display: flex;
@@ -250,14 +257,19 @@
 
 <header>
   <div class="logo-title">
-    <img src="../logo-chris.png" alt="City Civil Registry Logo">
+    <img src="images/logo-chris.png" alt="City Civil Registry Logo">
     <div class="logo-text">
       <h2>Civil Registry Information System</h2>
       <p class="city-name"><b>City of Manila</b></p>
+     <div class="time-display">
+  <br>
+  <strong>Philippine Standard Time:</strong><br />
+  <span id="time-display">Loading...</span>
+</div>
     </div>
   </div>
   <div class="header-buttons">
-<button class="help-button" onclick="openHelp()">HELP</button>
+    <button class="help-button" onclick="openHelp()">HELP</button>
     <a href="index.html" class="sign-out-button">SIGN OUT</a>
   </div>
 </header>
@@ -395,6 +407,33 @@
     }
   }
 </script>
+<script>
+  function updateTime() {
+    const dateOptions = {
+      timeZone: 'Asia/Manila',
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+      weekday: 'long'
+    };
 
+    const timeOptions = {
+      timeZone: 'Asia/Manila',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true
+    };
+
+    const now = new Date();
+    const formattedDate = new Intl.DateTimeFormat('en-PH', dateOptions).format(now);
+    const formattedTime = new Intl.DateTimeFormat('en-PH', timeOptions).format(now);
+
+    document.getElementById('time-display').textContent = `${formattedDate} at ${formattedTime}`;
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>
 </body>
 </html>
