@@ -58,6 +58,19 @@
     .logo-title span {
       color: #c0392b;
     }
+     .time-display {
+  margin-top: 5px;
+  font-size: 0.95rem;
+  color: #000; 
+}
+
+.time-display strong {
+  color: #000; 
+}
+
+#time-display {
+  color: #000; 
+}
 
     .header-buttons {
       display: flex;
@@ -279,6 +292,11 @@
     <h2>Civil Registry Information System</h2>
     <p class="city-name"><b>City of Manila</b></p>
   </div>
+      <div class="time-display">
+        <br>
+        <strong>Philippine Standard Time:</strong><br />
+        <span id="time-display">Loading...</span>
+      </div>
 </div>
 
 <div class="header-buttons">
@@ -380,6 +398,299 @@
     }
   }
 </script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
+<!-- Chatbot Features -->
+<style>
+  body {
+    font-family: 'Golos Text', sans-serif;
+    background-color: #f4f5f3;
+  }
+
+.chatbot-btn {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  background-color: transparent; 
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  box-shadow: none;
+  cursor: pointer;
+  z-index: 999;
+  animation: float 3s ease-in-out infinite;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatbot-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .chatbox {
+    position: fixed;
+    bottom: 170px;
+    right: 30px;
+    width: 320px;
+    display: none;
+    flex-direction: column;
+    background: linear-gradient(to top, #d1dff5, #fbe9e9);
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    z-index: 998;
+    cursor: move;
+  }
+
+  .chatbox-header {
+    background-color: #ffffff;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid #f2c4c4;
+    gap: 10px;
+    font-size: 15px;
+    cursor: move;
+  }
+
+  .chatbox-header img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+
+  .chatbox-body {
+    height: 220px;
+    padding: 12px;
+    overflow-y: auto;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .message.bot {
+    background-color: white;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .message.user {
+    text-align: right;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #dcf2ff;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  .chatbox-footer {
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding: 8px;
+    background: #fff;
+  }
+
+  .chatbox-footer input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background: #f5f5f5;
+    outline: none;
+    font-family: 'Golos Text', sans-serif;
+  }
+
+  .chatbox-footer button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 8px;
+  }
+
+  .chatbox-footer button img {
+    width: 22px;
+    height: 22px;
+  }
+</style>
+
+<!-- Chatbox -->
+<div class="chatbox" id="chatbox">
+  <div class="chatbox-header" id="chatbox-header">
+    <img src="images/chatbot_logo.png" alt="Chat Icon" />
+    CRIS: Your Civil Registry Assistant
+  </div>
+  <div class="chatbox-body" id="chatbox-body">
+    <div class="message bot">
+      Hi! I’m CRIS, your Civil Information System assistant. <strong>How can I help you today?</strong>  
+      <em>Please note: Not all questions may be answered by this chatbot immediately, but a virtual assistant will respond shortly to assist you further.</em>
+    </div>
+  </div>
+  <div class="chatbox-footer">
+    <input type="text" id="chatInput" placeholder="Ask something..." onkeydown="handleEnter(event)" />
+    <button onclick="sendMessage()">
+      <img src="images/send_icon.png" alt="Send">
+    </button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<button class="chatbot-btn" onclick="toggleChat()">
+  <img src="images/chatbot_icon.png" alt="Chat">
+</button>
+
+<script>
+  const chatbox = document.getElementById('chatbox');
+  const chatBody = document.getElementById('chatbox-body');
+  const chatInput = document.getElementById('chatInput');
+  const chatboxHeader = document.getElementById('chatbox-header');
+
+const keywordMap = [
+  {
+    keywords: ["hello", "hi", "hey", "good day", "greetings"],
+    response: "Hi there! How can I assist you?"
+  },
+  {
+    keywords: ["claim document", "authorized representative", "authorization letter", "claim certificate", "pick up", "Can someone else claim the document for me?"],
+    response: "Yes. A representative must present a valid ID, authorization letter, and a copy of your ID."
+  },
+  {
+    keywords: ["How long do I have to register a birth, marriage, or death?", "registration period", "how long to register", "birth registration deadline", "marriage registration time", "death registration"],
+    response: "Birth: Within 30 days from date of birth\nMarriage: Within 15 days from the date of solemnization\nDeath: Within 30 days from the date of death\n\nLate registration is required if these periods are exceeded."
+  },
+  {
+    keywords: ["How do I file for late registration of birth, marriage, or death?", "late registration", "file late", "delayed registration", "register late", "late birth", "late marriage", "late death"],
+    response: "Fill up and submit supporting documents (e.g., affidavit, barangay certificate, school records) to the Delayed Registration form."
+  },
+  {
+    keywords: ["Can I process civil registry documents from abroad?", "register abroad", "overseas registration", "from another country", "philippine embassy", "while abroad"],
+    response: "Yes. If you are abroad, you can contact the Philippine embassy or consulate to register a birth, marriage, or death. These will be forwarded to the DFA and PSA."
+  },
+  {
+    keywords: ["Who can file for death registration and what are the requirements?", "death registration", "who files death", "death certificate", "requirements for death", "burial permit"],
+    response: "The hospital, health worker, or family member must file the Certificate of Death.\n\nRequirements include: Medical certificate of death, ID of informant, and burial permit.\nNote: Local requirements may vary by municipality."
+  },
+  {
+    keywords: ["How can I check if my birth, marriage, or death record is already registered?", "check status", "verify record", "is my birth registered", "marriage record status", "document update"],
+    response: "You can receive status updates via SMS or email when you request documents online through CRIS."
+  },
+  {
+    keywords: ["How do I change or correct a clerical error in my civil registry document?", "correct error", "change name", "update certificate", "fix birth certificate", "wrong info"],
+    response: "On the Civil Registry Information System – City of Manila, you can fill out the Request for Correction service that allows you to update or correct any errors found on an issued birth certificate."
+  },
+  {
+    keywords: ["What documents are needed to register a birth if the parents are not married?", "illegitimate child", "unmarried parents", "AUSF", "acknowledgement of paternity"],
+    response: "Requirements:\n- Certificate of Live Birth (COLB)\n- Valid ID of the mother\n- Affidavit to Use the Surname of the Father (AUSF)\n- Affidavit of Acknowledgement/Admission of Paternity"
+  },
+  {
+    keywords: ["Can I request civil registry services even if I’m not from Manila?", "not from manila", "other city", "request from province", "outside manila"],
+    response: "Yes. You may request services from the City of Manila Civil Registry Office even if you're not a resident, as long as the record was originally registered there."
+  },
+  {
+    keywords: ["How do I register a marriage?", "marriage registration", "register wedding", "certificate of marriage", "marriage form"],
+    response: "There is a Marriage Registration Form in the system. Fill it out to officially register your marriage and receive a government-recognized Certificate of Marriage."
+  }
+];
+
+
+  function toggleChat() {
+    chatbox.style.display = chatbox.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+function sendMessage() {
+  const message = chatInput.value.trim();
+  if (!message) return;
+
+  const userMsg = document.createElement('div');
+  userMsg.className = 'message user';
+  userMsg.textContent = message;
+  chatBody.appendChild(userMsg);
+
+  let reply = "Please wait for a reply. Our assistant will get back to you shortly.";
+
+  for (const item of keywordMap) {
+    if (item.keywords.some(keyword =>
+      message.toLowerCase().includes(keyword.toLowerCase()) ||
+      keyword.toLowerCase().includes(message.toLowerCase())
+    )) {
+      reply = item.response;
+      break;
+    }
+  }
+
+  const botMsg = document.createElement('div');
+  botMsg.className = 'message bot';
+  botMsg.textContent = reply;
+  chatBody.appendChild(botMsg);
+
+  chatBody.scrollTop = chatBody.scrollHeight;
+  chatInput.value = '';
+}
+
+  function handleEnter(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      sendMessage();
+    }
+  }
+
+  let isDragging = false, offsetX = 0, offsetY = 0;
+
+  chatboxHeader.addEventListener('mousedown', function (e) {
+    isDragging = true;
+    const rect = chatbox.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    document.body.style.userSelect = 'none';
+  });
+
+  document.addEventListener('mousemove', function (e) {
+    if (isDragging) {
+      chatbox.style.left = (e.clientX - offsetX) + 'px';
+      chatbox.style.top = (e.clientY - offsetY) + 'px';
+      chatbox.style.bottom = 'auto';
+      chatbox.style.right = 'auto';
+    }
+  });
+
+  document.addEventListener('mouseup', function () {
+    isDragging = false;
+    document.body.style.userSelect = '';
+  });
+</script>
+<script>
+  function updateTime() {
+    const options = {
+      timeZone: 'Asia/Manila',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true
+    };
+    const formatter = new Intl.DateTimeFormat('en-PH', options);
+    const now = new Date();
+    document.getElementById('time-display').textContent = formatter.format(now);
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>
 </body>
 </html>
