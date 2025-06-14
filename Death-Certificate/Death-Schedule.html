@@ -5,6 +5,16 @@
         <title>Death Certificate Appointment</title>
             <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
 
+            <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+            </script>
+            <script type="text/javascript">
+            (function(){
+                emailjs.init({
+                    publicKey: "3oUZtABQzdTw5i2aO",
+                });
+            })();
+            </script>
         <style>
             body {
                margin: 0;
@@ -268,9 +278,9 @@
                         <label for="purpose">Appointment Purpose</label>
                         <select name="purpose" id="purpose">
                             <option value="">Select</option>
-                            <option value="correction">Correction of Death Certificate</option>
-                            <option value="ctc">Death Certificate (Certified True Copy)</option>
-                            <option value="Missing">Missing Death Ceritificate</option>
+                            <option value="Correction of Death Certificate">Correction of Death Certificate</option>
+                            <option value="Death Certificate (Certified True Copy)">Death Certificate (Certified True Copy)</option>
+                            <option value="Missing Death Ceritificate">Missing Death Ceritificate</option>
                             <option value="others">others</option>
                         </select>
 
@@ -298,7 +308,7 @@
                         <label for="">Authorization Letter (If Non-Biological)</label>
                         <input type="file" accept="image/*,application/pdf">
 
-                        <button type="submit" class="submit">Submit</button>
+                        <button type="submit" class="submit" onclick="sendmail()">Submit</button>
                     </form>
                 </div>
             </div>
@@ -369,6 +379,18 @@
       }
       phoneInput.value = value;
     });
+
+    function sendmail() {
+        let parms = {
+            name : document.getElementById("name").value,
+            title : document.getElementById("purpose").value,
+            email : document.getElementById("email").value,
+            date : document.getElementById("date").value,
+            time : document.getElementById("time").value,
+        }
+
+        emailjs.send("service_y86bxdq", "template_x4imddo",parms)
+    }   
   </script> 
     </body>
 </html>
