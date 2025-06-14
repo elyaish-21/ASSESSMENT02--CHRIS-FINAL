@@ -174,15 +174,15 @@
               <a class="back-button" href="Death-service.html">Back</a>
                 <h2>Request for Death Certificate<br> (Home Delivery)</h2>
                 <div class="CertRequest">
-                    <form onsubmit="event.preventDefault(); showSMSConfirmation();">
+                    <form id="appointm" onsubmit="event.preventDefault(); showSMSConfirmation();">
                         <label for="registry">Registry</label>
                         <input type="text" id="" placeholder="Enter Registry Number" required>
 
                         <label for="fullname">Fullname</label>
                         <input type="text" id="fullname" placeholder="Last Name, First Name, Middle Name" required>
 
-                        <label for="birt">Date of Birth</label>
-                        <input type="date" id="birt" required>
+                        <label for="date">Date of Birth</label>
+                        <input type="date" id="date" required>
 
                         <label for="sex">Sex</label>
                         <select name="sex" id="sex">
@@ -256,6 +256,34 @@
               document.getElementById('sms-confirmation').style.display = 'block';
               document.querySelector('form').reset();
             }
-          </script>
+        </script>
+        <script>
+          // date
+          const deceasedDateInput = document.getElementById("date");
+          const today = new Date();
+        
+          const maxDate = today.toISOString().split("T")[0];
+          deceasedDateInput.setAttribute("max", maxDate);
+        
+          document.getElementById("appointment").addEventListener("submit", function(event) {
+              event.preventDefault();
+              document.getElementById("successMsg").style.display = "block";
+              this.reset();
+          });
+          
+          // Mobile number format
+          const phoneInput = document.getElementById("contact");
+        
+          phoneInput.addEventListener("input", function () {
+          let value = phoneInput.value.replace(/\D/g, ""); 
+          if (value.length > 4) {
+              value = value.slice(0, 4) + "-" + value.slice(4);
+          }
+          if (value.length > 8) {
+              value = value.slice(0, 8) + "-" + value.slice(8, 12);
+          }
+          phoneInput.value = value;
+          });
+        </script>
     </body>
 </html>

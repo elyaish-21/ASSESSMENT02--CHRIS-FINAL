@@ -395,7 +395,19 @@ window.onload = () => {
   });
 };
 </script>
+<script>
+  // date
+const deceasedDateInput = document.getElementById("marriage_date");
+const spouse1Date = document.getElementById("spouse1_dob");
+const spouse2Date = document.getElementById("spouse2_dob");
+const today = new Date();
 
+const maxDate = today.toISOString().split("T")[0];
+deceasedDateInput.setAttribute("max", maxDate);
+spouse1Date.setAttribute("max", maxDate);
+spouse2Date.setAttribute("max", maxDate);
+
+</script>
 
 </body>
 </html>

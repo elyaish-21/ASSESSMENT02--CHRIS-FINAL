@@ -161,7 +161,7 @@
     <input type="text" required />
 
     <label>2. Date of Birth</label>
-    <input type="date" required />
+    <input type="date" id="date" required />
 
     <label>Place of Birth</label>
     <input type="text" required />
@@ -287,6 +287,13 @@
     popup.style.display = 'none';
   }
 </script>
+<script>
+  // date
+  const deceasedDateInput = document.getElementById("date");
+  const today = new Date();
 
+  const maxDate = today.toISOString().split("T")[0];
+  deceasedDateInput.setAttribute("max", maxDate);
+</script>
 </body>
 </html>

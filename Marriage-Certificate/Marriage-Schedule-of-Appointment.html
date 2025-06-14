@@ -187,7 +187,7 @@
     <input type="email" id="email" required>
 
     <label for="phone">Mobile Number</label>
-    <input type="text" id="phone" required>
+    <input type="text" id="phone" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
 
     <label for="notes">Special Notes or Requests (optional)</label>
     <textarea id="notes" rows="3"></textarea>
@@ -218,6 +218,36 @@
     document.getElementById("successMsg").style.display = "block";
     this.reset();
   });
+</script>
+<script>
+    // date
+  const marriageDate = document.getElementById("marriageDate");
+  const appointmentDate = document.getElementById("appointmentDate");
+  const today = new Date();
+
+  const maxDate = today.toISOString().split("T")[0];
+  marriageDate.setAttribute("max", maxDate);
+  appointmentDate.setAttribute("max", maxDate);
+
+  document.getElementById("marriageForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      document.getElementById("successMsg").style.display = "block";
+      this.reset();
+  });
+  
+  // Mobile number format
+  const phoneInput = document.getElementById("phone");
+
+  phoneInput.addEventListener("input", function () {
+  let value = phoneInput.value.replace(/\D/g, ""); 
+  if (value.length > 4) {
+      value = value.slice(0, 4) + "-" + value.slice(4);
+  }
+  if (value.length > 8) {
+      value = value.slice(0, 8) + "-" + value.slice(8, 12);
+}
+phoneInput.value = value;
+}); 
 </script>
 
 </body>

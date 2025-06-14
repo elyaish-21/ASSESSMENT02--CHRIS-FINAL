@@ -234,7 +234,7 @@
     <input type="email" id="email" required>
 
     <label for="phone">Mobile Number</label>
-    <input type="text" id="phone" required>
+    <input type="text" id="phone" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
 
     <label for="docs">Supporting Document (optional)</label>
     <input type="file" id="docs" accept="application/pdf,image/*">
@@ -261,6 +261,40 @@
     event.preventDefault();
     document.getElementById("successMsg").style.display = "block";
     this.reset();
+  });
+</script>
+<!-- Set Min and Max Date -->
+<script>
+  const dateInput = document.getElementById("date");
+  const today = new Date();
+
+  // Set the minimum date to today's date
+  const minDate = today.toISOString().split("T")[0];
+  dateInput.setAttribute("min", minDate);
+
+  // Set the maximum date to the last day of the current year
+  const lastDayOfYear = new Date(today.getFullYear(), 11, 31); // December 31 of the current year
+  const maxDate = lastDayOfYear.toISOString().split("T")[0];
+  dateInput.setAttribute("max", maxDate);
+
+  document.getElementById("appointmentForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    document.getElementById("successMsg").style.display = "block";
+    this.reset();
+  });
+
+  // Mobile number format
+  const phoneInput = document.getElementById("phone");
+
+  phoneInput.addEventListener("input", function () {
+    let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
+    if (value.length > 4) {
+      value = value.slice(0, 4) + "-" + value.slice(4);
+    }
+    if (value.length > 8) {
+      value = value.slice(0, 8) + "-" + value.slice(8, 12);
+    }
+    phoneInput.value = value;
   });
 </script>
 </body>

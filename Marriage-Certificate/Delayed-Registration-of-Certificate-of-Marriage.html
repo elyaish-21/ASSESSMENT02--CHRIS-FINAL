@@ -187,7 +187,7 @@
         <label>Spouse 2 Full Name:</label>
         <input type="text" name="spouse2_name" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Date of Marriage:</label>
-        <input type="date" name="marriage_date" required>
+        <input type="date" id="marriage_date" name="marriage_date" required>
         <label>Place of Marriage:</label>
         <input type="text" name="marriage_place" required>
         <label>Name of Solemnizing Officer:</label>
@@ -215,7 +215,7 @@
         <label>Applicant Full Name:</label>
         <input type="text" name="applicant_name" placeholder="Last Name, First Name, Middle Name" required>
         <label>Contact Number:</label>
-        <input type="tel" name="contact_number" required>
+        <input type="text" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" name="contact_number" required>
         <label>Email Address:</label>
         <input type="email" name="email" required>
         <label>Address:</label>
@@ -258,6 +258,34 @@
       document.getElementById("sms-confirmation").style.display = "block";
       document.getElementById("marriage-form").reset();
     }
+  </script>
+  <script>
+    // date
+    const deceasedDateInput = document.getElementById("marriage_date");
+    const today = new Date();
+  
+    const maxDate = today.toISOString().split("T")[0];
+    deceasedDateInput.setAttribute("max", maxDate);
+  
+    document.getElementById("marriage-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        document.getElementById("successMsg").style.display = "block";
+        this.reset();
+    });
+    
+    // Mobile number format
+    const phoneInput = document.getElementById("contact");
+  
+    phoneInput.addEventListener("input", function () {
+    let value = phoneInput.value.replace(/\D/g, ""); 
+    if (value.length > 4) {
+        value = value.slice(0, 4) + "-" + value.slice(4);
+    }
+    if (value.length > 8) {
+        value = value.slice(0, 8) + "-" + value.slice(8, 12);
+    }
+    phoneInput.value = value;
+    });
   </script>
 </body>
 </html>

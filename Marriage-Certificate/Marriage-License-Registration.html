@@ -155,7 +155,7 @@
 <div class="form-card">
   <a class="back-button" href="marriage-service.html">Back</a>
   <h2>Marriage License Registration</h2>
-  <form onsubmit="event.preventDefault(); showConfirmation();">
+  <form id="LicenseForm" onsubmit="event.preventDefault(); showConfirmation();">
 
     <label for="brideName">Full Name of Bride</label>
     <input type="text" id="brideName" name="brideName" placeholder="Last Name, First Name, Middle Name" required>
@@ -176,7 +176,7 @@
     <input type="text" id="place" name="place" required>
 
     <label for="contact">Contact Number</label>
-    <input type="tel" id="contact" name="contact" required>
+    <input type="text" id="contact" name="contact" required>
 
     <label for="email">Email Address</label>
     <input type="email" id="email" name="email" required>
@@ -233,6 +233,37 @@
     document.querySelector('form').reset();
   }
 </script>
+<script>
+  // date
+const intendedDate = document.getElementById("marriageDate");
+const brideDate = document.getElementById("brideDOB");
+const groomDate = document.getElementById("groomDOB");
+const today = new Date();
 
+const maxDate = today.toISOString().split("T")[0];
+intendedDate.setAttribute("max", maxDate);
+brideDate.setAttribute("max", maxDate);
+groomDate.setAttribute("max", maxDate);
+
+document.getElementById("LicenseForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    document.getElementById("successMsg").style.display = "block";
+    this.reset();
+});
+
+// Mobile number format
+const phoneInput = document.getElementById("contact");
+
+phoneInput.addEventListener("input", function () {
+let value = phoneInput.value.replace(/\D/g, ""); 
+if (value.length > 4) {
+    value = value.slice(0, 4) + "-" + value.slice(4);
+}
+if (value.length > 8) {
+    value = value.slice(0, 8) + "-" + value.slice(8, 12);
+}
+phoneInput.value = value;
+}); 
+</script>
 </body>
 </html>

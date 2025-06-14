@@ -278,7 +278,7 @@
   </select>
 
   <label>Date of Birth</label>
-  <input type="date" id="birthDate" required>
+  <input type="date" id="ChildBirthDate" required>
 
   <label>Place of Birth</label>
   <div class="birthplace-group">
@@ -337,7 +337,7 @@
     </div>
     <div>
       <label>Date of Birth</label>
-  <input type="date" id="birthDate" required>
+  <input type="date" id="MotherBirthDate" required>
     </div>
     <div>
       <label>Residence</label>
@@ -366,7 +366,7 @@
     </div>
     <div>
       <label>Date of Birth</label>
-  <input type="date" id="birthDate" required>
+  <input type="date" id="FatherBirthDate" required>
     </div>
   </div>
 <hr>
@@ -645,6 +645,19 @@ window.onload = () => {
       });
     });
   };
+</script>
+<script>
+  // date
+  const ChildBirthDate = document.getElementById("ChildBirthDate");
+  const MotherBirthDate = document.getElementById("MotherBirthDate");
+  const FatherBirthDate = document.getElementById("FatherBirthDate");
+  const today = new Date();
+
+  // Set the maximum date to today's date
+  const maxDate = today.toISOString().split("T")[0];
+  ChildBirthDate.setAttribute("max", maxDate);
+  MotherBirthDate.setAttribute("max", maxDate);
+  FatherBirthDate.setAttribute("max", maxDate);
 </script>
 </body>
 </html>

@@ -269,7 +269,7 @@
                 <h1>Cremation Permit</h1>
                 <div class="Cremation-form">
                                             
-                    <form id="cremationForm" action="" onsubmit="event.preventDefault(); submitForm();">
+                    <form id="cremationForm" onsubmit="event.preventDefault(); submitForm();">
                         <h3>Deceased Personal Information</h3>
                         <div class="registry-number">
                         <label for="regno">Registry Number <span style="color: red;">*</span></label>
@@ -299,19 +299,19 @@
                         </select>
     
                          <div class="DateAndTime">
-        <div class="DeathDate">
-            <label for="deathDate">Date of Death</label>
-            <input type="date" id="deathDate" required>
-        </div>
-        <div class="DeathTime">
-            <label for="time">Time of Death</label>
-            <input type="time" id="time" required>
-        </div>
-        <div class="PlaceDate">
-            <label for="placeOfDeath">Place of Death</label>
-            <input type="text" id="placeOfDeath" placeholder="e.g. Home, Hospital - Full Address" required>
-        </div>
-    </div>
+                            <div class="DeathDate">
+                                <label for="DeathDate">Date of Death</label>
+                                <input type="date" id="DeathDate" required>
+                            </div>
+                            <div class="DeathTime">
+                                <label for="time">Time of Death</label>
+                                <input type="time" id="time" required>
+                            </div>
+                            <div class="PlaceDate">
+                                <label for="placeOfDeath">Place of Death</label>
+                                <input type="text" id="placeOfDeath" placeholder="e.g. Home, Hospital - Full Address" required>
+                            </div>
+                        </div>
                         <hr>
 
                         <h3>Cause of Death</h3>
@@ -343,8 +343,8 @@
     
                         <div class="Cremation-DateAndTime">
                             <div class="Date">
-                                <label for="cremationDate">Date of Cremation</label>
-                                <input type="date" id="cremationDate" required>
+                                <label for="CremationDate">Date of Cremation</label>
+                                <input type="date" id="CremationDate" required>
                             </div>
                             <div class="Time">
                                 <label for="cremationTime">Time of Cremation</label>
@@ -372,8 +372,8 @@
                         <label for="relationship">Relationship to Deceased</label>
                         <input type="text" id="relationship" placeholder="e.g. Son, Wife, Neighbor" required>
     
-                        <label for="informantContact">Contact Number</label>
-                        <input type="tel" id="informantContact" placeholder="e.g. +63..." required>
+                        <label for="contact">Contact Number</label>
+                        <input type="text" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="e.g. +63..." required>
 
                         <label for="signature">Signature</label>
                         <canvas id="signature" width="300" height="100" style="border:1px solid #000"></canvas> <br>
@@ -593,5 +593,35 @@ if (canvas) {
             });
         };
     </script>
+    <script>
+        // date
+        const deceasedDateInput = document.getElementById("DeathDate");
+        const CremationDateInput = document.getElementById("CremationDate");
+        const today = new Date();
+      
+        const maxDate = today.toISOString().split("T")[0];
+        deceasedDateInput.setAttribute("max", maxDate);
+        CremationDateInput.setAttribute("max", maxDate);
+      
+        document.getElementById("cremationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("successMsg").style.display = "block";
+            this.reset();
+        });
+        
+        // Mobile number format
+        const phoneInput = document.getElementById("contact");
+      
+        phoneInput.addEventListener("input", function () {
+        let value = phoneInput.value.replace(/\D/g, ""); 
+        if (value.length > 4) {
+            value = value.slice(0, 4) + "-" + value.slice(4);
+        }
+        if (value.length > 8) {
+            value = value.slice(0, 8) + "-" + value.slice(8, 12);
+        }
+        phoneInput.value = value;
+        });
+      </script>
 </body>
 </html>

@@ -577,5 +577,37 @@ doc.text("Signature of Informant", rightX, signatureY + imgHeight + 10);
             });
         };
     </script>
+    <script>
+        // date
+        const birthDate = document.getElementById("birthDate");
+        const deathDate = document.getElementById("deathDate");
+        const dispositionDate = document.getElementById("dispositionDate");
+        const today = new Date();
+      
+        // Set the maximum date to today's date
+        const maxDate = today.toISOString().split("T")[0];
+        birthDate.setAttribute("max", maxDate);
+        deathDate.setAttribute("max", maxDate);
+        dispositionDate.setAttribute("max", maxDate);
+
+        document.getElementById("deathForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("successMsg").style.display = "block";
+            this.reset();
+        });
+        // Mobile number format
+        const phoneInput = document.getElementById("informantContact");
+
+        phoneInput.addEventListener("input", function () {
+        let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
+        if (value.length > 4) {
+            value = value.slice(0, 4) + "-" + value.slice(4);
+        }
+        if (value.length > 8) {
+            value = value.slice(0, 8) + "-" + value.slice(8, 12);
+        }
+        phoneInput.value = value;
+        });
+    </script>
 </body>
 </html>
