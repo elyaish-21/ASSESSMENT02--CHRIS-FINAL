@@ -100,6 +100,11 @@
       border-radius: 10px;
       text-align: center;
     }
+
+    .captcha {
+      display: flex;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -114,7 +119,9 @@
     <input type="text" id="email" placeholder="Enter e-mail address or username">
     <label for="password">Password</label>
     <input type="password" id="password" placeholder="Enter your password"> <br><br>
-    <div class="g-recaptcha" data-sitekey="6Lfan2IrAAAAAPIXnsMcs4b0lWjoo-QBkLyRihIz"></div>
+    <div class="captcha">
+      <div class="g-recaptcha" data-sitekey="6Lfan2IrAAAAAPIXnsMcs4b0lWjoo-QBkLyRihIz"></div>
+    </div>
     <button type="submit">Sign In</button>
   </form>
 
@@ -177,6 +184,6 @@
     }
   });
 </script>
-<script src="recaptcha.js"></script>
+
 </body>
 </html>
