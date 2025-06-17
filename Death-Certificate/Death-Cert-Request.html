@@ -179,7 +179,7 @@
                         <input type="text" id="" placeholder="Enter Registry Number" required>
 
                         <label for="fullname">Fullname</label>
-                        <input type="text" id="fullname" placeholder="Last Name, First Name, Middle Name" required>
+                        <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
 
                         <label for="date">Date of Birth</label>
                         <input type="date" id="date" required>
@@ -284,6 +284,31 @@
           }
           phoneInput.value = value;
           });
+        </script>
+        <script>
+          function sendToDashboard() {
+            const fullName = document.getElementById('fullName').value;
+            const requestType = "Request for Death Certificate (Home Delivery)";
+            const registryNumber = generateRegistryNumber();
+            const dateRegistered = new Date().toLocaleDateString();
+        
+            const record = {
+              name: fullName,
+              type: requestType,
+              regNo: registryNumber,
+              dateRegistered: dateRegistered,
+            };
+        
+            // Save to localStorage (or send via API)
+            const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+            records.push(record);
+            localStorage.setItem("DeathRecords", JSON.stringify(records));
+          }
+        
+          function submitForm() {
+            // Existing validation and submission logic...
+            sendToDashboard(); // Call this function after successful submission
+          }
         </script>
     </body>
 </html>

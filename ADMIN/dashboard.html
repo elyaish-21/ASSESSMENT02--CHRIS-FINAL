@@ -26,15 +26,70 @@
 
 
     <main class="main-content">
+      <div id="death" class="section">
+        <div class="header">
+          <h2>Death Informations</h2>
+          <div class="controls">
+            <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
+            </div>
+            <div class="filter-header" onclick="toggleFilterPanel('death-filter')">
+              <i class="fas fa-filter mr-2"></i> Filter
+            </div>
+            <div class="filter-panel" id="death-filter">
+              <div class="filter-group">
+                <label for="requestType">Request Type:</label>
+                <select id="requestType">
+                  <option value="">All</option>
+                  <option value="Schedule an Appointment_DR">Schedule an Appointment</option>
+                  <option value="Death Certificate Registration">Death Certificate Registration</option>
+                  <option value="Delayed Death">Delayed Death Registration</option>
+                  <option value="Home Delivery Death">Request for Death Certificate (Home Delivery)</option>
+                  <option value="Correction Death Certificate">Correction of Death Certificate</option>
+                  <option value="Burial Permit Application">Burial Permit Application</option>
+                  <option value="Cremation Permit Application">Cremation Permit Application</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label for="startDate">From:</label>
+                <input type="date" id="startDate">
+              </div>
+              <div class="filter-group">
+                <label for="endDate">To:</label>
+                <input type="date" id="endDate">
+              </div>
+              <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
+              <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>
+            </div>
+          </div>
+        </div>
+        <table id="DeathTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type of Request</th>
+              <th>Reg. No.</th>
+              <th>Date Registered</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+
       <div id="overview" class="section">
         <div class="header">
           <h2>Overview</h2>
         </div>
 
+        
         <div class="container">
           <div class="BR">
             <h3>Birth Records</h3>
-            <div class="count">150</div>
+            <div class="count">0</div>
             <div class="percentage">+20% this month</div>
             <div class="icon-container">
             <i class="fas fa-baby"></i>
@@ -43,7 +98,7 @@
 
           <div class="MR">
             <h3>Marriage Records</h3>
-            <div class="count">100</div>
+            <div class="count">0</div>
             <div class="percentage">+10% this month</div>
             <div class="icon-container">
             <i class="fas fa-solid fa-ring" ></i>
@@ -52,7 +107,7 @@
 
           <div class="DR">
             <h3>Death Records</h3>
-            <div class="count">7</div>
+            <div class="count">0</div>
             <div class="percentage">+12% this month</div>
             <div class="icon-container">
             <i class="fas fa-cross"></i>
@@ -73,32 +128,32 @@
                         <div class="icon blue"><i class="fa-solid fa-plus"></i></div>
                            <div class="info">
                               <strong>New birth record added</strong>
-                                 <p>Lebron James - 10 minutes ago</p>
+                              <p>Lebron James - 10 minutes ago</p>
                             </div>
                   </div>
 
-                        <div class="activity">
-                          <div class="icon yellow"><i class="fa-solid fa-pen"></i></div>
-                            <div class="info">
-                              <strong>Marriage record updated</strong>
-                                <p>Nadine Calda & Jose Rizl - 45 minutes ago</p>
-                            </div>
-                        </div>
+                  <div class="activity">
+                    <div class="icon yellow"><i class="fa-solid fa-pen"></i></div>
+                      <div class="info">
+                        <strong>Marriage record updated</strong>
+                        <p>Nadine Calda & Jose Rizl - 45 minutes ago</p>
+                      </div>
+                  </div>
 
-                        <div class="activity">
-                            <div class="icon red"><i class="fa-solid fa-trash"></i></div>
-                            <div class="info">
-                            <strong>Death record deleted</strong>
-                            <p>Admin User - 2 hours ago</p>
-                            </div>
-                        </div>
+                  <div class="activity">
+                      <div class="icon red"><i class="fa-solid fa-trash"></i></div>
+                      <div class="info">
+                        <strong>Death record deleted</strong>
+                        <p>Admin User - 2 hours ago</p>
+                      </div>
+                  </div>
           </div>
 
                     <div class="pie-chart">
                       <img src="pie.png" alt="Pie chart showing record types distribution" class="chart-image" />
                     </div>
       </div>
-  </div>
+     </div>
 
       
       <div id="birth" class="section" style="display: none;">
@@ -144,79 +199,20 @@
           
         </div>
         
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type of Request</th>
-              <th>Reg. No.</th>
-              <th>Date Registered</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr data-type="birth">
-              <td>Lebron James</td>
-              <td>Birth Certificate</td>
-              <td>REG-20250603-18345</td>
-              <td>12/30/1984</td>
-              <td>
-                <div class="actions">
-                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
-                      <div class="action-menu">
-                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
-                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
-                      </div>
-                </div>
-              </td>
-            </tr>
-            <tr data-type="birth">
-              <td>Nadine Calda</td>
-              <td>Birth Certificate</td>
-              <td>REG-20250603-20498</td>
-              <td>08/05/2004</td>
-              <td>
-                <div class="actions">
-                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
-                      <div class="action-menu">
-                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
-                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
-                      </div>
-                </div>
-              </td>
-            </tr>
-            <tr data-type="birth">
-              <td>Noel Torres</td>
-              <td>Birth Certificate</td>
-              <td>REG-20250603-14567</td>
-              <td>08/23/2004</td>
-              <td>
-               <div class="actions">
-                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
-                      <div class="action-menu">
-                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
-                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
-                      </div>
-                </div>
-              </td>
-            </tr>
-            <tr data-type="birth">
-              <td>Jose Rizal</td>
-              <td>Birth Certificate</td>
-              <td>REG-20250603-30987</td>
-              <td>06/19/1861</td>
-              <td>
-               <div class="actions">
-                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
-                      <div class="action-menu">
-                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
-                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
-                      </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <table id="BirthTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type of Request</th>
+                <th>Reg. No.</th>
+                <th>Date Registered</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rows will be dynamically added here -->
+            </tbody>
+          </table>
       </div>
 
       <div id="marriage" class="section" style="display: none;">
@@ -260,106 +256,21 @@
           </div>
 
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type of Request</th>
-              <th>Reg. No.</th>
-              <th>Date Registered</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr data-type="marriage">
-              <td>Maria Clara</td>
-              <td>Marriage Certificate</td>
-              <td>9876543210</td>
-              <td>02/14/2024</td>
-              
-              <td>
-                <div class="actions">
-                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
-                      <div class="action-menu">
-                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
-                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
-                      </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div id="death" class="section" style="display: none;">
-        <div class="header">
-            <h2>Death Informations</h2>
-
-              <div class="controls">
-
-              <div class="search-bar">
-              <i class="fas fa-search"></i>
-              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
-              </div>
-
-             <!-- Add inside the birth section after the header -->
-            <div class="filter-header" onclick="toggleFilterPanel('death-filter')"><i class="fas fa-filter mr-2"></i> Filter</div>
-                <div class="filter-panel" id="death-filter">
-                  <div class="filter-group">
-                      <label for="requestType">Request Type:</label>
-                          <select id="requestType">
-                            <option value="">All</option>
-                            <option value="Schedule an Appointment_DR">Schedule an Appointment</option>
-                            <option value="Death Certificate Registration">Death Certificate Registration</option>
-                            <option value="Delayed Death">Delayed Death Registration</option>
-                            <option value="Home Delivery Death">Request for Death Certificate (Home Delivery)</option>
-                            <option value="Correction Death Certificate">Correction of Death Certificate</option>
-                            <option value="Burial Permit Application">Burial Permit Application</option>
-                            <option value="Cremation Permit Application">Cremation Permit Application</option>
-                          </select>
-                  </div>
-                  
-                  <div class="filter-group">
-                          <label for="startDate">From:</label>
-                          <input type="date" id="startDate">
-                  </div>
-                  <div class="filter-group">
-                          <label for="endDate">To:</label>
-                          <input type="date" id="endDate">
-                  </div>
-                          <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
-                          <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>     
-                  </div>
-          </div>
-
+          <table id="MarriageTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type of Request</th>
+                <th>Reg. No.</th>
+                <th>Date Registered</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rows will be dynamically added here -->
+            </tbody>
+          </table>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type of Request</th>
-              <th>Reg. No.</th>
-              <th>Date Registered</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr data-type="death">
-              <td>Pedro Penduko</td>
-              <td>Death Certificate</td>
-              <td>1122334455</td>
-              <td>03/30/2024</td>
-              <td>
-                <div class="actions">
-                  <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
-                      <div class="action-menu">
-                        <button onclick="editRow(1)"><i class="fas fa-edit mr-2"></i> Edit</button>
-                        <button onclick="deleteRow(1)"><i class="fas fa-trash mr-2"></i> Delete</button>
-                      </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </main>
   </div>
@@ -367,7 +278,7 @@
   <div class="gtranslate_wrapper"></div>
   <script>
     window.gtranslateSettings = {
-      "default_language":"en",
+      "default_language":"..",
       "wrapper_selector":".gtranslate_wrapper",
       "switcher_horizontal_position":"right",
       "switcher_vertical_position":"bottom",
@@ -377,8 +288,45 @@
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
   <script>
+function countRecords() {
+  const birthRecords = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+  const marriageRecords = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+  const deathRecords = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+
+  console.log("Birth Records:", birthRecords);
+  console.log("Marriage Records:", marriageRecords);
+  console.log("Death Records:", deathRecords);
+
+  const birthCount = birthRecords.length;
+  const marriageCount = marriageRecords.length;
+  const deathCount = deathRecords.length;
+
+  console.log(`Birth Records Count: ${birthCount}`);
+  console.log(`Marriage Records Count: ${marriageCount}`);
+  console.log(`Death Records Count: ${deathCount}`);
+
+  // Update the dashboard counts dynamically
+  document.querySelector(".BR .count").innerText = birthCount;
+  document.querySelector(".MR .count").innerText = marriageCount;
+  document.querySelector(".DR .count").innerText = deathCount;
+}
+
+function deleteRecord(type, regNo) {
+  // Retrieve the records from localStorage
+  const records = JSON.parse(localStorage.getItem(type)) || [];
+
+  // Filter out the record with the matching regNo
+  const updatedRecords = records.filter(record => record.regNo !== regNo);
+
+  // Save the updated records back to localStorage
+  localStorage.setItem(type, JSON.stringify(updatedRecords));
+
+  // Reload the dashboard records and counts
+  loadDashboardRecords();
+  countRecords();
+}
   // Filter functionality
-  function toggleFilterPanel(filterId) {
+function toggleFilterPanel(filterId) {
   const filterpanel = document.getElementById(filterId);
   filterpanel.classList.toggle("active");
 }
@@ -460,7 +408,7 @@ function parseDate(dateStr) {
       item.querySelector("a").onclick?.toString().includes(sectionId)
     );
     if (link) link.classList.add("active");
-  }
+  } 
 
   function applyFilterOverview() {
     const filterValue = document.getElementById("filterTypeOverview").value;
@@ -501,6 +449,80 @@ function parseDate(dateStr) {
     showSection('overview');
   };
 </script>
+<script>
+function loadDashboardRecords() {
+  const Birthrecords = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+  const Marriagerecords = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+  const Deathrecords = JSON.parse(localStorage.getItem("DeathRecords")) || [];
 
+  const Birthtbody = document.querySelector("#BirthTable tbody");
+  const Marriagetbody = document.querySelector("#MarriageTable tbody");
+  const Deathtbody = document.querySelector("#DeathTable tbody");
+
+  Birthtbody.innerHTML = ""; // Clear existing rows
+  Birthrecords.forEach(record => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${record.name}</td>
+      <td>${record.type}</td>
+      <td>${record.regNo}</td>
+      <td>${record.dateRegistered}</td>
+      <td class="actions">
+        <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+        <div class="action-menu">
+          <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
+          <button onclick="deleteRecord('BirthRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
+        </div>
+      </td>
+    `;
+    Birthtbody.appendChild(row);
+  });
+
+  Marriagetbody.innerHTML = ""; // Clear existing rows
+  Marriagerecords.forEach(record => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${record.name}</td>
+      <td>${record.type}</td>
+      <td>${record.regNo}</td>
+      <td>${record.dateRegistered}</td>
+      <td class="actions">
+        <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+        <div class="action-menu">
+          <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
+          <button onclick="deleteRecord('MarriageRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
+        </div>
+      </td>
+    `;
+    Marriagetbody.appendChild(row);
+  });
+
+  Deathtbody.innerHTML = ""; // Clear existing rows
+  Deathrecords.forEach(record => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${record.name}</td>
+      <td>${record.type}</td>
+      <td>${record.regNo}</td>
+      <td>${record.dateRegistered}</td>
+      <td class="actions">
+        <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+        <div class="action-menu">
+          <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
+          <button onclick="deleteRecord('DeathRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
+        </div>
+      </td>
+    `;
+    Deathtbody.appendChild(row);
+  });
+}
+
+
+window.onload = function () {
+  loadDashboardRecords();
+  countRecords();
+  showSection('overview'); // Default section to show
+};
+  </script>
 </body>
 </html>

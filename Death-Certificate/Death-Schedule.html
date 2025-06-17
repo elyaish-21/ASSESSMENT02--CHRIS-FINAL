@@ -381,6 +381,31 @@
       phoneInput.value = value;
     });
   </script> 
+  <script>
+    function sendToDashboard() {
+      const fullName = `${document.getElementById("firstName").value} ${document.getElementById("middleName").value} ${document.getElementById("lastName").value}`;
+      const requestType = "Schedule an Appointment";
+      const registryNumber = generateRegistryNumber();
+      const dateRegistered = new Date().toLocaleDateString();
+  
+      const record = {
+        name: fullName,
+        type: requestType,
+        regNo: registryNumber,
+        dateRegistered: dateRegistered,
+      };
+  
+      // Save to localStorage (or send via API)
+      const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+      records.push(record);
+      localStorage.setItem("DeathRecords", JSON.stringify(records));
+    }
+  
+    function submitForm() {
+      // Existing validation and submission logic...
+      sendToDashboard(); // Call this function after successful submission
+    }
+  </script>
   <script src="../email.js"></script>
     </body>
 </html>

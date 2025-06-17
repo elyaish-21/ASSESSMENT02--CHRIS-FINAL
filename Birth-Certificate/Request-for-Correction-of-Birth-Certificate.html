@@ -168,7 +168,7 @@
     <input type="text" id="regno" placeholder="Enter the Registry Number from your COLB" required>
 
     <label for="fullname">Full Name</label>
-    <input type="text" id="fullname" placeholder="Last Name, First Name, Middle Name" required>
+    <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="date">Date of Birth</label>
     <input type="date" id="date" required>
@@ -244,13 +244,40 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
-  function showSMSConfirmation() {
+function generateRegistryNumber() {
+  const now = new Date();
+  return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+    .getTime()
+    .toString()
+    .slice(-5)}`;
+}
+    function sendToDashboard() {
+    const fullName = document.getElementById("fullName").value;
+    const requestType = "Request for Correction of Birth Certificate";
+    const registryNumber = generateRegistryNumber();
+    const dateRegistered = new Date().toLocaleDateString();
+
+    const record = {
+      name: fullName,
+      type: requestType,
+      regNo: registryNumber,
+      dateRegistered: dateRegistered,
+    };
+
+    // Save to localStorage (or send via API)
+    const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+    records.push(record);
+    localStorage.setItem("BirthRecords", JSON.stringify(records));
+  };
+
+function showSMSConfirmation() {
+  sendToDashboard();
   // Show the confirmation modal
   document.getElementById('sms-confirmation').style.display = 'block';
-
   // Reset the form fields
   document.querySelector('form').reset();
-
   // Hide the "Other" correction input if visible
   document.getElementById('otherCorrectionContainer').style.display = 'none';
 }
@@ -283,6 +310,5 @@
   phoneInput.value = value;
   });
 </script>
-
 </body>
 </html>

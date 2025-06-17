@@ -257,7 +257,7 @@
                 <div class="DelayedRegistration">
                     <form id="appointment" onsubmit="event.preventDefault(); showSMSConfirmation();">
                         <label for="name">Name of the Requester</label>
-                        <input type="text" id="name" placeholder="Last Name, First Name Middle Initial" required>
+                        <input type="text" id="fullName" placeholder="Last Name, First Name Middle Initial" required>
 
                         <label for="deceased">Deceased Name</label>
                         <input type="text" id="deceased" placeholder="Last Name, First Name Middle Initial" required>
@@ -359,5 +359,30 @@
             phoneInput.value = value;
             });
         </script>
+        <script>
+            function sendToDashboard() {
+                const fullName = document.getElementById('fullName').value;
+                const requestType = "Death Certificate Registration";
+                const registryNumber = generateRegistryNumber();
+                const dateRegistered = new Date().toLocaleDateString();
+            
+                const record = {
+                name: fullName,
+                type: requestType,
+                regNo: registryNumber,
+                dateRegistered: dateRegistered,
+                };
+            
+                // Save to localStorage (or send via API)
+                const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+                records.push(record);
+                localStorage.setItem("DeathRecords", JSON.stringify(records));
+            }
+            
+            function submitForm() {
+                // Existing validation and submission logic...
+                sendToDashboard(); // Call this function after successful submission
+            }
+            </script>
     </body>
 </html>

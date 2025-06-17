@@ -145,8 +145,10 @@
   <h2>Affidavit for Delayed Registration of Birth</h2>
 
   <form id="delayedBirthForm">
+    <label>Applicant Name</label>
+    <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
     <label>Affiant's Name</label>
-    <input type="text" placeholder="Last Name, First Name, Middle Name" required />
+    <input type="text" id="affiantName" placeholder="Last Name, First Name, Middle Name" required />
 
     <label>Legal Age</label>
     <input type="text" required />
@@ -277,11 +279,41 @@
   const form = document.getElementById('delayedBirthForm');
   const popup = document.getElementById('popup');
 
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    popup.style.display = 'block';
-    form.reset();
-  });
+function generateRegistryNumber() {
+  const now = new Date();
+  return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+    .getTime()
+    .toString()
+    .slice(-5)}`;
+}
+
+function sendToDashboard() {
+  const fullName = document.getElementById('fullName').value;
+  const requestType = "Delayed Registration of Birth";
+  const registryNumber = generateRegistryNumber();
+  const dateRegistered = new Date().toLocaleDateString();
+
+  const record = {
+    name: fullName,
+    type: requestType,
+    regNo: registryNumber,
+    dateRegistered: dateRegistered,
+  };
+
+  // Save to localStorage (or send via API)
+  const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+  records.push(record);
+  localStorage.setItem("BirthRecords", JSON.stringify(records));
+}
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+  popup.style.display = 'block';
+  sendToDashboard();
+  form.reset();
+});
 
   function closePopup() {
     popup.style.display = 'none';

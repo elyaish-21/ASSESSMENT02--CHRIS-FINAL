@@ -152,7 +152,10 @@
     <form class="form-card" id="marriageForm">
       <a class="back-button" href="marriage-service.html">Back</a>
       <h1>Marriage Certificate Registration</h1>
-      
+      <fieldset>
+        <label>Full Name: </label>
+        <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Initial" required>
+      </fieldset>
       <fieldset>
         <legend>Marriage Details</legend>
         <label>Date of Marriage:</label><input type="date" id="marriage_date" required>
@@ -226,7 +229,7 @@
 <div class="gtranslate_wrapper"></div>
 <script>
   window.gtranslateSettings = {
-    "default_language":"en",
+    "default_language":"..",
     "wrapper_selector":".gtranslate_wrapper",
     "switcher_horizontal_position":"right",
     "switcher_vertical_position":"bottom",
@@ -409,5 +412,30 @@ spouse2Date.setAttribute("max", maxDate);
 
 </script>
 
+<script>
+  function sendToDashboard() {
+    const fullName = document.getElementById("fullName").value;
+    const requestType = "Marriage Certificate Registration";
+    const registryNumber = generateRegistryNumber();
+    const dateRegistered = new Date().toLocaleDateString();
+
+    const record = {
+      name: fullName,
+      type: requestType,
+      regNo: registryNumber,
+      dateRegistered: dateRegistered,
+    };
+
+    // Save to localStorage (or send via API)
+    const records = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+    records.push(record);
+    localStorage.setItem("MarriageRecords", JSON.stringify(records));
+  }
+
+  function submitMarriageForm() {
+    // Existing validation and submission logic...
+    sendToDashboard(); // Call this function after successful submission
+  }
+</script>
 </body>
 </html>

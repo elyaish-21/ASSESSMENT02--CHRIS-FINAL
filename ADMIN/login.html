@@ -2,38 +2,211 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin Login</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body background="bg.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CRIS Admin Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="cris_logo.png" type="image/png" sizes="64x64">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-  <div class="login-container">
-    <form class="login-form" action="dashboard.html" method="GET">
-      <h2>Admin Login</h2>
-      <div class="input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="Enter your username" required />
-      </div>
-      <div class="input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" required />
-      </div>
-      <button type="submit">Login</button>
-    </form>
-  </div>
+    body {
+      background: linear-gradient(135deg, #9fc3e8, #f5b6b6);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-<div class="gtranslate_wrapper"></div>
-<script>
-  window.gtranslateSettings = {
-    "default_language":"en",
-    "wrapper_selector":".gtranslate_wrapper",
-    "switcher_horizontal_position":"right",
-    "switcher_vertical_position":"bottom",
-    "flag_style":"3d"
+    .header {
+      width: 100%;
+      padding: 20px 40px;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header img {
+      height: 100px;
+      margin-right: 15px;
+    }
+
+    .header-text h1 {
+      font-size: 1.5rem;
+      color: #133462;
+      margin: 0;
+    }
+
+    .header-text p {
+      color: #8a1c10;
+      font-weight: bold;
+      font-size: 1rem;
+      margin: 2px 0 0 0;
+    }
+
+   .main-content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 150px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+    .welcome-msg-box {
+      max-width: 450px;
+      flex: 1;
+      text-align: justify;
+      font-family: 'Poppins', sans-serif;
+      animation: fadeSlideIn 1s ease forwards;
+  opacity: 0; /* initial state for animation */
+  animation-delay: 0.3s; /* slightly delayed for a staggered effect */
+    }
+
+    .welcome-msg-box h2 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #133462;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .welcome-msg-box p {
+      font-size: 1.25rem;
+      color: #222;
+       font-weight: 500;
+      line-height: 1.8;
+    }
+    /* Animation keyframes */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+    .login-box {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeSlideIn 1s ease forwards;
+  opacity: 0; /* initial state for animation */
+    }
+
+    .login-box h2 {
+      margin-bottom: 1rem;
+      color: #133462;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #8a1c10;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #a72617, #8a1c10);
+     transition: background 0.4s ease, transform 0.2s ease;
+    }
+
+    .login-box button:hover {
+       background: linear-gradient(135deg, #75150e, #5c110b);
+   transform: scale(1.02);
+    }
+
+    .footer-text {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .footer-text a {
+      color: #8a1c10;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+ <div class="header">
+  <img src="../images/cris_logo.png" alt="CHRIS Logo" />
+  <div class="header-text">
+    <h1>Civil Registry Information System</h1>
+    <p>City of Manila</p>
+    <div class="time-display">
+      <br>
+      <strong>Philippine Standard Time:</strong><br />
+      <span id="time-display">Loading...</span>
+    </div>
+  </div>
+</div>
+
+  <div class="main-content">
+    <div class="LoginContainer">
+      <div class="login-box">
+        <form class="login-form" action="dashboard.html" method="GET">
+          <input type="text" name="username" placeholder="Username" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <button type="submit">Login</button>
+        </form>
+        <div class="footer-text">
+          Forgot your password? <a href="#">Reset here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<script>
+  function updateTime() {
+    const options = {
+      timeZone: 'Asia/Manila',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true
+    };
+    const formatter = new Intl.DateTimeFormat('en-PH', options);
+    const now = new Date();
+    document.getElementById('time-display').textContent = formatter.format(now);
+  }
+  // Initial call and update every second
+  updateTime();
+  setInterval(updateTime, 1000);
 </script>
-<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 </body>
 </html>

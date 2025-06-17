@@ -195,6 +195,9 @@
       <option>3:00 PM</option>
     </select>
 
+    <label>Applicant Name:</label>
+    <input type="text" id="applicantName" placeholder="Last Name, First Name, Middle Initial" required>
+
     <label for="email">Email Address</label>
     <input type="email" id="email" required>
 
@@ -225,8 +228,33 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
+    function generateRegistryNumber() {
+      const now = new Date();
+      return `REG-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now.getTime().toString().slice(-5)}`;
+    }
+
+    function sendToDashboard() {
+    const fullName = document.getElementById('applicantName').value;
+    const requestType = "Schedule an Appointment";
+    const registryNumber = generateRegistryNumber();
+    const dateRegistered = new Date().toLocaleDateString();
+
+    const record = {
+      name: fullName,
+      type: requestType,
+      regNo: registryNumber,
+      dateRegistered: dateRegistered,
+    };
+
+    // Save to localStorage (or send via API)
+    const records = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+    records.push(record);
+    localStorage.setItem("MarriageRecords", JSON.stringify(records));
+  }
+
   document.getElementById("marriageForm").addEventListener("submit", function(event) {
     event.preventDefault();
+    sendToDashboard();
     document.getElementById("successMsg").style.display = "block";
     this.reset();
   });

@@ -210,15 +210,15 @@
                     <div class="deceased-name">
                         <div class="last">
                             <label for="lastname">Last Name:</label>
-                            <input type="text" id="lastname" placeholder="Last Name" required>
+                            <input type="text" id="lastName" placeholder="Last Name" required>
                         </div>                        
                         <div class="first">
                             <label for="firstname">First Name:</label>
-                            <input type="text" id="firstname" placeholder="First Name" required>
+                            <input type="text" id="firstName" placeholder="First Name" required>
                         </div>
                         <div class="middle">
                             <label for="middlename">Middle Name:</label>
-                            <input type="text" id="middlename" placeholder="Middle Name">
+                            <input type="text" id="middleName" placeholder="Middle Name">
                         </div>
                     </div>
 
@@ -609,5 +609,30 @@ doc.text("Signature of Informant", rightX, signatureY + imgHeight + 10);
         phoneInput.value = value;
         });
     </script>
+    <script>
+        function sendToDashboard() {
+          const fullName = document.getElementById('informantName').value;
+          const requestType = "Death Certificate Registration";
+          const registryNumber = generateRegistryNumber();
+          const dateRegistered = new Date().toLocaleDateString();
+      
+          const record = {
+            name: fullName,
+            type: requestType,
+            regNo: registryNumber,
+            dateRegistered: dateRegistered,
+          };
+      
+          // Save to localStorage (or send via API)
+          const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+          records.push(record);
+          localStorage.setItem("DeathRecords", JSON.stringify(records));
+        }
+      
+        function submitForm() {
+          // Existing validation and submission logic...
+          sendToDashboard(); // Call this function after successful submission
+        }
+      </script>
 </body>
 </html>

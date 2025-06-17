@@ -156,7 +156,9 @@
   <a class="back-button" href="marriage-service.html">Back</a>
   <h2>Marriage License Registration</h2>
   <form id="LicenseForm" onsubmit="event.preventDefault(); showConfirmation();">
-
+    <label for="applicantName">Applicant Full Name</label>
+    <input type="text" id="applicantName" placeholder="Last Name, First Name, Middle Name" required>
+    <hr>
     <label for="brideName">Full Name of Bride</label>
     <input type="text" id="brideName" name="brideName" placeholder="Last Name, First Name, Middle Name" required>
 
@@ -228,7 +230,32 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
+    function generateRegistryNumber() {
+    const now = new Date();
+    return `REG-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now.getTime().toString().slice(-5)}`;
+  }
+
+  function sendToDashboard() {
+    const fullName = document.getElementById("applicantName").value;
+    const requestType = "Marriage License Registration";
+    const registryNumber = generateRegistryNumber();
+    const dateRegistered = new Date().toLocaleDateString();
+
+    const record = {
+      name: fullName,
+      type: requestType,
+      regNo: registryNumber,
+      dateRegistered: dateRegistered,
+    };
+
+    // Save to localStorage (or send via API)
+    const records = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+    records.push(record);
+    localStorage.setItem("MarriageRecords", JSON.stringify(records));
+  }
+
   function showConfirmation() {
+    sendToDashboard();
     document.getElementById('confirmation-message').style.display = 'block';
     document.querySelector('form').reset();
   }
@@ -244,12 +271,6 @@ const maxDate = today.toISOString().split("T")[0];
 intendedDate.setAttribute("max", maxDate);
 brideDate.setAttribute("max", maxDate);
 groomDate.setAttribute("max", maxDate);
-
-document.getElementById("LicenseForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    document.getElementById("successMsg").style.display = "block";
-    this.reset();
-});
 
 // Mobile number format
 const phoneInput = document.getElementById("contact");

@@ -24,7 +24,7 @@ body {
 
 .login-form h2 {
   margin-bottom: 2rem;
-  color: #254C9A;
+  color: #d0198a;
   text-align: center;
 }
 
@@ -61,6 +61,7 @@ button {
 button:hover {
   background:linear-gradient(to bottom, black, #254C9A);
 }
+
 
 .dashboard {
   display: flex;
@@ -198,8 +199,6 @@ th, td {
 }
 
 
-
-
  button {
       padding: 6px 10px;
       margin-right: 3px;
@@ -207,9 +206,6 @@ th, td {
       border-radius: 4px;
       cursor: pointer;
     }
-
-  
-
     button:hover {
       opacity: 1;
     } 
@@ -246,7 +242,6 @@ th, td {
       position: relative;
     }
 
-    
     .BR{
       padding: 0px 10px; 
       width: 40rem;
@@ -481,33 +476,61 @@ th, td {
 }
 
 
-
 .filter-panel {
-  position: relative;
-  display: none; /* START HIDDEN */
-  flex-direction: row;
-  width: 80%;
-  padding: 40px 70px;
-  top: 50px;
-  margin: 0;
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  display: none; /* start hidden */
+  flex-direction: column; /* column layout */
+  width: 550px;
+  padding: 20px 30px;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
+  gap: 15px;
+  z-index: 999;
+}
+.filter-panel .resetbtn {
+  background-color: red !important; /* force it if needed */
+  color: white !important;
+}
 
+.filter-panel .resetbtn:hover {
+  background-color: darkred !important;
 }
 
 .filter-panel.active {
-  display: flex; /* SHOW WITH FLEX */
-  position: relative;
-  right: 65rem;
-  top: 120px;
-
-  width: 50%;
-  padding: 20px 90px;
-  overflow-x: hidden;
-  align-items: center;
+  display: flex; /* show with flex column */
+  text-align: center;
 }
 
+.filter-group {
+  display: flex;
+  flex-direction: row;
+}
+
+  .filter-group label {
+  text-align: left;
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 5px;
+  
+}
+
+.date-range {
+  display: center;
+  flex-direction: row;
+  
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center; 
+}
 
 /* Responsive fix */
 @media (max-width: 768px) {
@@ -555,18 +578,18 @@ th, td {
   }
 
   .filter-panel label {
-    text-align: center;
+    text-align: left;
     bottom: 100px;
     right: 10px;
+  
     font-weight: bold;
   }
 
   .filter-panel input,
   .filter-panel select,
   .filter-panel button {
-    margin-right: 10px;
     margin-bottom: 5px;
-    padding: 5px 8px;
+    padding: 10px 12px;
     font-size: 14px;
     cursor: pointer;
   }
@@ -585,5 +608,4 @@ th, td {
     .main-content {
       background-color: #f4f4f4;
     }
-
    

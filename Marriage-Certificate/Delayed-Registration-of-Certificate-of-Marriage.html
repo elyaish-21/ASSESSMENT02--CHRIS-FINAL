@@ -249,8 +249,28 @@
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
   <script>
+    function sendToDashboard() {
+      const fullName = document.getElementById('applicant_name').value;
+      const requestType = "Delayed Registration of Certificate of Marriage";
+      const registryNumber = generateRegistryNumber();
+      const dateRegistered = new Date().toLocaleDateString();
+  
+      const record = {
+        name: fullName,
+        type: requestType,
+        regNo: registryNumber,
+        dateRegistered: dateRegistered,
+      };
+  
+      // Save to localStorage (or send via API)
+      const records = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+      records.push(record);
+      localStorage.setItem("MarriageRecords", JSON.stringify(records));
+    }
+
     document.getElementById("marriage-form").addEventListener("submit", function(e) {
       e.preventDefault(); // Prevent real form submission
+      sendToDashboard();
       showSMSConfirmation();
     });
 

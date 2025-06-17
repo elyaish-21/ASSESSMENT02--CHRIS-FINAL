@@ -221,7 +221,7 @@
   <h2>📅 Schedule a Birth Appointment Registration</h2>
   <form id="appointmentForm">
     <label for="name">Full Name of Requester</label>
-    <input type="text" id="name" placeholder="Last Name, First Name, Middle Name" required>
+    <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
 
     <label for="childName">Child’s Full Name</label>
     <input type="text" id="childName" placeholder="Last Name, First Name, Middle Name" required>
@@ -269,9 +269,38 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
+    function generateRegistryNumber() {
+      const now = new Date();
+      return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+      .getTime()
+      .toString()
+      .slice(-5)}`;
+    }
+    function sendToDashboard() {
+    const fullName = document.getElementById("fullName").value;
+    const requestType = "Schedule an Appointment";
+    const registryNumber = generateRegistryNumber();
+    const dateRegistered = new Date().toLocaleDateString();
+
+    const record = {
+      name: fullName,
+      type: requestType,
+      regNo: registryNumber,
+      dateRegistered: dateRegistered,
+    };
+
+    // Save to localStorage (or send via API)
+    const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+    records.push(record);
+    localStorage.setItem("BirthRecords", JSON.stringify(records));
+  }
+
   document.getElementById("appointmentForm").addEventListener("submit", function(event) {
     event.preventDefault();
     document.getElementById("successMsg").style.display = "block";
+    sendToDashboard();
     this.reset();
   });
 </script>

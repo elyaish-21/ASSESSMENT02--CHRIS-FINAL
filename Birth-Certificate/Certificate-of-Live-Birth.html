@@ -261,139 +261,142 @@
 <body>
 
 <div class="form-card">
-  <a class="back-button" href="birth-service.html">Back</a>
-  <h2>Registration of Live Birth</h2>
-<hr>
-  <label>Child's Name</label>
-  <div class="name-group">
-    <input type="text" id="lastName" placeholder="Last" required>
-    <input type="text" id="firstName" placeholder="First" required>
-    <input type="text" id="middleName" placeholder="Middle" required>
-  </div>
-
-  <label>Sex</label>
-  <select id="sex" required>
-    <option>Male</option>
-    <option>Female</option>
-  </select>
-
-  <label>Date of Birth</label>
-  <input type="date" id="ChildBirthDate" required>
-
-  <label>Place of Birth</label>
-  <div class="birthplace-group">
-    <input type="text" id="birthPlace" placeholder="Hospital/Clinic/Street/Barangay" required>
-    <input type="text" id="birthCity" placeholder="City/Municipality" required>
-    <input type="text" id="birthProvince" placeholder="Province" required>
-  </div>
-
-  <label>Attendant</label>
-  <div class="checkbox-group">
-    <label><input type="checkbox" id="physician"> Physician</label>
-    <label><input type="checkbox" id="nurse"> Nurse</label>
-    <label><input type="checkbox" id="midwife"> Midwife</label>
-    <label><input type="checkbox" id="hilot"> Hilot</label>
-    <label><input type="checkbox" id="others"> Others</label>
-  </div>
-
-  <label>Father's Name</label>
-  <input type="text" id="fatherName" placeholder="Last Name, First Name, Middle Initial" required>
-
-  <label>Mother's Name</label>
-  <input type="text" id="motherName" placeholder="Last Name, First Name, Middle Initial" required>
-<hr>
-  <h3>Mother's Information</h3>
-  <label>Maiden Name</label>
-  <div class="maiden-name-group">
-    <input type="text" placeholder="Last" required>
-    <input type="text" placeholder="First" required>
-    <input type="text" placeholder="Middle" required>
-  </div>
-
-  <div class="parent-info-group">
-    <div>
-      <label>Citizenship</label>
-      <input type="text" required>
+  <form id="form">
+    <a class="back-button" href="birth-service.html">Back</a>
+    <h2>Registration of Live Birth</h2>
+   <hr>
+    <label>Child's Name</label>
+    <div class="name-group">
+      <input type="text" id="lastName" placeholder="Last" required>
+      <input type="text" id="firstName" placeholder="First" required>
+      <input type="text" id="middleName" placeholder="Middle" required>
     </div>
-    <div>
-      <label>Religion</label>
-      <input type="text" required>
+  
+    <label>Sex</label>
+    <select id="sex" required>
+      <option>Male</option>
+      <option>Female</option>
+    </select>
+  
+    <label>Date of Birth</label>
+    <input type="date" id="ChildBirthDate" required>
+  
+    <label>Place of Birth</label>
+    <div class="birthplace-group">
+      <input type="text" id="birthPlace" placeholder="Hospital/Clinic/Street/Barangay" required>
+      <input type="text" id="birthCity" placeholder="City/Municipality" required>
+      <input type="text" id="birthProvince" placeholder="Province" required>
     </div>
-    <div>
-      <label>Total Children Born Alive</label>
-      <input type="text" required>
+  
+    <label>Attendant</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="physician"> Physician</label>
+      <label><input type="checkbox" id="nurse"> Nurse</label>
+      <label><input type="checkbox" id="midwife"> Midwife</label>
+      <label><input type="checkbox" id="hilot"> Hilot</label>
+      <label><input type="checkbox" id="others"> Others</label>
     </div>
-    <div>
-      <label>No. Still Living (including this birth)</label>
-      <input type="text" required>
+  
+    <label>Father's Name</label>
+    <input type="text" id="fatherName" placeholder="Last Name, First Name, Middle Initial" required>
+  
+    <label>Mother's Name</label>
+    <input type="text" id="motherName" placeholder="Last Name, First Name, Middle Initial" required>
+   <hr>
+    <h3>Mother's Information</h3>
+    <label>Maiden Name</label>
+    <div class="maiden-name-group">
+      <input type="text" placeholder="Last" required>
+      <input type="text" placeholder="First" required>
+      <input type="text" placeholder="Middle" required>
     </div>
-    <div>
-      <label>Now Dead</label>
-      <input type="text" required>
+  
+    <div class="parent-info-group">
+      <div>
+        <label>Citizenship</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>Religion</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>Total Children Born Alive</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>No. Still Living (including this birth)</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>Now Dead</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>Occupation</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>Date of Birth</label>
+    <input type="date" id="MotherBirthDate" required>
+      </div>
+      <div>
+        <label>Residence</label>
+        <input type="text" required>
+      </div>
     </div>
-    <div>
-      <label>Occupation</label>
-      <input type="text" required>
+   <hr>
+    <h3>Father's Information</h3>
+    <div class="father-name-group">
+      <input type="text" id="lastName" placeholder="Last" required>
+      <input type="text" id="firstName" placeholder="First" required>
+      <input type="text" id="middleName" placeholder="Middle" required>
     </div>
-    <div>
-      <label>Date of Birth</label>
-  <input type="date" id="MotherBirthDate" required>
+    <div class="parent-info-group">  
+      <div>
+        <label>Occupation</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>Citizenship</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>Religion</label>
+        <input type="text" required>
+      </div>
+      <div>
+        <label>Date of Birth</label>
+    <input type="date" id="FatherBirthDate" required>
+      </div>
     </div>
-    <div>
-      <label>Residence</label>
-      <input type="text" required>
-    </div>
-  </div>
-<hr>
-  <h3>Father's Information</h3>
-  <div class="father-name-group">
-    <input type="text" id="lastName" placeholder="Last" required>
-    <input type="text" id="firstName" placeholder="First" required>
-    <input type="text" id="middleName" placeholder="Middle" required>
-  </div>
-  <div class="parent-info-group">  
-    <div>
-      <label>Occupation</label>
-      <input type="text" required>
-    </div>
-    <div>
-      <label>Citizenship</label>
-      <input type="text" required>
-    </div>
-    <div>
-      <label>Religion</label>
-      <input type="text" required>
-    </div>
-    <div>
-      <label>Date of Birth</label>
-  <input type="date" id="FatherBirthDate" required>
-    </div>
-  </div>
-<hr>
-  <h3>AFFIDAVIT OF ACKNOWLEDGEMENT/ADMISSION OF PATERNITY</h3>
-  <p>
-    We, <input type="text" id="affidavitFather" placeholder="Father's Full Name" required> and 
-    <input type="text" id="affidavitMother" placeholder="Mother's Full Name" required>,
-    parents/parent of the child mentioned in this Certificate of Live Birth, do hereby solemnly swear that the information contained herein are true
-    and correct to the best of our/my knowledge and belief.
-  </p>
+   <hr>
+    <h3>AFFIDAVIT OF ACKNOWLEDGEMENT/ADMISSION OF PATERNITY</h3>
+    <p>
+      We, <input type="text" id="affidavitFather" placeholder="Father's Full Name" required> and 
+      <input type="text" id="affidavitMother" placeholder="Mother's Full Name" required>,
+      parents/parent of the child mentioned in this Certificate of Live Birth, do hereby solemnly swear that the information contained herein are true
+      and correct to the best of our/my knowledge and belief.
+    </p>
+  
+    <label>Upload Valid ID (Father)</label>
+    <input type="file" accept="image/*,application/pdf" required>
+  
+    <label>Father's Signature (Draw Below)</label>
+    <canvas id="father-signature" tabindex="0"></canvas>
+    <button type="button" class="clear-btn" onclick="clearCanvas('father-signature')">Clear Signature</button>
+  
+    <label>Upload Valid ID (Mother)</label>
+    <input type="file" accept="image/*,application/pdf" required>
+  
+    <label>Mother's Signature (Draw Below)</label>
+    <canvas id="mother-signature" tabindex="0"></canvas>
+    <button type="button" class="clear-btn" onclick="clearCanvas('mother-signature')">Clear Signature</button>
+  
+    <button type="button" onclick="submitForm()">Submit</button>
+    <div id="success-message" class="success-message"></div>
+  </form>
 
-  <label>Upload Valid ID (Father)</label>
-  <input type="file" accept="image/*,application/pdf" required>
-
-  <label>Father's Signature (Draw Below)</label>
-  <canvas id="father-signature" tabindex="0"></canvas>
-  <button type="button" class="clear-btn" onclick="clearCanvas('father-signature')">Clear Signature</button>
-
-  <label>Upload Valid ID (Mother)</label>
-  <input type="file" accept="image/*,application/pdf" required>
-
-  <label>Mother's Signature (Draw Below)</label>
-  <canvas id="mother-signature" tabindex="0"></canvas>
-  <button type="button" class="clear-btn" onclick="clearCanvas('mother-signature')">Clear Signature</button>
-
-  <button type="button" onclick="submitForm()">Submit</button>
-  <div id="success-message" class="success-message"></div>
 </div>
 
 <div class="gtranslate_wrapper"></div>
@@ -658,6 +661,32 @@ window.onload = () => {
   ChildBirthDate.setAttribute("max", maxDate);
   MotherBirthDate.setAttribute("max", maxDate);
   FatherBirthDate.setAttribute("max", maxDate);
+</script>
+<script>
+  function sendToDashboard() {
+    const fullName = `${document.getElementById("firstName").value} ${document.getElementById("middleName").value} ${document.getElementById("lastName").value}`;
+    const requestType = "Birth Certificate Registration";
+    const registryNumber = generateRegistryNumber();
+    const dateRegistered = new Date().toLocaleDateString();
+
+    const record = {
+      name: fullName,
+      type: requestType,
+      regNo: registryNumber,
+      dateRegistered: dateRegistered,
+    };
+  
+    // Save to localStorage (or send via API)
+    const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+    records.push(record);
+    localStorage.setItem("BirthRecords", JSON.stringify(records));
+    addRecord("BirthRecords", newRecord);
+  }
+
+  function submitForm() {
+    // Existing validation and submission logic...
+    sendToDashboard(); // Call this function after successful submission
+  }
 </script>
 </body>
 </html>

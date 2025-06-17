@@ -197,6 +197,9 @@
       <input type="text" placeholder="ZIP Code" required>
     </div>
 
+    <label>Applicant</label>
+    <input type="text" id="applicantName" placeholder="Last Name, First Name, Middle Initial" required>
+
     <label for="contact">Contact Number</label>
     <input type="text" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
 
@@ -250,8 +253,33 @@
   const maxDate = today.toISOString().split("T")[0];
   marriagedate.setAttribute("max", maxDate);
 
+  function sendToDashboard() {
+    const fullName = document.getElementById('applicantName').value;
+    const requestType = "Request for Marriage Certificate (Home Delivery)";
+    const registryNumber = generateRegistryNumber();
+    const dateRegistered = new Date().toLocaleDateString();
+
+    const record = {
+      name: fullName,
+      type: requestType,
+      regNo: registryNumber,
+      dateRegistered: dateRegistered,
+    };
+
+    // Save to localStorage (or send via API)
+    const records = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+    records.push(record);
+    localStorage.setItem("MarriageRecords", JSON.stringify(records));
+  }
+
+  function submitForm() {
+    // Existing validation and submission logic...
+    sendToDashboard(); // Call this function after successful submission
+  }
+
   document.getElementById("RequestHomeDelivery").addEventListener("submit", function(event) {
       event.preventDefault();
+      submitForm();
       document.getElementById("successMsg").style.display = "block";
       this.reset();
   });
