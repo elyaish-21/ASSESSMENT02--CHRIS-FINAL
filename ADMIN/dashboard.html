@@ -26,60 +26,6 @@
 
 
     <main class="main-content">
-      <div id="death" class="section">
-        <div class="header">
-          <h2>Death Informations</h2>
-          <div class="controls">
-            <div class="search-bar">
-              <i class="fas fa-search"></i>
-              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
-            </div>
-            <div class="filter-header" onclick="toggleFilterPanel('death-filter')">
-              <i class="fas fa-filter mr-2"></i> Filter
-            </div>
-            <div class="filter-panel" id="death-filter">
-              <div class="filter-group">
-                <label for="requestType">Request Type:</label>
-                <select id="requestType">
-                  <option value="">All</option>
-                  <option value="Schedule an Appointment_DR">Schedule an Appointment</option>
-                  <option value="Death Certificate Registration">Death Certificate Registration</option>
-                  <option value="Delayed Death">Delayed Death Registration</option>
-                  <option value="Home Delivery Death">Request for Death Certificate (Home Delivery)</option>
-                  <option value="Correction Death Certificate">Correction of Death Certificate</option>
-                  <option value="Burial Permit Application">Burial Permit Application</option>
-                  <option value="Cremation Permit Application">Cremation Permit Application</option>
-                </select>
-              </div>
-              <div class="filter-group">
-                <label for="startDate">From:</label>
-                <input type="date" id="startDate">
-              </div>
-              <div class="filter-group">
-                <label for="endDate">To:</label>
-                <input type="date" id="endDate">
-              </div>
-              <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
-              <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>
-            </div>
-          </div>
-        </div>
-        <table id="DeathTable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type of Request</th>
-              <th>Reg. No.</th>
-              <th>Date Registered</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Rows will be dynamically added here -->
-          </tbody>
-        </table>
-      </div>
-
       <div id="overview" class="section">
         <div class="header">
           <h2>Overview</h2>
@@ -206,6 +152,7 @@
                 <th>Type of Request</th>
                 <th>Reg. No.</th>
                 <th>Date Registered</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -213,6 +160,61 @@
               <!-- Rows will be dynamically added here -->
             </tbody>
           </table>
+      </div>
+
+            <div id="death" class="section">
+        <div class="header">
+          <h2>Death Informations</h2>
+          <div class="controls">
+            <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
+            </div>
+            <div class="filter-header" onclick="toggleFilterPanel('death-filter')">
+              <i class="fas fa-filter mr-2"></i> Filter
+            </div>
+            <div class="filter-panel" id="death-filter">
+              <div class="filter-group">
+                <label for="requestType">Request Type:</label>
+                <select id="requestType">
+                  <option value="">All</option>
+                  <option value="Schedule an Appointment_DR">Schedule an Appointment</option>
+                  <option value="Death Certificate Registration">Death Certificate Registration</option>
+                  <option value="Delayed Death">Delayed Death Registration</option>
+                  <option value="Home Delivery Death">Request for Death Certificate (Home Delivery)</option>
+                  <option value="Correction Death Certificate">Correction of Death Certificate</option>
+                  <option value="Burial Permit Application">Burial Permit Application</option>
+                  <option value="Cremation Permit Application">Cremation Permit Application</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label for="startDate">From:</label>
+                <input type="date" id="startDate">
+              </div>
+              <div class="filter-group">
+                <label for="endDate">To:</label>
+                <input type="date" id="endDate">
+              </div>
+              <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
+              <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>
+            </div>
+          </div>
+        </div>
+        <table id="DeathTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type of Request</th>
+              <th>Reg. No.</th>
+              <th>Date Registered</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be dynamically added here -->
+          </tbody>
+        </table>
       </div>
 
       <div id="marriage" class="section" style="display: none;">
@@ -263,6 +265,7 @@
                 <th>Type of Request</th>
                 <th>Reg. No.</th>
                 <th>Date Registered</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -272,6 +275,8 @@
           </table>
         </div>
       </div>
+
+
     </main>
   </div>
 
@@ -467,11 +472,18 @@ function loadDashboardRecords() {
       <td>${record.type}</td>
       <td>${record.regNo}</td>
       <td>${record.dateRegistered}</td>
+      <td>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%;"></div>
+          <span>${record.status}</span>
+        </div>
+      </td>
       <td class="actions">
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
           <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
           <button onclick="deleteRecord('BirthRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
+          <button onclick="modifyStatus('BirthRecords', '${record.regNo}')"><i class="fas fa-sync-alt mr-2"></i> Edit Status</button>
         </div>
       </td>
     `;
@@ -486,6 +498,12 @@ function loadDashboardRecords() {
       <td>${record.type}</td>
       <td>${record.regNo}</td>
       <td>${record.dateRegistered}</td>
+      <td>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%;"></div>
+          <span>${record.status}</span>
+        </div>
+      </td>
       <td class="actions">
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
@@ -505,6 +523,12 @@ function loadDashboardRecords() {
       <td>${record.type}</td>
       <td>${record.regNo}</td>
       <td>${record.dateRegistered}</td>
+      <td>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%;"></div>
+          <span>${record.status}</span>
+        </div>
+      </td>
       <td class="actions">
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
@@ -517,6 +541,48 @@ function loadDashboardRecords() {
   });
 }
 
+function modifyStatus(type, regNo) {
+  const records = JSON.parse(localStorage.getItem(type)) || [];
+  const record = records.find(r => r.regNo === regNo);
+
+  if (!record) {
+    alert("Record not found!");
+    return;
+  }
+
+  const newStatus = prompt(
+    "Enter new status (Received, Processing, For Signature, Ready for Release):",
+    record.status
+  );
+
+  if (newStatus && ["Received", "Processing", "For Signature", "Ready for Release"].includes(newStatus)) {
+    record.status = newStatus;
+
+    // Update the records in localStorage
+    localStorage.setItem(type, JSON.stringify(records));
+
+    // Reload the dashboard
+    loadDashboardRecords();
+  } else {
+    alert("Invalid status entered!");
+  }
+}
+
+// Helper function to determine progress percentage based on status
+function getProgressPercentage(status) {
+  switch (status) {
+    case "Received":
+      return 25;
+    case "Processing":
+      return 50;
+    case "For Signature":
+      return 75;
+    case "Ready for Release":
+      return 100;
+    default:
+      return 0; // Default for unknown status
+  }
+}
 
 window.onload = function () {
   loadDashboardRecords();
