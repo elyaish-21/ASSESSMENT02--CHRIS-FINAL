@@ -264,6 +264,8 @@
   <form id="form">
     <a class="back-button" href="birth-service.html">Back</a>
     <h2>Registration of Live Birth</h2>
+    <label>Applicant Name</label>
+    <input type="text" id="applicantName" placeholder="Full Name" required>
    <hr>
     <label>Child's Name</label>
     <div class="name-group">
@@ -492,15 +494,37 @@ function submitForm() {
   }
 }
 
+function sendToDashboard() {
+    const fullName = document.getElementById("applicantName").value;
+    const requestType = "Birth Certificate Registration";
+    const registryNumber = generateRegistryNumber();
+    const dateRegistered = new Date().toLocaleDateString();
 
+    const record = {
+      name: fullName,
+      type: requestType,
+      regNo: registryNumber,
+      dateRegistered: dateRegistered,
+    };
+  
+    // Save to localStorage (or send via API)
+    const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+    records.push(record);
+    localStorage.setItem("BirthRecords", JSON.stringify(records));
+  }
 
-function generateCertificate() {
+  // function submitForm() {
+  //   // Existing validation and submission logic...
+  //   sendToDashboard(); // Call this function after successful submission
+  // }
+
+  function generateCertificate() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
   const registryNumber = generateRegistryNumber();
   const fullName = `${document.getElementById("firstName").value} ${document.getElementById("middleName").value} ${document.getElementById("lastName").value}`;
-  const birthDateRaw = document.getElementById("birthDate").value;
+  const birthDateRaw = document.getElementById("ChildBirthDate").value;
   const birthDate = birthDateRaw ? new Date(birthDateRaw).toLocaleDateString() : "";
   const placeOfBirth = `${document.getElementById("birthPlace").value}, ${document.getElementById("birthCity").value}, ${document.getElementById("birthProvince").value}`;
   const sex = document.getElementById("sex").value;
@@ -516,101 +540,104 @@ function generateCertificate() {
   if (document.getElementById("hilot").checked) attendants.push("Hilot");
   if (document.getElementById("others").checked) attendants.push("Others");
 
+  // Header
   doc.setFont("Times", "bold");
   doc.setFontSize(16);
-  doc.text("Republic of the Philippines", 105, 30, { align: "center" });
-
+  doc.text("Republic of the Philippines", 105, 20, { align: "center" });
   doc.setFontSize(12);
-  doc.text("City of Manila", 105, 38, { align: "center" });
-  doc.text("Office of the Civil Registrar", 105, 46, { align: "center" });
-  doc.text("National Capital Region (NCR)", 105, 54, { align: "center" });
+  doc.text("City of Manila", 105, 28, { align: "center" });
+  doc.text("Office of the Civil Registrar", 105, 36, { align: "center" });
+  doc.text("National Capital Region (NCR)", 105, 44, { align: "center" });
 
   doc.setFontSize(18);
-  doc.text("CERTIFICATE OF LIVE BIRTH", 105, 70, { align: "center" }); // moved down to avoid overlap
+  doc.text("CERTIFICATE OF LIVE BIRTH", 105, 60, { align: "center" });
 
-  // Registry number - placed below headers
-doc.setFontSize(12);
-doc.setFont("Times", "bold");
-doc.text("Registry No.:", 130, 75); // moved down
-doc.setFont("Times", "normal");
-doc.text(registryNumber, 160, 75); // moved down
+  // Registry Number
+  doc.setFontSize(12);
+  doc.setFont("Times", "bold");
+  doc.text("Registry No.:", 20, 70);
+  doc.setFont("Times", "normal");
+  doc.text(registryNumber, 60, 70);
 
-// Start main content a bit lower
-let y = 85;
-doc.setFont("Times", "bold");
-doc.text("Full Name:", 20, y);
-doc.setFont("Times", "normal");
-doc.text(fullName, 55, y);
+  // Main Content
+  let y = 80;
+  doc.setFont("Times", "bold");
+  doc.text("Full Name:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(fullName, 60, y);
 
-y += 10;
-doc.setFont("Times", "bold");
-doc.text("Date of Birth:", 20, y);
-doc.setFont("Times", "normal");
-doc.text(birthDate, 55, y);
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Date of Birth:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(birthDate, 60, y);
 
-y += 10;
-doc.setFont("Times", "bold");
-doc.text("Place of Birth:", 20, y);
-doc.setFont("Times", "normal");
-doc.text(placeOfBirth, 55, y);
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Place of Birth:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(placeOfBirth, 60, y);
 
-y += 10;
-doc.setFont("Times", "bold");
-doc.text("Attendant:", 20, y);
-doc.setFont("Times", "normal");
-doc.text(attendants.join(", "), 55, y);
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Attendant:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(attendants.join(", "), 60, y);
 
-y += 10;
-doc.setFont("Times", "bold");
-doc.text("Sex:", 20, y);
-doc.setFont("Times", "normal");
-doc.text(sex, 55, y);
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Sex:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(sex, 60, y);
 
-y += 10;
-doc.setFont("Times", "bold");
-doc.text("Father's Name:", 20, y);
-doc.setFont("Times", "normal");
-doc.text(father, 55, y);
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Father's Name:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(father, 60, y);
 
-y += 10;
-doc.setFont("Times", "bold");
-doc.text("Mother's Name:", 20, y);
-doc.setFont("Times", "normal");
-doc.text(mother, 55, y);
+  y += 10;
+  doc.setFont("Times", "bold");
+  doc.text("Mother's Name:", 20, y);
+  doc.setFont("Times", "normal");
+  doc.text(mother, 60, y);
 
+  // Affidavit Section
   y += 20;
   doc.setFont("Times", "bold");
   doc.text("AFFIDAVIT OF ACKNOWLEDGEMENT/ADMISSION OF PATERNITY", 105, y, { align: "center" });
 
- y += 10;
-doc.setFont("Times", "normal");
-doc.setFontSize(12); // Keep default label size
-const affidavitText = `We, ${affidavitFather} and ${affidavitMother}, parents/parent of the child mentioned in this Certificate of Live Birth, do hereby solemnly swear that the information contained herein are true and correct to the best of our/my knowledge and belief.`;
-const splitText = doc.splitTextToSize(affidavitText, 170);
-doc.text(splitText, 20, y += 10);
+  y += 10;
+  doc.setFont("Times", "normal");
+  doc.setFontSize(12);
+  const affidavitText = `We, ${affidavitFather} and ${affidavitMother}, parents/parent of the child mentioned in this Certificate of Live Birth, do hereby solemnly swear that the information contained herein are true and correct to the best of our/my knowledge and belief.`;
+  const splitText = doc.splitTextToSize(affidavitText, 170);
+  doc.text(splitText, 20, y);
 
-y += splitText.length * 7 + 10;
+  y += splitText.length * 7 + 10;
 
-const fatherCanvas = document.getElementById("father-signature");
-const fatherImage = fatherCanvas.toDataURL("image/png");
-doc.addImage(fatherImage, "PNG", 20, y + 5, 60, 30); // Left image
+  // Signatures
+  const fatherCanvas = document.getElementById("father-signature");
+  const fatherImage = fatherCanvas.toDataURL("image/png");
+  doc.addImage(fatherImage, "PNG", 20, y, 60, 30);
 
-const motherCanvas = document.getElementById("mother-signature");
-const motherImage = motherCanvas.toDataURL("image/png");
-doc.addImage(motherImage, "PNG", 120, y + 5, 60, 30); // Right image
+  const motherCanvas = document.getElementById("mother-signature");
+  const motherImage = motherCanvas.toDataURL("image/png");
+  doc.addImage(motherImage, "PNG", 120, y, 60, 30);
 
-// Signatures side by side (keep default font size)
-doc.setFont("Times", "bold");
-doc.text("Father's Signature:", 20, y);
-doc.text("Mother's Signature:", 120, y); // Right-side label
+  y += 40;
+  doc.setFont("Times", "bold");
+  doc.text("Father's Signature:", 20, y);
+  doc.text("Mother's Signature:", 120, y);
 
-y += 65; // Move down after both signatures
+  // Border
+  doc.setLineWidth(1);
+  doc.rect(10, 10, 190, 270);
 
-doc.setLineWidth(1);
-doc.rect(10, 10, 190, 270);
+  // Save PDF
+  doc.save("Certificate_of_Live_Birth.pdf");
 
-doc.save("Certificate_of_Live_Birth.pdf");
-
+  sendToDashboard();
 }
 
   
@@ -662,31 +689,6 @@ window.onload = () => {
   MotherBirthDate.setAttribute("max", maxDate);
   FatherBirthDate.setAttribute("max", maxDate);
 </script>
-<script>
-  function sendToDashboard() {
-    const fullName = `${document.getElementById("firstName").value} ${document.getElementById("middleName").value} ${document.getElementById("lastName").value}`;
-    const requestType = "Birth Certificate Registration";
-    const registryNumber = generateRegistryNumber();
-    const dateRegistered = new Date().toLocaleDateString();
 
-    const record = {
-      name: fullName,
-      type: requestType,
-      regNo: registryNumber,
-      dateRegistered: dateRegistered,
-    };
-  
-    // Save to localStorage (or send via API)
-    const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
-    records.push(record);
-    localStorage.setItem("BirthRecords", JSON.stringify(records));
-    addRecord("BirthRecords", newRecord);
-  }
-
-  function submitForm() {
-    // Existing validation and submission logic...
-    sendToDashboard(); // Call this function after successful submission
-  }
-</script>
 </body>
 </html>
