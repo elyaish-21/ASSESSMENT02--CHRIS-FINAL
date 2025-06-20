@@ -176,7 +176,7 @@
                 <div class="CertRequest">
                     <form id="appointm" onsubmit="event.preventDefault(); showSMSConfirmation();">
                         <label for="registry">Registry</label>
-                        <input type="text" id="" placeholder="Enter Registry Number" required>
+                        <input type="text" id="regno" placeholder="Enter Registry Number" required>
 
                         <label for="fullname">Fullname</label>
                         <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
@@ -252,8 +252,28 @@
         <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
         
         <script>
+            function sendToDashboard() {
+              const fullName = document.getElementById("fullName").value;
+              const requestType = "Request for Death Certificate (Home Delivery)";
+              const registryNumber = document.getElementById("regno").value;
+              const dateRegistered = new Date().toLocaleDateString();
+          
+              const record = {
+                name: fullName,
+                type: requestType,
+                regNo: registryNumber,
+                dateRegistered: dateRegistered,
+              };
+          
+              // Save to localStorage (or send via API)
+              const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+              records.push(record);
+              localStorage.setItem("DeathRecords", JSON.stringify(records));
+            }
+
             function showSMSConfirmation() {
               document.getElementById('sms-confirmation').style.display = 'block';
+              sendToDashboard();
               document.querySelector('form').reset();
             }
         </script>
@@ -286,29 +306,7 @@
           });
         </script>
         <script>
-          function sendToDashboard() {
-            const fullName = document.getElementById('fullName').value;
-            const requestType = "Request for Death Certificate (Home Delivery)";
-            const registryNumber = generateRegistryNumber();
-            const dateRegistered = new Date().toLocaleDateString();
-        
-            const record = {
-              name: fullName,
-              type: requestType,
-              regNo: registryNumber,
-              dateRegistered: dateRegistered,
-            };
-        
-            // Save to localStorage (or send via API)
-            const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
-            records.push(record);
-            localStorage.setItem("DeathRecords", JSON.stringify(records));
-          }
-        
-          function submitForm() {
-            // Existing validation and submission logic...
-            sendToDashboard(); // Call this function after successful submission
-          }
+
         </script>
     </body>
 </html>

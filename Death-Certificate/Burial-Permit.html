@@ -437,6 +437,25 @@ function showSMSConfirmation() {
     document.getElementById('sms-confirmation').style.display = 'block';
 }
 
+function sendToDashboard() {
+      const fullName = document.getElementById("informantName").value;
+      const requestType = "Burial Permit Application";
+      const registryNumber = document.getElementById("regno").value;
+      const dateRegistered = new Date().toLocaleDateString();
+  
+      const record = {
+        name: fullName,
+        type: requestType,
+        regNo: registryNumber,
+        dateRegistered: dateRegistered,
+      };
+  
+      // Save to localStorage (or send via API)
+      const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+      records.push(record);
+      localStorage.setItem("DeathRecords", JSON.stringify(records));
+}
+
 function submitForm() {
     const successDiv = document.getElementById('success-message');
     if (!validateForm()) return;
@@ -460,9 +479,11 @@ function generateCertificate() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
+    // Draw border
     doc.setLineWidth(1);
-    doc.rect(10, 10, 190, 277); // Border
+    doc.rect(10, 10, 190, 277);
 
+    // Retrieve form data
     const registryNumber = document.getElementById("regno").value.trim();
     const firstName = document.getElementById("firstname").value.trim();
     const middleName = document.getElementById("middlename").value.trim();
@@ -477,11 +498,12 @@ function generateCertificate() {
     const licenseNumber = document.getElementById("licenseNumber").value.trim();
     const informantName = document.getElementById("informantName").value.trim();
     const relationship = document.getElementById("relationship").value.trim();
-    const informantContact = document.getElementById("informantContact").value.trim();
+    const informantContact = document.getElementById("contact").value.trim();
     const disposition = document.getElementById("disposition").value;
     const dispositionPlace = document.getElementById("dispositionPlace").value.trim();
     const dispositionDate = document.getElementById("dispositionDate").value;
 
+    // Add content to the PDF
     doc.setFont("Times", "Bold");
     doc.setFontSize(14);
     doc.text("Republic of the Philippines", 105, 20, { align: "center" });
@@ -549,7 +571,10 @@ function generateCertificate() {
         doc.addImage(imgData, 'PNG', 130, signatureY - 25, 50, 25);
     }
 
+    // Save the PDF
     doc.save(`Burial_Permit_Certificate_${lastName}_${firstName}.pdf`);
+
+    sendToDashboard();
 }
 
 
@@ -605,30 +630,5 @@ window.onload = () => {
     phoneInput.value = value;
     });
 </script>
-<script>
-    function sendToDashboard() {
-      const fullName = document.getElementById('informantName').value;
-      const requestType = "Burial Permit Application";
-      const registryNumber = generateRegistryNumber();
-      const dateRegistered = new Date().toLocaleDateString();
-  
-      const record = {
-        name: fullName,
-        type: requestType,
-        regNo: registryNumber,
-        dateRegistered: dateRegistered,
-      };
-  
-      // Save to localStorage (or send via API)
-      const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
-      records.push(record);
-      localStorage.setItem("DeathRecords", JSON.stringify(records));
-    }
-  
-    function submitForm() {
-      // Existing validation and submission logic...
-      sendToDashboard(); // Call this function after successful submission
-    }
-  </script>
 </body>
 </html>

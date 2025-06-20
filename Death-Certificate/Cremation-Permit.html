@@ -452,6 +452,25 @@
             return true;
         }
 
+        function sendToDashboard() {
+          const fullName = document.getElementById("informantName").value;
+          const requestType = "Cremation Permit Application";
+          const registryNumber = document.getElementById("regno").value;
+          const dateRegistered = new Date().toLocaleDateString();
+      
+          const record = {
+            name: fullName,
+            type: requestType,
+            regNo: registryNumber,
+            dateRegistered: dateRegistered,
+          };
+      
+          // Save to localStorage (or send via API)
+          const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+          records.push(record);
+          localStorage.setItem("DeathRecords", JSON.stringify(records));
+        }
+
         function submitForm() {
             const successDiv = document.getElementById('success-message');
             if (!validateForm()) return;
@@ -514,7 +533,7 @@
 
     // Fields
     addField("Registry Number", getValue("regno"));
-    addField("Full Name", `${getValue("firstname")} ${getValue("middlename")} ${getValue("lastname")}`);
+    addField("Full Name", `${getValue("firstName")} ${getValue("middleName")} ${getValue("lastName")}`);
     addField("Sex", getValue("sex"));
     addField("Date of Death", getValue("deathDate"));
     addField("Time of Death", getValue("time"));
@@ -542,33 +561,34 @@
     addField("Urn Required", radioValue("urn"));
 
    // Signature
-y += sectionGap + 10;
+    y += sectionGap + 10;
 
-// Prevent it from going too close to bottom border
-const maxY = pageHeight - 40;
-if (y > maxY) y = maxY;
+    // Prevent it from going too close to bottom border
+    const maxY = pageHeight - 40;
+    if (y > maxY) y = maxY;
 
-const signatureX = pageWidth - 70; // Ensures it doesn't go beyond right border
-const signatureLineY = y;
-const signatureTextY = y + 6;
-const signatureImageY = y - 20;
-const signatureImageWidth = 50;
-const signatureImageHeight = 20;
+    const signatureX = pageWidth - 70; // Ensures it doesn't go beyond right border
+    const signatureLineY = y;
+    const signatureTextY = y + 6;
+    const signatureImageY = y - 20;
+    const signatureImageWidth = 50;
+    const signatureImageHeight = 20;
 
-doc.text("_________________________", signatureX, signatureLineY);
-doc.text("Signature of Informant", signatureX, signatureTextY);
+    doc.text("_________________________", signatureX, signatureLineY);
+    doc.text("Signature of Informant", signatureX, signatureTextY);
 
-// Add signature image safely within bounds
-const canvas = document.getElementById("signature");
-if (canvas) {
-    const imgData = canvas.toDataURL("image/png");
-    doc.addImage(imgData, 'PNG', signatureX, signatureImageY, signatureImageWidth, signatureImageHeight);
-}
-
+    // Add signature image safely within bounds
+    const canvas = document.getElementById("signature");
+    if (canvas) {
+        const imgData = canvas.toDataURL("image/png");
+        doc.addImage(imgData, 'PNG', signatureX, signatureImageY, signatureImageWidth, signatureImageHeight);
+    }
 
     // Save
     const fileName = `Cremation_Permit_Certificate_${getValue("lastname")}_${getValue("firstname")}.pdf`;
     doc.save(fileName);
+
+    sendToDashboard();
 }
 
 
@@ -622,31 +642,6 @@ if (canvas) {
         }
         phoneInput.value = value;
         });
-      </script>
-      <script>
-        function sendToDashboard() {
-          const fullName = document.getElementById('informantName').value;
-          const requestType = "Cremation Permit Application";
-          const registryNumber = generateRegistryNumber();
-          const dateRegistered = new Date().toLocaleDateString();
-      
-          const record = {
-            name: fullName,
-            type: requestType,
-            regNo: registryNumber,
-            dateRegistered: dateRegistered,
-          };
-      
-          // Save to localStorage (or send via API)
-          const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
-          records.push(record);
-          localStorage.setItem("DeathRecords", JSON.stringify(records));
-        }
-      
-        function submitForm() {
-          // Existing validation and submission logic...
-          sendToDashboard(); // Call this function after successful submission
-        }
       </script>
 </body>
 </html>

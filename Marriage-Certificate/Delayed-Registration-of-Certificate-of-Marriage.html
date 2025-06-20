@@ -179,7 +179,7 @@
   <div class="form-container">
     <a class="back-button" href="marriage-service.html">Back</a>
     <h1>Delayed Registration of Certificate of Marriage</h1>
-    <form id="marriage-form" enctype="multipart/form-data">
+    <form id="marriage-form" onsubmit="event.preventDefault(); showSMSConfirmation();">
       <fieldset>
         <legend>Marriage Details</legend>
         <label>Spouse 1 Full Name:</label>
@@ -213,7 +213,7 @@
       <fieldset>
         <legend>Applicant Information</legend>
         <label>Applicant Full Name:</label>
-        <input type="text" name="applicant_name" placeholder="Last Name, First Name, Middle Name" required>
+        <input type="text" id="applicant_name" name="applicant_name" placeholder="Last Name, First Name, Middle Name" required>
         <label>Contact Number:</label>
         <input type="text" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" name="contact_number" required>
         <label>Email Address:</label>
@@ -249,6 +249,16 @@
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
   <script>
+    function generateRegistryNumber() {
+      const now = new Date();
+      return `DS-${now.getFullYear()}${(now.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+          .getTime()
+          .toString()
+          .slice(-5)}`;
+    }
+
     function sendToDashboard() {
       const fullName = document.getElementById('applicant_name').value;
       const requestType = "Delayed Registration of Certificate of Marriage";
@@ -268,14 +278,9 @@
       localStorage.setItem("MarriageRecords", JSON.stringify(records));
     }
 
-    document.getElementById("marriage-form").addEventListener("submit", function(e) {
-      e.preventDefault(); // Prevent real form submission
-      sendToDashboard();
-      showSMSConfirmation();
-    });
-
     function showSMSConfirmation() {
       document.getElementById("sms-confirmation").style.display = "block";
+      sendToDashboard();
       document.getElementById("marriage-form").reset();
     }
   </script>
@@ -286,12 +291,6 @@
   
     const maxDate = today.toISOString().split("T")[0];
     deceasedDateInput.setAttribute("max", maxDate);
-  
-    document.getElementById("marriage-form").addEventListener("submit", function(event) {
-        event.preventDefault();
-        document.getElementById("successMsg").style.display = "block";
-        this.reset();
-    });
     
     // Mobile number format
     const phoneInput = document.getElementById("contact");

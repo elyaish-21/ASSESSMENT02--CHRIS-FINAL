@@ -482,8 +482,8 @@ function loadDashboardRecords() {
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
           <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
-          <button onclick="deleteRecord('BirthRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
           <button onclick="modifyStatus('BirthRecords', '${record.regNo}')"><i class="fas fa-sync-alt mr-2"></i> Edit Status</button>
+          <button onclick="deleteRecord('BirthRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
         </div>
       </td>
     `;
@@ -508,6 +508,7 @@ function loadDashboardRecords() {
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
           <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
+          <button onclick="modifyStatus('MarriagerRecords', '${record.regNo}')"><i class="fas fa-sync-alt mr-2"></i> Edit Status</button>
           <button onclick="deleteRecord('MarriageRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
         </div>
       </td>
@@ -533,6 +534,7 @@ function loadDashboardRecords() {
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
           <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
+          <button onclick="modifyStatus('DeathRecords', '${record.regNo}')"><i class="fas fa-sync-alt mr-2"></i> Edit Status</button>
           <button onclick="deleteRecord('DeathRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
         </div>
       </td>

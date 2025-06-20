@@ -270,6 +270,9 @@
                 <h1>Death Certificate Appointment</h1>
                 <div class="sched-form">
                     <form id="appointment" onsubmit="event.preventDefault(); showSMSConfirmation();">
+                        <label for="regno">Registry Number</label>
+                        <input type="text" id="regno"placeholder="Enter the Registry Number from the Death Registration Certificate" required>
+
                         <label for="name">Requester's Full Name</label>
                         <input type="text" id="fullName" placeholder="Last Name, Firt Name Middle Initial" required>
                         
@@ -337,14 +340,31 @@
         <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
         <script>
+            function sendToDashboard() {
+                const fullName = document.getElementById("fullName").value;
+                const requestType = "Schedule an Appointment";
+                const registryNumber = document.getElementById("regno").value;
+                const dateRegistered = new Date().toLocaleDateString();
+            
+                const record = {
+                    name: fullName,
+                    type: requestType,
+                    regNo: registryNumber,
+                    dateRegistered: dateRegistered,
+                };
+            
+                // Save to localStorage (or send via API)
+                const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+                records.push(record);
+                localStorage.setItem("DeathRecords", JSON.stringify(records));
+            }
+            
+
             function showSMSConfirmation() {
-            // Show the confirmation modal
             document.getElementById('sms-confirmation').style.display = 'block';
-          
-            // Reset the form fields
+            sendToDashboard();
             document.querySelector('form').reset();
           
-            // Hide the "Other" correction input if visible
             document.getElementById('otherCorrectionContainer').style.display = 'none';
           }
           </script>   
@@ -358,7 +378,7 @@
     dateInput.setAttribute("min", minDate);
   
     // Set the maximum date to the last day of the current year
-    const lastDayOfYear = new Date(today.getFullYear(), 11, 31); // December 31 of the current year
+    const lastDayOfYear = new Date(today.getFullYear(), 11, 31);
     const maxDate = lastDayOfYear.toISOString().split("T")[0];
     dateInput.setAttribute("max", maxDate);
   
@@ -372,7 +392,7 @@
     const phoneInput = document.getElementById("mobile");
   
     phoneInput.addEventListener("input", function () {
-      let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
+      let value = phoneInput.value.replace(/\D/g, ""); 
       if (value.length > 4) {
         value = value.slice(0, 4) + "-" + value.slice(4);
       }
@@ -383,29 +403,7 @@
     });
   </script> 
   <script>
-    function sendToDashboard() {
-      const fullName = `${document.getElementById("firstName").value} ${document.getElementById("middleName").value} ${document.getElementById("lastName").value}`;
-      const requestType = "Schedule an Appointment";
-      const registryNumber = generateRegistryNumber();
-      const dateRegistered = new Date().toLocaleDateString();
-  
-      const record = {
-        name: fullName,
-        type: requestType,
-        regNo: registryNumber,
-        dateRegistered: dateRegistered,
-      };
-  
-      // Save to localStorage (or send via API)
-      const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
-      records.push(record);
-      localStorage.setItem("DeathRecords", JSON.stringify(records));
-    }
-  
-    function submitForm() {
-      // Existing validation and submission logic...
-      sendToDashboard(); // Call this function after successful submission
-    }
+
   </script>
   <script src="../email.js"></script>
     </body>

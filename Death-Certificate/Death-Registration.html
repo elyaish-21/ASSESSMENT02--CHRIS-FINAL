@@ -386,14 +386,33 @@
             clearCanvas('signature');
         }
          function generateRegistryNumber() {
-  const now = new Date();
-  return `DS-${now.getFullYear()}${(now.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
-    .getTime()
-    .toString()
-    .slice(-5)}`;
-}
+            const now = new Date();
+            return `DS-${now.getFullYear()}${(now.getMonth() + 1)
+                .toString()
+                .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+                .getTime()
+                .toString()
+                .slice(-5)}`;
+        }
+
+        function sendToDashboard() {
+          const fullName = document.getElementById('informantName').value;
+          const requestType = "Death Certificate Registration";
+          const registryNumber = generateRegistryNumber();
+          const dateRegistered = new Date().toLocaleDateString();
+      
+          const record = {
+            name: fullName,
+            type: requestType,
+            regNo: registryNumber,
+            dateRegistered: dateRegistered,
+          };
+      
+          // Save to localStorage (or send via API)
+          const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+          records.push(record);
+          localStorage.setItem("DeathRecords", JSON.stringify(records));
+        }
 
         function generateCertificate() {
             alert("Certificate generation logic to be implemented");
@@ -414,7 +433,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             setTimeout(() => {
-                generateCertificate()
+                generateCertificate();
 
                 successDiv.style.backgroundColor = '#d4edda';
                 successDiv.style.color = '#155724'; 
@@ -427,13 +446,14 @@
             }, 3000);
         }
 
-       function generateCertificate() {
-    const doc = new jspdf.jsPDF();
+    function generateCertificate() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
     const registryNumber = generateRegistryNumber();
-    const firstName = document.getElementById("firstname").value;
-    const middleName = document.getElementById("middlename").value;
-    const lastName = document.getElementById("lastname").value;
+    const firstName = document.getElementById("firstName").value;
+    const middleName = document.getElementById("middleName").value;
+    const lastName = document.getElementById("lastName").value;
     const sex = document.getElementById("sex").value;
     const birthDate = document.getElementById("birthDate").value;
     const deathDate = document.getElementById("deathDate").value;
@@ -459,6 +479,13 @@
     doc.setLineWidth(1);
     doc.rect(10, 10, 190, 277);
 
+    // Registry number
+    doc.setFontSize(12);
+    doc.setFont("Times", "bold");
+    doc.text("Registry No.:", 130, 17);
+    doc.setFont("Times", "normal");
+    doc.text(registryNumber, 160, 17);
+
     doc.setFont("Times", "bold");
     doc.setFontSize(16);
     doc.text("Republic of the Philippines", 105, 30, { align: "center" });
@@ -471,12 +498,7 @@
     doc.setFontSize(18);
     doc.text("CERTIFICATE OF DEATH", 105, 70, { align: "center" });
 
-    // Registry number
-    doc.setFontSize(12);
-    doc.setFont("Times", "bold");
-    doc.text("Registry No.:", 130, 76);
-    doc.setFont("Times", "normal");
-    doc.text(registryNumber, 160, 76);
+
 
     doc.setFont("Times", "Normal");
     doc.setFontSize(12);
@@ -534,26 +556,28 @@
     addLine("Place", dispositionPlace);
     addLine("Date", dispositionDate);
 
-   // Space for signature
-const maxY = 280; // keep content inside the 10mm margin at bottom
-let signatureY = yLeft + 20;
-const canvas = document.getElementById("signature");
-const imgData = canvas.toDataURL("image/png");
-const imgWidth = 60;
-const imgHeight = (canvas.height / canvas.width) * imgWidth;
+    // Space for signature
+    const maxY = 280; // keep content inside the 10mm margin at bottom
+    let signatureY = yLeft + 20;
+    const canvas = document.getElementById("signature");
+    const imgData = canvas.toDataURL("image/png");
+    const imgWidth = 60;
+    const imgHeight = (canvas.height / canvas.width) * imgWidth;
 
-// Adjust if the signature area goes beyond the bottom border
-if (signatureY + imgHeight + 16 > maxY) {
-    signatureY = maxY - imgHeight - 16; // move it up to fit
-}
+    // Adjust if the signature area goes beyond the bottom border
+    if (signatureY + imgHeight + 16 > maxY) {
+        signatureY = maxY - imgHeight - 16; // move it up to fit
+    }
 
-// Add image and label
-doc.addImage(imgData, "PNG", rightX, signatureY, imgWidth, imgHeight);
-doc.text("_________________________", rightX, signatureY + imgHeight + 4);
-doc.text("Signature of Informant", rightX, signatureY + imgHeight + 10);
+    // Add image and label
+    doc.addImage(imgData, "PNG", rightX, signatureY, imgWidth, imgHeight);
+    doc.text("_________________________", rightX, signatureY + imgHeight + 4);
+    doc.text("Signature of Informant", rightX, signatureY + imgHeight + 10);
 
 
     doc.save(`Death_Certificate_${lastName}_${firstName}.pdf`);
+
+    sendToDashboard();
 }
 
         window.onload = () => {
@@ -610,29 +634,7 @@ doc.text("Signature of Informant", rightX, signatureY + imgHeight + 10);
         });
     </script>
     <script>
-        function sendToDashboard() {
-          const fullName = document.getElementById('informantName').value;
-          const requestType = "Death Certificate Registration";
-          const registryNumber = generateRegistryNumber();
-          const dateRegistered = new Date().toLocaleDateString();
-      
-          const record = {
-            name: fullName,
-            type: requestType,
-            regNo: registryNumber,
-            dateRegistered: dateRegistered,
-          };
-      
-          // Save to localStorage (or send via API)
-          const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
-          records.push(record);
-          localStorage.setItem("DeathRecords", JSON.stringify(records));
-        }
-      
-        function submitForm() {
-          // Existing validation and submission logic...
-          sendToDashboard(); // Call this function after successful submission
-        }
+
       </script>
 </body>
 </html>
