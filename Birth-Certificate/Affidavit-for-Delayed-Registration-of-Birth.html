@@ -125,7 +125,6 @@
     .back-button {
       display: inline-block;
       margin: 20px 0 20px 10px;
-      /* Push to left */
       text-align: center;
       padding: 10px 15px;
       background-color: #f70707;
@@ -161,23 +160,6 @@
 
     .address-final input {
       margin-top: 5px;
-    }
-
-    .zip-code-container {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    .zip-code-container input {
-      width: 120px;
-      margin-right: 10px;
-    }
-
-    .zip-code-container button {
-      width: auto;
-      padding: 8px 12px;
-      margin-top: 0;
     }
 
     .loading {
@@ -235,33 +217,30 @@
 
         <div class="address-level">
           <label>City/Municipality</label>
-          <select id="city" required>
-            <option value="">Select City/Municipality</option>
+          <select id="city" required class="disabled-select" disabled>
             <option value="MANILA" selected>City of Manila</option>
           </select>
-          <div id="city-error" class="error-message">Please select a city/municipality</div>
         </div>
 
         <div class="address-level">
           <label>District</label>
-          <select id="barangay" required>
+          <select id="district" required>
             <option value="">Select District</option>
-            <option value="Binondo">Binondo</option>
-            <option value="Ermita">Ermita</option>
-            <option value="Intramuros">Intramuros</option>
-            <option value="Malate">Malate</option>
-            <option value="Paco">Paco</option>
-            <option value="Pandacan">Pandacan</option>
-            <option value="Port Area">Port Area</option>
-            <option value="Quiapo">Quiapo</option>
-            <option value="Sampaloc">Sampaloc</option>
-            <option value="San Andres">San Andres</option>
-            <option value="San Miguel">San Miguel</option>
-            <option value="San Nicolas">San Nicolas</option>
-            <option value="Santa Ana">Santa Ana</option>
-            <option value="Santa Cruz">Santa Cruz</option>
-            <option value="Santa Mesa">Santa Mesa</option>
-            <option value="Tondo">Tondo</option>
+            <option value="District I">District I</option>
+            <option value="District II">District II</option>
+            <option value="District III">District III</option>
+            <option value="District IV">District IV</option>
+            <option value="District V">District V</option>
+            <option value="District VI">District VI</option>
+          </select>
+          <div id="district-error" class="error-message">Please select a district</div>
+        </div>
+
+        <div class="address-level">
+          <label>Barangay</label>
+          <select id="barangay" required>
+            <option value="">Select Barangay</option>
+            <!-- Barangays will be populated based on district selection -->
           </select>
           <div id="barangay-error" class="error-message">Please select a barangay</div>
         </div>
@@ -270,13 +249,6 @@
           <label>Street Address (House No., Street, Subdivision, etc.)</label>
           <input type="text" id="street" placeholder="e.g. 123 Main Street, Villa Subdivision" required>
           <div id="street-error" class="error-message">Please enter your street address</div>
-
-          <div class="zip-code-container">
-            <label>Zip Code:</label>
-            <input type="text" id="zipcode" placeholder="e.g. 1000" pattern="\d{4}" maxlength="4">
-            <button type="button" id="lookup-zip">Lookup</button>
-            <div id="zipcode-error" class="error-message">Please enter a valid 4-digit zip code</div>
-          </div>
         </div>
       </div>
 
@@ -323,7 +295,7 @@
         required />
 
       <label>8. Marital Status (Applicant Only)</label>
-<input type="text" id="applicantStatus" name="applicant_marital_status" placeholder="e.g. Single, Married, Widowed" />
+      <input type="text" id="applicantStatus" name="applicant_marital_status" placeholder="e.g. Single, Married, Widowed" />
 
       <label>For Parent/Guardian</label>
       <input type="text" />
@@ -400,55 +372,52 @@
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const citySelect = document.getElementById('city');
+      const districtSelect = document.getElementById('district');
       const barangaySelect = document.getElementById('barangay');
-      const zipcodeInput = document.getElementById('zipcode');
-      const lookupZipBtn = document.getElementById('lookup-zip');
 
       // Error elements
-      const cityError = document.getElementById('city-error');
+      const districtError = document.getElementById('district-error');
       const barangayError = document.getElementById('barangay-error');
       const streetError = document.getElementById('street-error');
-      const zipcodeError = document.getElementById('zipcode-error');
 
-      // Zip Code Lookup for Manila
-      function lookupManilaZipCode(zipcode) {
-        // Sample zip code data for Manila
-        const manilaZipCodes = {
-          '1000': 'Manila Central Post Office',
-          '1008': 'Ermita',
-          '1010': 'Intramuros',
-          '1011': 'Malate',
-          '1012': 'Paco',
-          '1013': 'Pandacan',
-          '1014': 'Port Area',
-          '1015': 'Quiapo',
-          '1016': 'Sampaloc',
-          '1017': 'San Andres',
-          '1018': 'San Miguel',
-          '1019': 'San Nicolas',
-          '1020': 'Santa Ana',
-          '1021': 'Santa Cruz',
-          '1022': 'Santa Mesa',
-          '1023': 'Tondo',
-          '1026': 'Binondo'
-        };
+      // Manila districts and their barangays
+      const manilaDistricts = {
+        'District I': [
+          'Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz',
+          'Tondo I', 'Tondo II'
+        ],
+        'District II': [
+          'Ermita', 'Intramuros', 'Malate', 'Paco',
+          'Pandacan', 'Port Area', 'San Miguel', 'San Andres'
+        ],
+        'District III': [
+          'Santa Ana', 'Santa Mesa'
+        ],
+        'District IV': [
+          'Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose',
+          'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo',
+          'Santo Domingo', 'Talayan'
+        ],
+        'District V': [
+          'Pandacan', 'San Andres Bukid', 'Santa Ana'
+        ],
+        'District VI': [
+          'Paco', 'San Andres Bukid', 'Santa Ana'
+        ]
+      };
 
-        if (manilaZipCodes[zipcode]) {
-          alert(`Zip Code ${zipcode} is for ${manilaZipCodes[zipcode]}, Manila`);
-        } else {
-          alert(`Zip Code ${zipcode} not found in our Manila database. Please verify or enter address manually.`);
-        }
-      }
-
-      // Zip code lookup
-      lookupZipBtn.addEventListener('click', function () {
-        const zipcode = zipcodeInput.value.trim();
-        if (/^\d{4}$/.test(zipcode)) {
-          lookupManilaZipCode(zipcode);
-          hideError(zipcodeError);
-        } else {
-          showError(zipcodeError, 'Please enter a valid 4-digit zip code');
+      // Populate barangays based on district selection
+      districtSelect.addEventListener('change', function() {
+        const selectedDistrict = this.value;
+        barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+        
+        if (selectedDistrict && manilaDistricts[selectedDistrict]) {
+          manilaDistricts[selectedDistrict].forEach(barangay => {
+            const option = document.createElement('option');
+            option.value = barangay;
+            option.textContent = barangay;
+            barangaySelect.appendChild(option);
+          });
         }
       });
 
@@ -456,8 +425,8 @@
       document.getElementById('delayedBirthForm').addEventListener('submit', function (e) {
         let isValid = true;
 
-        if (!citySelect.value) {
-          showError(cityError, 'Please select a city/municipality');
+        if (!districtSelect.value) {
+          showError(districtError, 'Please select a district');
           isValid = false;
         }
 
