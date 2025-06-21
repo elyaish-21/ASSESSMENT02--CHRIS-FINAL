@@ -6,7 +6,7 @@
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -62,7 +62,7 @@
         </div>
         
         <div class="graph-container">
-          <img src="Graph.png" alt="Graph showing monthly records submission" class="graph-image" />
+          <canvas id="recordsChart"></canvas>
         </div> 
         
 
@@ -95,9 +95,13 @@
                   </div>
           </div>
 
+                  <div class="pieChart">
+                    <h3>Type Distribution</h3>
                     <div class="pie-chart">
-                      <img src="pie.png" alt="Pie chart showing record types distribution" class="chart-image" />
+                      <canvas id="requestTypeChart"></canvas>
                     </div>
+                  </div>
+
       </div>
      </div>
 
@@ -109,8 +113,8 @@
             <div class="controls">
               
               <div class="search-bar">
-              <i class="fas fa-search"></i>
-              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInputBirth" placeholder="Search Birth Records..." oninput="applySearch('BirthTable', 'searchInputBirth')" />
               </div>
 
              <!-- Add inside the birth section after the header -->
@@ -168,7 +172,7 @@
           <div class="controls">
             <div class="search-bar">
               <i class="fas fa-search"></i>
-              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
+              <input type="text" id="searchInputDeath" placeholder="Search Death Records..." oninput="applySearch('DeathTable', 'searchInputDeath')" />
             </div>
             <div class="filter-header" onclick="toggleFilterPanel('death-filter')">
               <i class="fas fa-filter mr-2"></i> Filter
@@ -224,8 +228,8 @@
             <div class="controls">
 
               <div class="search-bar">
-              <i class="fas fa-search"></i>
-              <input type="text" id="searchInputOverview" placeholder="Search Records..." />
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInputMarriage" placeholder="Search Marriage Records..." oninput="applySearch('MarriageTable', 'searchInputMarriage')" />
               </div>
 
               <!-- Add inside the birth section after the header -->
@@ -293,6 +297,7 @@
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
   <script>
+    
 function countRecords() {
   const birthRecords = JSON.parse(localStorage.getItem("BirthRecords")) || [];
   const marriageRecords = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
@@ -329,6 +334,9 @@ function deleteRecord(type, regNo) {
   // Reload the dashboard records and counts
   loadDashboardRecords();
   countRecords();
+
+  // Re-render the pie chart to update legends dynamically
+  renderDonutChart();
 }
   // Filter functionality
 function toggleFilterPanel(filterId) {
@@ -586,10 +594,253 @@ function getProgressPercentage(status) {
   }
 }
 
+function applySearch(tableId, searchInputId) {
+  const searchText = document.getElementById(searchInputId).value.toLowerCase();
+  const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+
+  rows.forEach(row => {
+    const rowText = row.innerText.toLowerCase();
+    row.style.display = rowText.includes(searchText) ? "" : "none";
+  });
+}
+
+function renderGraph() {
+  const birthRecords = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+  const marriageRecords = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+  const deathRecords = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+
+  const birthCount = birthRecords.length;
+  const marriageCount = marriageRecords.length;
+  const deathCount = deathRecords.length;
+
+  const ctx = document.getElementById("recordsChart").getContext("2d");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Birth Records", "Marriage Records", "Death Records"],
+      datasets: [
+        {
+          label: "Number of Records",
+          data: [birthCount, marriageCount, deathCount],
+          backgroundColor: ["#4caf50", "#2196f3", "#f44336"],
+          hoverBackgroundColor: ["#66bb6a", "#42a5f5", "#e57373"],
+          borderColor: ["#388e3c", "#1976d2", "#d32f2f"],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: "top",
+          labels: {
+            font: {
+              size: 14,
+              family: "Arial",
+            },
+            color: "#333",
+          },
+        },
+        tooltip: {
+          enabled: true,
+          backgroundColor: "#fff",
+          borderColor: "#ccc",
+          borderWidth: 1,
+          titleColor: "#000",
+          bodyColor: "#000",
+          bodyFont: {
+            size: 12,
+          },
+          titleFont: {
+            size: 14,
+            weight: "bold",
+          },
+        },
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+          ticks: {
+            font: {
+              size: 12,
+              family: "Arial",
+            },
+            color: "#333",
+          },
+        },
+        y: {
+          beginAtZero: true,
+          max: 100, // Set the maximum value for the Y-axis
+          grid: {
+            color: "#e0e0e0",
+            lineWidth: 1,
+          },
+          ticks: {
+            font: {
+              size: 12,
+              family: "Arial",
+            },
+            color: "#333",
+          },
+        },
+      },
+    },
+  });
+}
+
+let donutChartInstance; // Store the chart instance globally
+
+function renderDonutChart() {
+  const birthRecords = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+  const marriageRecords = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+  const deathRecords = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+
+  // Combine all records into one array
+  const allRecords = [...birthRecords, ...marriageRecords, ...deathRecords];
+
+  // Count occurrences of each request type dynamically
+  const requestTypeCounts = allRecords.reduce((acc, record) => {
+    acc[record.type] = (acc[record.type] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Extract labels (request types) and data (counts) for the pie chart
+  const labels = Object.keys(requestTypeCounts); // Dynamic request types
+  const data = Object.values(requestTypeCounts); // Counts for each type
+
+  const ctx = document.getElementById("requestTypeChart").getContext("2d");
+
+  // Destroy the previous chart instance if it exists
+  if (donutChartInstance) {
+    donutChartInstance.destroy();
+  }
+
+  // Create a new chart instance
+  donutChartInstance = new Chart(ctx, {
+    type: "doughnut", // Set chart type to doughnut
+    data: {
+      labels: labels, // Dynamic labels
+      datasets: [
+        {
+          data: data, // Dynamic data
+          backgroundColor: [
+            "#4caf50", "#2196f3", "#f44336", "#ff9800", "#9c27b0", "#00bcd4",
+            "#8bc34a", "#ffc107", "#e91e63", "#607d8b", "#795548", "#673ab7",
+          ], // Colors for each type
+          hoverBackgroundColor: [
+            "#66bb6a", "#42a5f5", "#e57373", "#ffb74d", "#ba68c8", "#4dd0e1",
+            "#aed581", "#ffd54f", "#f06292", "#90a4ae", "#a1887f", "#9575cd",
+          ], // Hover colors for each type
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: "bottom", // Move legends to the bottom
+          labels: {
+            font: {
+              size: 10, // Reduce font size for smaller legends
+              family: "Arial",
+            },
+            color: "#333",
+            boxWidth: 10, // Reduce box size for legend icons
+          },
+        },
+        tooltip: {
+          enabled: true,
+          backgroundColor: "#fff",
+          borderColor: "#ccc",
+          borderWidth: 1,
+          titleColor: "#000",
+          bodyColor: "#000",
+          bodyFont: {
+            size: 12,
+          },
+          titleFont: {
+            size: 14,
+            weight: "bold",
+          },
+        },
+      },
+      cutout: "50%", // Creates the donut effect
+    },
+  });
+}
+
+function renderRecentActivities() {
+  const birthRecords = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+  const marriageRecords = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+  const deathRecords = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+
+  // Get the most recent record from each category
+  const recentBirthRecord = birthRecords[birthRecords.length - 1];
+  const recentMarriageRecord = marriageRecords[marriageRecords.length - 1];
+  const recentDeathRecord = deathRecords[deathRecords.length - 1];
+
+  const activityContainer = document.querySelector(".activity-container");
+
+  // Clear existing activities
+  activityContainer.innerHTML = `
+    <h3>Recent Activities</h3>
+  `;
+
+  // Add recent birth record
+  if (recentBirthRecord) {
+    activityContainer.innerHTML += `
+      <div class="activity">
+        <div class="icon blue"><i class="fa-solid fa-plus"></i></div>
+        <div class="info">
+          <strong>New birth record added</strong>
+          <p>${recentBirthRecord.name} - ${recentBirthRecord.dateRegistered}</p>
+        </div>
+      </div>
+    `;
+  }
+
+  // Add recent marriage record
+  if (recentMarriageRecord) {
+    activityContainer.innerHTML += `
+      <div class="activity">
+        <div class="icon yellow"><i class="fa-solid fa-pen"></i></div>
+        <div class="info">
+          <strong>Marriage record updated</strong>
+          <p>${recentMarriageRecord.name} - ${recentMarriageRecord.dateRegistered}</p>
+        </div>
+      </div>
+    `;
+  }
+
+  // Add recent death record
+  if (recentDeathRecord) {
+    activityContainer.innerHTML += `
+      <div class="activity">
+        <div class="icon red"><i class="fa-solid fa-trash"></i></div>
+        <div class="info">
+          <strong>Death record deleted</strong>
+          <p>${recentDeathRecord.name} - ${recentDeathRecord.dateRegistered}</p>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Call the renderRecentActivities function after loading the dashboard records
 window.onload = function () {
   loadDashboardRecords();
   countRecords();
-  showSection('overview'); // Default section to show
+  renderGraph();
+  renderDonutChart();
+  renderRecentActivities(); // Render recent activities
+  showSection("overview"); // Default section to show
 };
   </script>
 </body>
