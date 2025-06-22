@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Affidavit for Delayed Registration of Birth</title>
   <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
   <style>
@@ -24,48 +25,51 @@
       width: 90%;
       background: rgba(255, 255, 255, 0.95);
       padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(6px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
     }
 
     h2 {
       text-align: center;
       margin-bottom: 25px;
-      color: #2a2a2a;
-      font-size: 1.75rem;
+      color: #2c3e50;
     }
 
     label {
       font-weight: 500;
       display: block;
       margin-top: 18px;
-      color: #444;
+      color: #333;
     }
 
     input[type="text"],
     input[type="date"],
     input[type="file"],
+    input[type="number"],
     select {
       width: 100%;
-      padding: 10px 14px;
+      padding: 10px 12px;
       margin-top: 6px;
-      border-radius: 10px;
-      border: 1px solid #bbb;
+      border-radius: 8px;
+      border: 1px solid #ccc;
       box-sizing: border-box;
       font-size: 1rem;
       background-color: #fff;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.3s;
     }
 
-    input:focus,
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="file"]:focus,
+    input[type="number"]:focus,
     select:focus {
-      border-color: #5c88ff;
+      border-color: #3498db;
       outline: none;
     }
 
     input:focus::placeholder {
-        color: transparent;
+      color: transparent;
     }
 
     .checkbox-group {
@@ -80,22 +84,20 @@
 
     button {
       margin-top: 30px;
-      padding: 14px 22px;
-      background-color: #3477eb;
+      padding: 12px 20px;
+      background-color: #2980b9;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       font-size: 1rem;
       cursor: pointer;
       width: 100%;
-      transition: all 0.3s ease;
+      transition: background-color 0.3s;
       font-weight: bold;
     }
 
     button:hover {
-      background-color: #255cd6;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transform: translateY(-1px);
+      background-color: #218838;
     }
 
     .confirmation-message {
@@ -105,152 +107,227 @@
       background-color: #d4edda;
       color: #155724;
       border: 1px solid #c3e6cb;
-      border-radius: 10px;
+      border-radius: 8px;
       text-align: center;
       font-size: 1rem;
     }
 
     .document-list {
-      background-color: #f1f6fb;
+      background-color: #eef6f9;
       padding: 15px;
       margin-top: 10px;
-      border-radius: 10px;
+      border-radius: 8px;
       font-size: 0.95rem;
-      color: #444;
-      line-height: 1.6;
+      color: #333;
+      line-height: 1.5;
     }
 
     .back-button {
       display: inline-block;
       margin: 20px 0 20px 10px;
       text-align: center;
-      padding: 10px 18px;
-      background-color: #e84848;
+      padding: 10px 15px;
+      background-color: #f70707;
       text-decoration: none;
-      color: #fff;
-      border-radius: 8px;
+      color: #e9e3e3;
+      border-radius: 5px;
       font-weight: bold;
-      transition: all 0.3s ease;
     }
 
     .back-button:hover {
-      background-color: #c82333;
+      background-color: #f10707;
       transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    #popup > div > div,
-    #feedbackPrompt > div > div,
-    #writtenFeedback > div > div,
-    #thankYouFeedback > div > div {
-      border-radius: 20px !important;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25) !important;
-      font-family: 'Golos Text', sans-serif !important;
+    .address-selector {
+      margin-top: 10px;
     }
 
-    #starContainer span {
-      transition: color 0.2s ease;
+    .address-level {
+      margin-bottom: 10px;
     }
 
-    #feedbackText {
-      font-family: 'Golos Text', sans-serif;
+    .address-level label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .address-final {
+      margin-top: 15px;
+    }
+
+    .address-final input {
+      margin-top: 5px;
+    }
+
+    .loading {
+      color: #666;
+      font-style: italic;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .disabled-select {
+      background-color: #f5f5f5;
+      color: #666;
     }
   </style>
 </head>
+
 <body>
 
-<div class="form-container">
-  <a class="back-button" href="birth-service.html">Back</a>
-  <h2>Affidavit for Delayed Registration of Birth</h2>
+  <div class="form-container">
+    <a class="back-button" href="birth-service.html">Back</a>
+    <h2>Affidavit for Delayed Registration of Birth</h2>
 
-  <form id="delayedBirthForm">
-    <label>Applicant Name</label>
-    <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
-    <label>Affiant's Name</label>
-    <input type="text" id="affiantName" placeholder="Last Name, First Name, Middle Name" required />
+    <form id="delayedBirthForm">
+      <label>Affiant's Name</label>
+      <input type="text" placeholder="Last Name, First Name, Middle Name" required />
 
-    <label>Legal Age</label>
-    <input type="text" required />
+      <label>Legal Age</label>
+      <input type="number" id="age" min="1" max="100" required />
+      <div id="age-error" class="error-message">Please enter a valid age between 1 and 100</div>
 
-    <label>Civil Status</label>
-    <input type="text" placeholder="Single/Married" required />
+      <label>Civil Status</label>
+      <select required>
+        <option value="">Select Civil Status</option>
+        <option value="Single">Single</option>
+        <option value="Married">Married</option>
+        <option value="Divorced">Divorced</option>
+        <option value="Separated">Separated</option>
+        <option value="Widowed">Widowed</option>
+        <option value="Annulled">Annulled</option>
+        <option value="Domestic Partnership">Domestic Partnership</option>
+      </select>
+      <label>Residence and Postal Address</label>
+      <div class="address-selector">
+        <div class="address-level">
+          <label>Region</label>
+          <select id="region" required class="disabled-select" disabled>
+            <option value="NCR" selected>National Capital Region (NCR)</option>
+          </select>
+        </div>
 
-    <label>Residence and Postal Address</label>
-    <input type="text" required />
+        <div class="address-level">
+          <label>City/Municipality</label>
+          <select id="city" required class="disabled-select" disabled>
+            <option value="MANILA" selected>City of Manila</option>
+          </select>
+        </div>
 
-    <label>1. Applicant for delayed registration of birth of</label>
-    <input type="text" required />
+        <div class="address-level">
+          <label>District</label>
+          <select id="district" required>
+            <option value="">Select District</option>
+            <option value="District I">District I</option>
+            <option value="District II">District II</option>
+            <option value="District III">District III</option>
+            <option value="District IV">District IV</option>
+            <option value="District V">District V</option>
+            <option value="District VI">District VI</option>
+          </select>
+          <div id="district-error" class="error-message">Please select a district</div>
+        </div>
 
-    <label>2. Date of Birth</label>
-    <input type="date" id="date" required />
+        <div class="address-level">
+          <label>Barangay</label>
+          <select id="barangay" required>
+            <option value="">Select Barangay</option>
+            <!-- Barangays will be populated based on district selection -->
+          </select>
+          <div id="barangay-error" class="error-message">Please select a barangay</div>
+        </div>
 
-    <label>Place of Birth</label>
-    <input type="text" required />
+        <div class="address-final">
+          <label>Street Address (House No., Street, Subdivision, etc.)</label>
+          <input type="text" id="street" placeholder="e.g. 123 Main Street, Villa Subdivision" required>
+          <div id="street-error" class="error-message">Please enter your street address</div>
+        </div>
+      </div>
 
-    <label>3. Attended at birth by</label>
-    <input type="text" required />
-    
-    <label>Residence of attendant</label>
-    <input type="text" required />
+      <label>1. Applicant for delayed registration of birth of</label>
+      <input type="text" placeholder="e.g. Juan Dela Cruz" required />
 
-    <label>4. Citizenship of person</label>
-    <input type="text" required />
+      <label>2. Date of Birth</label>
+      <input type="date" id="date" required />
 
-    <label>5. Parent's Marital Status</label>
-    <div class="checkbox-group">
-      <input type="checkbox" id="married"/>
-      <label for="married">Married</label>
-    </div>
-    <label>Date and Place of Marriage</label>
-    <input type="text" />
+      <label>Place of Birth</label>
+      <input type="text" placeholder="e.g. Manila, Philippines" required />
 
-    <div class="checkbox-group">
-      <input type="checkbox" id="notMarried"/>
-      <label for="notMarried">Not married but acknowledged by father</label>
-    </div>
-    <label>Father's Name</label>
-    <input type="text" placeholder="Last Name, First Name, Middle Name" />
+      <label>3. Attended at birth by</label>
+      <input type="text" placeholder="e.g. Midwife, Dr. Jose Rizal" required />
 
-    <label>6. Reason for delay in registration</label>
-    <input type="text" required />
+      <label>Residence of attendant</label>
+      <input type="text" placeholder="e.g. 456 Mabini St., Manila" required />
 
-    <label>7. Purpose of requesting birth certificate</label>
-    <input type="text" required />
+      <label>4. Citizenship</label>
+      <input type="text" required />
 
-    <label>8. Marital Status (Applicant Only)</label>
-    <input type="text" />
+      <label>5. Parent's Marital Status</label>
+      <div class="checkbox-group">
+        <input type="checkbox" id="married" />
+        <label for="married">Married</label>
+      </div>
+      <label>Date and Place of Marriage</label>
+      <input type="text" id="marriageDetails" name="marriage_details"
+        placeholder="e.g. Jan 1, 1990 at Manila Cathedral" />
 
-    <label>For Parent/Guardian</label>
-    <input type="text" />
+      <div class="checkbox-group">
+        <input type="checkbox" id="notMarried" />
+        <label for="notMarried">Not married but acknowledged by father</label>
+      </div>
+      <label>Father's Name</label>
+      <input type="text" placeholder="Last Name, First Name, Middle Name" />
 
-    <label>
-      Please upload any <strong>two</strong> of the following documents:
-    </label>
-    <div class="document-list">
-      ● Baptismal Certificate (1 original, 1 photocopy)<br>
-      ● School Record (Form 137) or Report Card (Form 138)<br>
-      ● Income Tax Return of Parents<br>
-      ● Insurance Policy<br>
-      ● Medical Records<br>
-      ● Barangay Certification<br>
-      ● Member’s Data Record<br>
-      ● Member’s Data Form<br>
-      ● SSS E-1 Form<br>
-      ● Voter’s Certification (with Voter’s Registration Record)
-    </div>
+      <label>6. Reason for delay in registration</label>
+      <input type="text" id="delayReason" name="delay_reason" placeholder="e.g. Lost documents, late discovery"
+        required />
 
-    <label>Upload Document 1</label>
-    <input type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+      <label>7. Purpose of requesting birth certificate</label>
+      <input type="text" id="requestPurpose" name="purpose" placeholder="e.g. School requirement, passport application"
+        required />
 
-    <label>Upload Document 2</label>
-    <input type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+      <label>8. Marital Status (Applicant Only)</label>
+      <input type="text" id="applicantStatus" name="applicant_marital_status" placeholder="e.g. Single, Married, Widowed" />
 
-    <button type="submit">Submit</button>
-  </form>
-</div>
+      <label>For Parent/Guardian</label>
+      <input type="text" />
 
-<div id="popup" style="display: none;">
-  <div style="
+      <label>
+        Please upload any <strong>two</strong> of the following documents:
+      </label>
+      <div class="document-list">
+        ● Baptismal Certificate (1 original, 1 photocopy)<br>
+        ● School Record (Form 137) or Report Card (Form 138)<br>
+        ● Income Tax Return of Parents<br>
+        ● Insurance Policy<br>
+        ● Medical Records<br>
+        ● Barangay Certification<br>
+        ● Member's Data Record<br>
+        ● Member's Data Form<br>
+        ● SSS E-1 Form<br>
+        ● Voter's Certification (with Voter's Registration Record)
+      </div>
+
+      <label>Upload Document 1</label>
+      <input type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+
+      <label>Upload Document 2</label>
+      <input type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div id="popup" style="display: none;">
+    <div style="
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
@@ -260,17 +337,16 @@
     justify-content: center;
     z-index: 9999;
   ">
-    <div style="
+      <div style="
       background: white;
       padding: 30px 40px;
       border-radius: 12px;
       text-align: center;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     ">
-      <h2 style="margin-bottom: 10px;">Your form has been submitted successfully.</h2>
-      <p style="margin-bottom: 20px;">Please wait for a response via your phone number or Gmail.</p>
-      <p style="margin-bottom: 20px;">You will receive an update within 3 working days regarding your request.</p>
-      <button onclick="closePopup()" style="
+        <h2 style="margin-bottom: 10px;">Your form has been submitted successfully.</h2>
+        <p style="margin-bottom: 20px;">Please wait for a response via your phone number or Gmail.</p>
+        <button onclick="closePopup()" style="
         padding: 10px 20px;
         background-color: #2980b9;
         color: white;
@@ -279,167 +355,152 @@
         font-size: 1rem;
         cursor: pointer;
       ">OK</button>
-    </div>
-  </div>
-</div>
-
-<div class="gtranslate_wrapper"></div>
-<script>
-  window.gtranslateSettings = {
-    "default_language":"en",
-    "wrapper_selector":".gtranslate_wrapper",
-    "switcher_horizontal_position":"right",
-    "switcher_vertical_position":"bottom",
-    "flag_style":"3d"
-  }
-</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-
-<script>
-  const form = document.getElementById('delayedBirthForm');
-  const popup = document.getElementById('popup');
-
-function generateRegistryNumber() {
-  const now = new Date();
-  return `REG-${now.getFullYear()}${(now.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
-    .getTime()
-    .toString()
-    .slice(-5)}`;
-}
-
-function sendToDashboard() {
-  const fullName = document.getElementById('fullName').value;
-  const requestType = "Delayed Registration of Birth (Beyond 30 Days)";
-  const registryNumber = generateRegistryNumber();
-  const dateRegistered = new Date().toLocaleDateString();
-
-  const record = {
-    name: fullName,
-    type: requestType,
-    regNo: registryNumber,
-    dateRegistered: dateRegistered,
-  };
-
-  // Save to localStorage (or send via API)
-  const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
-  records.push(record);
-  localStorage.setItem("BirthRecords", JSON.stringify(records));
-}
-
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
-  popup.style.display = 'block';
-  sendToDashboard();
-  form.reset();
-});
-
-  function closePopup() {
-    popup.style.display = 'none';
-    showFeedbackPrompt(); 
-  }
-</script>
-
-
-<!-- Feedback Prompt: Star Rating -->
-<div id="feedbackPrompt" style="display: none;">
-  <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 10000;">
-    <div style="background: white; padding: 30px 40px; border-radius: 12px; text-align: center; position: relative;">
-      <span onclick="closeFeedback()" style="position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer;">&times;</span>
-      <h3>Would you like to leave feedback about your experience?</h3>
-      <div id="starContainer" style="font-size: 2rem; color: #ccc; cursor: pointer;">
-        ★★★★★
       </div>
     </div>
   </div>
-</div>
 
-<!-- Feedback Text Input -->
-<div id="writtenFeedback" style="display: none;">
-  <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 10001;">
-    <div style="background: white; padding: 30px 40px; border-radius: 12px; text-align: center; position: relative;">
-      <span onclick="closeFeedback()" style="position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer;">&times;</span>
-      <div id="starsSelected" style="font-size: 2rem; color: #ed2224;">★★★★★</div>
-      <p>Tell us a bit more about why you chose <span id="starCount">0</span></p>
-      <textarea id="feedbackText" rows="4" placeholder="e.g., fast and easy to understand" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"></textarea>
-      <br /><br />
-      <button onclick="submitFeedback()" style="background-color: #ed2224; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Submit</button>
-    </div>
-  </div>
-</div>
-
-<!-- Thank You Prompt -->
-<div id="thankYouFeedback" style="display: none;">
-  <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 10002;">
-    <div style="background: white; padding: 30px 40px; border-radius: 12px; text-align: center;">
-      <h3>Thank you for your feedback.</h3>
-      <p>Your feedback is highly valued and is used to improve our service.</p>
-      <button onclick="closeFeedback()" style="background-color: #254c9a; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Done</button>
-    </div>
-  </div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const starContainer = document.getElementById("starContainer");
-  let selectedRating = 0;
-
-  // Generate stars
-  starContainer.innerHTML = [...Array(5)].map((_, i) => `<span data-star="${i + 1}" style="margin: 0 5px; cursor: pointer;">★</span>`).join("");
-
-  [...starContainer.children].forEach((star, index) => {
-    const starIndex = index + 1;
-
-    star.addEventListener("mouseenter", () => {
-      highlightStars(starIndex);
-    });
-
-    star.addEventListener("mouseleave", () => {
-      highlightStars(selectedRating);
-    });
-
-    star.addEventListener("click", () => {
-      selectedRating = starIndex;
-      highlightStars(selectedRating);
-      showWrittenFeedback(selectedRating);
-    });
-  });
-
-  function highlightStars(rating) {
-    [...starContainer.children].forEach((star, i) => {
-      star.style.color = i < rating ? "red" : "#ccc";
-    });
-  }
-
-  window.showWrittenFeedback = function (rating) {
-    document.getElementById("feedbackPrompt").style.display = "none";
-    document.getElementById("writtenFeedback").style.display = "flex";
-    document.getElementById("starCount").textContent = rating;
-    document.getElementById("starsSelected").innerHTML = "★".repeat(rating).padEnd(5, "☆");
-  };
-
-  window.closeFeedback = function () {
-    document.getElementById("feedbackPrompt").style.display = "none";
-    document.getElementById("writtenFeedback").style.display = "none";
-    document.getElementById("thankYouFeedback").style.display = "none";
-  };
-
-  window.showFeedbackPrompt = function () {
-    document.getElementById("feedbackPrompt").style.display = "flex";
-  };
-
-  window.submitFeedback = function () {
-    const feedback = document.getElementById("feedbackText").value.trim();
-    if (feedback) {
-      document.getElementById("writtenFeedback").style.display = "none";
-      document.getElementById("thankYouFeedback").style.display = "flex";
-    } else {
-      alert("Please enter your feedback.");
+  <div class="gtranslate_wrapper"></div>
+  <script>
+    window.gtranslateSettings = {
+      "default_language": "en",
+      "wrapper_selector": ".gtranslate_wrapper",
+      "switcher_horizontal_position": "right",
+      "switcher_vertical_position": "bottom",
+      "flag_style": "3d"
     }
-  };
-});
-</script>
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const districtSelect = document.getElementById('district');
+      const barangaySelect = document.getElementById('barangay');
 
+      // Error elements
+      const districtError = document.getElementById('district-error');
+      const barangayError = document.getElementById('barangay-error');
+      const streetError = document.getElementById('street-error');
+
+      // Manila districts and their barangays
+      const manilaDistricts = {
+        'District I': [
+          'Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz',
+          'Tondo I', 'Tondo II'
+        ],
+        'District II': [
+          'Ermita', 'Intramuros', 'Malate', 'Paco',
+          'Pandacan', 'Port Area', 'San Miguel', 'San Andres'
+        ],
+        'District III': [
+          'Santa Ana', 'Santa Mesa'
+        ],
+        'District IV': [
+          'Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose',
+          'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo',
+          'Santo Domingo', 'Talayan'
+        ],
+        'District V': [
+          'Pandacan', 'San Andres Bukid', 'Santa Ana'
+        ],
+        'District VI': [
+          'Paco', 'San Andres Bukid', 'Santa Ana'
+        ]
+      };
+
+      // Populate barangays based on district selection
+      districtSelect.addEventListener('change', function() {
+        const selectedDistrict = this.value;
+        barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+        
+        if (selectedDistrict && manilaDistricts[selectedDistrict]) {
+          manilaDistricts[selectedDistrict].forEach(barangay => {
+            const option = document.createElement('option');
+            option.value = barangay;
+            option.textContent = barangay;
+            barangaySelect.appendChild(option);
+          });
+        }
+      });
+
+      // Form submission validation
+      document.getElementById('delayedBirthForm').addEventListener('submit', function (e) {
+        let isValid = true;
+
+        if (!districtSelect.value) {
+          showError(districtError, 'Please select a district');
+          isValid = false;
+        }
+
+        if (!barangaySelect.value) {
+          showError(barangayError, 'Please select a barangay');
+          isValid = false;
+        }
+
+        if (!document.getElementById('street').value.trim()) {
+          showError(streetError, 'Please enter your street address');
+          isValid = false;
+        }
+
+        if (!isValid) {
+          e.preventDefault();
+        }
+      });
+
+      // Helper functions
+      function showError(element, message) {
+        element.textContent = message;
+        element.style.display = 'block';
+      }
+
+      function hideError(element) {
+        element.style.display = 'none';
+      }
+    });
+  </script>
+  <script>
+    const form = document.getElementById('delayedBirthForm');
+    const popup = document.getElementById('popup');
+    const ageInput = document.getElementById('age');
+    const ageError = document.getElementById('age-error');
+
+    // Age validation
+    ageInput.addEventListener('input', function () {
+      const age = parseInt(this.value);
+      if (isNaN(age) || age < 1 || age > 100) {
+        ageError.style.display = 'block';
+        this.setCustomValidity('Please enter a valid age between 1 and 100');
+      } else {
+        ageError.style.display = 'none';
+        this.setCustomValidity('');
+      }
+    });
+
+    form.addEventListener('submit', function (event) {
+      // Validate age again on submit
+      const age = parseInt(ageInput.value);
+      if (isNaN(age) || age < 1 || age > 100) {
+        ageError.style.display = 'block';
+        ageInput.setCustomValidity('Please enter a valid age between 1 and 100');
+        event.preventDefault();
+        return;
+      }
+
+      event.preventDefault();
+      popup.style.display = 'block';
+      form.reset();
+    });
+
+    function closePopup() {
+      popup.style.display = 'none';
+    }
+  </script>
+  <script>
+    // date
+    const deceasedDateInput = document.getElementById("date");
+    const today = new Date();
+
+    const maxDate = today.toISOString().split("T")[0];
+    deceasedDateInput.setAttribute("max", maxDate);
+  </script>
 </body>
+
 </html>

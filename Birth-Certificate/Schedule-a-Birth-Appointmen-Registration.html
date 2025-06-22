@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Birth Schedule of Appointment | CRIS</title>
- <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
 
-    <script type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-    </script>
-    <script type="text/javascript">
-      (function(){
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+  </script>
+  <script type="text/javascript">
+    (function () {
       emailjs.init({
-      publicKey: "7AaFlXLN7NgxISD0p",
+        publicKey: "3oUZtABQzdTw5i2aO",
       });
-      })();
-    </script>
+    })();
+  </script>
 
   <style>
     body {
-       margin: 0;
+      margin: 0;
       padding: 0;
       font-family: 'Golos Text', sans-serif;
       background: url('birth-bg-new.png') no-repeat bottom left fixed;
@@ -41,7 +41,8 @@
       backdrop-filter: blur(6px);
     }
 
-    h2, h3 {
+    h2,
+    h3 {
       text-align: center;
       color: #2c3e50;
       margin-bottom: 20px;
@@ -142,17 +143,20 @@
     .subgroup li {
       margin-bottom: 6px;
     }
-     .back-button {
+
+    .back-button {
       display: inline-block;
-    margin: 20px 0 20px 420px; /* Push to left */
-    text-align: center;
-    padding: 10px 15px;
-    background-color: #f70707;
-    text-decoration: none;
-    color: #e9e3e3;
-    border-radius: 5px;
-    font-weight: bold;
+      margin: 20px 0 20px 420px;
+      /* Push to left */
+      text-align: center;
+      padding: 10px 15px;
+      background-color: #f70707;
+      text-decoration: none;
+      color: #e9e3e3;
+      border-radius: 5px;
+      font-weight: bold;
     }
+
     .back-button:hover {
       background-color: #f10707;
       transform: scale(1.05);
@@ -161,7 +165,8 @@
 
     .back-button {
       display: inline-block;
-      margin: 20px 0 20px 10px; /* Push to left */
+      margin: 20px 0 20px 10px;
+      /* Push to left */
       text-align: center;
       padding: 10px 15px;
       background-color: #f70707;
@@ -178,166 +183,186 @@
     }
   </style>
 </head>
+
 <body>
 
-<div class="container">
-  <a class="back-button" href="birth-service.html">Back</a>
-  <div class="requirements">
-    <h2>📋 Birth Registration Requirements</h2>
+  <div class="container">
+    <a class="back-button" href="birth-service.html">Back</a>
+    <div class="requirements">
+      <h2>📋 Birth Registration Requirements</h2>
 
-    <h3>✅ General Requirements</h3>
-    <ul>
-      <li><strong>Certificate of Live Birth (COLB):</strong> Filled out and signed (issued by hospital or filled out by midwife or parents for home births)</li>
-      <li><strong>Valid IDs of Parents:</strong> Government-issued IDs (e.g., Passport, Driver’s License, UMID, PhilHealth ID, Voter’s ID)</li>
-    </ul>
+      <h3>✅ General Requirements</h3>
+      <ul>
+        <li><strong>Certificate of Live Birth (COLB):</strong> Filled out and signed (issued by hospital or filled out
+          by midwife or parents for home births)</li>
+        <li><strong>Valid IDs of Parents:</strong> Government-issued IDs (e.g., Passport, Driver’s License, UMID,
+          PhilHealth ID, Voter’s ID)</li>
+      </ul>
 
-    <h3>📝 Additional Based on Circumstances</h3>
-    <ul>
-      <li><strong>For Hospital Births:</strong>
-        <ul class="subgroup">
-          <li>Hospital Certificate of Birth</li>
-          <li>Marriage Certificate of Parents (PSA or Local Civil Registry copy)</li>
-        </ul>
-      </li>
+      <h3>📝 Additional Based on Circumstances</h3>
+      <ul>
+        <li><strong>For Hospital Births:</strong>
+          <ul class="subgroup">
+            <li>Hospital Certificate of Birth</li>
+            <li>Marriage Certificate of Parents (PSA or Local Civil Registry copy)</li>
+          </ul>
+        </li>
 
-      <li><strong>For Home Births:</strong>
-        <ul class="subgroup">
-          <li>Affidavit of Home Birth</li>
-          <li>Barangay Certificate (certifying birth at stated place and date)</li>
-          <li>Affidavit of Two Disinterested Persons</li>
-          <li>Sketch or Map of Birthplace (sometimes required)</li>
-        </ul>
-      </li>
+        <li><strong>For Home Births:</strong>
+          <ul class="subgroup">
+            <li>Affidavit of Home Birth</li>
+            <li>Barangay Certificate (certifying birth at stated place and date)</li>
+            <li>Affidavit of Two Disinterested Persons</li>
+            <li>Sketch or Map of Birthplace (sometimes required)</li>
+          </ul>
+        </li>
 
-      <li><strong>If Parents Are Not Married:</strong>
-        <ul class="subgroup">
-          <li>Affidavit of Acknowledgment/Admission of Paternity</li>
-          <li>Affidavit to Use the Surname of the Father (AUSF)</li>
-        </ul>
-      </li>
-    </ul>
+        <li><strong>If Parents Are Not Married:</strong>
+          <ul class="subgroup">
+            <li>Affidavit of Acknowledgment/Admission of Paternity</li>
+            <li>Affidavit to Use the Surname of the Father (AUSF)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>📅 Schedule a Birth Services Appointment </h2>
+    <form id="appointmentForm">
+      <label for="name">Full Name of Requester</label>
+      <input type="text" id="name" placeholder="Last Name, First Name, Middle Name" required>
+
+      <label for="childName">Child’s Full Name</label>
+      <input type="text" id="childName" placeholder="Last Name, First Name, Middle Name" required>
+
+      <label for="date">Preferred Date</label>
+      <input type="date" id="date" required>
+
+      <label for="time">Preferred Time</label>
+      <select id="time" required>
+        <option value="" disabled selected>-- Select a time --</option>
+        <option value="08:00 AM">08:00 AM</option>
+        <option value="09:00 AM">09:00 AM</option>
+        <option value="10:00 AM">10:00 AM</option>
+        <option value="11:00 AM">11:00 AM</option>
+        <option value="12:00 PM">12:00 PM</option>
+        <option value="01:00 PM">01:00 PM</option>
+        <option value="02:00 PM">02:00 PM</option>
+        <option value="03:00 PM">03:00 PM</option>
+        <option value="04:00 PM">04:00 PM</option>
+      </select>
+      <label for="purpose">Purpose of Appointment</label>
+      <select id="purpose" required onchange="checkPurpose()">
+        <option value="">Select...</option>
+        <option value="Registration of New Birth">Registration of New Birth</option>
+        <option value="Correction of Birth Certificate">Correction of Birth Certificate</option>
+        <option value="Request for Certified Copy">Request for Certified Copy</option>
+        <option value="Late Registration">Late Registration</option>
+        <option value="Late Payment">Payment for Document</option>
+        <option value="Pick-up the Document">Pick-up the Document</option>
+        <option value="Others">Others</option>
+      </select>
+
+      <!-- Hidden input field -->
+      <div id="pickupDiv" style="display: none; margin-top: 10px;">
+        <label for="pickupName">Name of Person Picking Up the Document:</label>
+        <input type="text" id="pickupName" name="pickupName" placeholder="Last Name, First Name, Middle Name" />
+      </div>
+
+      <!-- Hidden input field -->
+      <div id="paymentDiv" style="display: none; margin-top: 10px;">
+        <label for="paymentName">What Document you need to pay?</label>
+        <input type="text" id="paymentName" name="paymentName" placeholder="" />
+      </div>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" required>
+
+      <label for="phone">Mobile Number</label>
+      <input type="text" id="phone" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
+
+      <label for="docs">Supporting Document (optional)</label>
+      <input type="file" id="docs" accept="application/pdf,image/*">
+
+      <button type="submit" onclick="sendmail()">Submit Appointment</button>
+      <div id="successMsg" class="message">✅ Appointment successfully scheduled! <br>
+        Please wait for a response via your phone number or Gmail.</div>
+    </form>
   </div>
 
-  <h2>📅 Schedule a Birth Appointment Registration</h2>
-  <form id="appointmentForm">
-    <label for="name">Full Name of Requester</label>
-    <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
+  <div class="gtranslate_wrapper"></div>
 
-    <label for="childName">Child’s Full Name</label>
-    <input type="text" id="childName" placeholder="Last Name, First Name, Middle Name" required>
+  <script>
+    function checkPurpose() {
+      const purpose = document.getElementById("purpose").value;
+      const pickupDiv = document.getElementById("pickupDiv");
+      const paymentDiv = document.getElementById("paymentDiv");
 
-    <label for="date">Preferred Date</label>
-    <input type="date" id="date" required>
-
-    <label for="time">Preferred Time</label>
-    <input type="time" id="time" required>
-
-    <label for="purpose">Purpose of Appointment</label>
-    <select id="purpose" required>
-      <option value="">Select...</option>
-      <option value="Registration of New Birth">Registration of New Birth</option>
-      <option value="Correction of Birth Certificate">Correction of Birth Certificate</option>
-      <option value="Request for Certified Copy">Request for Certified Copy</option>
-      <option value="Late Registration">Late Registration</option>
-      <option value="Others">Others</option>
-    </select>
-
-    <label for="email">Email Address</label>
-    <input type="email" id="email" required>
-
-    <label for="phone">Mobile Number</label>
-    <input type="text" id="phone" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
-
-    <label for="docs">Supporting Document (optional)</label>
-    <input type="file" id="docs" accept="application/pdf,image/*">
-
-    <button type="submit" onclick="sendmail()">Submit Appointment</button>
-    <div id="successMsg" class="message">✅ Appointment successfully scheduled!</div>
-  </form>
-</div>
-<span id="subject" value="Birth"></span>
-<div class="gtranslate_wrapper"></div>
-<script>
-  window.gtranslateSettings = {
-    "default_language":"en",
-    "wrapper_selector":".gtranslate_wrapper",
-    "switcher_horizontal_position":"right",
-    "switcher_vertical_position":"bottom",
-    "flag_style":"3d"
-  }
-</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-
-<script>
-    function generateRegistryNumber() {
-      const now = new Date();
-      return `REG-${now.getFullYear()}${(now.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
-      .getTime()
-      .toString()
-      .slice(-5)}`;
+      if (purpose === "Pick-up the Document") {
+        pickupDiv.style.display = "block";
+        paymentDiv.style.display = "none";
+      } else if (purpose === "Late Payment") {
+        paymentDiv.style.display = "block";
+        pickupDiv.style.display = "none";
+      } else {
+        pickupDiv.style.display = "none";
+        paymentDiv.style.display = "none";
+      }
     }
-    function sendToDashboard() {
-    const fullName = document.getElementById("fullName").value;
-    const requestType = "Schedule an Appointment";
-    const registryNumber = generateRegistryNumber();
-    const dateRegistered = new Date().toLocaleDateString();
+  </script>
 
-    const record = {
-      name: fullName,
-      type: requestType,
-      regNo: registryNumber,
-      dateRegistered: dateRegistered,
-    };
-
-    // Save to localStorage (or send via API)
-    const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
-    records.push(record);
-    localStorage.setItem("BirthRecords", JSON.stringify(records));
-  }
-
-  document.getElementById("appointmentForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    document.getElementById("successMsg").style.display = "block";
-    sendToDashboard();
-    this.reset();
-  });
-</script>
-<!-- Set Min and Max Date -->
-<script>
-  const dateInput = document.getElementById("date");
-  const today = new Date();
-
-  // Set the minimum date to today's date
-  const minDate = today.toISOString().split("T")[0];
-  dateInput.setAttribute("min", minDate);
-
-  // Set the maximum date to the last day of the current year
-  const lastDayOfYear = new Date(today.getFullYear(), 11, 31); // December 31 of the current year
-  const maxDate = lastDayOfYear.toISOString().split("T")[0];
-  dateInput.setAttribute("max", maxDate);
-
-  document.getElementById("appointmentForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    document.getElementById("successMsg").style.display = "block";
-    this.reset();
-  });
-
-  // Mobile number format
-  const phoneInput = document.getElementById("phone");
-
-  phoneInput.addEventListener("input", function () {
-    let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
-    if (value.length > 4) {
-      value = value.slice(0, 4) + "-" + value.slice(4);
+  <script>
+    window.gtranslateSettings = {
+      "default_language": "en",
+      "wrapper_selector": ".gtranslate_wrapper",
+      "switcher_horizontal_position": "right",
+      "switcher_vertical_position": "bottom",
+      "flag_style": "3d"
     }
-    if (value.length > 8) {
-      value = value.slice(0, 8) + "-" + value.slice(8, 12);
-    }
-    phoneInput.value = value;
-  });
-</script>
-<script src="../email.js"></script>
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+
+  <script>
+    document.getElementById("appointmentForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      document.getElementById("successMsg").style.display = "block";
+      this.reset();
+    });
+  </script>
+  <!-- Set Min and Max Date -->
+  <script>
+    const dateInput = document.getElementById("date");
+    const today = new Date();
+
+    // Set the minimum date to today's date
+    const minDate = today.toISOString().split("T")[0];
+    dateInput.setAttribute("min", minDate);
+
+    // Set the maximum date to the last day of the current year
+    const lastDayOfYear = new Date(today.getFullYear(), 11, 31); // December 31 of the current year
+    const maxDate = lastDayOfYear.toISOString().split("T")[0];
+    dateInput.setAttribute("max", maxDate);
+
+    document.getElementById("appointmentForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      document.getElementById("successMsg").style.display = "block";
+      this.reset();
+    });
+
+    // Mobile number format
+    const phoneInput = document.getElementById("phone");
+
+    phoneInput.addEventListener("input", function () {
+      let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
+      if (value.length > 4) {
+        value = value.slice(0, 4) + "-" + value.slice(4);
+      }
+      if (value.length > 8) {
+        value = value.slice(0, 8) + "-" + value.slice(8, 12);
+      }
+      phoneInput.value = value;
+    });
+  </script>
+  <script src="../email.js"></script>
 </body>
+
 </html>
