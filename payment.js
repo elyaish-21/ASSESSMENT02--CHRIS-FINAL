@@ -143,7 +143,7 @@ const services = {
       },
       live_birth: {
         name: "Registration of Live Birth",
-        baseFee: 150,
+        baseFee: 100,
         description: "Standard registration of live birth certificates",
         rushFee: 50
       },
@@ -216,8 +216,8 @@ const services = {
         baseFee: 100,
         description: "Registration of death delivery details",
         rushFee: 50
-    },
-    death_correction:{
+      },
+      death_correction:{
         name: "Request for Correction of Death Certificate",
         baseFee: 100,
         description: "Correction of errors in death records",
@@ -239,15 +239,22 @@ const services = {
 }
 };
 
+// Add global variables to store current service/offer
+let currentService = null;
+let currentOffer = null;
+let serviceType = null;
+
    document.addEventListener("DOMContentLoaded", function() {
   // Get service parameters from URL
   const urlParams = new URLSearchParams(window.location.search);
-  const serviceType = urlParams.get('service');
+  serviceType = urlParams.get('service'); // assign to global
   const offerId = urlParams.get('offer');
 
   if (serviceType && offerId && services[serviceType]?.offers[offerId]) {
-    const service = services[serviceType];
-    const offer = service.offers[offerId];
+    currentService = services[serviceType]; // assign to global
+    currentOffer = currentService.offers[offerId]; // assign to global
+    const service = currentService;
+    const offer = currentOffer;
     
     // Update UI with service details
     document.getElementById('paymentTitle').textContent = offer.name;
@@ -305,8 +312,44 @@ function updateTotal() {
     window.location.href = 'birth-service.html'; // or redirect as needed
   }
 
-  function goBack() {
-  window.location.href = "delayed.html";// Goes back to the previous page
+  // Store form data when leaving the form page
+function storeFormData() {
+  const formData = {
+    serviceType: new URLSearchParams(window.location.search).get('service'),
+    applicantName: document.getElementById("applicantName")?.value,
+    // Add all other form fields you want to preserve
+    childName: {
+      firstName: document.getElementById("firstName")?.value,
+      lastName: document.getElementById("lastName")?.value,
+      middleName: document.getElementById("middleName")?.value
+    },
+    // Add more fields as needed
+  };
+  localStorage.setItem('formData', JSON.stringify(formData));
+}
+
+// Restore form data when going back
+function goBackToForm() {
+  const formData = JSON.parse(localStorage.getItem('formData'));
+  if (!formData || !formData.serviceType) {
+    window.history.back();
+    return;
+  }
+
+  // Redirect to the appropriate form page
+  switch(formData.serviceType) {
+    case 'birth':
+      window.location.href = 'birth-service.html';
+      break;
+    case 'marriage':
+      window.location.href = 'marriage-service.html';
+      break;
+    case 'death':
+      window.location.href = 'death-service.html';
+      break;
+    default:
+      window.history.back();
+  }
 }
 
 function toggleQR(selectedMethod) {
@@ -326,18 +369,28 @@ function toggleQR(selectedMethod) {
 }
 
 function openOverlay() {
-  updateTotal();
-  const mainTotal = document.getElementById('total').textContent;
-
-  document.querySelectorAll('.popupTotal').forEach(el => {
-    el.textContent = mainTotal;
-  });
-
-  document.getElementById("overlay").style.display = "flex";
+  console.log("openOverlay function called"); // Debugging line
+  const overlay = document.getElementById("overlay");
+  
+  if (overlay) {
+    console.log("Overlay element found"); // Debugging line
+    overlay.style.display = "flex";
+    
+    // Update the total in the overlay
+    const mainTotal = document.getElementById("total").textContent;
+    document.querySelectorAll('.popupTotal').forEach(el => {
+      el.textContent = mainTotal;
+    });
+  } else {
+    console.error("Overlay element not found!");
+  }
 }
 
 function closeOverlay() {
-  document.getElementById("overlay").style.display = "none";
+  const overlay = document.getElementById("overlay");
+  if (overlay) {
+    overlay.style.display = "none";
+  }
 }
 
 function submitCard() {
@@ -369,23 +422,25 @@ function proceedToPayment() {
     alert("Payment processing...");
     closePopup();
   }
+
+  storeFormData(); // Save data before redirect
+  window.location.href = `payment.html?service=${currentService.type}&offer=${currentService.offer}`;
 }
 
 function showTab(tabName) {
-  const bdoForm = document.getElementById("bdoForm");
-  const bpiForm = document.getElementById("bpiForm");
-
-  bdoForm.classList.add("hidden");
-  bpiForm.classList.add("hidden");
-
-  if (tabName === "bdo") {
-    bdoForm.classList.remove("hidden");
-  } else if (tabName === "bpi") {
-    bpiForm.classList.remove("hidden");
-  }
-
-  document.getElementById("bdoTab").classList.toggle("active-tab", tabName === "bdo");
-  document.getElementById("bpiTab").classList.toggle("active-tab", tabName === "bpi");
+  // Hide all tab contents
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.style.display = 'none';
+  });
+  
+  // Show selected tab
+  document.getElementById(tabName + 'Form').style.display = 'block';
+  
+  // Update active tab buttons
+  document.querySelectorAll('.tab-header button').forEach(btn => {
+    btn.classList.remove('active-tab');
+  });
+  document.getElementById(tabName + 'Tab').classList.add('active-tab');
 }
 
 
@@ -454,7 +509,7 @@ function generateFinalReceiptPDF() {
     const district = document.getElementById("district").value;
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || "Credit/Debit Card";
     const rushChecked = document.getElementById("rush").checked;
-    
+
     const baseFee = currentOffer.baseFee;
     const rushFee = rushChecked ? currentOffer.rushFee : 0;
     const total = baseFee + rushFee;
@@ -471,7 +526,7 @@ function generateFinalReceiptPDF() {
       minute: '2-digit'
     });
     const randomID = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-    const refNo = `${serviceType.toUpperCase().substring(0,3)}-${randomID}`;
+    const refNo = `MNL-${randomID}`;
 
     // Receipt formatting
     doc.setFont("courier", "normal");
@@ -506,16 +561,16 @@ function generateFinalReceiptPDF() {
     // Charges
     doc.setFont("courier", "bold");
     doc.text("--- CHARGES ---", 20, 106);
-    
+
     doc.setFont("courier", "normal");
-    doc.text(`${currentOffer.name.toUpperCase()}:    ₱${baseFee.toFixed(2)}`, 20, 114);
+    doc.text(`${currentOffer.name.toUpperCase()} FEE: PHP ${baseFee.toFixed(2)}`, 20, 114);
     if (rushChecked) {
-      doc.text(`RUSH PROCESSING FEE:    ₱${rushFee.toFixed(2)}`, 20, 122);
+      doc.text(`RUSH PROCESSING FEE: PHP ${rushFee.toFixed(2)}`, 20, 122);
     }
-    
+
     // Total
     doc.setFont("courier", "bold");
-    doc.text(`TOTAL:    ₱${total.toFixed(2)}`, 20, rushChecked ? 130 : 122);
+    doc.text(`TOTAL:    PHP ${total.toFixed(2)}`, 20, rushChecked ? 130 : 122);
     
     // Customer Info
     doc.setFontSize(10);

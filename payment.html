@@ -61,7 +61,7 @@
                     <label for="addressDetails">Additional Address Details:</label>
                     <textarea id="addressDetails" rows="2" placeholder="House No., Street, etc." required></textarea>
 
-                    <button onclick="goBack()" class="back-button">← Back</button>
+                    <button onclick="goBackToForm()" class="back-button">← Back</button>
                 </div>
             </div>
 
@@ -115,19 +115,28 @@
                 <div class="method">
                     <img src="https://media-public.canva.com/yoWxY/MAELDRyoWxY/1/tl.png" alt="CB_cards" width="50px" height="40px">
                     <span>BDO & BPI</span>
-                    <button onclick="openOverlay()" class="slct-btn" type="button" id="openCBContainer">Select</button>
+                    <button onclick="openOverlay()" class="slct-btn" id="openCBContainer">Select</button>
                 </div>
+        </div>  
+            <br>
+            <hr>
+            <label for="UpldFile">Upload Reciept <small>from your selected payment method </small>[For verification Purposes]</label>
+            <input id="UpldFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
 
-                <!-- Credit & Debit Card Container (Initially Hidden) -->
-                <div id="overlay" class="overlay">
-                <div class="overlay-content">
-                    <div class="tab-header">
-                    <button onclick="showTab('bdo')" id="bdoTab" class="active-tab">BDO</button>
-                    <button onclick="showTab('bpi')" id="bpiTab">BPI</button>
-                    </div>
+            <button onclick="confirmPayment()">Submit Payment</button>
+            
+        </div>
+        </div>
+    </div>
 
-                    <!-- BDO Form -->
-                    <div class="tab-content" id="bdoForm">
+    <div id="overlay" class="overlay">
+      <div class="overlay-content">
+        <div class="tab-header">
+          <button onclick="showTab('bdo')" id="bdoTab" class="active-tab">BDO</button>
+          <button onclick="showTab('bpi')" id="bpiTab">BPI</button>
+        </div>
+        <!-- BDO Form -->
+        <div class="tab-content" id="bdoForm">
                         
                             <div class="CBform">
                                 <h3>BDO Card Payment</h3>
@@ -179,18 +188,6 @@
                     </div>
                 </div>
                 </div>
-        </div>  
-            <br>
-            <hr>
-            <label for="UpldFile">Upload Reciept <small>from your selected payment method </small>[For verification Purposes]</label>
-            <input id="UpldFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
-
-            <button onclick="confirmPayment()">Submit Payment</button>
-            
-        </div>
-        </div>
-    </div>
-
     <script src="payment.js"></script>
 
     </body>
