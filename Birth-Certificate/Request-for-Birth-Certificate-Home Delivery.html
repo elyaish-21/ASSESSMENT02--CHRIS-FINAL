@@ -163,7 +163,12 @@
   </style>
 </head>
 <body>
-
+<script>
+  const currentService = {
+    type: "birth",
+    offer: "birth_delivery"
+  };
+</script>
 <div class="form-card">
   <a class="back-button" href="birth-service.html">Back</a>
   <h2>Request for Birth Certificate<br>(Home Delivery)</h2>
@@ -306,5 +311,7 @@ function generateRegistryNumber() {
   phoneInput.value = value;
   });
 </script>
+
+<script src="payment.js"></script>
 </body>
 </html>

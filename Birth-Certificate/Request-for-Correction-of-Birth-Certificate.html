@@ -158,7 +158,12 @@
   </style>
 </head>
 <body>
-
+  <script>
+  const currentService = {
+    type: "birth",
+    offer: "birth_delivery"
+  };
+</script>
 <div class="form-card">
   <a class="back-button" href="birth-service.html">Back</a>
   <h2>Request for Correction of Birth Certificate</h2>
@@ -310,5 +315,7 @@ function showSMSConfirmation() {
   phoneInput.value = value;
   });
 </script>
+
+<script src="payment.js"></script>
 </body>
 </html>

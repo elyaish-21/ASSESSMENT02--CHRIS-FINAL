@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <title>Registration of Live Birth</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
   <style>
-  body {
-     margin: 0;
+    body {
+      margin: 0;
       padding: 0;
       font-family: 'Golos Text', sans-serif;
       background: url('birth-bg-new.png') no-repeat bottom left fixed;
@@ -19,246 +19,283 @@
       align-items: center;
     }
 
-  .form-container {
-    background: url('NEW BG HP.jpg') no-repeat center center fixed;
-    background-size: cover;
-    padding: 40px 0;
-    min-height: 100vh; /* full viewport height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    .form-container {
+      background: url('NEW BG HP.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding: 40px 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  .form-card {
-    background: rgba(255, 255, 255, 0.9); /* white with 90% opacity */
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    width: 90%;
-  }
+    .form-card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
+      width: 90%;
+    }
 
-  h2, h3 {
-    text-align: center;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 25px;
-  }
+    h2, h3 {
+      text-align: center;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
 
-  label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 1.0rem;
-    color: #34495e;
-  }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 1.0rem;
+      color: #34495e;
+    }
 
-  input[type="text"],
-  input[type="date"],
-  select,
-  input[type="file"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    color: #2c3e50;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-  }
+    input[type="text"],
+    input[type="date"],
+    select,
+    input[type="file"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: #2c3e50;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
 
-  input[type="text"]:focus,
-  input[type="date"]:focus,
-  select:focus,
-  input[type="file"]:focus {
-    outline: none;
-    border-color: #2980b9;
-    box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
-  }
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    select:focus,
+    input[type="file"]:focus {
+      outline: none;
+      border-color: #2980b9;
+      box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
+    }
 
-  input:focus::placeholder {
+    input:focus::placeholder {
       color: transparent;
-  }
+    }
 
-  /* Two column for child's name */
-  .name-group {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
-  }
+    .name-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
 
-  /* Place of birth inputs in three columns */
-  .birthplace-group {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
-  }
+    .birthplace-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
 
-  /* Mother's maiden name group */
-  .maiden-name-group, .father-name-group {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-  }
+    .maiden-name-group, .father-name-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
 
-  /* Group some related inputs in two columns for father's and mother's info */
-  .parent-info-group {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 30px;
-    margin-bottom: 20px;
-  }
-
-  /* Checkbox group styling */
-  .checkbox-group {
-    margin-bottom: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
-  .checkbox-group label {
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: #34495e;
-    user-select: none;
-  }
-
-  canvas {
-    border: 1px solid #ccc;
-    width: 100%;
-    height: 150px;
-    border-radius: 6px;
-    margin-top: 6px;
-    cursor: crosshair;
-    background-color: #fafafa;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-  }
-
-  canvas:focus {
-    outline: none;
-    border-color: #2980b9;
-    box-shadow: 0 0 6px rgba(41, 128, 185, 0.4);
-  }
-
-  button {
-    margin-top: 30px;
-    width: 100%;
-    padding: 14px;
-    background-color: #2980b9;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  button:hover {
-    background-color: #1c5980;
-  }
-
-  .clear-btn {
-    width: auto;
-    padding: 6px 12px;
-    font-size: 12px;
-    margin-top: 5px;
-    background-color: #6c757d;
-    border-radius: 4px;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  .clear-btn:hover {
-    background-color: #5a6268;
-  }
-
-  .success-message {
-    display: none;
-    margin-top: 25px;
-    padding: 18px;
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-    border-radius: 8px;
-    font-weight: 600;
-    text-align: center;
-    font-size: 1rem;
-  }
-
-  /* Affidavit paragraph styling */
-  p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: #555;
-    margin: 18px 0 30px;
-  }
-
-  p input[type="text"] {
-    font-weight: 600;
-    padding: 6px 8px;
-    font-size: 0.95rem;
-    width: 250px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin: 0 6px;
-    transition: border-color 0.3s ease;
-  }
-
-  p input[type="text"]:focus {
-    outline: none;
-    border-color: #2980b9;
-    box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
-  }
-
-  .back-button {
-    display: inline-block;
-    margin: 20px 0 20px 10px; /* Push to left */
-    text-align: center;
-    padding: 10px 15px;
-    background-color: #f70707;
-    text-decoration: none;
-    color: #e9e3e3;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-
-  .back-button:hover {
-    background-color: #f10707;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 700px) {
-    .name-group,
-    .birthplace-group,
-    .maiden-name-group,
     .parent-info-group {
-      grid-template-columns: 1fr;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 30px;
+      margin-bottom: 20px;
+    }
+
+    .checkbox-group {
+      margin-bottom: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .checkbox-group label {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #34495e;
+      user-select: none;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 150px;
+      border-radius: 6px;
+      margin-top: 6px;
+      cursor: crosshair;
+      background-color: #fafafa;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    canvas:focus {
+      outline: none;
+      border-color: #2980b9;
+      box-shadow: 0 0 6px rgba(41, 128, 185, 0.4);
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 14px;
+      background-color: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1c5980;
+    }
+
+    .clear-btn {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 12px;
+      margin-top: 5px;
+      background-color: #6c757d;
+      border-radius: 4px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .clear-btn:hover {
+      background-color: #5a6268;
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 25px;
+      padding: 18px;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 8px;
+      font-weight: 600;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #555;
+      margin: 18px 0 30px;
     }
 
     p input[type="text"] {
+      font-weight: 600;
+      padding: 6px 8px;
+      font-size: 0.95rem;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin: 0 6px;
+      transition: border-color 0.3s ease;
+    }
+
+    p input[type="text"]:focus {
+      outline: none;
+      border-color: #2980b9;
+      box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
+    }
+
+    .back-button {
+      display: inline-block;
+      margin: 20px 0 20px 10px;
+      text-align: center;
+      padding: 10px 15px;
+      background-color: #f70707;
+      text-decoration: none;
+      color: #e9e3e3;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      background-color: #f10707;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    #paymentConfirmationModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      margin: 10px 0;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
     }
 
-    button, 
-    .clear-btn {
-      font-size: 1rem;
+    #paymentConfirmationModal > div {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
     }
-  }
-</style>
 
+    @media (max-width: 700px) {
+      .name-group,
+      .birthplace-group,
+      .maiden-name-group,
+      .parent-info-group {
+        grid-template-columns: 1fr;
+      }
+
+      p input[type="text"] {
+        width: 100%;
+        margin: 10px 0;
+      }
+
+      button, 
+      .clear-btn {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
+
+<script>
+  // Service configuration
+  const services = {
+    birth: {
+      title: "Birth Services",
+      offers: {
+        live_birth_registration: {
+          name: "Registration of Live Birth",
+          baseFee: 200,
+          description: "Standard registration of live birth certificates",
+          rushFee: 100
+        }
+      }
+    }
+  };
+
+  // Current service being processed
+  const currentService = {
+    type: "birth",
+    offer: "live_birth_registration"
+  };
+</script>
 
 <div class="form-card">
   <form id="form">
@@ -266,7 +303,7 @@
     <h2>Registration of Live Birth</h2>
     <label>Applicant Name</label>
     <input type="text" id="applicantName" placeholder="Full Name" required>
-   <hr>
+    <hr>
     <label>Child's Name</label>
     <div class="name-group">
       <input type="text" id="lastName" placeholder="Last" required>
@@ -304,7 +341,7 @@
   
     <label>Mother's Name</label>
     <input type="text" id="motherName" placeholder="Last Name, First Name, Middle Initial" required>
-   <hr>
+    <hr>
     <h3>Mother's Information</h3>
     <label>Maiden Name</label>
     <div class="maiden-name-group">
@@ -340,14 +377,14 @@
       </div>
       <div>
         <label>Date of Birth</label>
-    <input type="date" id="MotherBirthDate" required>
+        <input type="date" id="MotherBirthDate" required>
       </div>
       <div>
         <label>Residence</label>
         <input type="text" required>
       </div>
     </div>
-   <hr>
+    <hr>
     <h3>Father's Information</h3>
     <div class="father-name-group">
       <input type="text" id="lastName" placeholder="Last" required>
@@ -369,10 +406,10 @@
       </div>
       <div>
         <label>Date of Birth</label>
-    <input type="date" id="FatherBirthDate" required>
+        <input type="date" id="FatherBirthDate" required>
       </div>
     </div>
-   <hr>
+    <hr>
     <h3>AFFIDAVIT OF ACKNOWLEDGEMENT/ADMISSION OF PATERNITY</h3>
     <p>
       We, <input type="text" id="affidavitFather" placeholder="Father's Full Name" required> and 
@@ -398,7 +435,32 @@
     <button type="button" onclick="submitForm()">Submit</button>
     <div id="success-message" class="success-message"></div>
   </form>
+</div>
 
+<!-- Payment Confirmation Modal -->
+<div id="paymentConfirmationModal">
+  <div>
+    <h3>Confirm Payment</h3>
+    <div id="paymentConfirmationContent"></div>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+      <button onclick="proceedToPayment()" style="
+        padding: 10px 20px;
+        background: #2980b9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      ">Proceed to Payment</button>
+      <button onclick="closePaymentModal()" style="
+        padding: 10px 20px;
+        background: #f70707;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      ">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <div class="gtranslate_wrapper"></div>
@@ -414,12 +476,23 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
+  // Canvas functions
   function clearCanvas(id) {
     const canvas = document.getElementById(id);
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
+  function isCanvasEmpty(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext("2d");
+    const pixelBuffer = new Uint32Array(
+      ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+    );
+    return !pixelBuffer.some(color => color !== 0);
+  }
+
+  // Form functions
   function clearAllFields() {
     const inputs = document.querySelectorAll('input[type="text"], input[type="date"]');
     inputs.forEach(input => input.value = '');
@@ -438,63 +511,18 @@
     clearCanvas('father-signature');
     clearCanvas('mother-signature');
   }
+
   function generateRegistryNumber() {
-  const now = new Date();
-  return `REG-${now.getFullYear()}${(now.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
-    .getTime()
-    .toString()
-    .slice(-5)}`;
-}
-
-
-function submitForm() {
-  const requiredInputs = document.querySelectorAll('input[type="text"], input[type="date"], select, input[type="file"]');
-  for (const input of requiredInputs) {
-    if (!input.value) {
-      alert("Please fill out all required fields.");
-      input.focus();
-      return;
-    }
+    const now = new Date();
+    return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+      .getTime()
+      .toString()
+      .slice(-5)}`;
   }
 
-  const checkboxes = ["physician", "nurse", "midwife", "hilot", "others"];
-  const oneChecked = checkboxes.some(id => document.getElementById(id).checked);
-  if (!oneChecked) {
-    alert("Please select at least one attendant.");
-    return;
-  }
-
-  if (isCanvasEmpty("father-signature") || isCanvasEmpty("mother-signature")) {
-    alert("Please provide signatures for both parents.");
-    return;
-  }
-
-  if (confirm("Are you sure you want to submit and download the certificate?")) {
-    setTimeout(() => {
-      generateCertificate();
-
-      const successDiv = document.getElementById('success-message');
-      successDiv.style.display = 'block';
-      successDiv.style.backgroundColor = '#d4edda';
-      successDiv.style.color = '#155724';
-      successDiv.textContent = "Successfully registered! The Certificate of Live Birth PDF will be downloaded shortly.";
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      clearAllFields();
-
-      setTimeout(() => {
-        successDiv.style.display = 'none';
-      }, 5000);
-
-    }, 100);
-  } else {
-    alert("Submission cancelled.");
-  }
-}
-
-function sendToDashboard() {
+  function sendToDashboard() {
     const fullName = document.getElementById("applicantName").value;
     const requestType = "Birth Certificate Registration";
     const registryNumber = generateRegistryNumber();
@@ -507,150 +535,195 @@ function sendToDashboard() {
       dateRegistered: dateRegistered,
     };
   
-    // Save to localStorage (or send via API)
+    // Save to localStorage
     const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
     records.push(record);
     localStorage.setItem("BirthRecords", JSON.stringify(records));
   }
 
-  // function submitForm() {
-  //   // Existing validation and submission logic...
-  //   sendToDashboard(); // Call this function after successful submission
-  // }
-
   function generateCertificate() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-  const registryNumber = generateRegistryNumber();
-  const fullName = `${document.getElementById("firstName").value} ${document.getElementById("middleName").value} ${document.getElementById("lastName").value}`;
-  const birthDateRaw = document.getElementById("ChildBirthDate").value;
-  const birthDate = birthDateRaw ? new Date(birthDateRaw).toLocaleDateString() : "";
-  const placeOfBirth = `${document.getElementById("birthPlace").value}, ${document.getElementById("birthCity").value}, ${document.getElementById("birthProvince").value}`;
-  const sex = document.getElementById("sex").value;
-  const father = document.getElementById("fatherName").value;
-  const mother = document.getElementById("motherName").value;
-  const affidavitFather = document.getElementById("affidavitFather").value;
-  const affidavitMother = document.getElementById("affidavitMother").value;
+    const registryNumber = generateRegistryNumber();
+    const fullName = `${document.getElementById("firstName").value} ${document.getElementById("middleName").value} ${document.getElementById("lastName").value}`;
+    const birthDateRaw = document.getElementById("ChildBirthDate").value;
+    const birthDate = birthDateRaw ? new Date(birthDateRaw).toLocaleDateString() : "";
+    const placeOfBirth = `${document.getElementById("birthPlace").value}, ${document.getElementById("birthCity").value}, ${document.getElementById("birthProvince").value}`;
+    const sex = document.getElementById("sex").value;
+    const father = document.getElementById("fatherName").value;
+    const mother = document.getElementById("motherName").value;
+    const affidavitFather = document.getElementById("affidavitFather").value;
+    const affidavitMother = document.getElementById("affidavitMother").value;
 
-  let attendants = [];
-  if (document.getElementById("physician").checked) attendants.push("Physician");
-  if (document.getElementById("nurse").checked) attendants.push("Nurse");
-  if (document.getElementById("midwife").checked) attendants.push("Midwife");
-  if (document.getElementById("hilot").checked) attendants.push("Hilot");
-  if (document.getElementById("others").checked) attendants.push("Others");
+    let attendants = [];
+    if (document.getElementById("physician").checked) attendants.push("Physician");
+    if (document.getElementById("nurse").checked) attendants.push("Nurse");
+    if (document.getElementById("midwife").checked) attendants.push("Midwife");
+    if (document.getElementById("hilot").checked) attendants.push("Hilot");
+    if (document.getElementById("others").checked) attendants.push("Others");
 
-  // Header
-  doc.setFont("Times", "bold");
-  doc.setFontSize(16);
-  doc.text("Republic of the Philippines", 105, 20, { align: "center" });
-  doc.setFontSize(12);
-  doc.text("City of Manila", 105, 28, { align: "center" });
-  doc.text("Office of the Civil Registrar", 105, 36, { align: "center" });
-  doc.text("National Capital Region (NCR)", 105, 44, { align: "center" });
+    // Header
+    doc.setFont("Times", "bold");
+    doc.setFontSize(16);
+    doc.text("Republic of the Philippines", 105, 20, { align: "center" });
+    doc.setFontSize(12);
+    doc.text("City of Manila", 105, 28, { align: "center" });
+    doc.text("Office of the Civil Registrar", 105, 36, { align: "center" });
+    doc.text("National Capital Region (NCR)", 105, 44, { align: "center" });
+      
+    doc.setFontSize(18);
+    doc.text("CERTIFICATE OF LIVE BIRTH", 105, 60, { align: "center" });
 
-  doc.setFontSize(18);
-  doc.text("CERTIFICATE OF LIVE BIRTH", 105, 60, { align: "center" });
+    // Registry Number
+    doc.setFontSize(12);
+    doc.setFont("Times", "bold");
+    doc.text("Registry No.:", 20, 70);
+    doc.setFont("Times", "normal");
+    doc.text(registryNumber, 60, 70);
 
-  // Registry Number
-  doc.setFontSize(12);
-  doc.setFont("Times", "bold");
-  doc.text("Registry No.:", 20, 70);
-  doc.setFont("Times", "normal");
-  doc.text(registryNumber, 60, 70);
+    // Main Content
+    let y = 80;
+    doc.setFont("Times", "bold");
+    doc.text("Full Name:", 20, y);
+    doc.setFont("Times", "normal");
+    doc.text(fullName, 60, y);
 
-  // Main Content
-  let y = 80;
-  doc.setFont("Times", "bold");
-  doc.text("Full Name:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(fullName, 60, y);
+    y += 10;
+    doc.setFont("Times", "bold");
+    doc.text("Date of Birth:", 20, y);
+    doc.setFont("Times", "normal");
+    doc.text(birthDate, 60, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Date of Birth:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(birthDate, 60, y);
+    y += 10;
+    doc.setFont("Times", "bold");
+    doc.text("Place of Birth:", 20, y);
+    doc.setFont("Times", "normal");
+    doc.text(placeOfBirth, 60, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Place of Birth:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(placeOfBirth, 60, y);
+    y += 10;
+    doc.setFont("Times", "bold");
+    doc.text("Attendant:", 20, y);
+    doc.setFont("Times", "normal");
+    doc.text(attendants.join(", "), 60, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Attendant:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(attendants.join(", "), 60, y);
+    y += 10;
+    doc.setFont("Times", "bold");
+    doc.text("Sex:", 20, y);
+    doc.setFont("Times", "normal");
+    doc.text(sex, 60, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Sex:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(sex, 60, y);
+    y += 10;
+    doc.setFont("Times", "bold");
+    doc.text("Father's Name:", 20, y);
+    doc.setFont("Times", "normal");
+    doc.text(father, 60, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Father's Name:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(father, 60, y);
+    y += 10;
+    doc.setFont("Times", "bold");
+    doc.text("Mother's Name:", 20, y);
+    doc.setFont("Times", "normal");
+    doc.text(mother, 60, y);
 
-  y += 10;
-  doc.setFont("Times", "bold");
-  doc.text("Mother's Name:", 20, y);
-  doc.setFont("Times", "normal");
-  doc.text(mother, 60, y);
+    // Affidavit Section
+    y += 20;
+    doc.setFont("Times", "bold");
+    doc.text("AFFIDAVIT OF ACKNOWLEDGEMENT/ADMISSION OF PATERNITY", 105, y, { align: "center" });
 
-  // Affidavit Section
-  y += 20;
-  doc.setFont("Times", "bold");
-  doc.text("AFFIDAVIT OF ACKNOWLEDGEMENT/ADMISSION OF PATERNITY", 105, y, { align: "center" });
+    y += 10;
+    doc.setFont("Times", "normal");
+    doc.setFontSize(12);
+    const affidavitText = `We, ${affidavitFather} and ${affidavitMother}, parents/parent of the child mentioned in this Certificate of Live Birth, do hereby solemnly swear that the information contained herein are true and correct to the best of our/my knowledge and belief.`;
+    const splitText = doc.splitTextToSize(affidavitText, 170);
+    doc.text(splitText, 20, y);
 
-  y += 10;
-  doc.setFont("Times", "normal");
-  doc.setFontSize(12);
-  const affidavitText = `We, ${affidavitFather} and ${affidavitMother}, parents/parent of the child mentioned in this Certificate of Live Birth, do hereby solemnly swear that the information contained herein are true and correct to the best of our/my knowledge and belief.`;
-  const splitText = doc.splitTextToSize(affidavitText, 170);
-  doc.text(splitText, 20, y);
+    y += splitText.length * 7 + 10;
 
-  y += splitText.length * 7 + 10;
+    // Signatures
+    const fatherCanvas = document.getElementById("father-signature");
+    const fatherImage = fatherCanvas.toDataURL("image/png");
+    doc.addImage(fatherImage, "PNG", 20, y, 60, 30);
 
-  // Signatures
-  const fatherCanvas = document.getElementById("father-signature");
-  const fatherImage = fatherCanvas.toDataURL("image/png");
-  doc.addImage(fatherImage, "PNG", 20, y, 60, 30);
+    const motherCanvas = document.getElementById("mother-signature");
+    const motherImage = motherCanvas.toDataURL("image/png");
+    doc.addImage(motherImage, "PNG", 120, y, 60, 30);
 
-  const motherCanvas = document.getElementById("mother-signature");
-  const motherImage = motherCanvas.toDataURL("image/png");
-  doc.addImage(motherImage, "PNG", 120, y, 60, 30);
+    y += 40;
+    doc.setFont("Times", "bold");
+    doc.text("Father's Signature:", 20, y);
+    doc.text("Mother's Signature:", 120, y);
 
-  y += 40;
-  doc.setFont("Times", "bold");
-  doc.text("Father's Signature:", 20, y);
-  doc.text("Mother's Signature:", 120, y);
+    // Border
+    doc.setLineWidth(1);
+    doc.rect(10, 10, 190, 270);
 
-  // Border
-  doc.setLineWidth(1);
-  doc.rect(10, 10, 190, 270);
+    // Save PDF
+    doc.save("Certificate_of_Live_Birth.pdf");
 
-  // Save PDF
-  doc.save("Certificate_of_Live_Birth.pdf");
+    sendToDashboard();
+  }
 
-  sendToDashboard();
-}
+  // Payment functions
+  function showPaymentConfirmation() {
+    const offer = services[currentService.type].offers[currentService.offer];
+    const content = document.getElementById('paymentConfirmationContent');
+    
+    content.innerHTML = `
+      <p>You are about to proceed with payment for:</p>
+      <h4>${offer.name}</h4>
+      <p>Service Fee: ₱${offer.baseFee.toFixed(2)}</p>
+      <p>Please have your payment method ready.</p>
+    `;
+    
+    document.getElementById('paymentConfirmationModal').style.display = 'flex';
+  }
 
-  
-function isCanvasEmpty(canvasId) {
-  const canvas = document.getElementById(canvasId);
-  const ctx = canvas.getContext("2d");
-  const pixelBuffer = new Uint32Array(
-    ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer
-  );
-  return !pixelBuffer.some(color => color !== 0);
-}
+  function proceedToPayment() {
+    // First generate the certificate
+    generateCertificate();
+    
+    // Then redirect to payment page
+    setTimeout(() => {
+      window.location.href = `payment.html?service=${currentService.type}&offer=${currentService.offer}`;
+    }, 1000);
+  }
 
-window.onload = () => {
+  function closePaymentModal() {
+    document.getElementById('paymentConfirmationModal').style.display = 'none';
+  }
+
+  // Main form submission
+  function submitForm() {
+    // Validate all required fields
+    const requiredInputs = document.querySelectorAll('input[type="text"], input[type="date"], select, input[type="file"]');
+    for (const input of requiredInputs) {
+      if (!input.value) {
+        alert("Please fill out all required fields.");
+        input.focus();
+        return;
+      }
+    }
+
+    // Validate at least one attendant is checked
+    const checkboxes = ["physician", "nurse", "midwife", "hilot", "others"];
+    const oneChecked = checkboxes.some(id => document.getElementById(id).checked);
+    if (!oneChecked) {
+      alert("Please select at least one attendant.");
+      return;
+    }
+
+    // Validate signatures
+    if (isCanvasEmpty("father-signature") || isCanvasEmpty("mother-signature")) {
+      alert("Please provide signatures for both parents.");
+      return;
+    }
+
+    // Show payment confirmation
+    showPaymentConfirmation();
+  }
+
+  // Initialize signature canvases
+  window.onload = () => {
     const ids = ["father-signature", "mother-signature"];
     ids.forEach(id => {
       const canvas = document.getElementById(id);
@@ -674,21 +747,13 @@ window.onload = () => {
         ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
       });
     });
+
+    // Set max dates for date inputs
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("ChildBirthDate").setAttribute("max", today);
+    document.getElementById("MotherBirthDate").setAttribute("max", today);
+    document.getElementById("FatherBirthDate").setAttribute("max", today);
   };
 </script>
-<script>
-  // date
-  const ChildBirthDate = document.getElementById("ChildBirthDate");
-  const MotherBirthDate = document.getElementById("MotherBirthDate");
-  const FatherBirthDate = document.getElementById("FatherBirthDate");
-  const today = new Date();
-
-  // Set the maximum date to today's date
-  const maxDate = today.toISOString().split("T")[0];
-  ChildBirthDate.setAttribute("max", maxDate);
-  MotherBirthDate.setAttribute("max", maxDate);
-  FatherBirthDate.setAttribute("max", maxDate);
-</script>
-
 </body>
 </html>

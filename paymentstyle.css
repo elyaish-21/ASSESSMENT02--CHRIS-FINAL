@@ -1,0 +1,338 @@
+/* Base Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+/* Main container */
+.payment-box {
+  display: flex;  
+  flex-direction: row;
+  justify-content: space-between;
+  background: white;
+  width: 100%;
+  gap:2rem;
+  margin: 0 auto;
+  padding: 25px 30px;
+  border-radius: 0px 0px 10px 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix layout: left side stacks recipient and confirm address vertically */
+.left-column {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  gap: 2rem;
+}
+
+/* Stack inputs in recipient section */
+.recipient {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 80%;
+}
+
+
+.conadd{
+    width: 85%;
+}
+
+#region, #municipality{
+    cursor: not-allowed;
+}
+#district, #barangay,#paymentMethod{
+    cursor: pointer;
+}
+ #addressDetails{
+    cursor: text;
+ }
+
+
+h2{
+    position: relative;
+    display:flex;
+    padding: 10px 20px;
+    width: 100%;
+    margin: 0 0;
+    background: linear-gradient(to right, rgb(78, 128, 237), rgb(19, 71, 183));
+    border-radius: 10px 10px 0px 0px;
+    color: white;
+}
+/* Section headers */
+.payment-box h2{
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+/* Labels and inputs */
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: 500;
+  color: #444;
+}
+
+
+#paymentSection{
+    display: flex;
+    flex-direction: column;
+}
+#contact, input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Amount display */
+.amount,
+.total {
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+
+/* Buttons */
+button {
+  width: 100%;
+  padding:7px 7px;
+  margin-top: 15px;
+  background-color: #15c84a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0c8a14;
+}
+
+.back-button {
+  background-color: #b52727;
+  color: #ffffff;
+  border: none;
+  width: 20%;
+  font-weight: 500;
+  padding: 10px 16px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #aaa;
+}
+
+.slct-btn{
+  background-color: #6f7eec;
+  color: #ffffff;
+  border: none;
+  width: 15%;
+  font-weight: 500;
+  padding: 5px 5px;
+  margin-left: 12rem;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.slct-btn:hover{
+    background-color: #007bff;
+}
+
+.paymentmethod{
+    display: flex;
+  flex-direction: column; /* Stack each method vertically */
+  gap: 15px;
+}
+
+.method {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+.method input[type="radio"]{
+  height: 20px;
+  width: 20px;
+  margin-left: 0px;
+  transform: translateX(15rem);
+  align-items: center;
+}
+
+    #gcashQRSection {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .amount, .total {
+      font-size: 1.2rem;
+      margin: 10px 0;
+    }
+
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; 
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 70%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tab-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-header button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: #cfd9f8;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.tab-header button.active-tab {
+  background-color: #3498db;
+  color: white;
+}
+
+.tab-content{
+    display: flex;
+    flex-direction:row;
+    align-items: start;
+    justify-content: flex-start;
+    gap: 225px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+.CBform input{
+    width: 100%;
+    display: flex;
+    align-items: start;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+.ttl-pymnt{
+    display: flex;
+    flex-direction: column; 
+    
+}
+
+.ttl-pymnt input{
+    padding: 8px; 
+    width: 100%;
+    border-radius: 6px; 
+    border: 1px solid #ccc;
+}
+
+#UpldFile input {
+  cursor: pointer;
+}
+
+#Exdate:hover{
+  cursor: pointer;
+}
+
+
+.button-group {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 0.5rem;
+  width: 50%;
+}
+
+.cls-btn{
+    background-color: #b52727;
+}
+.cls-btn:hover{
+    background-color: #733333;
+}
+
+
+
+
+
+/* Responsive design */
+@media screen and (min-width: 768px) {
+  .payment-box {
+    padding: 30px 40px;
+  }
+
+  input[type="text"],
+  select,
+  textarea {
+    font-size: 1rem;
+  }
+
+  button {
+    font-size: 1.05rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .payment-box {
+    padding: 20px;
+  }
+
+  h2, h3 {
+    font-size: 1.2rem;
+  }
+
+  input[type="text"],
+  select,
+  textarea,
+  button {
+    font-size: 0.95rem;
+  }
+}

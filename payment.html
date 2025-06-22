@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="paymentstyle.css">
+  <script 
+  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" 
+  onload="window.jsPDF = window.jspdf.jsPDF;">
+</script>
+
+  <title>Payment Transaction</title>
+</head>
+<body>
+
+<div>   
+    <h2>Payment Transaction</h2>
+        <div class="payment-box">
+            <div class="left-column">
+                <div class="recipient" id="rcpntinfo">
+                    <h3>Recipient Information</h3>
+                    <label for="fname">First Name</label>
+                    <input id="fname" type="text" placeholder="Input First name" required>
+
+                    <label for="lname">Last Name</label>
+                    <input id="lname" type="text" placeholder="Input Last name" required>
+
+                    <label for="mname">Middle Name</label>
+                    <input id="mname" type="text" placeholder="Input Middle name" required>
+
+                    <label for="sfxname">Sufix <small>[optional]</small></label>
+                    <input id="sfxname" type="text" style="width: 20%;">
+
+                    <label for="contact">Contact Number:</label>
+                        <div style="display: flex; gap: 4px; align-items: center;">
+                            <span>PH+63</span>
+                            <input type="tel" id="contact" name="contact" 
+                                    placeholder="9123456789" 
+                                    pattern="[9]{1}[0-9]{9}" 
+                                    maxlength="10" 
+                                    required>
+                        </div>
+                </div>
+                
+                <div class="conadd" id="comfimaddress">
+                    <h3>Confirm Address</h3>
+                    <label for="region">Region:</label>
+                    <input id="region" type="text" value="NCR – Metro Manila" disabled>
+    
+                    <label for="municipality">City/Municipality</label>
+                    <input id="municipality" type="text" value="City of Manila" disabled>
+
+                    <label for="district">District:</label>
+                    <select id="district" required>
+                    <option value="" required>-- Select District --</option>
+                    </select>
+
+                    <label for="barangay">Barangay:</label>
+                    <select id="barangay" required disabled></select>
+
+                    <label for="addressDetails">Additional Address Details:</label>
+                    <textarea id="addressDetails" rows="2" placeholder="House No., Street, etc." required></textarea>
+
+                    <button onclick="goBack()" class="back-button">← Back</button>
+                </div>
+            </div>
+
+        <div id="paymentSection" >
+           <!-- Add this near the top of your payment page -->
+            <div id="serviceInfo">
+                <h3 style="font-size: 1.5rem;" id="paymentTitle">Service Payment</h3>
+                <p class="amount" id="serviceDescription">Service description will appear here</p>
+            </div>
+            <label>
+                <input type="checkbox" id="rush" name="rush" value="yes" onchange="updateTotal()" />
+                Rush Processing (+₱50) 
+                <br>
+                <small><mark style="color: red; background: none;">*</mark>This option allows your birth certificate request to be processed faster than the standard timeline. 
+                <br>By checking this box, you agree to pay an additional ₱50 for expedited handling.</small>
+                
+            </label>
+
+            <p class="total"><strong>Total: ₱ <span id="total">100</span></strong></p>
+            <br>
+            <hr>
+        <div class="paymethod">
+            <h3>Payment Method</h3>
+            <!-- GCash -->
+            <label class="method">
+                <img src="https://getcash.ph/wp-content/uploads/2021/01/Gcash-logo-Transparent-500x500-1.png" alt="GCash" width="45px" height="45px">
+                <span>GCash</span>
+                <input style="transform: translateX(15.8rem);"type="radio" name="paymentMethod" value="GCash" onclick="toggleQR('GCash')" />
+            </label>
+            <!-- GCash QR Section (Initially Hidden) -->
+            <div id="gcashQR" style="display: none; margin: 10px 0 20px 35px;">
+                <p><strong>Scan this GCash QR Code to pay:</strong></p>
+                <img src="https://www.pngmart.com/files/10/Qr-Code-Background-PNG.png" alt="GCash QR Code" style="width: 200px; border: 1px solid #ccc; padding: 8px; border-radius: 8px;">
+            </div>
+            
+            <label class="method">
+                <img src="https://logodix.com/logo/2206757.jpg" alt="PayMaya" style="border-radius: 0.5rem;"width="40px" height="40px">
+                <span>PayMaya</span>
+                <input type="radio" name="paymentMethod" value="PayMaya" onclick="toggleQR('PayMaya')" />
+            </label>
+
+            <!-- PAYMAYA QR Section (Initially Hidden) -->
+            <div id="paymayaQR" style="display: none; margin: 10px 0 20px 35px;">
+                <p><strong>Scan this PayMaya QR Code to pay:</strong></p>
+                <img src="https://www.pngmart.com/files/10/Qr-Code-Background-PNG.png" alt="paymaya QR Code" style="width: 200px; border: 1px solid #ccc; padding: 8px; border-radius: 8px;">
+            </div>
+
+            <br>
+            <hr >
+            <h3 style="font-weight:500; font-size: 1rem;">Credit/Debit Card</h3>
+                <div class="method">
+                    <img src="https://media-public.canva.com/yoWxY/MAELDRyoWxY/1/tl.png" alt="CB_cards" width="50px" height="40px">
+                    <span>BDO & BPI</span>
+                    <button onclick="openOverlay()" class="slct-btn" type="button" id="openCBContainer">Select</button>
+                </div>
+
+                <!-- Credit & Debit Card Container (Initially Hidden) -->
+                <div id="overlay" class="overlay">
+                <div class="overlay-content">
+                    <div class="tab-header">
+                    <button onclick="showTab('bdo')" id="bdoTab" class="active-tab">BDO</button>
+                    <button onclick="showTab('bpi')" id="bpiTab">BPI</button>
+                    </div>
+
+                    <!-- BDO Form -->
+                    <div class="tab-content" id="bdoForm">
+                        
+                            <div class="CBform">
+                                <h3>BDO Card Payment</h3>
+                                <label for="Cholder_name">Cardholder Name:</label>
+                                <input id="Cholder_name"type="text" placeholder="Juan Dela Cruz" required>
+
+                                <label for="Cnum">Card Number:</label>
+                                <input id="Cnum" type="number" placeholder="1234 5678 9012 3456" required>
+
+                                <label for="Exdate">Expiration Date:</label>
+                                <input id="Exdate" type="month" required>
+
+                                <label for="cvv">CVV:</label>
+                                <input id="cvv" type="text" placeholder="123" required>
+                            </div>
+
+                        <div class="ttl-pymnt">
+                            <p class="total"><strong>Total Payment Due: ₱ <span class="popupTotal">100</span></strong></p>
+                            <label for="userAmount">Enter Amount to Pay:</label>
+                            <input type="number" id="userAmount" placeholder="Enter amount here" />
+                        </div>
+                    </div>
+
+                    <!-- BPI Form -->
+                <div class="tab-content hidden" id="bpiForm">
+
+                        <div class="CBform">
+                            <h3>BPI Card Payment</h3>
+                            <label>Account Name:</label>
+                            <input type="text" placeholder="Maria Santos" required>
+                            <label>Card Number:</label>
+                            <input type="text" placeholder="4567 8901 2345 6789" required>
+                            <label style="align-items: end;">Expiry:</label>
+                            <input type="month" required>
+                            <label>CVV:</label>
+                            <input type="text" placeholder="456" required>
+                        </div>
+
+                        <div class="ttl-pymnt">
+                            <p class="total"><strong>Total Payment Due: ₱ <span class="popupTotal">100</span></strong></p>
+                            <label for="userAmount">Enter Amount to Pay:</label>
+                            <input type="number" id="userAmount" placeholder="Enter amount here" required/>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                    <button class="submt-btn" onclick="submitCard()">Submit</button>
+                    <button class="cls-btn" onclick="closeOverlay()">Close</button>
+                    </div>
+                </div>
+                </div>
+        </div>  
+            <br>
+            <hr>
+            <label for="UpldFile">Upload Reciept <small>from your selected payment method </small>[For verification Purposes]</label>
+            <input id="UpldFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+
+            <button onclick="confirmPayment()">Submit Payment</button>
+            
+        </div>
+        </div>
+    </div>
+
+    <script src="payment.js"></script>
+
+    </body>
+    </html>

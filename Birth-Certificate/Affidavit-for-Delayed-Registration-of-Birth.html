@@ -182,7 +182,12 @@
 </head>
 
 <body>
-
+ <script>
+  const currentService = {
+    type: "birth",
+    offer: "delayed_birth"
+  };
+</script>
   <div class="form-container">
     <a class="back-button" href="birth-service.html">Back</a>
     <h2>Affidavit for Delayed Registration of Birth</h2>
@@ -501,6 +506,8 @@
     const maxDate = today.toISOString().split("T")[0];
     deceasedDateInput.setAttribute("max", maxDate);
   </script>
+
+ <script src="payment.js"></script>
 </body>
 
 </html>
