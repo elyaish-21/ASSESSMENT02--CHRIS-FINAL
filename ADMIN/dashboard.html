@@ -74,7 +74,7 @@
                         <div class="icon blue"><i class="fa-solid fa-plus"></i></div>
                            <div class="info">
                               <strong>New birth record added</strong>
-                              <p>Lebron James - 10 minutes ago</p>
+                             
                             </div>
                   </div>
 
@@ -82,7 +82,7 @@
                     <div class="icon yellow"><i class="fa-solid fa-pen"></i></div>
                       <div class="info">
                         <strong>Marriage record updated</strong>
-                        <p>Nadine Calda & Jose Rizl - 45 minutes ago</p>
+                        
                       </div>
                   </div>
 
@@ -90,7 +90,7 @@
                       <div class="icon red"><i class="fa-solid fa-trash"></i></div>
                       <div class="info">
                         <strong>Death record deleted</strong>
-                        <p>Admin User - 2 hours ago</p>
+                        
                       </div>
                   </div>
           </div>
@@ -110,43 +110,47 @@
         <div class="header">
           <h2>Birth Informations</h2>
 
-            <div class="controls">
-              
+            <div class="controls">              
               <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" id="searchInputBirth" placeholder="Search Birth Records..." oninput="applySearch('BirthTable', 'searchInputBirth')" />
               </div>
 
              <!-- Add inside the birth section after the header -->
-            <div class="filter-header" onclick="toggleFilterPanel('birth-filter')"><i class="fas fa-filter mr-2"></i> Filter</div>
+             <div class="filter-header" onclick="toggleFilterPanel('birth-filter')"><i class="fas fa-filter mr-2"></i> Filter</div>
 
-                <div class="filter-panel" id="birth-filter">
-                  <div class="filter-group">
-                      <label for="requestType">Request Type:</label>
-                          <select id="requestType">
-                            <option value="">All</option>
-                            <option value="Schedule an Appointment_BR">Schedule an Appointment</option>
-                            <option value="Birth Certificate Registration">Birth Certificate Registration</option>
-                            <option value="Correction of Birth Certificate">Request for Correction of Birth Certificate</option>
-                            <option value="Home Delivery Birth">Request for Birth Certificate(Home Delivery)</option>
-                            <option value="Delayed Birth"> Delayed Registration of Birth (Beyond 30 days)</option>
-                          </select>
-                  </div>
-                  
-                  <div class="filter-group">
-                          <label for="startDate">From:</label>
-                          <input type="date" id="startDate">
-                  </div>
-                  <div class="filter-group">
-                          <label for="endDate">To:</label>
-                          <input type="date" id="endDate">
-                  </div>
-                          <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
-                          <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>     
-                  </div>
-             
-          </div>
-          
+             <div class="filter-panel" id="birth-filter">
+                    <div class="filter-group">
+                      <label for="birth-requestType">Request Type:</label>
+                      <select id="birth-requestType">
+                        <option value="">All</option>
+                        <option value="Schedule an Appointment">Schedule an Appointment</option>
+                        <option value="Birth Certificate Registration">Birth Certificate Registration</option>
+                        <option value="Request for Correction of Birth Certificate">Request for Correction of Birth Certificate</option>
+                        <option value="Request for Birth Certificate with CTC (Home Delivery)">Request for Birth Certificate with CTC (Home Delivery)</option>
+                        <option value="Delayed Registration of Birth (Beyond 30 Days)">Delayed Registration of Birth (Beyond 30 Days)</option>
+                      </select>
+                    </div>
+                    <div class=".filter-group">
+                       <label for="nameFilter">Name:</label>
+                       <input type="text" id="birth-nameFilter" placeholder="Enter name" />
+               
+                       <label for="registryFilter">REG NO:</label>
+                       <input type="text" id="birth-registryFilter" placeholder="REG-XXXXXXXX-XXXXX" />
+                    </div>
+                    <div class=".date-range">
+                       <label for="startDate">From:</label>
+                       <input type="date" id="birth-startDate">
+           
+                       <label for="endDate">To:</label>
+                       <input type="date" id="birth-endDate">
+                    </div>
+                    <div class=".button-group">
+                      <button class="applybtn" onclick="applyAdvancedFilter('birth')">Apply</button>
+                      <button class="resetbtn" onclick="resetAdvancedFilter('birth')">Reset</button>
+                    </div>
+               </div>
+            </div>
         </div>
         
         <table id="BirthTable">
@@ -174,33 +178,38 @@
               <i class="fas fa-search"></i>
               <input type="text" id="searchInputDeath" placeholder="Search Death Records..." oninput="applySearch('DeathTable', 'searchInputDeath')" />
             </div>
-            <div class="filter-header" onclick="toggleFilterPanel('death-filter')">
-              <i class="fas fa-filter mr-2"></i> Filter
-            </div>
+            <div class="filter-header" onclick="toggleFilterPanel('death-filter')"><i class="fas fa-filter mr-2"></i> Filter</div>
+
             <div class="filter-panel" id="death-filter">
               <div class="filter-group">
-                <label for="requestType">Request Type:</label>
-                <select id="requestType">
+                <label for="death-requestType">Request Type:</label>
+                <select id="death-requestType">
                   <option value="">All</option>
-                  <option value="Schedule an Appointment_DR">Schedule an Appointment</option>
+                  <option value="Schedule an Appointment">Schedule an Appointment</option>
                   <option value="Death Certificate Registration">Death Certificate Registration</option>
-                  <option value="Delayed Death">Delayed Death Registration</option>
-                  <option value="Home Delivery Death">Request for Death Certificate (Home Delivery)</option>
-                  <option value="Correction Death Certificate">Correction of Death Certificate</option>
+                  <option value="Request for Correction of Death Certificate">Request for Correction of Death Certificate</option>
+                  <option value="Delayed Registration of Death">Delayed Registration of Death</option>
+                  <option value="Request for Death Certificate (Home Delivery)">Request for Death Certificate (Home Delivery)</option>
                   <option value="Burial Permit Application">Burial Permit Application</option>
                   <option value="Cremation Permit Application">Cremation Permit Application</option>
                 </select>
               </div>
-              <div class="filter-group">
+              <div class=".filter-group">
+                <label for="nameFilter">Name:</label>
+                <input type="text" id="death-nameFilter" placeholder="Enter name" />
+                <label for="registryFilter">REG NO:</label>
+                <input type="text" id="death-registryFilter" placeholder="REG-XXXXXXXX-XXXXX" />
+              </div>
+              <div class=".date-range">
                 <label for="startDate">From:</label>
-                <input type="date" id="startDate">
-              </div>
-              <div class="filter-group">
+                <input type="date" id="death-startDate">
                 <label for="endDate">To:</label>
-                <input type="date" id="endDate">
+                <input type="date" id="death-endDate">
               </div>
-              <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
-              <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>
+              <div class=".button-group">
+                <button class="applybtn" onclick="applyAdvancedFilter('death')">Apply</button>
+                <button class="resetbtn" onclick="resetAdvancedFilter('death')">Reset</button>
+              </div>
             </div>
           </div>
         </div>
@@ -234,31 +243,36 @@
 
               <!-- Add inside the birth section after the header -->
             <div class="filter-header" onclick="toggleFilterPanel('marriage-filter')"><i class="fas fa-filter mr-2"></i> Filter</div>
-                <div class="filter-panel" id="marriage-filter">
-                  <div class="filter-group">
-                      <label for="requestType">Request Type:</label>
-                          <select id="requestType">
-                            <option value="">All</option>
-                            <option value="Schedule an Appointment_MR">Schedule an Appointment</option>
-                            <option value="Marriage Certificate Registration">Marriage Certificate Registration</option>
-                            <option value="Marriage License Registratio">Marriage License Registration</option>
-                            <option value="Home Delivery Marriage">Request for Marriage Certificate (Home Delivery)</option>
-                            <option value="Delayed Marriage">Delayed Registration of Certificate of Marriage</option>
-                            <option value="Correction of Marriage">Request for Correction of Marriage Certificate</option>
-                          </select>
-                  </div>
-                  
-                  <div class="filter-group">
-                          <label for="startDate">From:</label>
-                          <input type="date" id="startDate">
-                  </div>
-                  <div class="filter-group">
-                          <label for="endDate">To:</label>
-                          <input type="date" id="endDate">
-                  </div>
-                          <button class="applybtn" onclick="applyAdvancedFilter()">Apply</button>
-                          <button class="resetbtn" onclick="resetAdvancedFilter()">Reset</button>     
-                  </div>
+            <div class="filter-panel" id="marriage-filter">
+              <div class="filter-group">
+                <label for="marriage-requestType">Request Type:</label>
+                <select id="marriage-requestType">
+                  <option value="">All</option>
+                  <option value="Schedule an Appointment">Schedule an Appointment</option>
+                  <option value="Marriage Certificate Registration">Marriage Certificate Registration</option>
+                  <option value="Request for Correction of Marriage Certificate">Request for Correction of Marriage Certificate</option>
+                  <option value="Delayed Registration of Marriage">Delayed Registration of Marriage</option>
+                  <option value="Marriage License Registration">Marriage License Registration</option>
+                  <option value="Request for Marriage Certificate (Home Delivery)">Request for Marriage Certificate (Home Delivery)</option>
+                </select>
+              </div>
+              <div class=".filter-group">
+                <label for="nameFilter">Name:</label>
+                <input type="text" id="marriage-nameFilter" placeholder="Enter name" />
+                <label for="registryFilter">REG NO:</label>
+                <input type="text" id="marriage-registryFilter" placeholder="REG-XXXXXXXX-XXXXX" />
+              </div>
+              <div class=".date-range">
+                <label for="startDate">From:</label>
+                <input type="date" id="marriage-startDate">
+                <label for="endDate">To:</label>
+                <input type="date" id="marriage-endDate">
+              </div>
+              <div class=".button-group">
+                <button class="applybtn" onclick="applyAdvancedFilter('marriage')">Apply</button>
+                <button class="resetbtn" onclick="resetAdvancedFilter('marriage')">Reset</button>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -282,6 +296,70 @@
 
 
     </main>
+  </div>
+
+  <div id="editOverlay" class="overlay" style="display: none;">
+    <div class="overlay-content">
+      <h2>Edit Record</h2>
+      <form id="editForm">
+        <label for="editName">Name:</label>
+        <input type="text" id="editName" name="editName" />
+  
+        <label for="editType">Type of Request:</label>
+        <input type="text" id="editType" name="editType" />
+  
+        <label for="editRegNo">Registration Number:</label>
+        <input type="text" id="editRegNo" name="editRegNo" />
+  
+        <label for="editDateRegistered">Date Registered:</label>
+        <input type="date" id="editDateRegistered" name="editDateRegistered" />
+  
+        <label for="editStatus">Status:</label>
+        <select id="editStatus" name="editStatus">
+          <option value="Received">Received</option>
+          <option value="Processing">Processing</option>
+          <option value="For Signature">For Signature</option>
+          <option value="Ready for Release">Ready for Release</option>
+        </select>
+  
+        <div class="button-group">
+          <button type="button" onclick="saveEdit()">Save</button>
+          <button type="button" onclick="closeOverlay()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="editOverlay" class="overlay" style="display: none;">
+    <div class="overlay-content">
+      <h2>Edit Record</h2>
+      <form id="editForm">
+        <label for="editName">Name:</label>
+        <input type="text" id="editName" name="editName" />
+  
+        <label for="editType">Type of Request:</label>
+        <input type="text" id="editType" name="editType" />
+  
+        <label for="editRegNo">Registration Number:</label>
+        <input type="text" id="editRegNo" name="editRegNo" />
+  
+        <label for="editDateRegistered">Date Registered:</label>
+        <input type="date" id="editDateRegistered" name="editDateRegistered" />
+  
+        <label for="editStatus">Status:</label>
+        <select id="editStatus" name="editStatus">
+          <option value="Received">Received</option>
+          <option value="Processing">Processing</option>
+          <option value="For Signature">For Signature</option>
+          <option value="Ready for Release">Ready for Release</option>
+        </select>
+  
+        <div class="button-group">
+          <button type="button" onclick="saveEdit()">Save</button>
+          <button type="button" onclick="closeOverlay()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div class="gtranslate_wrapper"></div>
@@ -335,56 +413,13 @@ function deleteRecord(type, regNo) {
   loadDashboardRecords();
   countRecords();
 
-  // Re-render the pie chart to update legends dynamically
-  renderDonutChart();
+  // Re-render the graph to reflect the updated data
+  renderGraph();
 }
   // Filter functionality
 function toggleFilterPanel(filterId) {
   const filterpanel = document.getElementById(filterId);
   filterpanel.classList.toggle("active");
-}
-
-function applyAdvancedFilter() {
-  const type = document.getElementById("requestType").value.trim();
-  const startDate = document.getElementById("startDate").value;
-  const endDate = document.getElementById("endDate").value;
-
-  const rows = document.querySelectorAll("#birth table tbody tr");
-
-  rows.forEach(row => {
-    const rowType = row.cells[1].innerText.trim();
-    const rowDateText = row.cells[3].innerText.trim();
-    const rowDate = parseDate(rowDateText); // Date object
-
-    let matchesType = !type || rowType === type;
-    let matchesDate = true;
-
-    if (startDate && endDate && rowDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      matchesDate = rowDate >= start && rowDate <= end;
-    }
-
-    row.style.display = (matchesType && matchesDate) ? "" : "none";
-  });
-}
-
-function resetAdvancedFilter() {
-  document.getElementById("requestType").value = "";
-  document.getElementById("startDate").value = "";
-  document.getElementById("endDate").value = "";
-
-  document.querySelectorAll("#birth table tbody tr").forEach(row => {
-    row.style.display = "";
-  });
-}
-
-// Converts "MM/DD/YYYY" to Date object
-function parseDate(dateStr) {
-  const parts = dateStr.split("/");
-  if (parts.length !== 3) return null;
-  const [month, day, year] = parts;
-  return new Date(`${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);
 }
 
 
@@ -448,9 +483,175 @@ function parseDate(dateStr) {
     if (overviewMenu) overviewMenu.classList.add("active");
   }
 
-  function editRow(id) {
-    alert("Edit row ID: " + id);
+  function applyAdvancedFilter(section) {
+  const tableId = section === "birth" ? "BirthTable" : section === "marriage" ? "MarriageTable" : "DeathTable";
+  const recordsKey = section === "birth" ? "BirthRecords" : section === "marriage" ? "MarriageRecords" : "DeathRecords";
+
+  const records = JSON.parse(localStorage.getItem(recordsKey)) || [];
+  const tbody = document.querySelector(`#${tableId} tbody`);
+
+  // Get filter values specific to the section
+  const requestType = document.getElementById(`${section}-requestType`).value.toLowerCase();
+  const nameFilter = document.getElementById(`${section}-nameFilter`).value.toLowerCase();
+  const registryFilter = document.getElementById(`${section}-registryFilter`).value.toLowerCase();
+  const startDate = document.getElementById(`${section}-startDate`).value;
+  const endDate = document.getElementById(`${section}-endDate`).value;
+
+  // Clear existing rows
+  tbody.innerHTML = "";
+
+  // Filter records based on input values
+  const filteredRecords = records.filter(record => {
+    const matchesRequestType = !requestType || record.type.toLowerCase() === requestType;
+    const matchesName = !nameFilter || record.name.toLowerCase().includes(nameFilter);
+    const matchesRegistry = !registryFilter || record.regNo.toLowerCase().includes(registryFilter);
+    const matchesStartDate = !startDate || new Date(record.dateRegistered) >= new Date(startDate);
+    const matchesEndDate = !endDate || new Date(record.dateRegistered) <= new Date(endDate);
+
+    return matchesRequestType && matchesName && matchesRegistry && matchesStartDate && matchesEndDate;
+  });
+
+  // Render filtered records
+  filteredRecords.forEach(record => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${record.name}</td>
+      <td>${record.type}</td>
+      <td>${record.regNo}</td>
+      <td>${record.dateRegistered}</td>
+      <td>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%; background-color: ${getStatusColor(record.status)};"></div>
+          <span style="color: ${getStatusColor(record.status)};">${record.status}</span>
+        </div>
+      </td>
+      <td class="actions">
+        <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+        <div class="action-menu">
+          <button onclick="editRow('${recordsKey}', '${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
+          <button onclick="deleteRecord('${recordsKey}', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function resetAdvancedFilter(section) {
+  const tableId = section === "birth" ? "BirthTable" : section === "marriage" ? "MarriageTable" : "DeathTable";
+  const recordsKey = section === "birth" ? "BirthRecords" : section === "marriage" ? "MarriageRecords" : "DeathRecords";
+
+  // Clear filter inputs specific to the section
+  document.getElementById(`${section}-requestType`).value = "";
+  document.getElementById(`${section}-nameFilter`).value = "";
+  document.getElementById(`${section}-registryFilter`).value = "";
+  document.getElementById(`${section}-startDate`).value = "";
+  document.getElementById(`${section}-endDate`).value = "";
+
+  // Reload all records
+  const records = JSON.parse(localStorage.getItem(recordsKey)) || [];
+  const tbody = document.querySelector(`#${tableId} tbody`);
+
+  tbody.innerHTML = "";
+  records.forEach(record => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${record.name}</td>
+      <td>${record.type}</td>
+      <td>${record.regNo}</td>
+      <td>${record.dateRegistered}</td>
+      <td>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%; background-color: ${getStatusColor(record.status)};"></div>
+          <span style="color: ${getStatusColor(record.status)};">${record.status}</span>
+        </div>
+      </td>
+      <td class="actions">
+        <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
+        <div class="action-menu">
+          <button onclick="editRow('${recordsKey}', '${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
+          <button onclick="deleteRecord('${recordsKey}', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+
+  let currentEditType = null;
+let currentEditRegNo = null;
+
+function editRow(type, regNo) {
+  const records = JSON.parse(localStorage.getItem(type)) || [];
+  console.log("Records:", records); // Debugging
+  console.log("Passed regNo:", regNo); // Debugging
+
+  const record = records.find(r => r.regNo === regNo);
+
+  if (!record) {
+    alert("Record not found!");
+    return;
   }
+
+  // Store the current type and regNo for saving later
+  currentEditType = type;
+  currentEditRegNo = regNo;
+
+  // Populate the overlay form with the record's data
+  document.getElementById("editName").value = record.name;
+  document.getElementById("editType").value = record.type;
+  document.getElementById("editRegNo").value = record.regNo;
+  document.getElementById("editDateRegistered").value = record.dateRegistered;
+  document.getElementById("editStatus").value = record.status;
+
+  // Show the overlay
+  document.getElementById("editOverlay").style.display = "flex";
+}
+
+function saveEdit() {
+  const records = JSON.parse(localStorage.getItem(currentEditType)) || [];
+  const record = records.find(r => r.regNo === currentEditRegNo);
+
+  if (!record) {
+    alert("Record not found!");
+    return;
+  }
+
+  const statusOrder = ["Received", "Processing", "For Signature", "Ready for Release"]; // Correct order of statuses
+  const currentStatusIndex = statusOrder.indexOf(record.status); // Get the current status index
+
+  const newStatus = document.getElementById("editStatus").value; // Get the new status from the overlay
+  const newStatusIndex = statusOrder.indexOf(newStatus); // Get the new status index
+
+  // Validate the status transition
+  if (newStatusIndex === currentStatusIndex + 1 || newStatusIndex === currentStatusIndex) {
+    // Update the record with the form data
+    record.name = document.getElementById("editName").value;
+    record.type = document.getElementById("editType").value;
+    record.regNo = document.getElementById("editRegNo").value;
+    record.dateRegistered = document.getElementById("editDateRegistered").value;
+    record.status = newStatus;
+
+    // Save the updated records back to localStorage
+    localStorage.setItem(currentEditType, JSON.stringify(records));
+
+    // Reload the dashboard records
+    loadDashboardRecords();
+
+    // Update the graph to reflect the changes
+    renderGraph();
+
+    // Close the overlay
+    closeOverlay();
+  } else {
+    alert("Invalid status transition! You can only move to the next status in the sequence or keep the current status.");
+  }
+}
+
+function closeOverlay() {
+  document.getElementById("editOverlay").style.display = "none";
+}
 
   function deleteRow(id) {
     if (confirm("Are you sure you want to delete row ID: " + id + "?")) {
@@ -472,7 +673,8 @@ function loadDashboardRecords() {
   const Marriagetbody = document.querySelector("#MarriageTable tbody");
   const Deathtbody = document.querySelector("#DeathTable tbody");
 
-  Birthtbody.innerHTML = ""; // Clear existing rows
+  // Clear existing rows for Birth records
+  Birthtbody.innerHTML = "";
   Birthrecords.forEach(record => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -482,15 +684,14 @@ function loadDashboardRecords() {
       <td>${record.dateRegistered}</td>
       <td>
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%;"></div>
-          <span>${record.status}</span>
+          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%; background-color: ${getStatusColor(record.status)};"></div>
+          <span style="color: ${getStatusColor(record.status)};">${record.status}</span>
         </div>
       </td>
       <td class="actions">
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
-          <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
-          <button onclick="modifyStatus('BirthRecords', '${record.regNo}')"><i class="fas fa-sync-alt mr-2"></i> Edit Status</button>
+          <button onclick="editRow('BirthRecords', '${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
           <button onclick="deleteRecord('BirthRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
         </div>
       </td>
@@ -498,7 +699,8 @@ function loadDashboardRecords() {
     Birthtbody.appendChild(row);
   });
 
-  Marriagetbody.innerHTML = ""; // Clear existing rows
+  // Repeat for Marriage and Death records
+  Marriagetbody.innerHTML = "";
   Marriagerecords.forEach(record => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -508,15 +710,14 @@ function loadDashboardRecords() {
       <td>${record.dateRegistered}</td>
       <td>
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%;"></div>
-          <span>${record.status}</span>
+          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%; background-color: ${getStatusColor(record.status)};"></div>
+          <span style="color: ${getStatusColor(record.status)};">${record.status}</span>
         </div>
       </td>
       <td class="actions">
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
-          <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
-          <button onclick="modifyStatus('MarriagerRecords', '${record.regNo}')"><i class="fas fa-sync-alt mr-2"></i> Edit Status</button>
+          <button onclick="editRow('MarriageRecords', '${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
           <button onclick="deleteRecord('MarriageRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
         </div>
       </td>
@@ -524,7 +725,7 @@ function loadDashboardRecords() {
     Marriagetbody.appendChild(row);
   });
 
-  Deathtbody.innerHTML = ""; // Clear existing rows
+  Deathtbody.innerHTML = "";
   Deathrecords.forEach(record => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -534,48 +735,63 @@ function loadDashboardRecords() {
       <td>${record.dateRegistered}</td>
       <td>
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%;"></div>
-          <span>${record.status}</span>
+          <div class="progress-bar" style="width: ${getProgressPercentage(record.status)}%; background-color: ${getStatusColor(record.status)};"></div>
+          <span style="color: ${getStatusColor(record.status)};">${record.status}</span>
         </div>
       </td>
       <td class="actions">
         <span class="ellipsis" onclick="toggleMenu(this)"><i class="fas fa-ellipsis-v"></i></span>
         <div class="action-menu">
-          <button onclick="editRow('${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
-          <button onclick="modifyStatus('DeathRecords', '${record.regNo}')"><i class="fas fa-sync-alt mr-2"></i> Edit Status</button>
+          <button onclick="editRow('DeathRecords', '${record.regNo}')"><i class="fas fa-edit mr-2"></i> Edit</button>
           <button onclick="deleteRecord('DeathRecords', '${record.regNo}')"><i class="fas fa-trash mr-2"></i> Delete</button>
         </div>
       </td>
     `;
     Deathtbody.appendChild(row);
   });
+
+  // Update the graph after loading records
+  renderGraph();
 }
 
-function modifyStatus(type, regNo) {
-  const records = JSON.parse(localStorage.getItem(type)) || [];
-  const record = records.find(r => r.regNo === regNo);
-
-  if (!record) {
-    alert("Record not found!");
-    return;
+// Helper function to get progress percentage based on status
+function getProgressPercentage(status) {
+  switch (status) {
+    case "Received":
+      return 25;
+    case "Processing":
+      return 50;
+    case "For Signature":
+      return 75;
+    case "Ready for Release":
+      return 100;
+    default:
+      return 0;
   }
+}
 
-  const newStatus = prompt(
-    "Enter new status (Received, Processing, For Signature, Ready for Release):",
-    record.status
-  );
-
-  if (newStatus && ["Received", "Processing", "For Signature", "Ready for Release"].includes(newStatus)) {
-    record.status = newStatus;
-
-    // Update the records in localStorage
-    localStorage.setItem(type, JSON.stringify(records));
-
-    // Reload the dashboard
-    loadDashboardRecords();
-  } else {
-    alert("Invalid status entered!");
+// Helper function to get color based on status
+function getStatusColor(status) {
+  switch (status) {
+    case "Received":
+      return "red";
+    case "Processing":
+      return "orange";
+    case "For Signature":
+      return "yellow";
+    case "Ready for Release":
+      return "green";
+    default:
+      return "gray";
   }
+}
+
+// Helper function to capitalize the first letter of each word in the status
+function capitalizeStatus(status) {
+  return status
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 // Helper function to determine progress percentage based on status
@@ -604,6 +820,9 @@ function applySearch(tableId, searchInputId) {
   });
 }
 
+
+let barChartInstance; // Store the chart instance globally
+
 function renderGraph() {
   const birthRecords = JSON.parse(localStorage.getItem("BirthRecords")) || [];
   const marriageRecords = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
@@ -615,7 +834,13 @@ function renderGraph() {
 
   const ctx = document.getElementById("recordsChart").getContext("2d");
 
-  new Chart(ctx, {
+  // Destroy the previous chart instance if it exists
+  if (barChartInstance) {
+    barChartInstance.destroy();
+  }
+
+  // Create a new chart instance
+  barChartInstance = new Chart(ctx, {
     type: "bar",
     data: {
       labels: ["Birth Records", "Marriage Records", "Death Records"],
@@ -632,6 +857,7 @@ function renderGraph() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false, // Allow dynamic resizing
       plugins: {
         legend: {
           display: true,
@@ -675,7 +901,7 @@ function renderGraph() {
         },
         y: {
           beginAtZero: true,
-          max: 100, // Set the maximum value for the Y-axis
+          max: 100,
           grid: {
             color: "#e0e0e0",
             lineWidth: 1,
@@ -692,6 +918,20 @@ function renderGraph() {
     },
   });
 }
+
+// Add a resize listener to redraw the chart when the window size changes
+window.addEventListener("resize", () => {
+  const graphContainer = document.querySelector(".graph-container");
+  const canvas = document.getElementById("recordsChart");
+
+  // Adjust canvas size dynamically
+  canvas.width = graphContainer.offsetWidth;
+  canvas.height = graphContainer.offsetHeight;
+
+  // Re-render the chart
+  renderGraph();
+});
+
 
 let donutChartInstance; // Store the chart instance globally
 
@@ -742,6 +982,7 @@ function renderDonutChart() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           display: true,
@@ -776,62 +1017,55 @@ function renderDonutChart() {
   });
 }
 
+window.addEventListener("resize", () => {
+  const pieChartContainer = document.querySelector(".pie-chart");
+  const canvas = document.getElementById("requestTypeChart");
+
+  // Adjust canvas size dynamically
+  canvas.width = pieChartContainer.offsetWidth;
+  canvas.height = pieChartContainer.offsetHeight;
+
+  // Re-render the chart
+  renderDonutChart();
+});
+
 function renderRecentActivities() {
   const birthRecords = JSON.parse(localStorage.getItem("BirthRecords")) || [];
   const marriageRecords = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
   const deathRecords = JSON.parse(localStorage.getItem("DeathRecords")) || [];
 
-  // Get the most recent record from each category
-  const recentBirthRecord = birthRecords[birthRecords.length - 1];
-  const recentMarriageRecord = marriageRecords[marriageRecords.length - 1];
-  const recentDeathRecord = deathRecords[deathRecords.length - 1];
-
   const activityContainer = document.querySelector(".activity-container");
 
   // Clear existing activities
-  activityContainer.innerHTML = `
-    <h3>Recent Activities</h3>
-  `;
+  activityContainer.innerHTML = `<h3>Recent Activities</h3>`;
 
-  // Add recent birth record
-  if (recentBirthRecord) {
-    activityContainer.innerHTML += `
-      <div class="activity">
-        <div class="icon blue"><i class="fa-solid fa-plus"></i></div>
-        <div class="info">
-          <strong>New birth record added</strong>
-          <p>${recentBirthRecord.name} - ${recentBirthRecord.dateRegistered}</p>
+  // Helper function to render records
+  function renderRecords(records, type, colorClass) {
+    const recentRecords = records.slice(-3).reverse(); // Get the last 5 records (most recent first)
+    if (recentRecords.length > 0) {
+      let recordDetails = recentRecords
+        .map(record => `<p>${record.name} - ${record.dateRegistered}</p>`)
+        .join(""); // Generate HTML for each record
+
+      activityContainer.innerHTML += `
+        <div class="activity">
+          <div class="icon ${colorClass}"><i class="fa-solid fa-${type === "Birth" ? "plus" : type === "Marriage" ? "pen" : "trash"}"></i></div>
+          <div class="info">
+            <strong>${type} Records</strong>
+            ${recordDetails}
+          </div>
         </div>
-      </div>
-    `;
+      `;
+    }
   }
 
-  // Add recent marriage record
-  if (recentMarriageRecord) {
-    activityContainer.innerHTML += `
-      <div class="activity">
-        <div class="icon yellow"><i class="fa-solid fa-pen"></i></div>
-        <div class="info">
-          <strong>Marriage record updated</strong>
-          <p>${recentMarriageRecord.name} - ${recentMarriageRecord.dateRegistered}</p>
-        </div>
-      </div>
-    `;
-  }
-
-  // Add recent death record
-  if (recentDeathRecord) {
-    activityContainer.innerHTML += `
-      <div class="activity">
-        <div class="icon red"><i class="fa-solid fa-trash"></i></div>
-        <div class="info">
-          <strong>Death record deleted</strong>
-          <p>${recentDeathRecord.name} - ${recentDeathRecord.dateRegistered}</p>
-        </div>
-      </div>
-    `;
-  }
+  // Render the first five recent records for each category
+  renderRecords(birthRecords, "Birth", "blue");
+  renderRecords(marriageRecords, "Marriage", "yellow");
+  renderRecords(deathRecords, "Death", "red");
 }
+
+
 
 // Call the renderRecentActivities function after loading the dashboard records
 window.onload = function () {
