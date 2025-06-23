@@ -370,16 +370,16 @@
     <h2>📅 Schedule an Appointment in Birth Services </h2>
     <form id="appointmentForm">
       <label for="name">Full Name of Requester</label>
-      <input type="text" id="name" placeholder="Last Name, First Name, Middle Name" required>
+      <input type="text" id="name" name="name" placeholder="Last Name, First Name, Middle Name" required>
 
       <label for="childName">Child's Full Name</label>
-      <input type="text" id="childName" placeholder="Last Name, First Name, Middle Name" required>
+      <input type="text" id="childName" name="childName" placeholder="Last Name, First Name, Middle Name" required>
 
       <label for="date">Preferred Date</label>
-      <input type="date" id="date" required>
+      <input type="date" id="date" name="date" required>
 
       <label for="time">Preferred Time</label>
-      <select id="time" required>
+      <select id="time" name="time" required>
         <option value="" disabled selected>-- Select a time --</option>
         <option value="08:00 AM">08:00 AM</option>
         <option value="09:00 AM">09:00 AM</option>
@@ -392,7 +392,7 @@
         <option value="04:00 PM">04:00 PM</option>
       </select>
       <label for="purpose">Purpose of Appointment</label>
-      <select id="purpose" required onchange="checkPurpose()">
+      <select id="purpose" name="purpose" required onchange="checkPurpose()">
         <option value="">Select...</option>
         <option value="Registration of New Birth">Registration of New Birth</option>
         <option value="Correction of Birth Certificate">Correction of Birth Certificate</option>
@@ -409,13 +409,13 @@
       </div>
 
       <label for="email">Email Address</label>
-      <input type="email" id="email" required>
+      <input type="email" id="email" name="email" required>
 
       <label for="phone">Mobile Number</label>
-      <input type="text" id="phone" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
+      <input type="text" id="phone" name="phone" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
 
       <label for="docs">Supporting Document (optional)</label>
-      <input type="file" id="docs" accept="application/pdf,image/*">
+      <input type="file" id="docs" name="docs" accept="application/pdf,image/*">
 
       <button type="submit">Submit Appointment</button>
     </form>
@@ -520,10 +520,56 @@
       document.getElementById("appointmentForm").addEventListener("submit", function (event) {
         event.preventDefault();
         
-        // Show confirmation modal instead of the success message
+        // Get form values
+        const requesterName = document.getElementById("name").value;
+        const childName = document.getElementById("childName").value;
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
+        const purpose = document.getElementById("purpose").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const pickupName = purpose === "Pick-up the Document" ? document.getElementById("pickupName").value : "";
+        
+        // Generate registry number and current date
+        const registryNumber = generateRegistryNumber();
+        const dateRegistered = new Date().toLocaleDateString();
+        const status = "Pending"; // Initial status
+
+        // Create record object - using the format from the second code
+        const record = {
+          name: requesterName,  // Changed from requesterName to name to match dashboard
+          type: purpose,       // Changed from requestType to type to match dashboard
+          regNo: registryNumber,
+          dateRegistered: dateRegistered,
+          childName: childName,
+          appointmentDate: date,
+          appointmentTime: time,
+          email: email,
+          phone: phone,
+          status: status,
+          pickupName: pickupName
+        };
+
+        // Save to localStorage - using the same method as the second code
+        const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+        records.push(record);
+        localStorage.setItem("BirthRecords", JSON.stringify(records));
+
+        // Show confirmation modal
         document.getElementById('sms-confirmation').style.display = 'block';
         this.reset();
       });
+
+      // Function to generate registry number - using the format from the second code
+      function generateRegistryNumber() {
+        const now = new Date();
+        return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+          .getTime()
+          .toString()
+          .slice(-5)}`;
+      }
 
       // Connect OK button to show feedback
       document.getElementById('confirm-ok-button').addEventListener('click', function() {
