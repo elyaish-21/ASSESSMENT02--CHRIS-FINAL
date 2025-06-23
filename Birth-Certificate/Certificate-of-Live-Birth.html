@@ -100,14 +100,14 @@
       gap: 15px;
       margin-bottom: 20px;
     }
-
+    
     .parent-info-group {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1 , 1fr); 
       gap: 20px 30px;
       margin-bottom: 20px;
     }
-
+  
     .checkbox-group {
       margin-bottom: 25px;
       display: flex;
@@ -270,6 +270,42 @@
         font-size: 1rem;
       }
     }
+    .address-selector {
+  margin-top: 10px;
+}
+
+.address-level {
+  margin-bottom: 10px;
+}
+
+.address-level label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.address-final {
+  margin-top: 15px;
+}
+
+.address-final input {
+  margin-top: 5px;
+}
+
+.disabled-select {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: none;
+}
+
+
   </style>
 </head>
 <body>
@@ -321,11 +357,50 @@
     <input type="date" id="ChildBirthDate" required>
   
     <label>Place of Birth</label>
-    <div class="birthplace-group">
-      <input type="text" id="birthPlace" placeholder="Hospital/Clinic/Street/Barangay" required>
-      <input type="text" id="birthCity" placeholder="City/Municipality" required>
-      <input type="text" id="birthProvince" placeholder="Province" required>
-    </div>
+<div class="address-selector">
+  <div class="address-level">
+    <label>Region</label>
+    <select id="birth-region" required class="disabled-select" disabled>
+      <option value="NCR" selected>National Capital Region (NCR)</option>
+    </select>
+  </div>
+
+  <div class="address-level">
+    <label>City/Municipality</label>
+    <select id="birth-city" required class="disabled-select" disabled>
+      <option value="MANILA" selected>City of Manila</option>
+    </select>
+  </div>
+
+  <div class="address-level">
+    <label>District</label>
+    <select id="birth-district" required>
+      <option value="">Select District</option>
+      <option value="District I">District I</option>
+      <option value="District II">District II</option>
+      <option value="District III">District III</option>
+      <option value="District IV">District IV</option>
+      <option value="District V">District V</option>
+      <option value="District VI">District VI</option>
+    </select>
+    <div id="birth-district-error" class="error-message">Please select a district</div>
+  </div>
+
+  <div class="address-level">
+    <label>Barangay</label>
+    <select id="birth-barangay" required>
+      <option value="">Select Barangay</option>
+    </select>
+    <div id="birth-barangay-error" class="error-message">Please select a barangay</div>
+  </div>
+
+  <div class="address-final">
+    <label>Specific Location (Hospital, Clinic, Home Address, etc.)</label>
+    <input type="text" id="birth-location" placeholder="e.g. Fabella Hospital, Tondo" required>
+    <div id="birth-location-error" class="error-message">Please specify place of birth</div>
+  </div>
+</div>
+
   
     <label>Attendant</label>
     <div class="checkbox-group">
@@ -378,11 +453,53 @@
       <div>
         <label>Date of Birth</label>
         <input type="date" id="MotherBirthDate" required>
-      </div>
-      <div>
-        <label>Residence</label>
-        <input type="text" required>
-      </div>
+      </div>  
+     <label>Residence</label>
+<div class="address-selector mother-residence">
+  <div class="address-level">
+    <label>Region</label>
+    <select id="residence-region" required class="disabled-select" disabled>
+      <option value="NCR" selected>National Capital Region (NCR)</option>
+    </select>
+  </div>
+
+  <div class="address-level">
+    <label>City/Municipality</label>
+    <select id="residence-city" required class="disabled-select" disabled>
+      <option value="MANILA" selected>City of Manila</option>
+    </select>
+  </div>
+
+  <div class="address-level">
+    <label>District</label>
+    <select id="residence-district" required>
+      <option value="">Select District</option>
+      <option value="District I">District I</option>
+      <option value="District II">District II</option>
+      <option value="District III">District III</option>
+      <option value="District IV">District IV</option>
+      <option value="District V">District V</option>
+      <option value="District VI">District VI</option>
+    </select>
+    <div id="residence-district-error" class="error-message">Please select a district</div>
+  </div>
+
+  <div class="address-level">
+    <label>Barangay</label>
+    <select id="residence-barangay" required>
+      <option value="">Select Barangay</option>
+    </select>
+    <div id="residence-barangay-error" class="error-message">Please select a barangay</div>
+  </div>
+
+  <div class="address-final">
+    <label>Street Address (House No., Street, Subdivision, etc.)</label>
+    <input type="text" id="residence-street" placeholder="e.g. 123 Mabini St., Sampaloc" required>
+    <div id="residence-street-error" class="error-message">Please enter your street address</div>
+  </div>
+</div>
+
+
     </div>
     <hr>
     <h3>Father's Information</h3>
@@ -775,6 +892,139 @@
     document.getElementById("FatherBirthDate").setAttribute("max", today);
   };
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const districtSelect = document.getElementById('birth-district');
+  const barangaySelect = document.getElementById('birth-barangay');
+  const districtError = document.getElementById('birth-district-error');
+  const barangayError = document.getElementById('birth-barangay-error');
+  const locationError = document.getElementById('birth-location-error');
+
+  const manilaDistricts = {
+    'District I': ['Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz', 'Tondo I', 'Tondo II'],
+    'District II': ['Ermita', 'Intramuros', 'Malate', 'Paco', 'Pandacan', 'Port Area', 'San Miguel', 'San Andres'],
+    'District III': ['Santa Ana', 'Santa Mesa'],
+    'District IV': ['Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose', 'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo', 'Santo Domingo', 'Talayan'],
+    'District V': ['Pandacan', 'San Andres Bukid', 'Santa Ana'],
+    'District VI': ['Paco', 'San Andres Bukid', 'Santa Ana']
+  };
+
+  // Populate barangays based on selected district
+  districtSelect.addEventListener('change', function () {
+    const selected = this.value;
+    barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+
+    if (manilaDistricts[selected]) {
+      manilaDistricts[selected].forEach(barangay => {
+        const opt = document.createElement('option');
+        opt.value = barangay;
+        opt.textContent = barangay;
+        barangaySelect.appendChild(opt);
+      });
+    }
+  });
+
+  // Optional: Validate on form submission
+  const form = document.getElementById('delayedBirthForm'); // Use your actual form ID
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      let valid = true;
+
+      if (!districtSelect.value) {
+        districtError.style.display = 'block';
+        valid = false;
+      } else {
+        districtError.style.display = 'none';
+      }
+
+      if (!barangaySelect.value) {
+        barangayError.style.display = 'block';
+        valid = false;
+      } else {
+        barangayError.style.display = 'none';
+      }
+
+      if (!document.getElementById('birth-location').value.trim()) {
+        locationError.style.display = 'block';
+        valid = false;
+      } else {
+        locationError.style.display = 'none';
+      }
+
+      if (!valid) e.preventDefault();
+    });
+  }
+});
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const residenceDistrict = document.getElementById("residence-district");
+  const residenceBarangay = document.getElementById("residence-barangay");
+  const residenceStreet = document.getElementById("residence-street");
+
+  const districtErr = document.getElementById("residence-district-error");
+  const barangayErr = document.getElementById("residence-barangay-error");
+  const streetErr = document.getElementById("residence-street-error");
+
+  const manilaDistricts = {
+    'District I': ['Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz', 'Tondo I', 'Tondo II'],
+    'District II': ['Ermita', 'Intramuros', 'Malate', 'Paco', 'Pandacan', 'Port Area', 'San Miguel', 'San Andres'],
+    'District III': ['Santa Ana', 'Santa Mesa'],
+    'District IV': ['Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose', 'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo', 'Santo Domingo', 'Talayan'],
+    'District V': ['Pandacan', 'San Andres Bukid', 'Santa Ana'],
+    'District VI': ['Paco', 'San Andres Bukid', 'Santa Ana']
+  };
+
+  // Populate barangays based on selected district
+  residenceDistrict.addEventListener("change", function () {
+    const selected = this.value;
+    residenceBarangay.innerHTML = '<option value="">Select Barangay</option>';
+
+    if (manilaDistricts[selected]) {
+      manilaDistricts[selected].forEach(barangay => {
+        const opt = document.createElement('option');
+        opt.value = barangay;
+        opt.textContent = barangay;
+        residenceBarangay.appendChild(opt);
+      });
+    }
+  });
+
+  // Validation on submit
+  const form = document.getElementById("delayedBirthForm"); // Replace if needed
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      let valid = true;
+
+      if (!residenceDistrict.value) {
+        districtErr.style.display = "block";
+        valid = false;
+      } else {
+        districtErr.style.display = "none";
+      }
+
+      if (!residenceBarangay.value) {
+        barangayErr.style.display = "block";
+        valid = false;
+      } else {
+        barangayErr.style.display = "none";
+      }
+
+      if (!residenceStreet.value.trim()) {
+        streetErr.style.display = "block";
+        valid = false;
+      } else {
+        streetErr.style.display = "none";
+      }
+
+      if (!valid) e.preventDefault();
+    });
+  }
+});
+
+</script>
+
 <script src="payment.js"></script>
 </body>
 </html>

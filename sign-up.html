@@ -289,31 +289,31 @@
     }
   </script>
   <script>
-  const mobileInput = document.getElementById("mobile");
-  const mobileError = document.getElementById("mobileError");
-  const pattern = /^09\d{2}-\d{3}-\d{4}$/;
+    const mobileInput = document.getElementById("mobile");
+    const mobileError = document.getElementById("mobileError");
+    const pattern = /^09\d{2}-\d{3}-\d{4}$/;
 
-  mobileInput.addEventListener("input", () => {
-    let numbersOnly = mobileInput.value.replace(/\D/g, ""); // Remove non-digits
+    mobileInput.addEventListener("input", () => {
+      let numbersOnly = mobileInput.value.replace(/\D/g, ""); // Remove non-digits
 
-    // Auto-format to 09XX-XXX-XXXX
-    if (numbersOnly.length > 4 && numbersOnly.length <= 7) {
-      mobileInput.value = `${numbersOnly.slice(0, 4)}-${numbersOnly.slice(4)}`;
-    } else if (numbersOnly.length > 7) {
-      mobileInput.value = `${numbersOnly.slice(0, 4)}-${numbersOnly.slice(4, 7)}-${numbersOnly.slice(7, 11)}`;
-    } else {
-      mobileInput.value = numbersOnly;
-    }
+      // Auto-format to 09XX-XXX-XXXX
+      if (numbersOnly.length > 4 && numbersOnly.length <= 7) {
+        mobileInput.value = `${numbersOnly.slice(0, 4)}-${numbersOnly.slice(4)}`;
+      } else if (numbersOnly.length > 7) {
+        mobileInput.value = `${numbersOnly.slice(0, 4)}-${numbersOnly.slice(4, 7)}-${numbersOnly.slice(7, 11)}`;
+      } else {
+        mobileInput.value = numbersOnly;
+      }
 
-    // Real-time validation
-    if (pattern.test(mobileInput.value)) {
-      mobileError.style.display = "none";
-      mobileInput.setCustomValidity("");
-    } else {
-      mobileError.style.display = "inline";
-      mobileInput.setCustomValidity("Invalid format");
-    }
-  });
+      // Real-time validation
+      if (pattern.test(mobileInput.value)) {
+        mobileError.style.display = "none";
+        mobileInput.setCustomValidity("");
+      } else {
+        mobileError.style.display = "inline";
+        mobileInput.setCustomValidity("Invalid format");
+      }
+    });
 </script>
 </body>
 
