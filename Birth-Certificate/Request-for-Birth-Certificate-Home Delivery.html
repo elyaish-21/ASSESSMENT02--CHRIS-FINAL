@@ -164,9 +164,23 @@
 </head>
 <body>
 <script>
+   const services = {
+    birth: {
+      title: "Birth Services",
+      offers: {
+        birth_delivery: {  
+          name: "Birth Delivery Registration",
+          baseFee: 150,
+          description: "Registration of birth delivery details",
+          rushFee: 50
+        }
+      }
+    }
+  };
+
   const currentService = {
     type: "birth",
-    offer: "birth_delivery"
+    offer: "birth_delivery" 
   };
 </script>
 <div class="form-card">
@@ -228,8 +242,12 @@
 <div id="sms-confirmation">
   <div class="modal-content">
     <h3>Request Submitted!</h3>
-    <p>You will receive an SMS shortly confirming your request.</p>
-    <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+    <p>
+      You will receive an SMS shortly confirming your request.<br><br>
+      <b>Request for Birth Certificate [Home Delivery] Fee: ₱150.00</b><br>
+      <b>You will now be redirected to the Payment Transaction page.</b>
+    </p>
+    <button onclick="proceedToBirthDeliveryPayment()">Proceed to Payment</button>
   </div>
 </div>
 
@@ -256,7 +274,7 @@ function generateRegistryNumber() {
     .slice(-5)}`;
 }
 
-    function sendToDashboard() {
+function sendToDashboard() {
     const fullName = document.getElementById("fullName").value;
     const requestType = "Request for Birth Certificate with CTC (Home Delivery)";
     const registryNumber = generateRegistryNumber();
@@ -275,12 +293,19 @@ function generateRegistryNumber() {
     localStorage.setItem("BirthRecords", JSON.stringify(records));
   }
 
+  // Main submit function for this form
   function showSMSConfirmation() {
     sendToDashboard();
     // Show the confirmation modal
     document.getElementById('sms-confirmation').style.display = 'block';
     // Reset the form fields
-    document.querySelector('form').reset();
+    document.getElementById('appointment').reset();
+  }
+
+  // Proceed to payment for birth delivery
+  function proceedToBirthDeliveryPayment() {
+    // Redirect to payment.html with the correct service and offer for birth delivery
+    window.location.href = "../payment.html?service=birth&offer=birth_delivery";
   }
 </script>
 <script>
