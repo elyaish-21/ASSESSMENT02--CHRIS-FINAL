@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create an Account</title>
-<link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
   <style>
     body {
       font-family: 'Golos Text', sans-serif;
@@ -15,37 +16,44 @@
       height: 100vh;
       margin: 0;
     }
+
     .container {
       background-color: white;
       padding: 40px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       width: 400px;
       max-width: 90%;
     }
+
     .container img {
       display: block;
       margin: 0 auto;
       height: 100px;
     }
+
     h2 {
       text-align: center;
       margin: 10px 0;
     }
+
     p {
       text-align: center;
       font-size: 14px;
       color: gray;
     }
+
     p a {
       color: blue;
       text-decoration: none;
     }
+
     form input,
     form label {
       width: 100%;
       font-size: 14px;
     }
+
     form input {
       padding: 10px;
       margin: 8px 0;
@@ -53,24 +61,28 @@
       border-radius: 5px;
       box-sizing: border-box;
     }
+
     .checkbox-container {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    margin: 10px 0;
-    font-size: 14px;
-    white-space: nowrap;
-  }
-  .checkbox-container label,
-  .checkbox-container a {
-    margin-left: 2px;
-    vertical-align: middle;
-    white-space: nowrap;
-  }
-  .checkbox-container a {
-    color: blue;
-    text-decoration: none;
-  }
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      margin: 10px 0;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .checkbox-container label,
+    .checkbox-container a {
+      margin-left: 2px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .checkbox-container a {
+      color: blue;
+      text-decoration: none;
+    }
+
     .submit-btn {
       width: 100%;
       background-color: #2f5acf;
@@ -82,25 +94,31 @@
       margin-top: 10px;
       cursor: pointer;
     }
+
     .go-back {
       text-align: center;
       margin-top: 10px;
     }
+
     .go-back a {
       color: #2f5acf;
       text-decoration: none;
     }
+
     #sms-confirmation,
     #terms-modal {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       justify-content: center;
       align-items: center;
       z-index: 999;
     }
+
     .modal-content {
       background-color: white;
       padding: 30px;
@@ -108,13 +126,15 @@
       text-align: center;
       max-width: 500px;
     }
+
     .modal-content p {
-    text-align: justify;
+      text-align: justify;
     }
 
     .modal-content h3 {
       margin-bottom: 10px;
     }
+
     .modal-content button {
       padding: 10px 20px;
       background-color: #1fb133;
@@ -124,11 +144,13 @@
       margin-top: 15px;
       cursor: pointer;
     }
+
     .agree-btn {
       background-color: #1fd43b;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <img src="images/logo-chris.png" alt="City Civil Registry Logo">
@@ -145,9 +167,12 @@
       <label for="email">Email</label>
       <input type="email" id="email" required>
 
-      <label for="mobile">Mobile Number</label>
-      <input type="tel" id="mobile" required>
+       <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" name="mobile" required placeholder="09XX-XXX-XXXX" maxlength="13">
+        <small id="mobileError" style="color: red; display: none;">Format must be 09XX-XXX-XXXX</small>
 
+
+      <br>
       <label for="password">Password</label>
       <input type="password" id="password" required>
       <small>Use 8 or more characters with a mix of letters, numbers & symbols.</small>
@@ -182,9 +207,17 @@
     <div class="modal-content">
       <h3>PRIVACY NOTICE</h3>
       <p><strong>Terms and Conditions for Account Registration</strong><br>
-      By creating an account on the Civil Registry Information System (CRIS), you agree to provide accurate and truthful personal information and to use the system solely for lawful and official purposes related to civil registration services. You must be at least 18 years old and legally capable of entering into this agreement.</p>
-      <p>You are responsible for maintaining the confidentiality of your account credentials and for any activity that occurs under your account. Unauthorized use, submission of false information, or attempts to access restricted areas of the system may result in suspension or termination of your access and may lead to legal action.</p>
-      <p>Your personal data will be handled in accordance with our Privacy Policy and applicable data protection laws. By registering, you consent to the collection and processing of your information for official civil registry functions. CRIS may update these terms at any time, and continued use of your account implies acceptance of any changes.</p>
+        By creating an account on the Civil Registry Information System (CRIS), you agree to provide accurate and
+        truthful personal information and to use the system solely for lawful and official purposes related to civil
+        registration services. You must be at least 18 years old and legally capable of entering into this agreement.
+      </p>
+      <p>You are responsible for maintaining the confidentiality of your account credentials and for any activity that
+        occurs under your account. Unauthorized use, submission of false information, or attempts to access restricted
+        areas of the system may result in suspension or termination of your access and may lead to legal action.</p>
+      <p>Your personal data will be handled in accordance with our Privacy Policy and applicable data protection laws.
+        By registering, you consent to the collection and processing of your information for official civil registry
+        functions. CRIS may update these terms at any time, and continued use of your account implies acceptance of any
+        changes.</p>
       <button class="agree-btn" onclick="closeTermsModal()">AGREE</button>
     </div>
   </div>
@@ -192,11 +225,11 @@
   <div class="gtranslate_wrapper"></div>
   <script>
     window.gtranslateSettings = {
-      "default_language":"en",
-      "wrapper_selector":".gtranslate_wrapper",
-      "switcher_horizontal_position":"right",
-      "switcher_vertical_position":"bottom",
-      "flag_style":"3d"
+      "default_language": "en",
+      "wrapper_selector": ".gtranslate_wrapper",
+      "switcher_horizontal_position": "right",
+      "switcher_vertical_position": "bottom",
+      "flag_style": "3d"
     }
   </script>
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
@@ -255,5 +288,33 @@
       document.getElementById('terms-modal').style.display = 'none';
     }
   </script>
+  <script>
+  const mobileInput = document.getElementById("mobile");
+  const mobileError = document.getElementById("mobileError");
+  const pattern = /^09\d{2}-\d{3}-\d{4}$/;
+
+  mobileInput.addEventListener("input", () => {
+    let numbersOnly = mobileInput.value.replace(/\D/g, ""); // Remove non-digits
+
+    // Auto-format to 09XX-XXX-XXXX
+    if (numbersOnly.length > 4 && numbersOnly.length <= 7) {
+      mobileInput.value = `${numbersOnly.slice(0, 4)}-${numbersOnly.slice(4)}`;
+    } else if (numbersOnly.length > 7) {
+      mobileInput.value = `${numbersOnly.slice(0, 4)}-${numbersOnly.slice(4, 7)}-${numbersOnly.slice(7, 11)}`;
+    } else {
+      mobileInput.value = numbersOnly;
+    }
+
+    // Real-time validation
+    if (pattern.test(mobileInput.value)) {
+      mobileError.style.display = "none";
+      mobileInput.setCustomValidity("");
+    } else {
+      mobileError.style.display = "inline";
+      mobileInput.setCustomValidity("Invalid format");
+    }
+  });
+</script>
 </body>
+
 </html>
