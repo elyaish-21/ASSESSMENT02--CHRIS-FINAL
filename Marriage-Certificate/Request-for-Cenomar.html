@@ -416,10 +416,10 @@ document.addEventListener("DOMContentLoaded", function () {
           dateRegistered: new Date().toLocaleDateString(),
         };
 
-        // Save to localStorage
-        const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+        // Save to localStorage - Now using MarriageRecords
+        const records = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
         records.push(record);
-        localStorage.setItem("BirthRecords", JSON.stringify(records));
+        localStorage.setItem("MarriageRecords", JSON.stringify(records));
 
         // Show confirmation
         document.getElementById('sms-confirmation').style.display = 'block';
