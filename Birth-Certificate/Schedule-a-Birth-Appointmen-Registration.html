@@ -146,27 +146,7 @@
 
     .back-button {
       display: inline-block;
-      margin: 20px 0 20px 420px;
-      /* Push to left */
-      text-align: center;
-      padding: 10px 15px;
-      background-color: #f70707;
-      text-decoration: none;
-      color: #e9e3e3;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
-    .back-button:hover {
-      background-color: #f10707;
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    .back-button {
-      display: inline-block;
       margin: 20px 0 20px 10px;
-      /* Push to left */
       text-align: center;
       padding: 10px 15px;
       background-color: #f70707;
@@ -180,6 +160,167 @@
       background-color: #f10707;
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Modal Styles */
+    #sms-confirmation {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      margin: 15% auto;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .modal-content button {
+      padding: 10px 20px;
+      background-color: #2980b9;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Feedback Styles */
+    #feedbackPrompt {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.4);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #feedbackPrompt > div {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      position: relative;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    #feedbackPrompt span {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    #starContainer {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    #starContainer .star {
+      font-size: 2.5rem;
+      color: #ccc;
+      cursor: pointer;
+      margin: 0 5px;
+      transition: color 0.2s;
+    }
+
+    #starContainer .star.highlighted,
+    #starContainer .star.selected {
+      color: #ed2224;
+    }
+
+    #writtenFeedback {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.4);
+      z-index: 10001;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #writtenFeedback > div {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      position: relative;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    #writtenFeedback span {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    #starsSelected {
+      font-size: 2rem;
+      color: #ed2224;
+      margin-bottom: 15px;
+    }
+
+    #feedbackText {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 15px;
+      min-height: 100px;
+    }
+
+    #thankYouFeedback {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.4);
+      z-index: 10002;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #thankYouFeedback > div {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9em;
     }
   </style>
 </head>
@@ -195,8 +336,8 @@
       <ul>
         <li><strong>Certificate of Live Birth (COLB):</strong> Filled out and signed (issued by hospital or filled out
           by midwife or parents for home births)</li>
-        <li><strong>Valid IDs of Parents:</strong> Government-issued IDs (e.g., Passport, Driver’s License, UMID,
-          PhilHealth ID, Voter’s ID)</li>
+        <li><strong>Valid IDs of Parents:</strong> Government-issued IDs (e.g., Passport, Driver's License, UMID,
+          PhilHealth ID, Voter's ID)</li>
       </ul>
 
       <h3>📝 Additional Based on Circumstances</h3>
@@ -231,7 +372,7 @@
       <label for="name">Full Name of Requester</label>
       <input type="text" id="name" placeholder="Last Name, First Name, Middle Name" required>
 
-      <label for="childName">Child’s Full Name</label>
+      <label for="childName">Child's Full Name</label>
       <input type="text" id="childName" placeholder="Last Name, First Name, Middle Name" required>
 
       <label for="date">Preferred Date</label>
@@ -276,26 +417,64 @@
       <label for="docs">Supporting Document (optional)</label>
       <input type="file" id="docs" accept="application/pdf,image/*">
 
-      <button type="submit" onclick="sendmail()">Submit Appointment</button>
-      <div id="successMsg" class="message">✅ Appointment successfully scheduled! <br>
-        Please wait for a response via your phone number or Gmail.</div>
+      <button type="submit">Submit Appointment</button>
     </form>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="sms-confirmation">
+    <div class="modal-content">
+      <h3>Your appointment has been scheduled successfully!</h3>
+      <p>Please wait for a confirmation via SMS or email.</p>
+      <p>You will receive an update within 3 working days regarding your appointment.</p>
+      <button id="confirm-ok-button">OK</button>
+    </div>
+  </div>
+
+  <!-- Feedback Prompt: Star Rating -->
+  <div id="feedbackPrompt">
+    <div>
+      <span onclick="closeFeedback()">&times;</span>
+      <h3>Would you like to leave feedback about your experience?</h3>
+      <div id="starContainer"></div>
+    </div>
+  </div>
+
+  <!-- Feedback Text Input -->
+  <div id="writtenFeedback">
+    <div>
+      <span onclick="closeFeedback()">&times;</span>
+      <div id="starsSelected">★★★★★</div>
+      <p>Tell us a bit more about why you chose <span id="starCount">0</span> stars</p>
+      <textarea id="feedbackText" rows="4" placeholder="e.g., fast and easy to understand"></textarea>
+      <br /><br />
+      <button onclick="submitFeedback()" style="background-color: #ed2224; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Submit</button>
+    </div>
+  </div>
+
+  <!-- Thank You Prompt -->
+  <div id="thankYouFeedback">
+    <div>
+      <h3>Thank you for your feedback.</h3>
+      <p>Your feedback is highly valued and is used to improve our service.</p>
+      <button onclick="closeFeedback()" style="background-color: #254c9a; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Done</button>
+    </div>
   </div>
 
   <div class="gtranslate_wrapper"></div>
 
   <script>
-  function checkPurpose() {
-    const purpose = document.getElementById("purpose").value;
-    const pickupDiv = document.getElementById("pickupDiv");
+    function checkPurpose() {
+      const purpose = document.getElementById("purpose").value;
+      const pickupDiv = document.getElementById("pickupDiv");
 
-    if (purpose === "Pick-up the Document") {
-      pickupDiv.style.display = "block";
-    } else {
-      pickupDiv.style.display = "none";
+      if (purpose === "Pick-up the Document") {
+        pickupDiv.style.display = "block";
+      } else {
+        pickupDiv.style.display = "none";
+      }
     }
-  }
-</script>
+  </script>
 
   <script>
     window.gtranslateSettings = {
@@ -309,45 +488,132 @@
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
   <script>
-    document.getElementById("appointmentForm").addEventListener("submit", function (event) {
-      event.preventDefault();
-      document.getElementById("successMsg").style.display = "block";
-      this.reset();
+    document.addEventListener("DOMContentLoaded", function() {
+      // Set Min and Max Date
+      const dateInput = document.getElementById("date");
+      const today = new Date();
+
+      // Set the minimum date to today's date
+      const minDate = today.toISOString().split("T")[0];
+      dateInput.setAttribute("min", minDate);
+
+      // Set the maximum date to the last day of the current year
+      const lastDayOfYear = new Date(today.getFullYear(), 11, 31); // December 31 of the current year
+      const maxDate = lastDayOfYear.toISOString().split("T")[0];
+      dateInput.setAttribute("max", maxDate);
+
+      // Mobile number format
+      const phoneInput = document.getElementById("phone");
+
+      phoneInput.addEventListener("input", function () {
+        let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
+        if (value.length > 4) {
+          value = value.slice(0, 4) + "-" + value.slice(4);
+        }
+        if (value.length > 8) {
+          value = value.slice(0, 8) + "-" + value.slice(8, 12);
+        }
+        phoneInput.value = value;
+      });
+
+      // Form submission
+      document.getElementById("appointmentForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        
+        // Show confirmation modal instead of the success message
+        document.getElementById('sms-confirmation').style.display = 'block';
+        this.reset();
+      });
+
+      // Connect OK button to show feedback
+      document.getElementById('confirm-ok-button').addEventListener('click', function() {
+        document.getElementById('sms-confirmation').style.display = 'none';
+        showFeedbackPrompt();
+      });
+
+      // Initialize feedback system
+      initFeedbackSystem();
     });
-  </script>
-  <!-- Set Min and Max Date -->
-  <script>
-    const dateInput = document.getElementById("date");
-    const today = new Date();
 
-    // Set the minimum date to today's date
-    const minDate = today.toISOString().split("T")[0];
-    dateInput.setAttribute("min", minDate);
+    function initFeedbackSystem() {
+      const starContainer = document.getElementById("starContainer");
+      let selectedRating = 0;
 
-    // Set the maximum date to the last day of the current year
-    const lastDayOfYear = new Date(today.getFullYear(), 11, 31); // December 31 of the current year
-    const maxDate = lastDayOfYear.toISOString().split("T")[0];
-    dateInput.setAttribute("max", maxDate);
+      // Clear container first
+      starContainer.innerHTML = '';
 
-    document.getElementById("appointmentForm").addEventListener("submit", function (event) {
-      event.preventDefault();
-      document.getElementById("successMsg").style.display = "block";
-      this.reset();
-    });
+      // Create 5 stars
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.innerHTML = '★';
+        star.dataset.rating = i;
+        
+        star.addEventListener('click', function() {
+          selectedRating = i;
+          highlightStars(selectedRating);
+          showWrittenFeedback(selectedRating);
+        });
 
-    // Mobile number format
-    const phoneInput = document.getElementById("phone");
+        star.addEventListener('mouseover', function() {
+          highlightStars(i);
+        });
 
-    phoneInput.addEventListener("input", function () {
-      let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
-      if (value.length > 4) {
-        value = value.slice(0, 4) + "-" + value.slice(4);
+        star.addEventListener('mouseout', function() {
+          highlightStars(selectedRating);
+        });
+
+        starContainer.appendChild(star);
       }
-      if (value.length > 8) {
-        value = value.slice(0, 8) + "-" + value.slice(8, 12);
+
+      function highlightStars(rating) {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach((star, index) => {
+          star.classList.remove('highlighted', 'selected');
+          
+          if (index < rating) {
+            star.classList.add('highlighted');
+          }
+          
+          if (index < selectedRating) {
+            star.classList.add('selected');
+          }
+        });
       }
-      phoneInput.value = value;
-    });
+
+      window.showWrittenFeedback = function(rating) {
+        document.getElementById("feedbackPrompt").style.display = "none";
+        document.getElementById("writtenFeedback").style.display = "flex";
+        document.getElementById("starCount").textContent = rating;
+        document.getElementById("starsSelected").innerHTML = "★".repeat(rating) + "☆".repeat(5 - rating);
+      };
+
+      window.closeFeedback = function() {
+        document.getElementById("feedbackPrompt").style.display = "none";
+        document.getElementById("writtenFeedback").style.display = "none";
+        document.getElementById("thankYouFeedback").style.display = "none";
+      };
+
+      window.showFeedbackPrompt = function() {
+        document.getElementById("feedbackPrompt").style.display = "flex";
+      };
+
+      window.submitFeedback = function() {
+        const feedback = document.getElementById("feedbackText").value.trim();
+        if (feedback) {
+          // Here you would typically send the feedback to your server
+          console.log("Feedback submitted:", {
+            rating: selectedRating,
+            comments: feedback
+          });
+          
+          document.getElementById("writtenFeedback").style.display = "none";
+          document.getElementById("thankYouFeedback").style.display = "flex";
+        } else {
+          alert("Please enter your feedback.");
+        }
+      };
+    }
   </script>
   <script src="../email.js"></script>
 </body>
