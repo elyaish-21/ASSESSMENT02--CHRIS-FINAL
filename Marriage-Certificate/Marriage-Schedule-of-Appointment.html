@@ -261,7 +261,7 @@
     }
   }
 </script>
-<script>
+<script>  
     function generateRegistryNumber() {
       const now = new Date();
       return `REG-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now.getTime().toString().slice(-5)}`;

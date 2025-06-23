@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>Request for Death Certificate</title>
-    <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+
+<head>
+  <title>Request for Death Certificate</title>
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
 
   <style>
     body {
@@ -11,16 +12,17 @@
       padding: 0;
       font-family: 'Golos Text', sans-serif;
       background:
-          url('death-bg-new.png') no-repeat bottom left fixed,
-          url('d-bird-bg.png') no-repeat top right fixed;
-      background-size: 500px auto, 300px auto; /* size for each image */
+        url('death-bg-new.png') no-repeat bottom left fixed,
+        url('d-bird-bg.png') no-repeat top right fixed;
+      background-size: 500px auto, 300px auto;
+      /* size for each image */
       background-color: #f8f7f2;
       min-height: 100vh;
       background-attachment: fixed;
       display: flex;
       justify-content: center;
       align-items: center;
-}
+    }
 
     .container {
       background: rgba(255, 255, 255, 0.95);
@@ -107,9 +109,11 @@
     #sms-confirmation {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: 1000;
     }
 
@@ -150,7 +154,8 @@
 
     .back-button {
       display: inline-block;
-      margin: 20px 0 20px 10px; /* Push to left */
+      margin: 20px 0 20px 10px;
+      /* Push to left */
       text-align: center;
       padding: 10px 15px;
       background-color: #f70707;
@@ -165,148 +170,313 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+
+    .address-selector {
+      margin-top: 10px;
+    }
+
+    .address-level {
+      margin-bottom: 10px;
+    }
+
+    .address-level label,
+    .address-final label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .address-final {
+      margin-top: 15px;
+    }
+
+    .address-final input {
+      margin-top: 5px;
+      width: 100%;
+      padding: 8px;
+      font-size: 1rem;
+    }
+
+    .disabled-select {
+      background-color: #f5f5f5;
+      color: #666;
+      cursor: not-allowed;
+      width: 100%;
+      padding: 8px;
+    }
+
+    select,
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      font-size: 1rem;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
   </style>
 
-    </head>
-    <body>
-        <section>
-            <div class="container">
-              <a class="back-button" href="Death-service.html">Back</a>
-                <h2>Request for Death Certificate<br> (Home Delivery)</h2>
-                <div class="CertRequest">
-                    <form id="appointm" onsubmit="event.preventDefault(); showSMSConfirmation();">
-                        <label for="registry">Registry</label>
-                        <input type="text" id="regno" placeholder="Enter Registry Number" required>
+</head>
 
-                        <label for="fullname">Fullname</label>
-                        <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
+<body>
+  <section>
+    <div class="container">
+      <a class="back-button" href="Death-service.html">Back</a>
+      <h2>Request for Death Certificate<br> (Home Delivery)</h2>
+      <div class="CertRequest">
+        <form id="appointm" onsubmit="event.preventDefault(); showSMSConfirmation();">
+          <label for="registry">Registry</label>
+          <input type="text" id="regno" placeholder="Enter Registry Number" required>
 
-                        <label for="date">Date of Birth</label>
-                        <input type="date" id="date" required>
+          <label for="fullname">Fullname</label>
+          <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
 
-                        <label for="sex">Sex</label>
-                        <select name="sex" id="sex">
-                            <option value="">Select</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
+          <label for="date">Date of Birth</label>
+          <input type="date" id="date" required>
 
-                        <label for="occupation">Occupation</label>
-                        <input type="text" id="occupation" placeholder="Occupation" required>
+          <label for="sex">Sex</label>
+          <select name="sex" id="sex">
+            <option value="">Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
 
-                        <label for="relation">Relationship to the Deceased</label>
-                        <input type="text" id="relation" placeholder="ex. son, wife, father, etc." required>
+          <label for="occupation">Occupation</label>
+          <input type="text" id="occupation" placeholder="Occupation" required>
 
-                        <label for="number">Number of Copies</label>
-                        <input type="number" id="copies" min="1" value="1" required>
+          <label for="relation">Relationship to the Deceased</label>
+          <input type="text" id="relation" placeholder="ex. son, wife, father, etc." required>
 
-                        <h3>Delivery Address</h3>
-                        <input type="text" id="houseNo" placeholder="House No. Street" required>
+          <label for="number">Number of Copies</label>
+          <input type="number" id="copies" min="1" value="1" required>
 
-                        <input type="text" id="brgy" placeholder="Barangay" required>
-
-                        <input type="text" id="city" placeholder="City/Municipality" required>
-
-                        <input type="text" id="province" placeholder="Province" required>
-
-
-                        <input type="number" id="zip_code" placeholder="Zip Code" required>
-
-                        <label for="contact">Contact No.</label>
-                        <input type="tel" id="contact" placeholder="Contact No." required>
-
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" placeholder="Email Address" required>
-
-                        <label for="Upload">Upload Both Valid ID of the Parents</label>
-                        <input type="file" id="idupload" accept="image/*,application/pdf">
-                    
-                        <label style="margin-top: 20px;">
-                          <input type="checkbox" required> I certify that the information provided is true and correct.
-                        </label>
-                    
-                        <button type="submit">Submit Request</button>
-                    </form>
-                </div>
+          <h3 style="margin-top: 25px; color: #333;">Delivery Address</h3>
+          <div class="address-selector">
+            <div class="address-level">
+              <label>Region</label>
+              <select id="delivery-region" required class="disabled-select" disabled>
+                <option value="NCR" selected>National Capital Region (NCR)</option>
+              </select>
             </div>
-        </section>
 
-        <div id="sms-confirmation">
-            <div class="modal-content">
-              <h3>Request Submitted!</h3>
-              <p>You will receive an SMS shortly confirming your request.</p>
-              <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+            <div class="address-level">
+              <label>City/Municipality</label>
+              <select id="delivery-city" required class="disabled-select" disabled>
+                <option value="MANILA" selected>City of Manila</option>
+              </select>
             </div>
-        </div>
 
-        <div class="gtranslate_wrapper"></div>
-        <script>
-          window.gtranslateSettings = {
-            "default_language":"en",
-            "wrapper_selector":".gtranslate_wrapper",
-            "switcher_horizontal_position":"right",
-            "switcher_vertical_position":"bottom",
-            "flag_style":"3d"
-          }
-        </script>
-        <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-        
-        <script>
-            function sendToDashboard() {
-              const fullName = document.getElementById("fullName").value;
-              const requestType = "Request for Death Certificate (Home Delivery)";
-              const registryNumber = document.getElementById("regno").value;
-              const dateRegistered = new Date().toLocaleDateString();
-          
-              const record = {
-                name: fullName,
-                type: requestType,
-                regNo: registryNumber,
-                dateRegistered: dateRegistered,
-              };
-          
-              // Save to localStorage (or send via API)
-              const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
-              records.push(record);
-              localStorage.setItem("DeathRecords", JSON.stringify(records));
-            }
+            <div class="address-level">
+              <label>District</label>
+              <select id="delivery-district" required>
+                <option value="">Select District</option>
+                <option value="District I">District I</option>
+                <option value="District II">District II</option>
+                <option value="District III">District III</option>
+                <option value="District IV">District IV</option>
+                <option value="District V">District V</option>
+                <option value="District VI">District VI</option>
+              </select>
+              <div id="delivery-district-error" class="error-message">Please select a district</div>
+            </div>
 
-            function showSMSConfirmation() {
-              document.getElementById('sms-confirmation').style.display = 'block';
-              sendToDashboard();
-              document.querySelector('form').reset();
-            }
-        </script>
-        <script>
-          // date
-          const deceasedDateInput = document.getElementById("date");
-          const today = new Date();
-        
-          const maxDate = today.toISOString().split("T")[0];
-          deceasedDateInput.setAttribute("max", maxDate);
-        
-          document.getElementById("appointment").addEventListener("submit", function(event) {
-              event.preventDefault();
-              document.getElementById("successMsg").style.display = "block";
-              this.reset();
-          });
-          
-          // Mobile number format
-          const phoneInput = document.getElementById("contact");
-        
-          phoneInput.addEventListener("input", function () {
-          let value = phoneInput.value.replace(/\D/g, ""); 
-          if (value.length > 4) {
-              value = value.slice(0, 4) + "-" + value.slice(4);
-          }
-          if (value.length > 8) {
-              value = value.slice(0, 8) + "-" + value.slice(8, 12);
-          }
-          phoneInput.value = value;
-          });
-        </script>
-        <script>
+            <div class="address-level">
+              <label>Baran gay</label>
+              <select id="delivery-barangay" required>
+                <option value="">Select Barangay</option>
+              </select>
+              <div id="delivery-barangay-error" class="error-message">Please select a barangay</div>
+            </div>
 
-        </script>
-    </body>
+            <div class="address-final">
+              <label>Street Address (House No., Street, Subdivision, etc.)</label>
+              <input type="text" id="houseNo" placeholder="e.g. 123 Mabini St." required>
+              <div id="delivery-street-error" class="error-message">Please enter your street address</div>
+            </div>
+
+            <div class="address-final">
+              <label>ZIP Code</label>
+              <input type="number" id="zip_code" placeholder="e.g. 1000" required maxlength="4">
+              <div id="delivery-zip-error" class="error-message">Please enter a valid 4-digit ZIP code</div>
+            </div>
+          </div>
+
+
+          <label for="contact">Contact No.</label>
+          <input type="tel" id="contact" placeholder="Contact No." required>
+
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Email Address" required>
+
+          <label for="Upload">Upload Both Valid ID of the Parents</label>
+          <input type="file" id="idupload" accept="image/*,application/pdf">
+
+          <label style="margin-top: 20px;">
+            <input type="checkbox" required> I certify that the information provided is true and correct.
+          </label>
+
+          <button type="submit">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div id="sms-confirmation">
+    <div class="modal-content">
+      <h3>Request Submitted!</h3>
+      <p>You will receive an SMS shortly confirming your request.</p>
+      <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+    </div>
+  </div>
+
+  <div class="gtranslate_wrapper"></div>
+  <script>
+    window.gtranslateSettings = {
+      "default_language": "en",
+      "wrapper_selector": ".gtranslate_wrapper",
+      "switcher_horizontal_position": "right",
+      "switcher_vertical_position": "bottom",
+      "flag_style": "3d"
+    }
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+
+  <script>
+    function sendToDashboard() {
+      const fullName = document.getElementById("fullName").value;
+      const requestType = "Request for Death Certificate (Home Delivery)";
+      const registryNumber = document.getElementById("regno").value;
+      const dateRegistered = new Date().toLocaleDateString();
+
+      const record = {
+        name: fullName,
+        type: requestType,
+        regNo: registryNumber,
+        dateRegistered: dateRegistered,
+      };
+
+      // Save to localStorage (or send via API)
+      const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+      records.push(record);
+      localStorage.setItem("DeathRecords", JSON.stringify(records));
+    }
+
+    function showSMSConfirmation() {
+      document.getElementById('sms-confirmation').style.display = 'block';
+      sendToDashboard();
+      document.querySelector('form').reset();
+    }
+  </script>
+  <script>
+    // date
+    const deceasedDateInput = document.getElementById("date");
+    const today = new Date();
+
+    const maxDate = today.toISOString().split("T")[0];
+    deceasedDateInput.setAttribute("max", maxDate);
+
+    document.getElementById("appointment").addEventListener("submit", function (event) {
+      event.preventDefault();
+      document.getElementById("successMsg").style.display = "block";
+      this.reset();
+    });
+
+    // Mobile number format
+    const phoneInput = document.getElementById("contact");
+
+    phoneInput.addEventListener("input", function () {
+      let value = phoneInput.value.replace(/\D/g, "");
+      if (value.length > 4) {
+        value = value.slice(0, 4) + "-" + value.slice(4);
+      }
+      if (value.length > 8) {
+        value = value.slice(0, 8) + "-" + value.slice(8, 12);
+      }
+      phoneInput.value = value;
+    });
+  </script>
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const deliveryDistrict = document.getElementById("delivery-district");
+  const deliveryBarangay = document.getElementById("delivery-barangay");
+  const deliveryStreet = document.getElementById("houseNo");
+  const deliveryZip = document.getElementById("zip_code");
+
+  const deliveryDistrictError = document.getElementById("delivery-district-error");
+  const deliveryBarangayError = document.getElementById("delivery-barangay-error");
+  const deliveryStreetError = document.getElementById("delivery-street-error");
+  const deliveryZipError = document.getElementById("delivery-zip-error");
+
+  const manilaDistricts = {
+    'District I': ['Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz', 'Tondo I', 'Tondo II'],
+    'District II': ['Ermita', 'Intramuros', 'Malate', 'Paco', 'Pandacan', 'Port Area', 'San Miguel', 'San Andres'],
+    'District III': ['Santa Ana', 'Santa Mesa'],
+    'District IV': ['Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose', 'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo', 'Santo Domingo', 'Talayan'],
+    'District V': ['Pandacan', 'San Andres Bukid', 'Santa Ana'],
+    'District VI': ['Paco', 'San Andres Bukid', 'Santa Ana']
+  };
+
+  // Populate barangay dropdown based on selected district
+  deliveryDistrict.addEventListener("change", function () {
+    const selected = this.value;
+    deliveryBarangay.innerHTML = '<option value="">Select Barangay</option>';
+
+    if (manilaDistricts[selected]) {
+      manilaDistricts[selected].forEach(barangay => {
+        const option = document.createElement("option");
+        option.value = barangay;
+        option.textContent = barangay;
+        deliveryBarangay.appendChild(option);
+      });
+    }
+  });
+
+  // Form validation on submit
+  const form = document.getElementById("delayedBirthForm"); // replace if different
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      let valid = true;
+
+      if (!deliveryDistrict.value) {
+        deliveryDistrictError.style.display = "block";
+        valid = false;
+      } else {
+        deliveryDistrictError.style.display = "none";
+      }
+
+      if (!deliveryBarangay.value) {
+        deliveryBarangayError.style.display = "block";
+        valid = false;
+      } else {
+        deliveryBarangayError.style.display = "none";
+      }
+
+      if (!deliveryStreet.value.trim()) {
+        deliveryStreetError.style.display = "block";
+        valid = false;
+      } else {
+        deliveryStreetError.style.display = "none";
+      }
+
+      const zipPattern = /^\d{4}$/;
+      if (!zipPattern.test(deliveryZip.value)) {
+        deliveryZipError.style.display = "block";
+        valid = false;
+      } else {
+        deliveryZipError.style.display = "none";
+      }
+
+      if (!valid) e.preventDefault();
+    });
+  }
+});
+</script>
+
+</body>
+
 </html>
