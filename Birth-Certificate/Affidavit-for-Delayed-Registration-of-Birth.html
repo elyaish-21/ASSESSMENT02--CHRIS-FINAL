@@ -183,9 +183,24 @@
 
 <body>
  <script>
+  // Service configuration
+  const services = {
+    birth: {
+      title: "Birth Services",
+      offers: {
+        delayed_birth: {  
+          name: "Delayed Registration of Birth",
+          baseFee: 100,
+          description: "For registrations beyond 30 days from birth",
+          rushFee: 50
+        }
+      }
+    }
+  };
+
   const currentService = {
     type: "birth",
-    offer: "delayed_birth"
+    offer: "delayed_birth" 
   };
 </script>
   <div class="form-container">
@@ -331,6 +346,7 @@
     </form>
   </div>
 
+  <!-- Confirmation Modal -->
   <div id="popup" style="display: none;">
     <div style="
     position: fixed;
@@ -350,8 +366,12 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     ">
         <h2 style="margin-bottom: 10px;">Your form has been submitted successfully.</h2>
-        <p style="margin-bottom: 20px;">Please wait for a response via your phone number or Gmail.</p>
-        <button onclick="closePopup()" style="
+        <p style="margin-bottom: 10px;">
+          Please wait for a response via your phone number or Gmail.<br><br>
+          Affidavit for Delayed Registration of Birth Fee: ₱100.00<br>
+          <b>You will now be redirected to the Payment Transaction page.</b>
+        </p>
+        <button onclick="proceedToDelayedPayment()" style="
         padding: 10px 20px;
         background-color: #2980b9;
         color: white;
@@ -359,7 +379,7 @@
         border-radius: 8px;
         font-size: 1rem;
         cursor: pointer;
-      ">OK</button>
+      ">Proceed to Payment</button>
       </div>
     </div>
   </div>
@@ -496,6 +516,11 @@
 
     function closePopup() {
       popup.style.display = 'none';
+    }
+
+    // Add this function for payment redirection
+    function proceedToDelayedPayment() {
+      window.location.href = "../payment.html?service=birth&offer=delayed_birth";
     }
   </script>
   <script>

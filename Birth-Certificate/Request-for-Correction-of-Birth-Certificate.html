@@ -159,16 +159,31 @@
 </head>
 <body>
   <script>
+  // Service configuration
+  const services = {
+    birth: {
+      title: "Birth Services",
+      offers: {
+        birth_correction: {  
+          name: "Registration of Live Birth",
+          baseFee: 100,
+          description: "Correction of errors in birth records",
+          rushFee: 50
+        }
+      }
+    }
+  };
+
   const currentService = {
     type: "birth",
-    offer: "birth_delivery"
+    offer: "birth_correction" 
   };
 </script>
 <div class="form-card">
   <a class="back-button" href="birth-service.html">Back</a>
   <h2>Request for Correction of Birth Certificate</h2>
 
-  <form id="appointment" onsubmit="event.preventDefault(); showSMSConfirmation();">
+  <form id="appointment" onsubmit="event.preventDefault(); submitCorrectionForm();">
     <label for="regno">Registry Number <span style="color: red;">*</span></label>
     <input type="text" id="regno" placeholder="Enter the Registry Number from your COLB" required>
 
@@ -231,8 +246,13 @@
 <div id="sms-confirmation">
   <div class="modal-content">
     <h3>Request Submitted!</h3>
-    <p>You will receive a confirmation message via SMS and Email once the correction has been completed.</p>
-    <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+    <p>
+      You will receive a confirmation message via SMS and Email once the correction has been completed.<br>
+      <br>
+      <b>Request for Correction of Birth Certificate Fee: ₱100.00</b>
+      <b>You will now be redirected to the Payment Transaction page.</b>
+    </p>
+    <button onclick="proceedToCorrectionPayment()">Proceed to Payment</button>
   </div>
 </div>
 
@@ -258,33 +278,40 @@ function generateRegistryNumber() {
     .toString()
     .slice(-5)}`;
 }
-    function sendToDashboard() {
-    const fullName = document.getElementById("fullName").value;
-    const requestType = "Request for Correction of Birth Certificate";
-    const registryNumber = generateRegistryNumber();
-    const dateRegistered = new Date().toLocaleDateString();
+function sendToDashboard() {
+  const fullName = document.getElementById("fullName").value;
+  const requestType = "Request for Correction of Birth Certificate";
+  const registryNumber = generateRegistryNumber();
+  const dateRegistered = new Date().toLocaleDateString();
 
-    const record = {
-      name: fullName,
-      type: requestType,
-      regNo: registryNumber,
-      dateRegistered: dateRegistered,
-    };
-
-    // Save to localStorage (or send via API)
-    const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
-    records.push(record);
-    localStorage.setItem("BirthRecords", JSON.stringify(records));
+  const record = {
+    name: fullName,
+    type: requestType,
+    regNo: registryNumber,
+    dateRegistered: dateRegistered,
   };
 
-function showSMSConfirmation() {
+  // Save to localStorage (or send via API)
+  const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+  records.push(record);
+  localStorage.setItem("BirthRecords", JSON.stringify(records));
+}
+
+// Main submit function for this form
+function submitCorrectionForm() {
   sendToDashboard();
   // Show the confirmation modal
   document.getElementById('sms-confirmation').style.display = 'block';
   // Reset the form fields
-  document.querySelector('form').reset();
+  document.getElementById('appointment').reset();
   // Hide the "Other" correction input if visible
   document.getElementById('otherCorrectionContainer').style.display = 'none';
+}
+
+// Proceed to payment for correction
+function proceedToCorrectionPayment() {
+  // Redirect to payment.html with the correct service and offer for correction
+  window.location.href = "../payment.html?service=birth&offer=birth_correction";
 }
 </script>
 <script>
