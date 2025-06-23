@@ -257,7 +257,6 @@
         <option value="Correction of Birth Certificate">Correction of Birth Certificate</option>
         <option value="Request for Certified Copy">Request for Certified Copy</option>
         <option value="Late Registration">Late Registration</option>
-        <option value="Late Payment">Payment for Document</option>
         <option value="Pick-up the Document">Pick-up the Document</option>
         <option value="Others">Others</option>
       </select>
@@ -266,12 +265,6 @@
       <div id="pickupDiv" style="display: none; margin-top: 10px;">
         <label for="pickupName">Name of Person Picking Up the Document:</label>
         <input type="text" id="pickupName" name="pickupName" placeholder="Last Name, First Name, Middle Name" />
-      </div>
-
-      <!-- Hidden input field -->
-      <div id="paymentDiv" style="display: none; margin-top: 10px;">
-        <label for="paymentName">What Document you need to pay?</label>
-        <input type="text" id="paymentName" name="paymentName" placeholder="" />
       </div>
 
       <label for="email">Email Address</label>
@@ -292,23 +285,17 @@
   <div class="gtranslate_wrapper"></div>
 
   <script>
-    function checkPurpose() {
-      const purpose = document.getElementById("purpose").value;
-      const pickupDiv = document.getElementById("pickupDiv");
-      const paymentDiv = document.getElementById("paymentDiv");
+  function checkPurpose() {
+    const purpose = document.getElementById("purpose").value;
+    const pickupDiv = document.getElementById("pickupDiv");
 
-      if (purpose === "Pick-up the Document") {
-        pickupDiv.style.display = "block";
-        paymentDiv.style.display = "none";
-      } else if (purpose === "Late Payment") {
-        paymentDiv.style.display = "block";
-        pickupDiv.style.display = "none";
-      } else {
-        pickupDiv.style.display = "none";
-        paymentDiv.style.display = "none";
-      }
+    if (purpose === "Pick-up the Document") {
+      pickupDiv.style.display = "block";
+    } else {
+      pickupDiv.style.display = "none";
     }
-  </script>
+  }
+</script>
 
   <script>
     window.gtranslateSettings = {
