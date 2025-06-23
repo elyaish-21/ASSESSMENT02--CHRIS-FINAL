@@ -5,8 +5,8 @@
   <title>CENODEATH Request Form</title>
   <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
   <style>
-   body {
-           margin: 0;
+     body {
+                 margin: 0;
             padding: 0;
             font-family: 'Golos Text', sans-serif;
             background:
@@ -19,7 +19,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
-        }
+            }
+
     .form-card {
       background: rgba(255, 255, 255, 0.95);
       padding: 40px;
@@ -111,6 +112,8 @@
       width: 100%; height: 100%;
       background-color: rgba(0,0,0,0.5);
       z-index: 1000;
+      align-items: center;
+      justify-content: center;
     }
 
     .modal-content {
@@ -119,7 +122,6 @@
       border-radius: 12px;
       width: 90%;
       max-width: 400px;
-      margin: 15% auto;
       text-align: center;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
@@ -180,12 +182,86 @@
     .address-final {
       margin-bottom: 20px;
     }
+
+    /* Feedback System Styles */
+    #feedbackPrompt, #writtenFeedback, #thankYouFeedback {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.4);
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .feedback-content {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      position: relative;
+    }
+
+    .feedback-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    #starContainer {
+      font-size: 2rem;
+      color: #ccc;
+      cursor: pointer;
+    }
+
+    #starContainer span {
+      margin: 0 5px;
+    }
+
+    #starsSelected {
+      font-size: 2rem;
+      color: #ed2224;
+    }
+
+    #feedbackText {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 15px;
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .feedback-submit {
+      background-color: #ed2224;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .feedback-submit:hover {
+      background-color: #c51a1c;
+    }
+
+    /* Added this class to show modals */
+    .modal-show {
+      display: flex !important;
+    }
   </style>
 </head>
 <body>
 
-<div class="form-card">
-  <a class="back-button" href="Death-service.html">Back</a>
+  <div class="form-card">
+    <a class="back-button" href="Death-service.html">Back</a>
   <h2>CENODEATH Request Form</h2>
 
   <form id="cenodeathForm">
@@ -244,8 +320,6 @@
       <input type="text" id="birth-location" placeholder="e.g. Fabella Hospital, Sampaloc" required>
       <div id="birth-location-error" class="error-message"></div>
     </div>
-  </div>
-
 
     <h4>Father's Name</h4>
     <label for="father_last">Last Name</label>
@@ -307,121 +381,228 @@
   </form>
 </div>
 
+<!-- SMS Confirmation Modal -->
 <div id="sms-confirmation">
   <div class="modal-content">
-    <h3>Request Submitted!</h3>
-    <p>You will receive a confirmation SMS and email shortly.</p>
-    <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+    <h3>Your form has been submitted successfully!</h3>
+    <p>Please wait for a response via sms or email.</p>
+    <p>You will receive an update within 3 working days regarding your request.</p>
+    <button id="confirm-ok-button">OK</button>
+  </div>
+</div>
+
+<!-- Feedback Prompt: Star Rating -->
+<div id="feedbackPrompt">
+  <div class="feedback-content">
+    <span class="feedback-close" onclick="closeFeedback()">&times;</span>
+    <h3>Would you like to leave feedback about your experience?</h3>
+    <div id="starContainer"></div>
+  </div>
+</div>
+
+<!-- Feedback Text Input -->
+<div id="writtenFeedback">
+  <div class="feedback-content">
+    <span class="feedback-close" onclick="closeFeedback()">&times;</span>
+    <div id="starsSelected">★★★★★</div>
+    <p>Tell us a bit more about why you chose <span id="starCount">0</span> stars</p>
+    <textarea id="feedbackText" placeholder="e.g., fast and easy to understand"></textarea>
+    <br /><br />
+    <button class="feedback-submit" onclick="submitFeedback()">Submit</button>
+  </div>
+</div>
+
+<!-- Thank You Prompt -->
+<div id="thankYouFeedback">
+  <div class="feedback-content">
+    <h3>Thank you for your feedback.</h3>
+    <p>Your feedback is highly valued and is used to improve our service.</p>
+    <button class="feedback-submit" onclick="closeFeedback()">Done</button>
   </div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // District and Barangay Selection for Place of Birth
-    const birthDistrict = document.getElementById("birth-district");
-    const birthBarangay = document.getElementById("birth-barangay");
-    const birthLocation = document.getElementById("birth-location");
-    const birthZip = document.getElementById("birth-zip");
+document.addEventListener("DOMContentLoaded", function () {
+  // District and Barangay Selection for Place of Birth
+  const birthDistrict = document.getElementById("birth-district");
+  const birthBarangay = document.getElementById("birth-barangay");
+  const birthLocation = document.getElementById("birth-location");
 
-    const birthDistrictError = document.getElementById("birth-district-error");
-    const birthBarangayError = document.getElementById("birth-barangay-error");
-    const birthLocationError = document.getElementById("birth-location-error");
-    const birthZipError = document.getElementById("birth-zip-error");
+  const birthDistrictError = document.getElementById("birth-district-error");
+  const birthBarangayError = document.getElementById("birth-barangay-error");
+  const birthLocationError = document.getElementById("birth-location-error");
 
-    const manilaDistricts = {
-      'District I': ['Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz', 'Tondo I', 'Tondo II'],
-      'District II': ['Ermita', 'Intramuros', 'Malate', 'Paco', 'Pandacan', 'Port Area', 'San Miguel', 'San Andres'],
-      'District III': ['Santa Ana', 'Santa Mesa'],
-      'District IV': ['Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose', 'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo', 'Santo Domingo', 'Talayan'],
-      'District V': ['Pandacan', 'San Andres Bukid', 'Santa Ana'],
-      'District VI': ['Paco', 'San Andres Bukid', 'Santa Ana']
-    };
+  const manilaDistricts = {
+    'District I': ['Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz', 'Tondo I', 'Tondo II'],
+    'District II': ['Ermita', 'Intramuros', 'Malate', 'Paco', 'Pandacan', 'Port Area', 'San Miguel', 'San Andres'],
+    'District III': ['Santa Ana', 'Santa Mesa'],
+    'District IV': ['Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose', 'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo', 'Santo Domingo', 'Talayan'],
+    'District V': ['Pandacan', 'San Andres Bukid', 'Santa Ana'],
+    'District VI': ['Paco', 'San Andres Bukid', 'Santa Ana']
+  };
 
-    birthDistrict.addEventListener("change", function () {
-      const selected = this.value;
-      birthBarangay.innerHTML = '<option value="">Select Barangay</option>';
+  birthDistrict.addEventListener("change", function () {
+    const selected = this.value;
+    birthBarangay.innerHTML = '<option value="">Select Barangay</option>';
 
-      if (manilaDistricts[selected]) {
-        manilaDistricts[selected].forEach(barangay => {
-          const opt = document.createElement("option");
-          opt.value = barangay;
-          opt.textContent = barangay;
-          birthBarangay.appendChild(opt);
-        });
-      }
-    });
-
-    // Mobile number formatting
-    const mobileInput = document.getElementById("mobile");
-    mobileInput.addEventListener("input", () => {
-      let val = mobileInput.value.replace(/\D/g, "");
-      if (val.length > 4) val = val.slice(0, 4) + "-" + val.slice(4);
-      if (val.length > 8) val = val.slice(0, 8) + "-" + val.slice(8, 12);
-      mobileInput.value = val;
-    });
-
-    // Purpose detail field handling
-    const purposeSelect = document.getElementById("purpose");
-    const purposeDetailContainer = document.getElementById("purpose-detail-container");
-    
-    purposeSelect.addEventListener("change", function() {
-      if (this.value === "Passport/Travel" || this.value === "Employment (Abroad)" || this.value === "Others") {
-        purposeDetailContainer.style.display = "block";
-      } else {
-        purposeDetailContainer.style.display = "none";
-      }
-    });
-
-    // Form submission
-    const form = document.getElementById("cenodeathForm");
-    if (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        
-        // Validate form
-        let valid = true;
-
-        // Validate place of birth fields
-        if (!birthDistrict.value) {
-          birthDistrictError.style.display = "block";
-          birthDistrictError.textContent = "Please select a district.";
-          valid = false;
-        } else {
-          birthDistrictError.style.display = "none";
-        }
-
-        if (!birthBarangay.value) {
-          birthBarangayError.style.display = "block";
-          birthBarangayError.textContent = "Please select a barangay.";
-          valid = false;
-        } else {
-          birthBarangayError.style.display = "none";
-        }
-
-        if (!birthLocation.value.trim()) {
-          birthLocationError.style.display = "block";
-          birthLocationError.textContent = "Specific location is required.";
-          valid = false;
-        } else {
-          birthLocationError.style.display = "none";
-        }
-
-        if (!/^\d{4}$/.test(birthZip.value)) {
-          birthZipError.style.display = "block";
-          birthZipError.textContent = "ZIP Code must be exactly 4 digits.";
-          valid = false;
-        } else {
-          birthZipError.style.display = "none";
-        }
-
-        if (valid) {
-          document.getElementById('sms-confirmation').style.display = 'block';
-          form.reset();
-          birthBarangay.innerHTML = '<option value="">Select Barangay</option>';
-        }
+    if (manilaDistricts[selected]) {
+      manilaDistricts[selected].forEach(barangay => {
+        const opt = document.createElement("option");
+        opt.value = barangay;
+        opt.textContent = barangay;
+        birthBarangay.appendChild(opt);
       });
     }
   });
+
+  // Mobile number formatting
+  const mobileInput = document.getElementById("mobile");
+  mobileInput.addEventListener("input", () => {
+    let val = mobileInput.value.replace(/\D/g, "");
+    if (val.length > 4) val = val.slice(0, 4) + "-" + val.slice(4);
+    if (val.length > 8) val = val.slice(0, 8) + "-" + val.slice(8, 12);
+    mobileInput.value = val;
+  });
+
+  // Purpose detail field handling
+  const purposeSelect = document.getElementById("purpose");
+  const purposeDetailContainer = document.getElementById("purpose-detail-container");
+  
+  purposeSelect.addEventListener("change", function() {
+    if (this.value === "Passport/Travel" || this.value === "Employment (Abroad)" || this.value === "Others") {
+      purposeDetailContainer.style.display = "block";
+    } else {
+      purposeDetailContainer.style.display = "none";
+    }
+  });
+
+  // Form submission
+  const form = document.getElementById("cenodeathForm");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      
+      // Validate form
+      let valid = true;
+
+      // Validate place of birth fields
+      if (!birthDistrict.value) {
+        birthDistrictError.style.display = "block";
+        birthDistrictError.textContent = "Please select a district.";
+        valid = false;
+      } else {
+        birthDistrictError.style.display = "none";
+      }
+
+      if (!birthBarangay.value) {
+        birthBarangayError.style.display = "block";
+        birthBarangayError.textContent = "Please select a barangay.";
+        valid = false;
+      } else {
+        birthBarangayError.style.display = "none";
+      }
+
+      if (!birthLocation.value.trim()) {
+        birthLocationError.style.display = "block";
+        birthLocationError.textContent = "Specific location is required.";
+        valid = false;
+      } else {
+        birthLocationError.style.display = "none";
+      }
+
+      if (valid) {
+        // Save form data
+        const record = {
+          name: document.getElementById("last_name").value + ", " + document.getElementById("first_name").value,
+          type: "CENODEATH Request",
+          dateRegistered: new Date().toLocaleDateString(),
+        };
+
+        // Save to localStorage
+        const records = JSON.parse(localStorage.getItem("DeathRecords")) || [];
+        records.push(record);
+        localStorage.setItem("DeathRecords", JSON.stringify(records));
+
+        // Show confirmation
+        document.getElementById('sms-confirmation').style.display = 'flex';
+        form.reset();
+        birthBarangay.innerHTML = '<option value="">Select Barangay</option>';
+      }
+    });
+  }
+
+  // Connect OK button to show feedback
+  document.getElementById('confirm-ok-button').addEventListener('click', function() {
+    document.getElementById('sms-confirmation').style.display = 'none';
+    showFeedbackPrompt();
+  });
+
+  // Feedback System
+  const starContainer = document.getElementById("starContainer");
+  let selectedRating = 0;
+
+  // Generate stars
+  starContainer.innerHTML = [...Array(5)].map((_, i) => 
+    `<span data-star="${i + 1}" style="margin: 0 5px; cursor: pointer;">★</span>`
+  ).join("");
+
+  [...starContainer.children].forEach((star, index) => {
+    const starIndex = index + 1;
+
+    star.addEventListener("mouseenter", () => {
+      highlightStars(starIndex);
+    });
+
+    star.addEventListener("mouseleave", () => {
+      highlightStars(selectedRating);
+    });
+
+    star.addEventListener("click", () => {
+      selectedRating = starIndex;
+      highlightStars(selectedRating);
+      showWrittenFeedback(selectedRating);
+    });
+  });
+
+  function highlightStars(rating) {
+    [...starContainer.children].forEach((star, i) => {
+      star.style.color = i < rating ? "#ed2224" : "#ccc";
+    });
+  }
+
+  window.showWrittenFeedback = function (rating) {
+    document.getElementById("feedbackPrompt").classList.remove("modal-show");
+    document.getElementById("writtenFeedback").classList.add("modal-show");
+    document.getElementById("starCount").textContent = rating;
+    document.getElementById("starsSelected").innerHTML = "★".repeat(rating).padEnd(5, "☆");
+  };
+
+  window.closeFeedback = function () {
+    document.getElementById("feedbackPrompt").classList.remove("modal-show");
+    document.getElementById("writtenFeedback").classList.remove("modal-show");
+    document.getElementById("thankYouFeedback").classList.remove("modal-show");
+  };
+
+  window.showFeedbackPrompt = function () {
+    document.getElementById("feedbackPrompt").classList.add("modal-show");
+  };
+
+  window.submitFeedback = function () {
+    const feedback = document.getElementById("feedbackText").value.trim();
+    if (feedback) {
+      // Here you would typically send the feedback to your server
+      console.log("Feedback submitted:", {
+        rating: selectedRating,
+        comments: feedback
+      });
+      
+      document.getElementById("writtenFeedback").classList.remove("modal-show");
+      document.getElementById("thankYouFeedback").classList.add("modal-show");
+    } else {
+      alert("Please enter your feedback.");
+    }
+  };
+});
 </script>
 
 </body>
