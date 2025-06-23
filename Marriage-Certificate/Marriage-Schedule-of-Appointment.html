@@ -168,7 +168,7 @@
     </ul>
   </div>
 
-  <h2>💍 Schedule a Marriage Certificate Appointment</h2>
+  <h2>💍 Schedule an Appointment in Marriage Services</h2>
   <form id="marriageForm">
     <label>Registry Number</label>
     <input type="text" id="regno" placeholder="Enter the Registry Number from your Marriage Certificate" required>
@@ -189,12 +189,34 @@
 
     <label for="appointmentTime">Preferred Time</label>
     <select id="appointmentTime" required>
-      <option value="">Select time...</option>
-      <option>8:00 AM</option>
-      <option>10:00 AM</option>
-      <option>1:00 PM</option>
-      <option>3:00 PM</option>
-    </select>
+      <option value="" disabled selected>-- Select a time --</option>
+        <option value="08:00 AM">08:00 AM</option>
+        <option value="09:00 AM">09:00 AM</option>
+        <option value="10:00 AM">10:00 AM</option>
+        <option value="11:00 AM">11:00 AM</option>
+        <option value="12:00 PM">12:00 PM</option>
+        <option value="01:00 PM">01:00 PM</option>
+        <option value="02:00 PM">02:00 PM</option>
+        <option value="03:00 PM">03:00 PM</option>
+        <option value="04:00 PM">04:00 PM</option>
+      </select>
+
+      <label for="purpose">Purpose of Appointment</label>
+      <select id="purpose" required onchange="checkPurpose()">
+        <option value="">Select...</option>
+        <option value="Registration of Marriage Certificate">Registration of Marriage Certificate</option>
+        <option value="Marriage License Registration">Marriage License Registration</option>
+        <option value="Request for Certified Copy">Request for Certified Copy</option>
+        <option value="Late Registration">Late Registration</option>
+        <option value="Pick-up the Document">Pick-up the Document</option>
+        <option value="Others">Others</option>
+      </select>
+
+       <!-- Hidden input field -->
+      <div id="pickupDiv" style="display: none; margin-top: 10px;">
+        <label for="pickupName">Name of Person Picking Up the Document:</label>
+        <input type="text" id="pickupName" name="pickupName" placeholder="Last Name, First Name, Middle Name" />
+      </div>
 
     <label>Applicant Name:</label>
     <input type="text" id="applicantName" placeholder="Last Name, First Name, Middle Initial" required>
@@ -227,7 +249,18 @@
   }
 </script>
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+<script>
+  function checkPurpose() {
+    const purpose = document.getElementById("purpose").value;
+    const pickupDiv = document.getElementById("pickupDiv");
 
+    if (purpose === "Pick-up the Document") {
+      pickupDiv.style.display = "block";
+    } else {
+      pickupDiv.style.display = "none";
+    }
+  }
+</script>
 <script>
     function generateRegistryNumber() {
       const now = new Date();
