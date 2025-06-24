@@ -170,6 +170,11 @@ button:hover {
   gap: 15px;
 }
 
+input[type="checkbox"] {
+  width: 19px;
+  height: 19px;
+}
+
 .method {
       display: flex;
       flex-direction: row;
@@ -302,9 +307,13 @@ button:hover {
     background-color: #733333;
 }
 
-
-
-
+/* Ensure amount rows are always visible and not hidden by default */
+#copiesRow,
+#copyFeeRow {
+  display: block !important;
+  /* Optionally, add margin for clarity */
+  margin-bottom: 5px;
+}
 
 /* Responsive design */
 @media screen and (min-width: 768px) {

@@ -295,6 +295,10 @@ function sendToDashboard() {
 
   // Main submit function for this form
   function showSMSConfirmation() {
+    // Store number of copies for payment
+    const copies = parseInt(document.getElementById('copies').value) || 1;
+    localStorage.setItem('DeliveryCopies', JSON.stringify({ copies }));
+
     sendToDashboard();
     // Show the confirmation modal
     document.getElementById('sms-confirmation').style.display = 'block';

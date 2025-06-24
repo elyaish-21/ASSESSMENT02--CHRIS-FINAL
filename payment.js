@@ -135,12 +135,6 @@ const services = {
   birth: {
     title: "Birth Services",
     offers: {
-      delayed_birth: {
-        name: "Delayed Registration of Birth",
-        baseFee: 100,
-        description: "For registrations beyond 30 days from birth",
-        rushFee: 50
-      },
       live_birth: {
         name: "Registration of Live Birth",
         baseFee: 100,
@@ -164,30 +158,12 @@ const services = {
   marriage: {
     title: "Marriage Services",
     offers: {
-      marriage_certificate: {
-        name: "Marriage Certificate Registration",
-        baseFee: 100,
-        description: "Standard marriage certificate processing",
-        rushFee: 50
-      },
-      marriage_license: {
-        name: "Marriage License Registration",
-        baseFee: 150,
-        description: "Processing of marriage license",
-        rushFee: 50
-      },
       marriage_correction: {
             name: "Request for Correction of Marriage Certificate",
             baseFee: 150,
             description: "Correction of errors in marriage records",
             rushFee: 50
         },
-      marriage_delayed: {
-        name: "Delayed Marriage Registration",
-        baseFee: 150,
-        description: "For registrations beyond the standard period",
-        rushFee: 100
-    },
     marriage_delivery: {
         name: "Marriage Delivery Registration",
         baseFee: 150,
@@ -199,42 +175,18 @@ const services = {
   death: {
     title: "Death Services",
     offers: {
-      death_registration: {
-        name: "Death Registration",
-        baseFee: 100,
-        description: "Standard death certificate processing",
-        rushFee: 50
-      },
-      delayed_death: {
-        name: "Delayed Death Registration",
-        baseFee: 100,
-        description: "For registrations beyond the standard period",
-        rushFee: 50
-      },
       death_delivery: {
         name: "Death Delivery Registration",
-        baseFee: 100,
+        baseFee: 150,
         description: "Registration of death delivery details",
         rushFee: 50
       },
       death_correction:{
         name: "Request for Correction of Death Certificate",
-        baseFee: 100,
+        baseFee: 150,
         description: "Correction of errors in death records",
         rushFee: 50
       },
-      death_burial:{
-        name: "Death Burial Registration",
-        baseFee: 100,
-        description: "Registration of burial details",
-        rushFee: 50
-      },
-      death_creamation:{
-        name: "Death Cremation Registration",
-        baseFee: 100,
-        description: "Registration of cremation details",
-        rushFee: 50
-      }
     }
 }
 };
@@ -244,114 +196,74 @@ let currentService = null;
 let currentOffer = null;
 let serviceType = null;
 
-   document.addEventListener("DOMContentLoaded", function() {
-  // Get service parameters from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  serviceType = urlParams.get('service'); // assign to global
-  const offerId = urlParams.get('offer');
+// Helper functions
+function isDeliveryOffer(serviceType, offerId) {
+  const deliveryOffers = {
+    birth: ['birth_delivery'],
+    marriage: ['marriage_delivery'],
+    death: ['death_delivery']
+  };
+  return deliveryOffers[serviceType]?.includes(offerId);
+}
 
-  if (serviceType && offerId && services[serviceType]?.offers[offerId]) {
-    currentService = services[serviceType]; // assign to global
-    currentOffer = currentService.offers[offerId]; // assign to global
-    const service = currentService;
-    const offer = currentOffer;
-    
-    // Update UI with service details
-    document.getElementById('paymentTitle').textContent = offer.name;
-    document.getElementById('serviceDescription').textContent = offer.description;
-    document.getElementById('baseFee').textContent = offer.baseFee;
-    document.getElementById('rushFeeDisplay').textContent = offer.rushFee;
-    document.getElementById('rushFeeAmount').textContent = offer.rushFee;
-    document.getElementById('total').textContent = offer.baseFee;
-    
-    // Show payment section (remove the form submission flow)
-    document.getElementById("paymentSection").style.display = "block";
-  } else {
-    alert("No service selected. Redirecting to services page...");
-    window.location.href = "services.html";
+function isCorrectionOffer(serviceType, offerId) {
+  const correctionOffers = {
+    birth: ['birth_correction'],
+    marriage: ['marriage_correction'],
+    death: ['death_correction']
+  };
+  return correctionOffers[serviceType]?.includes(offerId);
+}
+
+function getNumberOfCopies() {
+  try {
+    const data = JSON.parse(localStorage.getItem('DeliveryCopies'));
+    if (data && typeof data.copies === 'number') {
+      return data.copies;
+    }
+  } catch (e) {
+    console.error("Error reading copies:", e);
   }
-});
-
+  return 1;
+}
 
 function updateTotal() {
-  // Get the current service and offer from the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const serviceType = urlParams.get('service');
   const offerId = urlParams.get('offer');
 
-  // Check if we have valid service data
   if (serviceType && offerId && services[serviceType]?.offers[offerId]) {
     const offer = services[serviceType].offers[offerId];
     const isRush = document.getElementById('rush').checked;
-    
-    // Calculate total based on the current offer's fees
-    const total = isRush ? offer.baseFee + offer.rushFee : offer.baseFee;
-    
-    // Update the display
+    let total = isRush ? offer.baseFee + offer.rushFee : offer.baseFee;
+
+    if (isDeliveryOffer(serviceType, offerId)) {
+      const copies = getNumberOfCopies();
+      const perCopyFee = 5;
+      const totalCopyFee = copies * perCopyFee;
+      total += totalCopyFee;
+      
+      const copyFeeAmount = document.getElementById('copyFeeAmount');
+      if (copyFeeAmount) copyFeeAmount.textContent = totalCopyFee;
+      
+      const copiesCount = document.getElementById('copiesCount');
+      if (copiesCount) copiesCount.textContent = copies;
+    }
+
     document.getElementById('total').textContent = total;
     document.getElementById('rushFeeInfo').style.display = isRush ? 'block' : 'none';
-    
-    // Update any popup/overlay totals if they exist
+
+    // Update overlay total if it exists
     const popupTotals = document.querySelectorAll('.popupTotal');
     if (popupTotals) {
       popupTotals.forEach(el => {
         el.textContent = total;
       });
     }
-  } else {
-    console.error("Could not determine service fees - missing or invalid service parameters");
   }
 }
 
-  // Optional: run this on page load to make sure total is correct
-  window.onload = updateTotal;
-
-
-  function completePayment() {
-    alert("Payment successful! A confirmation will be sent.");
-    window.location.href = 'birth-service.html'; // or redirect as needed
-  }
-
-  // Store form data when leaving the form page
-function storeFormData() {
-  const formData = {
-    serviceType: new URLSearchParams(window.location.search).get('service'),
-    applicantName: document.getElementById("applicantName")?.value,
-    // Add all other form fields you want to preserve
-    childName: {
-      firstName: document.getElementById("firstName")?.value,
-      lastName: document.getElementById("lastName")?.value,
-      middleName: document.getElementById("middleName")?.value
-    },
-    // Add more fields as needed
-  };
-  localStorage.setItem('formData', JSON.stringify(formData));
-}
-
-// Restore form data when going back
-function goBackToForm() {
-  const formData = JSON.parse(localStorage.getItem('formData'));
-  if (!formData || !formData.serviceType) {
-    window.history.back();
-    return;
-  }
-
-  // Redirect to the appropriate form page
-  switch(formData.serviceType) {
-    case 'birth':
-      window.location.href = 'birth-service.html';
-      break;
-    case 'marriage':
-      window.location.href = 'marriage-service.html';
-      break;
-    case 'death':
-      window.location.href = 'death-service.html';
-      break;
-    default:
-      window.history.back();
-  }
-}
-
+// Payment method toggle
 function toggleQR(selectedMethod) {
   const gcashQR = document.getElementById("gcashQR");
   const paymayaQR = document.getElementById("paymayaQR");
@@ -368,35 +280,25 @@ function toggleQR(selectedMethod) {
   }
 }
 
+// Overlay functions
 function openOverlay() {
-  console.log("openOverlay function called"); // Debugging line
   const overlay = document.getElementById("overlay");
-  
   if (overlay) {
-    console.log("Overlay element found"); // Debugging line
     overlay.style.display = "flex";
-    
-    // Update the total in the overlay
     const mainTotal = document.getElementById("total").textContent;
     document.querySelectorAll('.popupTotal').forEach(el => {
       el.textContent = mainTotal;
     });
-  } else {
-    console.error("Overlay element not found!");
   }
 }
 
 function closeOverlay() {
   const overlay = document.getElementById("overlay");
-  if (overlay) {
-    overlay.style.display = "none";
-  }
+  if (overlay) overlay.style.display = "none";
 }
 
 function submitCard() {
-  const popupTotalElement = document.querySelector(".popupTotal"); // First match
-  const popupTotal = parseFloat(popupTotalElement?.textContent || "0");
-
+  const popupTotal = parseFloat(document.querySelector(".popupTotal")?.textContent || "0");
   const userAmount = parseFloat(document.getElementById("userAmount").value);
 
   if (isNaN(userAmount)) {
@@ -412,43 +314,8 @@ function submitCard() {
   }
 }
 
-function proceedToPayment() {
-  const requiredTotal = document.getElementById("total").textContent;
-  const userAmount = document.getElementById("userAmount").value;
-
-  if (parseFloat(userAmount) < parseFloat(requiredTotal)) {
-    alert("Insufficient payment. Please enter at least ₱" + requiredTotal);
-  } else {
-    alert("Payment processing...");
-    closePopup();
-  }
-
-  storeFormData(); // Save data before redirect
-  window.location.href = `payment.html?service=${currentService.type}&offer=${currentService.offer}`;
-}
-
-function showTab(tabName) {
-  // Hide all tab contents
-  document.querySelectorAll('.tab-content').forEach(tab => {
-    tab.style.display = 'none';
-  });
-  
-  // Show selected tab
-  document.getElementById(tabName + 'Form').style.display = 'block';
-  
-  // Update active tab buttons
-  document.querySelectorAll('.tab-header button').forEach(btn => {
-    btn.classList.remove('active-tab');
-  });
-  document.getElementById(tabName + 'Tab').classList.add('active-tab');
-}
-
-
-window.onload = () => {
-  updateTotal();
-};
-
 function confirmPayment() {
+  // Validate all required fields
   const fname = document.getElementById("fname").value.trim();
   const lname = document.getElementById("lname").value.trim();
   const mname = document.getElementById("mname").value.trim();
@@ -464,7 +331,7 @@ function confirmPayment() {
     return;
   }
 
-  // Validate phone number format (must be 10 digits starting with 9)
+  // Validate phone number
   const phoneRegex = /^9\d{9}$/;
   if (!phoneRegex.test(contact)) {
     alert("Please enter a valid 10-digit contact number starting with 9.");
@@ -477,7 +344,7 @@ function confirmPayment() {
     return;
   }
 
- // Validate file type
+  // Validate file type
   const validExtensions = [".pdf", ".jpg", ".jpeg", ".png"];
   const fileExt = receiptFile.name.substring(receiptFile.name.lastIndexOf(".")).toLowerCase();
   if (!validExtensions.includes(fileExt)) {
@@ -486,111 +353,201 @@ function confirmPayment() {
   }
 
   // All validations passed - generate receipt
-  alert("Payment submitted successfully! Your receipt will now download.");
   generateFinalReceiptPDF();
-  
-  // Optional: You can add form submission to server here
-  // submitFormToServer();
 }
 
+// Tab navigation
+function showTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.style.display = 'none';
+  });
+  document.getElementById(tabName + 'Form').style.display = 'block';
+  
+  document.querySelectorAll('.tab-header button').forEach(btn => {
+    btn.classList.remove('active-tab');
+  });
+  document.getElementById(tabName + 'Tab').classList.add('active-tab');
+}
 
+// Main payment page initialization
+document.addEventListener("DOMContentLoaded", function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  serviceType = urlParams.get('service');
+  const offerId = urlParams.get('offer');
+
+  if (serviceType && offerId && services[serviceType]?.offers[offerId]) {
+    currentService = services[serviceType];
+    currentOffer = currentService.offers[offerId];
+
+    // Update UI
+    document.getElementById('paymentTitle').textContent = currentOffer.name;
+    document.getElementById('serviceDescription').textContent = currentOffer.description;
+    document.getElementById('baseFee').textContent = currentOffer.baseFee;
+    document.getElementById('rushFeeDisplay').textContent = currentOffer.rushFee;
+    document.getElementById('rushFeeAmount').textContent = currentOffer.rushFee;
+    
+    // Initialize payment section
+    document.getElementById("paymentSection").style.display = "block";
+    updateTotal();
+
+    // Add copy fee rows for delivery services
+    if (isDeliveryOffer(serviceType, offerId)) {
+      const copies = getNumberOfCopies();
+      const totalCopyFee = copies * 5;
+
+      // Create rows if they don't exist
+      if (!document.getElementById('serviceFeeRow')) {
+        const serviceFeeRow = document.createElement('div');
+        serviceFeeRow.id = 'serviceFeeRow';
+        serviceFeeRow.innerHTML = `<span>Service Fee:</span> <span id="serviceFeeAmount">${currentOffer.baseFee}</span>`;
+        document.getElementById('paymentSection').insertBefore(serviceFeeRow, document.getElementById('rushFeeDisplay').parentNode);
+      }
+
+      if (!document.getElementById('copiesRow')) {
+        const copiesRow = document.createElement('div');
+        copiesRow.id = 'copiesRow';
+        copiesRow.innerHTML = `<span>Number of Copies:</span> <span id="copiesCount">${copies}</span>`;
+        document.getElementById('paymentSection').insertBefore(copiesRow, document.getElementById('rushFeeDisplay').parentNode);
+      }
+
+      if (!document.getElementById('copyFeeRow')) {
+        const copyFeeRow = document.createElement('div');
+        copyFeeRow.id = 'copyFeeRow';
+        copyFeeRow.innerHTML = `<span>Copies Fee (₱5 x ${copies}):</span> <span id="copyFeeAmount">${totalCopyFee}</span>`;
+        document.getElementById('paymentSection').insertBefore(copyFeeRow, document.getElementById('rushFeeDisplay').parentNode);
+      }
+    }
+  } else {
+    alert("No service selected. Redirecting to services page...");
+    window.location.href = "services.html";
+  }
+});
+
+// PDF Receipt Generation (with copy fee included for delivery services)
 function generateFinalReceiptPDF() {
   try {
     const doc = new window.jsPDF();
-    
-    // Get form values
-    const fname = document.getElementById("fname").value;
-    const lname = document.getElementById("lname").value;
-    const mname = document.getElementById("mname").value;
-    const sfxname = document.getElementById("sfxname").value;
-    const contact = document.getElementById("contact").value;
-    const addressDetails = document.getElementById("addressDetails").value;
-    const barangay = document.getElementById("barangay").value;
-    const district = document.getElementById("district").value;
-    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || "Credit/Debit Card";
-    const rushChecked = document.getElementById("rush").checked;
+    const urlParams = new URLSearchParams(window.location.search);
+    const offerId = urlParams.get('offer');
 
+    // Get form values
+    const formValues = {
+      fname: document.getElementById("fname").value,
+      lname: document.getElementById("lname").value,
+      mname: document.getElementById("mname").value,
+      sfxname: document.getElementById("sfxname").value,
+      contact: document.getElementById("contact").value,
+      addressDetails: document.getElementById("addressDetails").value,
+      barangay: document.getElementById("barangay").value,
+      district: document.getElementById("district").value,
+      paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value || "Credit/Debit Card"
+    };
+
+    // Calculate fees
     const baseFee = currentOffer.baseFee;
-    const rushFee = rushChecked ? currentOffer.rushFee : 0;
-    const total = baseFee + rushFee;
+    const rushFee = document.getElementById("rush").checked ? currentOffer.rushFee : 0;
+    let copies = 1;
+    let copyFee = 0;
+
+    // Only show number of copies and copy fee for delivery offers (not correction offers)
+    if (isDeliveryOffer(currentService.type, offerId) && !isCorrectionOffer(currentService.type, offerId)) {
+      const domCopiesElem = document.getElementById("copiesCount");
+      if (domCopiesElem && !isNaN(parseInt(domCopiesElem.textContent))) {
+        copies = parseInt(domCopiesElem.textContent);
+      } else {
+        copies = getNumberOfCopies();
+      }
+      copyFee = copies * 5;
+    }
+
+    const total = baseFee + rushFee + copyFee;
 
     // Generate reference number
     const date = new Date();
-    const dateStr = date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
-    });
-    const timeStr = date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-    const randomID = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-    const refNo = `MNL-${randomID}`;
+    const refNo = `MNL-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
 
-    // Receipt formatting
-    doc.setFont("courier", "normal");
-    
-    // Header
+    // Receipt Header
     doc.setFontSize(14);
     doc.setFont("courier", "bold");
     doc.text("REPUBLIC OF THE PHILIPPINES", 105, 15, { align: "center" });
     doc.setFontSize(12);
     doc.text("CITY OF MANILA", 105, 22, { align: "center" });
     doc.text("OFFICE OF THE CIVIL REGISTRAR", 105, 29, { align: "center" });
-    doc.text("NATIONAL CAPITAL REGION (NCR)", 105, 36, { align: "center" });
-    
-    // Divider line
-    doc.setDrawColor(0);
     doc.line(15, 45, 195, 45);
-    
+
     // Service Information
     doc.setFontSize(16);
     doc.text("OFFICIAL RECEIPT", 105, 55, { align: "center" });
-    
     doc.setFontSize(12);
     doc.text(`Service: ${currentService.title}`, 20, 65);
     doc.text(`Request Type: ${currentOffer.name}`, 20, 72);
     
     // Payment Details
     doc.setFontSize(10);
-    doc.text(`Date: ${dateStr}    Time: ${timeStr}`, 20, 82);
+    doc.text(`Date: ${date.toLocaleDateString()}    Time: ${date.toLocaleTimeString()}`, 20, 82);
     doc.text(`Reference No: ${refNo}`, 20, 89);
-    doc.text(`Payment Method: ${paymentMethod}`, 20, 96);
+    doc.text(`Payment Method: ${formValues.paymentMethod}`, 20, 96);
     
-    // Charges
+    // Charges Section (with copy fee for delivery services if and only if Home Delivery form was filled)
     doc.setFont("courier", "bold");
     doc.text("--- CHARGES ---", 20, 106);
-
     doc.setFont("courier", "normal");
-    doc.text(`${currentOffer.name.toUpperCase()} FEE: PHP ${baseFee.toFixed(2)}`, 20, 114);
-    if (rushChecked) {
-      doc.text(`RUSH PROCESSING FEE: PHP ${rushFee.toFixed(2)}`, 20, 122);
+    let y = 114;
+    doc.text(`Service Fee: PHP ${baseFee.toFixed(2)}`, 20, y);
+    y += 8;
+    // Only show number of copies and copy fee for delivery offers (not correction offers)
+    if (isDeliveryOffer(currentService.type, offerId) && !isCorrectionOffer(currentService.type, offerId)) {
+      doc.text(`Number of Copies: ${copies}`, 20, y);
+      y += 8;
+      doc.text(`Copies Fee (₱5 x ${copies}): PHP ${copyFee.toFixed(2)}`, 20, y);
+      y += 8;
     }
-
-    // Total
+    if (rushFee > 0) {
+      doc.text(`RUSH PROCESSING FEE: PHP ${rushFee.toFixed(2)}`, 20, y);
+      y += 8;
+    }
     doc.setFont("courier", "bold");
-    doc.text(`TOTAL:    PHP ${total.toFixed(2)}`, 20, rushChecked ? 130 : 122);
+    doc.text(`TOTAL: PHP ${total.toFixed(2)}`, 20, y);
+    y += 10;
     
     // Customer Info
     doc.setFontSize(10);
-    doc.text("--- CUSTOMER INFORMATION ---", 20, 140);
+    doc.text("--- CUSTOMER INFORMATION ---", 20, y);
     doc.setFont("courier", "normal");
-    doc.text(`NAME: ${fname} ${mname} ${lname} ${sfxname}`, 20, 148);
-    doc.text(`CONTACT: +63${contact}`, 20, 156);
-    doc.text(`ADDRESS: ${addressDetails}, ${barangay}, ${district}, Manila`, 20, 164);
+    doc.text(`NAME: ${formValues.fname} ${formValues.mname} ${formValues.lname} ${formValues.sfxname}`, 20, y + 8);
+    doc.text(`CONTACT: +63${formValues.contact}`, 20, y + 16);
+    doc.text(`ADDRESS: ${formValues.addressDetails}, ${formValues.barangay}, ${formValues.district}, Manila`, 20, y + 24);
     
     // Footer
     doc.setFontSize(9);
-    doc.text("THANK YOU FOR YOUR PAYMENT", 105, 180, { align: "center" });
-    doc.text("This serves as your official receipt", 105, 186, { align: "center" });
-    doc.text("**** Customer Copy ****", 105, 192, { align: "center" });
+    doc.text("THANK YOU FOR YOUR PAYMENT", 105, y + 40, { align: "center" });
+    doc.text("This serves as your official receipt", 105, y + 46, { align: "center" });
 
-    // Save PDF with service-specific filename
+    // Save PDF
     doc.save(`Receipt-${currentOffer.name.replace(/ /g,'_')}-${refNo}.pdf`);
-
   } catch (error) {
     console.error("Error generating PDF:", error);
-    alert("There was an error generating your receipt. Please try again.");
+    alert("Error generating receipt. Please try again.");
+  }
+}
+
+// Initialize on load
+window.onload = function() {
+  updateTotal();
+};
+
+// Add this function to handle the back button
+function goBackToForm() {
+  // Try to go back to the previous page, or fallback to the appropriate service form
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceType = urlParams.get('service');
+  if (serviceType === 'birth') {
+    window.location.href = 'Birth-Certificate/birth-service.html';
+  } else if (serviceType === 'marriage') {
+    window.location.href = 'Marriage-Certificate/marriage-service.html';
+  } else if (serviceType === 'death') {
+    window.location.href = 'Death-Certificate/Death-service.html';
+  } else {
+    window.history.back();
   }
 }

@@ -161,7 +161,27 @@
   </style>
 </head>
 <body>
+<script>
+  // Service configuration
+  const services = {
+     marriage: {
+      title: "Marriage Services",
+      offers: {
+         marriage_delivery: {  
+          name: "Marriage Delivery Registration",
+          baseFee: 150,
+          description: "Registration of marriage delivery details",
+          rushFee: 50
+        }
+      }
+    }
+  };
 
+  const currentService = {
+    type: "marriage",
+    offer: " marriage_delivery" 
+  };
+</script>
 <div class="form-card">
   <a class="back-button" href="marriage-service.html">Back</a>
   <h2>Request for Marriage Certificate<br>(Home Delivery)</h2>
@@ -221,8 +241,13 @@
 <div id="sms-confirmation">
   <div class="modal-content">
     <h3>Request Submitted!</h3>
-    <p>You will receive an SMS and Email shortly confirming your request.</p>
-    <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+    <p>
+      You will receive an SMS and Email shortly confirming your request.<br>
+      <br>
+      <b>Request for Marriage Certificate (Home Delivery) Fee: ₱150.00</b><br>
+      <b>You will now be redirected to the Payment Transaction page.</b>
+    </p>
+    <button onclick="proceedToMarriageDeliveryPayment()">Proceed to Payment</button>
   </div>
 </div>
 
@@ -259,9 +284,18 @@
   }
 
   function showSMSConfirmation() {
+    // Store number of copies for payment
+    const copies = parseInt(document.getElementById('copies').value) || 1;
+    localStorage.setItem('DeliveryCopies', JSON.stringify({ copies }));
+
     document.getElementById('sms-confirmation').style.display = 'block';
     sendToDashboard();
     document.querySelector('form').reset();
+  }
+
+  // Add this function for payment redirection
+  function proceedToMarriageDeliveryPayment() {
+    window.location.href = "../payment.html?service=marriage&offer=marriage_delivery";
   }
 </script>
 <script>
@@ -293,5 +327,6 @@
   phoneInput.value = value;
   });
 </script>
+<script src="/payment.js"></script>
 </body>
 </html>

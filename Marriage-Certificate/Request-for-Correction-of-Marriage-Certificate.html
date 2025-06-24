@@ -157,6 +157,27 @@
   </style>
 </head>
 <body>
+  <script>
+  // Service configuration
+  const services = {
+     marriage: {
+      title: "Marriage Services",
+      offers: {
+        marriage_correction: {  
+          name: "Request for Correction of Marriage Certificate",
+          baseFee: 150,
+          description: "Correction of errors in marriage records",
+          rushFee: 50
+        }
+      }
+    }
+  };
+
+  const currentService = {
+    type: "marriage",
+    offer: "marriage_correction" 
+  };
+</script>
 
 <div class="form-card">
   <a class="back-button" href="marriage-service.html">Back</a>
@@ -227,8 +248,13 @@
 <div id="sms-confirmation">
   <div class="modal-content">
     <h3>Request Submitted!</h3>
-    <p>You will receive a confirmation message via SMS and Email once the correction has been processed.</p>
-    <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+    <p>
+      You will receive a confirmation message via SMS and Email once the correction has been processed.<br>
+      <br>
+      <b>Request for Correction of Marriage Certificate Fee: ₱150.00</b><br>
+      <b>You will now be redirected to the Payment Transaction page.</b>
+    </p>
+    <button onclick="proceedToMarriageCorrectionPayment()">Proceed to Payment</button>
   </div>
 </div>
 
@@ -272,7 +298,7 @@
   function showSMSConfirmation() {
     sendToDashboard();
     document.getElementById('sms-confirmation').style.display = 'block';
-    document.getElementById('correctionForm').reset();
+    document.getElementById('RequestForm').reset();
     document.getElementById('otherCorrectionContainer').style.display = 'none';
   }
 
@@ -280,6 +306,11 @@
     const select = document.getElementById("correctionType");
     const otherInput = document.getElementById("otherCorrectionContainer");
     otherInput.style.display = select.value === "Other" ? "block" : "none";
+  }
+
+  // Add this function for payment redirection
+  function proceedToMarriageCorrectionPayment() {
+    window.location.href = "../payment.html?service=marriage&offer=marriage_correction";
   }
 </script>
 <script>
@@ -310,5 +341,6 @@
   phoneInput.value = value;
   });
 </script>
+<script src="/payment.js"></script>
 </body>
 </html>

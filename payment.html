@@ -72,12 +72,23 @@
                 <p class="amount" id="serviceDescription">Service description will appear here</p>
             </div>
             <label>
+                <h3>Payment Details</h3>
+                <p class="amount">Base Fee: ₱ <span id="baseFee">100</span></p>
+                <!-- Only show these rows if delivery offer and NOT correction offer -->
+                <div id="copiesInfo" style="display:none;">
+                  <p class="amount" id="copiesRow" style="display:none;">
+                    Number of Copies: <span id="copiesCount">1</span>
+                  </p>
+                  <p class="amount" id="copyFeeRow" style="display:none;">
+                    Copies Fee (₱5 each): ₱ <span id="copyFeeAmount">5</span>
+                  </p>
+                </div>
+                <br>
                 <input type="checkbox" id="rush" name="rush" value="yes" onchange="updateTotal()" />
                 Rush Processing (+₱50) 
                 <br>
                 <small><mark style="color: red; background: none;">*</mark>This option allows your birth certificate request to be processed faster than the standard timeline. 
                 <br>By checking this box, you agree to pay an additional ₱50 for expedited handling.</small>
-                
             </label>
 
             <p class="total"><strong>Total: ₱ <span id="total">100</span></strong></p>
@@ -189,6 +200,5 @@
                 </div>
                 </div>
     <script src="payment.js"></script>
-
     </body>
     </html>

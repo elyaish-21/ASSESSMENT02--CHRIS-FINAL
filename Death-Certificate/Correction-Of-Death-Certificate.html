@@ -163,6 +163,27 @@
           </style>
     </head>
     <body>
+          <script>
+            // Service configuration
+            const services = {
+             death: {
+                title: "Death Services",
+                offers: {
+                    death_correction: {  
+                    name: "Request for Correction of Death Certificate",
+                    baseFee: 150,
+                    description: "Correction of errors in death records",
+                    rushFee: 50
+                  }
+                }
+              }
+            };
+
+            const currentService = {
+              type: "death",
+              offer: "death_correction" 
+            };
+          </script>
         <div class="container">
           <a class="back-button" href="Death-service.html">Back</a>
             <h2>Request for Correction of <br>Death Certificate</h2>
@@ -229,8 +250,13 @@
         <div id="sms-confirmation">
             <div class="modal-content">
               <h3>Request Submitted!</h3>
-              <p>You will receive a confirmation message via SMS and Email once the correction has been completed.</p>
-              <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+              <p>
+                You will receive a confirmation message via SMS and Email once the correction has been completed.<br>
+                <br>
+                <b>Request for Correction of Death Certificate Fee: ₱150.00</b><br>
+                <b>You will now be redirected to the Payment Transaction page.</b>
+              </p>
+              <button onclick="proceedToDeathCorrectionPayment()">Proceed to Payment</button>
             </div>
         </div>
 
@@ -272,6 +298,10 @@
             document.querySelector('form').reset();
           
             document.getElementById('otherCorrectionContainer').style.display = 'none';
+          }
+
+          function proceedToDeathCorrectionPayment() {
+            window.location.href = "../payment.html?service=death&offer=death_correction";
           }
         </script>
 
