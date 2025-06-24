@@ -1,6 +1,6 @@
 function sendmail() {
     // Get the time value
-    let rawTime = document.getElementById("time").value;
+    let rawTime = document.getElementById("appointmentTime").value;
 
     // Convert the time to 12-hour format with AM/PM
     let timeParts = rawTime.split(":");
@@ -12,7 +12,7 @@ function sendmail() {
     let formattedTime = `${hours}:${minutes} ${period}`;
     
     let parms = {
-        name : document.getElementById("fullName").value,
+        name : document.getElementById("name").value,
         subject : document.getElementById("subject").getAttribute("value"),
         email : document.getElementById("email").value,
         date : document.getElementById("date").value,

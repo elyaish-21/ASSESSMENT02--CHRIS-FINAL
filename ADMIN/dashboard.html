@@ -254,6 +254,7 @@
                   <option value="Delayed Registration of Marriage">Delayed Registration of Marriage</option>
                   <option value="Marriage License Registration">Marriage License Registration</option>
                   <option value="Request for Marriage Certificate (Home Delivery)">Request for Marriage Certificate (Home Delivery)</option>
+                  <option value="CENOMAR Request">CENOMAR Request</option>
                 </select>
               </div>
               <div class=".filter-group">
@@ -630,7 +631,16 @@ function saveEdit() {
     record.name = document.getElementById("editName").value;
     record.type = document.getElementById("editType").value;
     record.regNo = document.getElementById("editRegNo").value;
-    record.dateRegistered = document.getElementById("editDateRegistered").value;
+
+    // Format the date to MM/DD/YYYY
+    const rawDate = document.getElementById("editDateRegistered").value;
+    const formattedDate = new Date(rawDate).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+    record.dateRegistered = formattedDate;
+
     record.status = newStatus;
 
     // Save the updated records back to localStorage

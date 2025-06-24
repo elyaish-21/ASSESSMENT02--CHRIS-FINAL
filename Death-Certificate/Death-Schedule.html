@@ -295,7 +295,7 @@ input::placeholder, textarea::placeholder {
                         placeholder="Enter the Registry Number from the Death Registration Certificate" required>
 
                     <label for="name">Requester's Full Name</label>
-                    <input type="text" id="fullName" placeholder="Last Name, First Name Middle Initial" required>
+                    <input type="text" id="name" placeholder="Last Name, First Name Middle Initial" required>
 
                     <label for="deceased">Name of the Deceased</label>
                     <input type="text" id="deceased" placeholder="Last Name, Firs   t Name Middle Initial" required>
@@ -355,7 +355,7 @@ input::placeholder, textarea::placeholder {
                     <label for="">Authorization Letter (If Non-Biological)</label>
                     <input type="file" accept="image/*,application/pdf">
 
-                    <button type="submit" class="submit" onclick="sendmail()">Submit</button>
+                    <button type="submit" class="submit">Submit</button>
                 </form>
             </div>
             <span id="subject" value="Death"></span>
@@ -396,7 +396,7 @@ input::placeholder, textarea::placeholder {
 </script>
     <script>
         function sendToDashboard() {
-            const fullName = document.getElementById("fullName").value;
+            const fullName = document.getElementById("name").value;
             const requestType = "Schedule an Appointment";
             const registryNumber = document.getElementById("regno").value;
             const dateRegistered = new Date().toLocaleDateString();
@@ -418,6 +418,7 @@ input::placeholder, textarea::placeholder {
         function showSMSConfirmation() {
             document.getElementById('sms-confirmation').style.display = 'block';
             sendToDashboard();
+            sendmail();
             document.querySelector('form').reset();
 
             document.getElementById('otherCorrectionContainer').style.display = 'none';

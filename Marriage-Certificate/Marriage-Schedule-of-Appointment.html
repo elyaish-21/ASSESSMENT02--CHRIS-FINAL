@@ -233,7 +233,7 @@
     <label for="docs">Upload Supporting Document (optional)</label>
     <input type="file" id="docs" accept="application/pdf,image/*">
 
-    <button type="submit" onclick="sendmail()">Submit Application</button>
+    <button type="submit">Submit Application</button>
     <div id="successMsg" class="message">✅ Appointment successfully scheduled!</div>
   </form>
 </div>
@@ -290,6 +290,7 @@
     event.preventDefault();
     sendToDashboard();
     document.getElementById("successMsg").style.display = "block";
+    sendmail();
     this.reset();
   });
 </script>
@@ -306,13 +307,7 @@
   const lastDayOfYear = new Date(today.getFullYear(), 11, 31); // December 31 of the current year
   const maxDate = lastDayOfYear.toISOString().split("T")[0];
   marriageDate.setAttribute("max", maxDate);
-  appointmentDate.setAttribute("max", maxDate);
- 
-  document.getElementById("marriageForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-      document.getElementById("successMsg").style.display = "block";
-      this.reset();
-  });
+  appointmentDate.setAttribute("max", maxDate); 
   
   // Mobile number format
   const phoneInput = document.getElementById("phone");

@@ -11,7 +11,7 @@
   <script type="text/javascript">
     (function () {
       emailjs.init({
-        publicKey: "3oUZtABQzdTw5i2aO",
+        publicKey: "7AaFlXLN7NgxISD0p",
       });
     })();
   </script>
@@ -378,8 +378,8 @@
       <label for="date">Preferred Date</label>
       <input type="date" id="date" name="date" required>
 
-      <label for="time">Preferred Time</label>
-      <select id="time" name="time" required>
+      <label for="appointmentTime">Preferred Time</label>
+      <select id="time" name="appointmentTime" required>
         <option value="" disabled selected>-- Select a time --</option>
         <option value="08:00 AM">08:00 AM</option>
         <option value="09:00 AM">09:00 AM</option>
@@ -420,6 +420,9 @@
       <button type="submit">Submit Appointment</button>
     </form>
   </div>
+
+  <!-- Suject to email -->
+  <span id="subject" value="Birth"></span>
 
   <!-- Confirmation Modal -->
   <div id="sms-confirmation">
@@ -557,6 +560,7 @@
 
         // Show confirmation modal
         document.getElementById('sms-confirmation').style.display = 'block';
+        sendmail();
         this.reset();
       });
 
