@@ -663,11 +663,49 @@
     sendToDashboard();
   }
 
+  // Payment functions
+   function showPaymentConfirmation() {
+    const offer = services[currentService.type].offers[currentService.offer];
+    const content = document.getElementById('paymentConfirmationContent');
+    
+    content.innerHTML = `
+      <p>You are about to proceed with payment for:</p>
+      <h4>${offer.name}</h4>
+      <p>Service Fee: ₱${offer.baseFee.toFixed(2)}</p>
+      <p>Please have your payment method ready.</p>
+    `;
+    
+    document.getElementById('paymentConfirmationModal').style.display = 'flex';
+  }
+
  function proceedToPayment() {
+    try {
       // 1. First generate the certificate
-      c();
-      };
-    } 
+      generateCertificate();
+      
+      // 2. Store service data for payment page
+      localStorage.setItem('birthRegistrationData', JSON.stringify({
+        serviceType: "Birth Certificate Registration",
+        applicantName: document.getElementById("applicantName").value,
+        childName: {
+          firstName: document.getElementById("firstName").value,
+          lastName: document.getElementById("lastName").value,
+          middleName: document.getElementById("middleName").value
+        }
+      }));
+      
+      // 3. Redirect using RELATIVE PATH
+      const redirectUrl = `../payment.html?service=${currentService.type}&offer=${currentService.offer}`;
+      console.log("Attempting redirect to:", redirectUrl); // For debugging
+      
+      // Use assign() instead of href for better reliability
+      window.location.assign(redirectUrl);
+    } catch (error) {
+      console.error("Payment redirection failed:", error);
+      alert("Failed to proceed to payment. Please try again.");
+      // Fallback to services page
+      window.location.href = "birth-service.html";
+    }
   }
 
   function closePaymentModal() {
@@ -700,7 +738,8 @@
       return;
     }
 
-    generateCertificate();
+    // Show payment confirmation
+    showPaymentConfirmation();
   }
 
   // Initialize signature canvases
