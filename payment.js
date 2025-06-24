@@ -354,6 +354,12 @@ function confirmPayment() {
 
   // All validations passed - generate receipt
   generateFinalReceiptPDF();
+  
+  // Show feedback prompt after a short delay
+  setTimeout(() => {
+    initFeedbackSystem();
+    showFeedbackPrompt();
+  }, 1000);
 }
 
 // Tab navigation
@@ -418,8 +424,18 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
   } else {
-    alert("No service selected. Redirecting to services page...");
-    window.location.href = "services.html";
+    // Default to birth certificate service if no parameters are provided
+    currentService = services.birth;
+    currentOffer = currentService.offers.live_birth;
+    
+    document.getElementById('paymentTitle').textContent = currentOffer.name;
+    document.getElementById('serviceDescription').textContent = currentOffer.description;
+    document.getElementById('baseFee').textContent = currentOffer.baseFee;
+    document.getElementById('rushFeeDisplay').textContent = currentOffer.rushFee;
+    document.getElementById('rushFeeAmount').textContent = currentOffer.rushFee;
+    
+    document.getElementById("paymentSection").style.display = "block";
+    updateTotal();
   }
 });
 
@@ -522,7 +538,7 @@ function generateFinalReceiptPDF() {
     doc.setFontSize(9);
     doc.text("THANK YOU FOR YOUR PAYMENT", 105, y + 40, { align: "center" });
     doc.text("This serves as your official receipt", 105, y + 46, { align: "center" });
-
+  
     // Save PDF
     doc.save(`Receipt-${currentOffer.name.replace(/ /g,'_')}-${refNo}.pdf`);
   } catch (error) {
@@ -550,4 +566,86 @@ function goBackToForm() {
   } else {
     window.history.back();
   }
+}
+
+
+
+function initFeedbackSystem() {
+  const starContainer = document.getElementById("starContainer");
+  let selectedRating = 0;
+
+  // Clear container first
+  starContainer.innerHTML = '';
+
+  // Create 5 stars
+  for (let i = 1; i <= 5; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.innerHTML = '★';
+    star.dataset.rating = i;
+    
+    star.addEventListener('click', function() {
+      selectedRating = i;
+      highlightStars(selectedRating);
+      showWrittenFeedback(selectedRating);
+    });
+
+    star.addEventListener('mouseover', function() {
+      highlightStars(i);
+    });
+
+    star.addEventListener('mouseout', function() {
+      highlightStars(selectedRating);
+    });
+
+    starContainer.appendChild(star);
+  }
+
+  function highlightStars(rating) {
+    const stars = document.querySelectorAll('.star');
+    stars.forEach((star, index) => {
+      star.classList.remove('highlighted', 'selected');
+      
+      if (index < rating) {
+        star.classList.add('highlighted');
+      }
+      
+      if (index < selectedRating) {
+        star.classList.add('selected');
+      }
+    });
+  }
+
+  window.showWrittenFeedback = function(rating) {
+    document.getElementById("feedbackPrompt").style.display = "none";
+    document.getElementById("writtenFeedback").style.display = "flex";
+    document.getElementById("starCount").textContent = rating;
+    document.getElementById("starsSelected").innerHTML = "★".repeat(rating) + "☆".repeat(5 - rating);
+  };
+
+  window.closeFeedback = function() {
+    document.getElementById("feedbackPrompt").style.display = "none";
+    document.getElementById("writtenFeedback").style.display = "none";
+    document.getElementById("thankYouFeedback").style.display = "none";
+  };
+
+  window.showFeedbackPrompt = function() {
+    document.getElementById("feedbackPrompt").style.display = "flex";
+  };
+
+  window.submitFeedback = function() {
+    const feedback = document.getElementById("feedbackText").value.trim();
+    if (feedback) {
+      // Here you would typically send the feedback to your server
+      console.log("Feedback submitted:", {
+        rating: selectedRating,
+        comments: feedback
+      });
+      
+      document.getElementById("writtenFeedback").style.display = "none";
+      document.getElementById("thankYouFeedback").style.display = "flex";
+    } else {
+      alert("Please enter your feedback.");
+    }
+  };
 }
