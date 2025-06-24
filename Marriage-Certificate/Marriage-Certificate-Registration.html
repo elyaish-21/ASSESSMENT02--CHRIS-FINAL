@@ -393,6 +393,10 @@ function submitMarriageForm() {
   sendToDashboard();
 
   clearAllFields();
+
+  setTimeout(() => {
+    window.location.href = '../payment.html?service=marriage&offer=marriage_delivery';
+  }, 3000);
 }
 
 window.onload = () => {

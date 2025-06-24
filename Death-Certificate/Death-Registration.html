@@ -442,6 +442,11 @@
                     The confirmation email has been sent. Your PDF certificate is is downloading now.
                 `;
 
+                // Redirect to payment page after successful submission
+                setTimeout(() => {
+                    window.location.href = '../payment.html?service=death&offer=death_delivery';
+                }, 1000);
+
                 clearAllFields();
             }, 3000);
         }
