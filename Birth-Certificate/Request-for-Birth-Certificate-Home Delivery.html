@@ -160,6 +160,78 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+      .address-selector {
+      margin-top: 10px;
+    }
+
+    .address-level {
+      margin-bottom: 10px;
+    }
+
+    .address-level label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .address-final {
+      margin-top: 15px;
+    }
+
+    .address-final input {
+      margin-top: 5px;
+    }
+
+    .loading {
+      color: #666;
+      font-style: italic;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .disabled-select {
+      background-color: #f5f5f5;
+      color: #666;
+    }
+    .address-section {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.address-section input,
+.address-section select {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.disabled-select {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  display: none;
+}
+.address-section {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
   </style>
 </head>
 <body>
@@ -197,8 +269,51 @@
     <label for="date">Date of Birth</label>
     <input type="date" id="date" required>
 
-    <label for="placebirth">Place of Birth</label>
-    <input type="text" id="placebirth" required>
+    <label>Place of Birth</label>
+<div class="address-selector">
+  <div class="address-level">
+    <label>Region</label>
+    <select id="birth-region" required class="disabled-select" disabled>
+      <option value="NCR" selected>National Capital Region (NCR)</option>
+    </select>
+  </div>
+
+  <div class="address-level">
+    <label>City/Municipality</label>
+    <select id="birth-city" required class="disabled-select" disabled>
+      <option value="MANILA" selected>City of Manila</option>
+    </select>
+  </div>
+
+  <div class="address-level">
+    <label>District</label>
+    <select id="birth-district" required>
+      <option value="">Select District</option>
+      <option value="District I">District I</option>
+      <option value="District II">District II</option>
+      <option value="District III">District III</option>
+      <option value="District IV">District IV</option>
+      <option value="District V">District V</option>
+      <option value="District VI">District VI</option>
+    </select>
+    <div id="birth-district-error" class="error-message">Please select a district</div>
+  </div>
+
+  <div class="address-level">
+    <label>Barangay</label>
+    <select id="birth-barangay" required>
+      <option value="">Select Barangay</option>
+      <!-- Dynamically populate options based on district selection -->
+    </select>
+    <div id="birth-barangay-error" class="error-message">Please select a barangay</div>
+  </div>
+
+  <div class="address-final">
+    <label>Specific Location (Hospital, Clinic, Home Address, etc.)</label>
+    <input type="text" id="birth-location" placeholder="e.g. Fabella Hospital, Sampaloc" required>
+    <div id="birth-location-error" class="error-message">Please specify place of birth</div>
+  </div>
+</div>
 
     <label for="fathername">Father's Full Name</label>
     <input type="text" id="fathername" placeholder="Last Name, First Name, Middle Initial" required>
@@ -212,20 +327,47 @@
     <label for="copies">Number of Copies</label>
     <input type="number" id="copies" min="1" value="1" required>
 
-    <h3 style="margin-top: 25px; color: #333;">Delivery Address</h3>
-    <div class="address-section">
-      <input type="text" placeholder="House No., Street" required>
-      <input type="text" placeholder="Barangay" required>
-      <input type="text" placeholder="City/Municipality" required>
-      <input type="text" placeholder="Province" required>
-      <input type="text" placeholder="ZIP Code" required>
-    </div>
+   <h3 style="margin-top: 25px; color: #333;">Home Delivery Address</h3>
+<div class="address-section">
+  <!-- Region (fixed) -->
+  <input type="text" value="National Capital Region (NCR)" disabled class="disabled-select" required>
+
+  <!-- City/Municipality (fixed) -->
+  <input type="text" value="City of Manila" disabled class="disabled-select" required>
+
+  <!-- District (dropdown) -->
+  <select id="delivery-district" required>
+    <option value="">Select District</option>
+    <option value="District I">District I</option>
+    <option value="District II">District II</option>
+    <option value="District III">District III</option>
+    <option value="District IV">District IV</option>
+    <option value="District V">District V</option>
+    <option value="District VI">District VI</option>
+  </select>
+  <div id="delivery-district-error" class="error-message">Please select a district</div>
+
+  <!-- Barangay (dropdown) -->
+  <select id="delivery-barangay" required>
+    <option value="">Select Barangay</option>
+  </select>
+  <div id="delivery-barangay-error" class="error-message">Please select a barangay</div>
+
+  <!-- Street Address -->
+  <input type="text" id="delivery-street" placeholder="House No., Street, Subdivision" required>
+  <div id="delivery-street-error" class="error-message">Please enter your street address</div>
+</div>
+
 
     <label for="contact">Contact Number</label>
-    <input type="text" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
+<input type="text" id="contact" placeholder="09XX-XXX-XXXX" maxlength="13" required>
 
-    <label for="email">Email Address</label>
-    <input type="email" id="email" required>
+<label for="email">Email Address</label>
+<input type="email" id="email" placeholder="your@email.com" required>
+
+<div id="contact-error" class="error-message">Please enter a valid contact number (09XX-XXX-XXXX)</div>
+<div id="email-error" class="error-message">Please enter a valid email address</div>
+
 
     <label for="idupload">Upload Both Valid ID of the Parents</label>
     <input type="file" id="idupload" accept="image/*,application/pdf">
@@ -340,6 +482,215 @@ function sendToDashboard() {
   phoneInput.value = value;
   });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const birthDistrictSelect = document.getElementById('birth-district');
+    const birthBarangaySelect = document.getElementById('birth-barangay');
+
+    const birthDistrictError = document.getElementById('birth-district-error');
+    const birthBarangayError = document.getElementById('birth-barangay-error');
+    const birthLocationError = document.getElementById('birth-location-error');
+
+    const manilaDistricts = {
+      'District I': [
+        'Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz',
+        'Tondo I', 'Tondo II'
+      ],
+      'District II': [
+        'Ermita', 'Intramuros', 'Malate', 'Paco',
+        'Pandacan', 'Port Area', 'San Miguel', 'San Andres'
+      ],
+      'District III': [
+        'Santa Ana', 'Santa Mesa'
+      ],
+      'District IV': [
+        'Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose',
+        'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo',
+        'Santo Domingo', 'Talayan'
+      ],
+      'District V': [
+        'Pandacan', 'San Andres Bukid', 'Santa Ana'
+      ],
+      'District VI': [
+        'Paco', 'San Andres Bukid', 'Santa Ana'
+      ]
+    };
+
+    // Populate barangays based on district selection
+    birthDistrictSelect.addEventListener('change', function () {
+      const selectedDistrict = this.value;
+      birthBarangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+
+      if (selectedDistrict && manilaDistricts[selectedDistrict]) {
+        manilaDistricts[selectedDistrict].forEach(barangay => {
+          const option = document.createElement('option');
+          option.value = barangay;
+          option.textContent = barangay;
+          birthBarangaySelect.appendChild(option);
+        });
+      }
+    });
+
+    // Form submission validation
+    document.getElementById('delayedBirthForm').addEventListener('submit', function (e) {
+      let isValid = true;
+
+      if (!birthDistrictSelect.value) {
+        showError(birthDistrictError, 'Please select a district');
+        isValid = false;
+      } else {
+        hideError(birthDistrictError);
+      }
+
+      if (!birthBarangaySelect.value) {
+        showError(birthBarangayError, 'Please select a barangay');
+        isValid = false;
+      } else {
+        hideError(birthBarangayError);
+      }
+
+      if (!document.getElementById('birth-location').value.trim()) {
+        showError(birthLocationError, 'Please specify place of birth');
+        isValid = false;
+      } else {
+        hideError(birthLocationError);
+      }
+
+      if (!isValid) {
+        e.preventDefault();
+      }
+    });
+
+    // Error handling helpers
+    function showError(element, message) {
+      element.textContent = message;
+      element.style.display = 'block';
+    }
+
+    function hideError(element) {
+      element.style.display = 'none';
+    }
+  });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const deliveryDistrictSelect = document.getElementById('delivery-district');
+  const deliveryBarangaySelect = document.getElementById('delivery-barangay');
+  const deliveryDistrictError = document.getElementById('delivery-district-error');
+  const deliveryBarangayError = document.getElementById('delivery-barangay-error');
+  const deliveryStreetError = document.getElementById('delivery-street-error');
+
+  const manilaDistricts = {
+    'District I': ['Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz', 'Tondo I', 'Tondo II'],
+    'District II': ['Ermita', 'Intramuros', 'Malate', 'Paco', 'Pandacan', 'Port Area', 'San Miguel', 'San Andres'],
+    'District III': ['Santa Ana', 'Santa Mesa'],
+    'District IV': ['Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose', 'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo', 'Santo Domingo', 'Talayan'],
+    'District V': ['Pandacan', 'San Andres Bukid', 'Santa Ana'],
+    'District VI': ['Paco', 'San Andres Bukid', 'Santa Ana']
+  };
+
+  deliveryDistrictSelect.addEventListener('change', function () {
+    const selectedDistrict = this.value;
+    deliveryBarangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+
+    if (manilaDistricts[selectedDistrict]) {
+      manilaDistricts[selectedDistrict].forEach(barangay => {
+        const option = document.createElement('option');
+        option.value = barangay;
+        option.textContent = barangay;
+        deliveryBarangaySelect.appendChild(option);
+      });
+    }
+  });
+
+  // Optional: Form validation on submit
+  const form = document.getElementById('delayedBirthForm'); // or your form ID
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      let isValid = true;
+
+      if (!deliveryDistrictSelect.value) {
+        showError(deliveryDistrictError, 'Please select a district');
+        isValid = false;
+      } else hideError(deliveryDistrictError);
+
+      if (!deliveryBarangaySelect.value) {
+        showError(deliveryBarangayError, 'Please select a barangay');
+        isValid = false;
+      } else hideError(deliveryBarangayError);
+
+      if (!document.getElementById('delivery-street').value.trim()) {
+        showError(deliveryStreetError, 'Please enter your street address');
+        isValid = false;
+      } else hideError(deliveryStreetError);
+
+      if (!isValid) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  function showError(el, msg) {
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function hideError(el) {
+    el.style.display = 'none';
+  }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const contactInput = document.getElementById('contact');
+  const emailInput = document.getElementById('email');
+  const contactError = document.getElementById('contact-error');
+  const emailError = document.getElementById('email-error');
+
+  // Auto-dash formatting: 09XX-XXX-XXXX
+  contactInput.addEventListener('input', function () {
+    let numbers = this.value.replace(/\D/g, ''); // remove non-digits
+    if (numbers.length > 11) numbers = numbers.slice(0, 11);
+
+    let formatted = '';
+    if (numbers.length > 0) formatted += numbers.slice(0, 4);
+    if (numbers.length >= 5) formatted += '-' + numbers.slice(4, 7);
+    if (numbers.length >= 8) formatted += '-' + numbers.slice(7);
+
+    this.value = formatted;
+  });
+
+  // Validate on form submission
+  const form = document.getElementById('delayedBirthForm'); // or your form's actual ID
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      let isValid = true;
+
+      // Validate contact number
+      const contactPattern = /^09\d{2}-\d{3}-\d{4}$/;
+      if (!contactPattern.test(contactInput.value)) {
+        contactError.style.display = 'block';
+        isValid = false;
+      } else {
+        contactError.style.display = 'none';
+      }
+
+      // Validate email address
+      if (!emailInput.validity.valid) {
+        emailError.style.display = 'block';
+        isValid = false;
+      } else {
+        emailError.style.display = 'none';
+      }
+
+      if (!isValid) {
+        e.preventDefault();
+      }
+    });
+  }
+});
+</script>
+
 
 <script src="payment.js"></script>
 </body>
