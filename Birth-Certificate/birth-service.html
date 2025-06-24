@@ -20,88 +20,91 @@
     }
 
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-      background-color: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #254c9a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-    .logo-title {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-    .logo-title img {
-      height: 80px;
-    }
+.logo-title img {
+  width: 70px;
+  height: 70px;
+  margin-top: -55px;
+}
 
-    .logo-text h2 {
-      margin: 0;
-      color: #2a4d9b;
-      font-size: 20px;
-      font-weight: bold;
-    }
+.logo-text h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
 
-    .logo-text .city-name {
-      margin: 0;
-      color: #c0392b;
-      font-size: 20px;
-      font-weight: bold;
-    }
-     .time-display,
+.logo-text .city-name {
+  margin: 0;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.time-display,
 .time-display span,
 #time-display {
-  color: black !important;
+  color: #ffffff !important;
   font-size: inherit;
   font-weight: normal;
 }
 
-    .header-buttons {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
-    .help-button {
-      display: inline-block;
-      padding: 10px 15px;
-      background-color: white;
-      text-decoration: none;
-      color: #000;
-      border-radius: 5px;
-      font-weight: bold;
-      border: 2px solid #ccc;
-      transition: all 0.2s ease-in-out;
-    }
+.help-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: white;
+  text-decoration: none;
+  color: #000;
+  border-radius: 5px;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  transition: all 0.2s ease-in-out;
+}
 
-    .help-button:hover {
-      background-color: #f0f0f0;
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
+.help-button:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
-    .sign-out-button {
-      display: inline-block;
-      padding: 10px 15px;
-      background-color: #f70707;
-      text-decoration: none;
-      color: #e9e3e3;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: all 0.2s ease-in-out;
-    }
+.sign-out-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #f70707;
+  text-decoration: none;
+  color: #e9e3e3;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
 
-    .sign-out-button:hover {
-      background-color: #f10707;
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
+.sign-out-button:hover {
+  background-color: #f10707;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
     .main-content { 
       display: flex;
@@ -263,7 +266,7 @@
 
 <header>
   <div class="logo-title">
-        <img src="logo-chris.png" alt="City Civil Registry Logo">
+    <img src="/images/cris_logo.png" alt="City Civil Registry Logo">
     <div class="logo-text">
       <h2>Civil Registry Information System</h2>
       <p class="city-name"><b>City of Manila</b></p>
@@ -276,7 +279,7 @@
   </div>
   <div class="header-buttons">
     <button class="help-button" onclick="openHelp()">HELP</button>
-<a href="../index.html" class="sign-out-button">SIGN OUT</a>
+    <a href="index.html" class="sign-out-button">SIGN OUT</a>
   </div>
 </header>
 
