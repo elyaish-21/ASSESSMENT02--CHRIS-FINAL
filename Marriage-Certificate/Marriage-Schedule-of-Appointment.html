@@ -335,9 +335,6 @@
     <label for="groom">Groom's Full Name</label>
     <input type="text" id="groom" placeholder="Last Name, First Name, Middle Name" required>
 
-    <label for="marriageDate">Date of Marriage</label>
-    <input type="date" id="marriageDate" required>
-
     <label for="appointmentDate">Preferred Appointment Date</label>
     <input type="date" id="appointmentDate" required>
 
@@ -453,6 +450,24 @@
       pickupDiv.style.display = "none";
     }
   }
+  
+  // Date validation function
+  function validateAppointmentDate() {
+    const appointmentDateInput = document.getElementById("appointmentDate");
+    const selectedDate = new Date(appointmentDateInput.value);
+    const today = new Date();
+    
+    // Reset time parts to compare just dates
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      alert("You cannot select a date that has already passed. Please choose a future date.");
+      appointmentDateInput.value = ""; // Clear the invalid date
+      return false;
+    }
+    return true;
+  }
 </script>
 <script>  
     function generateRegistryNumber() {
@@ -481,25 +496,35 @@
 
   document.getElementById("marriageForm").addEventListener("submit", function(event) {
     event.preventDefault();
+    
+    // Validate date before proceeding
+    if (!validateAppointmentDate()) {
+      return;
+    }
+    
     sendToDashboard();
     document.getElementById("sms-confirmation").style.display = "block";
     sendmail();
   });
 </script>
 <script>
-    // date
-  const marriageDate = document.getElementById("marriageDate");
+    // date initialization
   const appointmentDate = document.getElementById("appointmentDate");
   const today = new Date();
 
+  // Set minimum date to today (YYYY-MM-DD format)
   const minDate = today.toISOString().split("T")[0];
-  marriageDate.setAttribute("min", minDate);
   appointmentDate.setAttribute("min", minDate);
 
-  const lastDayOfYear = new Date(today.getFullYear(), 11, 31); // December 31 of the current year
+  // Set maximum date to end of current year
+  const lastDayOfYear = new Date(today.getFullYear(), 11, 31);
   const maxDate = lastDayOfYear.toISOString().split("T")[0];
-  marriageDate.setAttribute("max", maxDate);
   appointmentDate.setAttribute("max", maxDate); 
+  
+  // Add event listener for date change
+  appointmentDate.addEventListener("change", function() {
+    validateAppointmentDate();
+  });
   
   // Mobile number format
   const phoneInput = document.getElementById("phone");
@@ -511,11 +536,11 @@
   }
   if (value.length > 8) {
       value = value.slice(0, 8) + "-" + value.slice(8, 12);
-}
-phoneInput.value = value;
-}); 
+  }
+  phoneInput.value = value;
+  }); 
 
-function sendmail() {
+  function sendmail() {
     let parms = {
         groom : document.getElementById("groom").value,
         bride : document.getElementById("bride").value,
@@ -525,104 +550,104 @@ function sendmail() {
     }
 
     emailjs.send("service_hsg4yqe", "template_f13tbea",parms)
-}   
+  }   
 
-// Initialize feedback system
-function initFeedbackSystem() {
-  const starContainer = document.getElementById("starContainer");
-  let selectedRating = 0;
+  // Initialize feedback system
+  function initFeedbackSystem() {
+    const starContainer = document.getElementById("starContainer");
+    let selectedRating = 0;
 
-  // Clear container first
-  starContainer.innerHTML = '';
+    // Clear container first
+    starContainer.innerHTML = '';
 
-  // Create 5 stars
-  for (let i = 1; i <= 5; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.innerHTML = '★';
-    star.dataset.rating = i;
-    
-    star.addEventListener('click', function() {
-      selectedRating = i;
-      highlightStars(selectedRating);
-      showWrittenFeedback(selectedRating);
-    });
-
-    star.addEventListener('mouseover', function() {
-      highlightStars(i);
-    });
-
-    star.addEventListener('mouseout', function() {
-      highlightStars(selectedRating);
-    });
-
-    starContainer.appendChild(star);
-  }
-
-  function highlightStars(rating) {
-    const stars = document.querySelectorAll('.star');
-    stars.forEach((star, index) => {
-      star.classList.remove('highlighted', 'selected');
+    // Create 5 stars
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.innerHTML = '★';
+      star.dataset.rating = i;
       
-      if (index < rating) {
-        star.classList.add('highlighted');
-      }
-      
-      if (index < selectedRating) {
-        star.classList.add('selected');
-      }
-    });
-  }
-
-  window.showWrittenFeedback = function(rating) {
-    document.getElementById("feedbackPrompt").style.display = "none";
-    document.getElementById("writtenFeedback").style.display = "flex";
-    document.getElementById("starCount").textContent = rating;
-    document.getElementById("starsSelected").innerHTML = "★".repeat(rating) + "☆".repeat(5 - rating);
-  };
-
-  window.closeFeedback = function() {
-    document.getElementById("feedbackPrompt").style.display = "none";
-    document.getElementById("writtenFeedback").style.display = "none";
-    document.getElementById("thankYouFeedback").style.display = "none";
-  };
-
-  window.showFeedbackPrompt = function() {
-    document.getElementById("feedbackPrompt").style.display = "flex";
-  };
-
-  window.submitFeedback = function() {
-    const feedback = document.getElementById("feedbackText").value.trim();
-    if (feedback) {
-      // Here you would typically send the feedback to your server
-      console.log("Feedback submitted:", {
-        rating: selectedRating,
-        comments: feedback
+      star.addEventListener('click', function() {
+        selectedRating = i;
+        highlightStars(selectedRating);
+        showWrittenFeedback(selectedRating);
       });
-      
-      document.getElementById("writtenFeedback").style.display = "none";
-      document.getElementById("thankYouFeedback").style.display = "flex";
-      
-      // Clear feedback text for next time
-      document.getElementById("feedbackText").value = "";
-      selectedRating = 0;
-      highlightStars(0);
-    } else {
-      alert("Please enter your feedback.");
+
+      star.addEventListener('mouseover', function() {
+        highlightStars(i);
+      });
+
+      star.addEventListener('mouseout', function() {
+        highlightStars(selectedRating);
+      });
+
+      starContainer.appendChild(star);
     }
-  };
-}
 
-// Connect OK button to show feedback
-document.getElementById('confirm-ok-button').addEventListener('click', function() {
-  document.getElementById('sms-confirmation').style.display = 'none';
-  showFeedbackPrompt();
-});
+    function highlightStars(rating) {
+      const stars = document.querySelectorAll('.star');
+      stars.forEach((star, index) => {
+        star.classList.remove('highlighted', 'selected');
+        
+        if (index < rating) {
+          star.classList.add('highlighted');
+        }
+        
+        if (index < selectedRating) {
+          star.classList.add('selected');
+        }
+      });
+    }
 
-// Initialize feedback system when DOM is loaded
-document.addEventListener("DOMContentLoaded", function() {
-  initFeedbackSystem();
-});
+    window.showWrittenFeedback = function(rating) {
+      document.getElementById("feedbackPrompt").style.display = "none";
+      document.getElementById("writtenFeedback").style.display = "flex";
+      document.getElementById("starCount").textContent = rating;
+      document.getElementById("starsSelected").innerHTML = "★".repeat(rating) + "☆".repeat(5 - rating);
+    };
+
+    window.closeFeedback = function() {
+      document.getElementById("feedbackPrompt").style.display = "none";
+      document.getElementById("writtenFeedback").style.display = "none";
+      document.getElementById("thankYouFeedback").style.display = "none";
+    };
+
+    window.showFeedbackPrompt = function() {
+      document.getElementById("feedbackPrompt").style.display = "flex";
+    };
+
+    window.submitFeedback = function() {
+      const feedback = document.getElementById("feedbackText").value.trim();
+      if (feedback) {
+        // Here you would typically send the feedback to your server
+        console.log("Feedback submitted:", {
+          rating: selectedRating,
+          comments: feedback
+        });
+        
+        document.getElementById("writtenFeedback").style.display = "none";
+        document.getElementById("thankYouFeedback").style.display = "flex";
+        
+        // Clear feedback text for next time
+        document.getElementById("feedbackText").value = "";
+        selectedRating = 0;
+        highlightStars(0);
+      } else {
+        alert("Please enter your feedback.");
+      }
+    };
+  }
+
+  // Connect OK button to show feedback
+  document.getElementById('confirm-ok-button').addEventListener('click', function() {
+    document.getElementById('sms-confirmation').style.display = 'none';
+    showFeedbackPrompt();
+  });
+
+  // Initialize feedback system when DOM is loaded
+  document.addEventListener("DOMContentLoaded", function() {
+    initFeedbackSystem();
+  });
 </script>
 
 </body>
