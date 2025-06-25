@@ -6,7 +6,7 @@
   <title>Civil Registry Information System</title>
 <link href="https://fonts.googleapis.com/css2?family=Krub&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text&family=Krub:wght@400;700&display=swap" rel="stylesheet">
-<link rel="icon" href="./images/cris_logo.png" type="image/x-icon">
+<link rel="icon" href="/images/cris_logo.png" type="image/x-icon">
 
   <style>
     * {
@@ -26,18 +26,17 @@
       left: 0;
       width: 100%;
       z-index: 1000;
-
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 20px 60px;
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: #254c9a;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     .logo {
       display: flex;
-      align-items: center;
+      align-items: 2px;
       gap: 15px;
     }
 
@@ -47,17 +46,17 @@
     }
 
     .logo-text h2 {
-  font-family: 'Krub', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #002d72;
-  margin-bottom: 2px;
-}
+      font-family: 'Krub', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
 
 
     .logo-text span {
       font-size: 12px;
-      color: #e3342f;
+      color: #ffffff;
     }
 
     nav {
@@ -68,44 +67,56 @@
     .time-display {
   margin-top: 5px;
   font-size: 0.95rem;
-  color: #000; 
+  color: #ffffff;
 }
 
 .time-display strong {
-  color: #000; 
+  color: #ffffff; 
 }
 
 #time-display {
-  color: #000; 
+  color: #ffffff;
 }
 
-    nav a {
+nav a {
+  position: relative;
   text-decoration: none;
-  color: #000;
+  color: #ffffff;
   font-weight: 500;
   transition: color 0.3s;
-    }
+}
 
-   nav a:hover {
-  color: #2d5be3;
-    }
+/* Underline slide for normal nav links */
+nav a:not(.sign-in)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+nav a:not(.sign-in):hover::after {
+  width: 100%;
+}
 
 
     .sign-in {
       display: inline-block;
       padding: 10px 20px;
-      background-color: #ED2224;
+      background-color:  #ffffff;
       text-decoration: none;
-      color: #ffffff;
+      color: #012961;
       border-radius: 5px;
       font-weight: bold;
-      transition: all 0.2s ease-in-out;
+      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     }
     .sign-in:hover {
-      background:linear-gradient(#ED2224, rgba(31, 30, 30, 0.758));
       transform: scale(1.05);
-      color: #e9e3e3;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      background-color: #ED2224;;
+      color: #ffffff;
     }
 
     .service-card {
@@ -166,6 +177,7 @@
 .hero-content {
   max-width: 50%;
   font-size: 20px;
+  margin-top: -5px;
   color: #2c2c2c;
 }
 
@@ -184,10 +196,9 @@
 
 .learnmore {
   padding: 60px 20px;
-  background: linear-gradient(#B8C4D7,#F7F8F2);
+  background: linear-gradient(#B8C4D7, #F7F8F2);
   text-align: center;
 }
-
 
 .title {
   font-size: 36px;
@@ -206,6 +217,7 @@
   color: #ec1c24;
 }
 
+/* Updated button with Slide Right effect */
 .btn {
   display: inline-block;
   margin-top: 20px;
@@ -215,12 +227,26 @@
   text-decoration: none;
   border-radius: 5px;
   font-size: 16px;
+  position: relative;
+  overflow: hidden;
   transition: background-color 0.3s;
 }
 
-.btn:hover {
-  background: linear-gradient(#254C9A, black);
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: left 0.3s ease;
 }
+
+.btn:hover::before {
+  left: 100%;
+}
+
     
     .btn {
       display: inline-block;
@@ -246,7 +272,7 @@
       background-color: #003d91;
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
+    }''
 
     .about-flex {
   display: flex;
@@ -272,7 +298,7 @@
   border-radius: 15px;
   padding: 20px 25px;
   transition: border-color 0.3s ease-in-out;
-  background-color: #f8f7f2;
+  background-color: #fff3f3;
 }
 
 .about-right:hover {
@@ -280,7 +306,7 @@
 }
 
 .services-section {
-  background-image: url('bg.png'); 
+  background-image: url(''); 
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -304,16 +330,14 @@
       left: 0;
       height: 180px;
       margin-left: 0%;
-    
       width: 79rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0px 0px;
-      background-color: #F3DEC3;
+      background-color: #012961;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      padding: 0; 
 }
-
 .right-side {
   flex: 1;
   display: flex;
@@ -385,7 +409,6 @@
     justify-content: center;
     text-align: center;
     padding: 20px;
-    height: auto;
   }
 
   .hero-content {
@@ -457,26 +480,26 @@
 <body>
   <header>
   <div class="logo">
-    <img src="images/logo-chris.png" alt="City Civil Registrar Logo">
+    <img src="/images/cris_logo.png" alt="City Civil Registrar Logo">
     <div class="logo-text">
       <h2>Civil Registry Information System</h2>
       <span>City of Manila</span>
 
       <div class="time-display">
         <br>
-        <strong>Philippine Standard Time:</strong><br />
+        <bold>Philippine Standard Time:</bold><br />
         <p id="localizedDateTime"></p>
       </div>
     </div>
   </div>
   <nav>
     <a href="#">HOME</a>
-    <a href="#contact-us">CONTACT</a>
+    <a href="#footer-section">CONTACT</a>
     <a href="#about-us">ABOUT US</a>
     <a href="login-page.html" class="sign-in">SIGN IN</a>
   </nav>
-</header>
 
+</header>
   <section class="hero">
   <div class="hero-content">
     <h1 class="title">
@@ -496,7 +519,7 @@
 </section>
 
 
-  <section id="how-it-works" style="padding: 60px 20px;background: linear-gradient(#B8C4D7,#F7F8F2); text-align: center;">
+  <section id="how-it-works" style="padding: 60px 20px;background: #f3f8ff; text-align: center;">
     <h2 style="font-size: 36px; color: #e3342f; font-weight: 800; margin-bottom: 5px;">HOW IT WORKS?</h2>
     <p style="font-size: 20px; color: #2c2c2c; margin-bottom: 40px;">Civil Registry Information System</p>
 
@@ -534,7 +557,7 @@
   </section>
   
 
-  <section id="our-services" style="padding: 60px 40px; background:linear-gradient(#f8f7f2, #F4B8B5);">
+  <section id="our-services" style="padding: 0; background: #fff3f3; padding-top: 5%; padding-bottom: 5%;">
     <h2 style="font-size: 36px; color: #e3342f; font-weight: 800; text-align: center; margin-bottom: 5px;">OUR SERVICES</h2>
     <p style="font-size: 20px; color: #2c2c2c; text-align: center; margin-bottom: 40px;">Civil Registry Information System</p>
 
@@ -566,100 +589,631 @@
     <a href="login-page.html" class="start-now">Start Now</a>
   </div>
 </div>
+</section>
 
-  <!-- ABOUT US Section -->
-<section id="about-us" style="padding: 80px 20px;">
+<!-- ABOUT US Section -->
+<section id="about-us" style="padding: 0; background: #f3f8ff; padding-top: 5%; padding-bottom: 5%; padding-left: 10%; padding-right: 10%;">
   <h2 style="font-size: 36px; color: #ec1c24; font-weight: 800; text-align: center; margin-bottom: 50px; font-family: 'Golos Text', sans-serif;">
     WHAT DO WE DO?
   </h2>
 
-  <div class="about-flex">
-    <div class="about-left">
-      <p style="font-size: 16px; color: #2c2c2c; line-height: 1.8; font-family: 'Golos Text', sans-serif;">
-        <strong style="font-weight: 700;">The Civil Registry Information System<br>(CRIS)</strong> is a digital platform dedicated to modernizing how civil records are managed. We focus on supporting local government units by providing an efficient and reliable system for handling vital records such as birth, marriage, and death registrations. It streamlines processes, reduces manual errors, and enhances data accessibility. With CRIS, citizens can experience faster services and improved transparency in civil registry transactions.
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; align-items: flex-start;">
+    
+    <!-- LEFT SIDE: Combined Info -->
+    <div style="flex: 1; min-width: 300px; font-family: 'Golos Text', sans-serif;">
+      <p style="font-size: 16px; color: #2c2c2c; line-height: 1.8;">
+        <strong style="font-weight: 700;">The Civil Registry Information System (CRIS)</strong> is a digital platform dedicated to modernizing how civil records are managed. We focus on supporting local government units by providing an efficient and reliable system for handling vital records such as birth, marriage, and death registrations. It streamlines processes, reduces manual errors, and enhances data accessibility. With CRIS, citizens can experience faster services and improved transparency in civil registry transactions.
       </p>
+      <div style="border: 2px solid #ec1c24; border-radius: 10px; padding: 15px; margin-top: 20px;">
+        <h3 style="margin-bottom: 10px; font-size: 18px; font-weight: bold;">OUR MISSION</h3>
+        <p style="font-size: 14px; line-height: 1.7; color: #2c2c2c; margin: 0;">
+          Our mission is to simplify civil documentation processes, reduce paperwork, and promote secure record-keeping in a fast-paced digital environment. <strong>CRIS</strong> was developed with both accessibility and accountability in mind that will help communities maintain accurate civil records with ease.
+        </p>
+      </div>
     </div>
 
-    <div class="about-right">
-      <h3 style="margin-bottom: 10px; font-size: 18px; font-family: 'Golos Text', sans-serif; font-weight: bold;">OUR MISSION</h3>
-      <p style="font-size: 14px; line-height: 1.7; font-family: 'Golos Text', sans-serif; color: #2c2c2c;">
-        Our mission is to simplify civil documentation processes, reduce paperwork, and promote secure record-keeping in a fast-paced digital environment. <strong>CRIS</strong> was developed with both accessibility and accountability in mind that will help communities maintain accurate civil records with ease.
-      </p>
+    <!-- RIGHT SIDE -->
+    <div style="flex: 1; min-width: 300px; padding-top: 70px; text-align: center;">
+      <iframe width="100%" height="250" 
+        src="https://www.youtube.com/embed/4AsZ0S2TeyE?si=LjYRGDYXVSYDevul" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+      </iframe>
+      <p style="margin-top: 10px; font-size: 14px; font-weight: bold; color: #2c2c2c;">What is Civil Registration?</p>
     </div>
-  </div>
-  <div class="Video">
-    <iframe width="560" height="315" 
-    src="https://www.youtube.com/embed/4AsZ0S2TeyE?si=LjYRGDYXVSYDevul" 
-    title="YouTube video player" 
-    frameborder="5" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-  </iframe>
+
   </div>
 </section>
 
-<!-- CONTACT US Section -->
-<div class="footer">
 
-    <section id="contact-us" style="font-family: 'Golos Text', sans-serif;"></section>
-                  <div class="right-side">
-                    <img src="images/Footer-right.png" alt="Footer Right Image" style="height: 180px; width: 50px;">
-                  </div>
+<!-- BLOGS AND NEWS SECTION -->
+<section style="padding: 60px 5%; background: #f5f8fc; font-family: 'Arial', sans-serif;">
+     <h2 style="font-size: 36px; color: #e3342f; font-weight: bold; text-align: center; margin-bottom: 5px;">BLOGS AND NEWS</h2>
+    <p style="font-size: 14px; color: #2c2c2c; text-align: center; margin-bottom: 40px;">Stay informed with the latest news and information on PSA certificates (birth, marriage, death, CENOMAR, CENODEATH), DFA passport requirements, the PhilSys National ID, and more. Find helpful guides on PSA birth certificate corrections, marriage certificate details, using death certificates for benefit claims, the importance of a PSA CENOMAR, and other important topics.</p>
+
+  <div style="position: relative;">
+    <button onclick="prevSlide()" style="position: absolute; left: -40px; top: 40%; transform: translateY(-50%); font-size: 2rem; background: none; border: none; color: #ec1c24; cursor: pointer; z-index: 2;">&#10094;</button>
+
+    <div id="blog-carousel" style="display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 20px; padding: 20px 0; scrollbar-width: none;">
+      <!-- 9 Blog Cards -->
+      <a href="https://psahelpline.ph/blogs/what-to-do-when-you-get-a-negative-certification-from-psa-instead-of-your-psa-birth-certificate" class="blog-card"> <img src="images/news01.JPG" alt="Blog 1"><h4>Blog 1</h4><p>What To Do When You Get a Negative Certification from PSA Instead of Your PSA Birth Certificate</p></a>
+      <a href="https://psahelpline.ph/blogs/the-problem-with-dual-registration-of-civil-registry-documents" class="blog-card"> <img src="images/news02.JPG" alt="Blog 2"><h4>Blog 2</h4><p>The Problem with Dual Registration of Civil Registry Documents</p></a>
+      <a href="https://psahelpline.ph/blogs/philhealth-registration-for-kasambahays" class="blog-card"> <img src="images/news03.JPG" alt="Blog 3"><h4>Blog 3</h4><p>PhilHealth Registration for Kasambahays</p></a>
+      <a href="https://psahelpline.ph/blogs/dfa-launches-philippine-e-apostille-system-for-psa-certificate-authentication" class="blog-card"> <img src="images/news04.JPG" alt="Blog 4"><h4>Blog 4</h4><p>DFA Launches Philippine E-Apostille System for PSA Certificate Authentication</p></a>
+      <a href="https://psahelpline.ph/blogs/all-you-need-to-know-about-the-psa-online-appointment-system" class="blog-card"> <img src="images/news05.JPG" alt="Blog 5"><h4>Blog 5</h4><p>The PSA Online Appointment System: All You Need to Know</p></a>
+      <a href="https://psahelpline.ph/blogs/psa-outlets-and-where-to-find-them" class="blog-card"> <img src="images/news06.JPG" alt="Blog 6"><h4>Blog 6</h4><p>PSA CRS Outlets and Where to Find Them</p></a>
+     </div>
+
+    <button onclick="nextSlide()" style="position: absolute; right: -40px; top: 40%; transform: translateY(-50%); font-size: 2rem; background: none; border: none; color: #ec1c24; cursor: pointer; z-index: 2;">&#10095;</button>
+  </div>
+</section>
+
+<style>
+  .blog-card {
+    min-width: 240px;
+    max-width: 240px;
+    flex-shrink: 0;
+    background: #fff;
+    border: 2px solid #ec1c24;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: left;
+    color: #333;
+    text-decoration: none;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .blog-card img {
+    width: 100%;
+    border-radius: 8px;
+    height: 140px;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+
+  .blog-card h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .blog-card p {
+    font-size: 13px;
+    margin: 8px 0 0;
+  }
+
+  #blog-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+/* Keep blog cards normal (no fade or zoom) */
+.blog-card {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const blogCarousel = document.getElementById('blog-carousel');
+  let isDragging = false, startX, scrollLeft;
+
+  // Scroll arrows
+  window.nextSlide = function () {
+    blogCarousel.scrollBy({ left: 260, behavior: 'smooth' });
+  };
+
+  window.prevSlide = function () {
+    blogCarousel.scrollBy({ left: -260, behavior: 'smooth' });
+  };
+
+  // Drag to scroll
+  blogCarousel.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.pageX - blogCarousel.offsetLeft;
+    scrollLeft = blogCarousel.scrollLeft;
+  });
+
+  blogCarousel.addEventListener('mouseleave', () => {
+    isDragging = false;
+  });
+
+  blogCarousel.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  blogCarousel.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - blogCarousel.offsetLeft;
+    const walk = (x - startX) * 1.2;
+    blogCarousel.scrollLeft = scrollLeft - walk;
+  });
+
+  // Optional: Highlight center blog card
+  blogCarousel.addEventListener('scroll', () => {
+    const cards = document.querySelectorAll('.blog-card');
+    let center = blogCarousel.scrollLeft + blogCarousel.offsetWidth / 2;
+
+    cards.forEach(card => {
+      let boxCenter = card.offsetLeft + card.offsetWidth / 2;
+      let distance = Math.abs(center - boxCenter);
+      card.classList.remove('active');
+      if (distance < card.offsetWidth / 1.5) card.classList.add('active');
+    });
+  });
+
+  // Trigger highlight once
+  blogCarousel.dispatchEvent(new Event('scroll'));
+});
+</script>
 
 
-                      <div class="address">
-                        <h3>Address:</h3>
-                        <p>Room 117, Ground Floor<br>
-                        <em>Manila City Hall</em><br>
-                        Mayor Antonio J. Villegas Road<br>
-                        Ermita, Manila, Philippines
-                        </p>
-                      </div>
-              
+<!-- Review Section Start -->
+<section class="review-section">
+  <h2 class="review-title">REVIEWS</h2>
+  <p class="review-subtitle">
+    We’re committed to making your CRIS online experience seamless. Your feedback is crucial
+    as we strive to improve our CRIS online application, payment, and delivery processes.
+  </p>
 
-                      <div class="social">
-                        <h3>Social Media:</h3>
-                        <p><strong>Facebook:</strong> City Civil Registry Office–Manila<br>
-                        <strong>Instagram:</strong> @manilacro<br>
-                        <strong>Twitter/X:</strong> @ManilaCRO</p>
+  <div class="review-cards">
+    <div class="review-card"><img src="images/Review01.png" alt="Review 1" /></div>
+    <div class="review-card"><img src="images/Review02.png" alt="Review 2" /></div>
+    <div class="review-card"><img src="images/Review03.png" alt="Review 3" /></div>
+    <div class="review-card"><img src="images/Review04.png" alt="Review 4" /></div>
+    <div class="review-card"><img src="images/Review05.png" alt="Review 5" /></div>
+    <div class="review-card"><img src="images/Review06.png" alt="Review 6" /></div>
+  </div>
 
-                        <div class="sm-icons">
-                        <a href="https://www.facebook.com/ManilaCRO" target="_blank">
-                        <img src="images/fb-logo.png"  alt="fb logo" style="height: 30px; margin: 0 8px;" />
-                        </a>
+  <a href="#our-services" class="order-button">Order your document now!</a>
+</section>
 
-                        <a href=https://www.instagram.com/manilacro/ target="_blank">
-                        <img src="images/ig-logo.png" alt="ig Logo" style="height: 30px; margin: 0 8px;" />
-                        </a>
+<style>
+  .review-section {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #fff5f5;
+    font-family: 'Arial', sans-serif;
+  }
 
-                        <a href="https://x.com/ManilaCRO" target="_blank">
-                        <img src="images/x-logo.png" alt="x logo" style="height: 30px; margin: 0 8px;"/>
-                        </a>
+  .review-title {
+    color: #f42121;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
 
-                        </div>
-                      </div>
+  .review-subtitle {
+    color: #333;
+    max-width: 1000px;
+    margin: 0 auto 30px;
+    font-size: 16px;
+    line-height: 1.5;
+    position: relative;
+  }
 
-                      
-                      <div class="right-footer">
-                        <div class="office-hours">
-                          <h3>Office Hours:</h3>
-                          <p>Monday to Friday<br>8:00 AM – 9:00 AM</p>
-                        </div>
-                        <br>
+  .review-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 960px;
+    margin: 0 auto 30px;
+  }
 
-                        <div class="telephone">
-                          <h3>Telephone Numbers:</h3>
-                          <p>0934 434 8789<br>(02) 8765 – 4321</p>
-                        </div>
-                      </div>
+  .review-card {
+    background-color: #003f87;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: rotateX(90deg) scale(0.8);
+    opacity: 0;
+  }
 
-                      <div class="left-side">
-                        <img src="images/Footer-left.png" alt="Footer Left Image" style="height: 180px; width: 50px;">
-                    </div>
-      </section>
+  .review-card.show {
+    transform: rotateX(0deg) scale(1);
+    opacity: 1;
+  }
 
-</div>
+  .review-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
 
+  .review-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .order-button {
+    display: inline-block;
+    background-color: #f42121;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .order-button:hover {
+    background-color: #990909;
+  }
+
+  @media (max-width: 768px) {
+    .review-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 500px) {
+    .review-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
+    });
+  }, {
+    threshold: 0.3
+  });
+
+  document.querySelectorAll('.review-card').forEach(card => {
+    observer.observe(card);
+  });
+</script>
+
+<!-- Review Section End -->
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f6f3;
+      margin: 0;
+      padding: 0;
+    }
+    .wrapper {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+  width: 50%;
+  padding: 6rem;
+  overflow-y: auto;
+
+  /* Remove scrollbar line appearance (for WebKit browsers) */
+  scrollbar-width: none; /* Firefox */
+}
+.faq-section::-webkit-scrollbar {
+  width: 0px; /* WebKit: hides the scrollbar track */
+  background: transparent;
+}
+
+    .faq-section h1 {
+      color: #e41f26;
+      font-size: 2.3rem;
+      margin-bottom: 1rem;
+    }
+    .faq-item {
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 15px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 1rem 1.5rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #333;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 1.5rem;
+    }
+    .faq-answer p {
+      margin: 0;
+      padding: 0.5rem 0 1rem;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 500px;
+    }
+    .faq-item.open .icon {
+      color: #e41f26;
+    }
+
+    /* Slider Section */
+    .slider-section {
+      width: 50%;
+      position: relative;
+      text-align: center;
+      padding: 2rem;
+    }
+    .slider-section h2 {
+      color: #e41f26;
+      font-size: 2rem;
+      margin-bottom: 15%;
+    }
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    } 
+
+.slider img {
+  max-width: 500px;
+  max-height: 450px;
+  border-radius: 15px;
+  object-fit: contain;
+}
+
+
+    .slider-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #e41f26;
+      z-index: 2;
+    }
+    .slider-button.left {
+      left: 10px;
+    }
+    .slider-button.right {
+      right: 10px;
+    }
+    .caption {
+      margin-top: 14%;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #e41f26;
+    }
+
+    .faq-questions {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* Optional: hide scrollbars for better design */
+.faq-questions::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+.faq-questions {
+  scrollbar-width: none; /* Firefox */
+}
+
+.faq-item {
+  opacity: 1;
+  transform: none;
+}
+
+
+/* Bounce hover on image */
+.slider img {
+  transition: transform 0.4s ease;
+}
+
+.slider img:hover {
+  animation: bounce 0.6s;
+}
+
+@keyframes bounce {
+  0%   { transform: scale(1) translateY(0); }
+  30%  { transform: scale(1.05) translateY(-10px); }
+  60%  { transform: scale(0.98) translateY(5px); }
+  100% { transform: scale(1) translateY(0); }
+}
+  </style>
+
+  <section class="wrapper">
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <h1>Frequently<br>Asked Questions</h1>
+      <div class="faq-questions">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Can someone else claim the document for me?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> Yes. A representative must present a valid ID, authorization letter, and a copy of your ID.</p>
+        </div>
+      </div>
+      <!-- 9 More FAQ Items -->
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How long do I have to register a birth, marriage, or death?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> Birth: Within 30 days from date of birth
+Marriage: Within 15 days from the date of solemnization
+Death: Within 30 days from the date of death
+ Late registration is required if these periods are exceeded.
+</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How do I file for late registration of birth, marriage, or death?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> Fill up and submit supporting documents (e.g., affidavit, barangay certificate, school records) to the Delayed Registration form
+</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Can I process civil registry documents from abroad?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> Yes. If you are abroad, you can contact the Philippine embassy or consulate to register a birth, marriage, or death. These will be forwarded to the DFA and PSA.</p>
+        </div> 
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How can I check if my birth, marriage, or death record is already registered?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> You can receive status updates via SMS or email when you request documents online through CRIS.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Can I request civil registry services even if I’m not from Manila?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> Yes. You may request services like birth, marriage, or death certificates from the City of Manila Civil Registry Office even if you’re not a Manila resident—provided the record was originally registered there. If the document was registered elsewhere, you'll need to contact the respective Local Civil Registry Office (LCRO) of that city or municipality. </p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How do I register a marriage?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> In the Civil Registry Information System – City of Manila, there is a Marriage Registration Form that you can fill out to officially register your marriage. This ensures that your union is legally recorded, and you will receive a government-recognized Certificate of Marriage upon successful registration.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How much is the fee?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> The standard processing fee is PHP 155 per document.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Where can I follow up my request?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> You may follow up via our hotline or online tracking system.</p>
+        </div>
+      </div>
+            <div class="faq-item">
+        <button class="faq-question">
+          <span>How can I request a CENOMAR?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong>You can request a Certificate of No Marriage (CENOMAR) through our online portal or by visiting the civil registry office. Valid ID and filled-out application form are required.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How do I request a death certificate (CENODEATH)?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p><strong>Answer:</strong> To request a certified death certificate, submit the completed application form and present a valid ID. You can also request it online for home delivery.</p>
+        </div>
+      </div>
+     </div>
+    </div>
+
+    <!-- Slider Section -->
+    <div class="slider-section">
+      <h2>Don’t know how to start?</h2>
+      <div class="slider">
+        <button class="slider-button left" onclick="prevSlide()">&#10094;</button>
+        <img id="slider-image" src="images/step_01.png" alt="Guide Step">
+        <button class="slider-button right" onclick="nextSlide()">&#10095;</button>
+      </div>
+      <p class="caption" id="slider-caption">Step 1: Go to our website and select ‘Home Delivery’</p>
+    </div>
+  </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // FAQ toggle logic
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const faqItem = button.parentElement;
+        faqItem.classList.toggle('open');
+        const icon = button.querySelector('.icon');
+        icon.textContent = faqItem.classList.contains('open') ? '✕' : '+';
+      });
+    });
+
+    const images = ['images/step_01.png', 'images/step_02.png', 'images/step_03.png'];
+    const captions = [
+      "Request for Birth Certificate - Home Delivery",
+      "Request for CENOMAR",
+      "Request for CENODEATH"
+    ];
+    let index = 0;
+
+    const sliderImage = document.getElementById('slider-image');
+    const sliderCaption = document.getElementById('slider-caption');
+
+    function showSlide(i) {
+      index = (i + images.length) % images.length;
+      sliderImage.src = images[index];
+      sliderCaption.textContent = captions[index];
+    }
+
+    function nextSlide() {
+      showSlide(index + 1);
+    }
+
+    function prevSlide() {
+      showSlide(index - 1);
+    }
+
+    // 🔁 Initialize the first slide
+    showSlide(index);
+
+    // Expose to global scope so onclick="..." works
+    window.nextSlide = nextSlide;
+    window.prevSlide = prevSlide;
+  });
+</script>
+
+<!-- TRANSLATION -->
 <div class="gtranslate_wrapper"></div>
 <script>window.gtranslateSettings = {
   "default_language":"...",
@@ -671,14 +1225,12 @@
 </script>
 
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-
 <script>
 function normalizeLocale(lang) {
   // Use tl-PH for Filipino if detected
   if (lang === 'fil') return 'tl-PH';
   return lang;
 }
-
 
 function updateDateTime(locale = 'en') {
   const now = new Date();
@@ -707,14 +1259,11 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(() => {
     const lang = document.documentElement.lang || 'en';
     updateDateTime(lang);
-  }, 1000);
+  }, 1000); 
 });
 </script>
 
-
-<!-- Display date somewhere -->
-
-
+<!-- Display Date -->
 <script>
 function updateDate(locale = 'en') {
   const date = new Date();
@@ -739,6 +1288,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
+<script>
+  function updateTime() {
+    const options = {
+      timeZone: 'Asia/Manila',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true
+    };
+    const formatter = new Intl.DateTimeFormat('en-PH', options);
+    const now = new Date();
+    document.getElementById('time-display').textContent = formatter.format(now);
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>
+
 <!-- Chatbot Features -->
 <style>
   body {
@@ -746,32 +1317,31 @@ document.addEventListener("DOMContentLoaded", () => {
     background-color: #f4f5f3;
   }
 
-.chatbot-btn {
-  position: fixed;
-  bottom: 90px;
-  right: 30px;
-  background-color: transparent; 
-  border: none;
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  box-shadow: none;
-  cursor: pointer;
-  z-index: 999;
-  animation: float 3s ease-in-out infinite;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .chatbot-btn {
+    position: fixed;
+    bottom: 90px;
+    right: 30px;
+    background-color: transparent; 
+    border: none;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    box-shadow: none;
+    cursor: pointer;
+    z-index: 999;
+    animation: float 3s ease-in-out infinite;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.chatbot-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
+  .chatbot-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 
   @keyframes float {
     0%, 100% { transform: translateY(0); }
@@ -869,7 +1439,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- Chatbox -->
 <div class="chatbox" id="chatbox">
   <div class="chatbox-header" id="chatbox-header">
-    <img src="images/chatbot_logo.png" alt="Chat Icon" />
+    <img src="/images/chatbot_icon.png" alt="Chat Icon" />
     CRIS: Your Civil Registry Assistant
   </div>
   <div class="chatbox-body" id="chatbox-body">
@@ -879,157 +1449,202 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   </div>
   <div class="chatbox-footer">
-    <input type="text" id="chatInput" placeholder="Ask something..." onkeydown="handleEnter(event)" />
-    <button onclick="sendMessage()">
-      <img src="images/send_icon.png" alt="Send">
+    <input type="text" id="chatInput" placeholder="Ask something..." />
+    <button id="sendBtn">
+      <img src="/images/send_icon.png" alt="Send">
     </button>
   </div>
 </div>
 
 <!-- Floating Button -->
 <button class="chatbot-btn" onclick="toggleChat()">
-  <img src="images/chatbot_icon.png" alt="Chat">
+  <img src="/images/chatbot_icon.png" alt="Chat">
 </button>
 
+<!-- Chatbot Script -->
 <script>
-  const chatbox = document.getElementById('chatbox');
-  const chatBody = document.getElementById('chatbox-body');
-  const chatInput = document.getElementById('chatInput');
-  const chatboxHeader = document.getElementById('chatbox-header');
+  document.addEventListener('DOMContentLoaded', function () {
+    const chatbox = document.getElementById('chatbox');
+    const chatBody = document.getElementById('chatbox-body');
+    const chatInput = document.getElementById('chatInput');
+    const chatboxHeader = document.getElementById('chatbox-header');
+    const sendBtn = document.getElementById('sendBtn');
 
-const keywordMap = [
-  {
-    keywords: ["hello", "hi", "hey", "good day", "greetings"],
-    response: "Hi there! How can I assist you?"
-  },
-  {
-    keywords: ["claim document", "authorized representative", "authorization letter", "claim certificate", "pick up", "Can someone else claim the document for me?"],
-    response: "Yes. A representative must present a valid ID, authorization letter, and a copy of your ID."
-  },
-  {
-    keywords: ["How long do I have to register a birth, marriage, or death?", "registration period", "how long to register", "birth registration deadline", "marriage registration time", "death registration"],
-    response: "Birth: Within 30 days from date of birth\nMarriage: Within 15 days from the date of solemnization\nDeath: Within 30 days from the date of death\n\nLate registration is required if these periods are exceeded."
-  },
-  {
-    keywords: ["How do I file for late registration of birth, marriage, or death?", "late registration", "file late", "delayed registration", "register late", "late birth", "late marriage", "late death"],
-    response: "Fill up and submit supporting documents (e.g., affidavit, barangay certificate, school records) to the Delayed Registration form."
-  },
-  {
-    keywords: ["Can I process civil registry documents from abroad?", "register abroad", "overseas registration", "from another country", "philippine embassy", "while abroad"],
-    response: "Yes. If you are abroad, you can contact the Philippine embassy or consulate to register a birth, marriage, or death. These will be forwarded to the DFA and PSA."
-  },
-  {
-    keywords: ["Who can file for death registration and what are the requirements?", "death registration", "who files death", "death certificate", "requirements for death", "burial permit"],
-    response: "The hospital, health worker, or family member must file the Certificate of Death.\n\nRequirements include: Medical certificate of death, ID of informant, and burial permit.\nNote: Local requirements may vary by municipality."
-  },
-  {
-    keywords: ["How can I check if my birth, marriage, or death record is already registered?", "check status", "verify record", "is my birth registered", "marriage record status", "document update"],
-    response: "You can receive status updates via SMS or email when you request documents online through CRIS."
-  },
-  {
-    keywords: ["How do I change or correct a clerical error in my civil registry document?", "correct error", "change name", "update certificate", "fix birth certificate", "wrong info"],
-    response: "On the Civil Registry Information System – City of Manila, you can fill out the Request for Correction service that allows you to update or correct any errors found on an issued birth certificate."
-  },
-  {
-    keywords: ["What documents are needed to register a birth if the parents are not married?", "illegitimate child", "unmarried parents", "AUSF", "acknowledgement of paternity"],
-    response: "Requirements:\n- Certificate of Live Birth (COLB)\n- Valid ID of the mother\n- Affidavit to Use the Surname of the Father (AUSF)\n- Affidavit of Acknowledgement/Admission of Paternity"
-  },
-  {
-    keywords: ["Can I request civil registry services even if I’m not from Manila?", "not from manila", "other city", "request from province", "outside manila"],
-    response: "Yes. You may request services from the City of Manila Civil Registry Office even if you're not a resident, as long as the record was originally registered there."
-  },
-  {
-    keywords: ["How do I register a marriage?", "marriage registration", "register wedding", "certificate of marriage", "marriage form"],
-    response: "There is a Marriage Registration Form in the system. Fill it out to officially register your marriage and receive a government-recognized Certificate of Marriage."
-  }
-];
+    const keywordMap = [
+      {
+        keywords: ["hello", "hi", "hey", "good day", "greetings"],
+        response: "Hi there! How can I assist you?"
+      },
+      {
+        keywords: ["claim document", "authorized representative", "authorization letter", "claim certificate", "pick up", "Can someone else claim the document for me?"],
+        response: "Yes. A representative must present a valid ID, authorization letter, and a copy of your ID."
+      },
+      {
+        keywords: ["How long do I have to register a birth, marriage, or death?", "registration period", "how long to register", "birth registration deadline", "marriage registration time", "death registration"],
+        response: "Birth: Within 30 days from date of birth\nMarriage: Within 15 days from the date of solemnization\nDeath: Within 30 days from the date of death\n\nLate registration is required if these periods are exceeded."
+      },
+      {
+        keywords: ["How do I file for late registration of birth, marriage, or death?", "late registration", "file late", "delayed registration", "register late", "late birth", "late marriage", "late death"],
+        response: "Fill up and submit supporting documents (e.g., affidavit, barangay certificate, school records) to the Delayed Registration form."
+      },
+      {
+        keywords: ["Can I process civil registry documents from abroad?", "register abroad", "overseas registration", "from another country", "philippine embassy", "while abroad"],
+        response: "Yes. If you are abroad, you can contact the Philippine embassy or consulate to register a birth, marriage, or death. These will be forwarded to the DFA and PSA."
+      },
+      {
+        keywords: ["Who can file for death registration and what are the requirements?", "death registration", "who files death", "death certificate", "requirements for death", "burial permit"],
+        response: "The hospital, health worker, or family member must file the Certificate of Death.\n\nRequirements include: Medical certificate of death, ID of informant, and burial permit.\nNote: Local requirements may vary by municipality."
+      },
+      {
+        keywords: ["How can I check if my birth, marriage, or death record is already registered?", "check status", "verify record", "is my birth registered", "marriage record status", "document update"],
+        response: "You can receive status updates via SMS or email when you request documents online through CRIS."
+      },
+      {
+        keywords: ["How do I change or correct a clerical error in my civil registry document?", "correct error", "change name", "update certificate", "fix birth certificate", "wrong info"],
+        response: "On the Civil Registry Information System – City of Manila, you can fill out the Request for Correction service that allows you to update or correct any errors found on an issued birth certificate."
+      },
+      {
+        keywords: ["What documents are needed to register a birth if the parents are not married?", "illegitimate child", "unmarried parents", "AUSF", "acknowledgement of paternity"],
+        response: "Requirements:\n- Certificate of Live Birth (COLB)\n- Valid ID of the mother\n- Affidavit to Use the Surname of the Father (AUSF)\n- Affidavit of Acknowledgement/Admission of Paternity"
+      },
+      {
+        keywords: ["Can I request civil registry services even if I’m not from Manila?", "not from manila", "other city", "request from province", "outside manila"],
+        response: "Yes. You may request services from the City of Manila Civil Registry Office even if you're not a resident, as long as the record was originally registered there."
+      },
+      {
+        keywords: ["How do I register a marriage?", "marriage registration", "register wedding", "certificate of marriage", "marriage form"],
+        response: "There is a Marriage Registration Form in the system. Fill it out to officially register your marriage and receive a government-recognized Certificate of Marriage."
+      },
+      {
+        keywords: ["How can I request a CENOMAR?", "Certificate of No Marriage", "Online request", "CENOMAR", "request a CENOMAR"],
+        response: "You can request a Certificate of No Marriage (CENOMAR) through our online portal or by visiting the civil registry office. Valid ID and filled-out application form are required."
+      },
+      {
+        keywords: ["How do I request a death certificate (CENODEATH)?", "CENODEATH", "death certificate", "request a death certificate"],
+        response: "To request a certified death certificate, submit the completed application form and present a valid ID. You can also request it online for home delivery."
+      }
+    ];
 
-
-  function toggleChat() {
-    chatbox.style.display = chatbox.style.display === 'flex' ? 'none' : 'flex';
-  }
-
-function sendMessage() {
-  const message = chatInput.value.trim();
-  if (!message) return;
-
-  const userMsg = document.createElement('div');
-  userMsg.className = 'message user';
-  userMsg.textContent = message;
-  chatBody.appendChild(userMsg);
-
-  let reply = "Please wait for a reply. Our assistant will get back to you shortly.";
-
-  for (const item of keywordMap) {
-    if (item.keywords.some(keyword =>
-      message.toLowerCase().includes(keyword.toLowerCase()) ||
-      keyword.toLowerCase().includes(message.toLowerCase())
-    )) {
-      reply = item.response;
-      break;
+    window.toggleChat = function () {
+      chatbox.style.display = chatbox.style.display === 'flex' ? 'none' : 'flex';
     }
-  }
 
-  const botMsg = document.createElement('div');
-  botMsg.className = 'message bot';
-  botMsg.textContent = reply;
-  chatBody.appendChild(botMsg);
+    function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
 
-  chatBody.scrollTop = chatBody.scrollHeight;
-  chatInput.value = '';
-}
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user';
+      userMsg.textContent = message;
+      chatBody.appendChild(userMsg);
 
-  function handleEnter(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      sendMessage();
+      let reply = "Please wait for a reply. Our assistant will get back to you shortly.";
+
+      for (const item of keywordMap) {
+        if (item.keywords.some(keyword =>
+          message.toLowerCase().includes(keyword.toLowerCase()) ||
+          keyword.toLowerCase().includes(message.toLowerCase())
+        )) {
+          reply = item.response;
+          break;
+        }
+      }
+
+      const botMsg = document.createElement('div');
+      botMsg.className = 'message bot';
+      botMsg.textContent = reply;
+      chatBody.appendChild(botMsg);
+
+      chatBody.scrollTop = chatBody.scrollHeight;
+      chatInput.value = '';
     }
-  }
 
-  let isDragging = false, offsetX = 0, offsetY = 0;
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
 
-  chatboxHeader.addEventListener('mousedown', function (e) {
-    isDragging = true;
-    const rect = chatbox.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    document.body.style.userSelect = 'none';
-  });
+    // Dragging
+    let isDragging = false, offsetX = 0, offsetY = 0;
 
-  document.addEventListener('mousemove', function (e) {
-    if (isDragging) {
-      chatbox.style.left = (e.clientX - offsetX) + 'px';
-      chatbox.style.top = (e.clientY - offsetY) + 'px';
-      chatbox.style.bottom = 'auto';
-      chatbox.style.right = 'auto';
-    }
-  });
+    chatboxHeader.addEventListener('mousedown', function (e) {
+      isDragging = true;
+      const rect = chatbox.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      document.body.style.userSelect = 'none';
+    });
 
-  document.addEventListener('mouseup', function () {
-    isDragging = false;
-    document.body.style.userSelect = '';
+    document.addEventListener('mousemove', function (e) {
+      if (isDragging) {
+        chatbox.style.left = (e.clientX - offsetX) + 'px';
+        chatbox.style.top = (e.clientY - offsetY) + 'px';
+        chatbox.style.bottom = 'auto';
+        chatbox.style.right = 'auto';
+      }
+    });
+
+    document.addEventListener('mouseup', function () {
+      isDragging = false;
+      document.body.style.userSelect = '';
+    });
   });
 </script>
-<script>
-  function updateTime() {
-    const options = {
-      timeZone: 'Asia/Manila',
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: '2-digit',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: true
-    };
-    const formatter = new Intl.DateTimeFormat('en-PH', options);
-    const now = new Date();
-    document.getElementById('time-display').textContent = formatter.format(now);
-  }
 
-  updateTime();
-  setInterval(updateTime, 1000);
-</script>
+
+<section id="footer-section" style="background-color: #012961; margin: 0;">
+  <footer style="color: white; font-family: 'Golos Text', sans-serif; padding: 30px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+
+      <!-- Social Media -->
+      <div style="flex: 1; min-width: 250px;">
+        <h4 style="margin-bottom: 10px; font-size: 14px; letter-spacing: 0.5px;">CIVIL REGISTRY INFORMATION SYSTEM</h4>
+        <p style="margin: 5px 0; font-size: 13px;">Facebook: City Civil Registry Office – Manila</p>
+        <p style="margin: 5px 0; font-size: 13px;">Instagram: @manilacro</p>
+        <p style="margin: 5px 0; font-size: 13px;">Twitter/X: @ManilaCRO</p>
+        <div style="margin-top: 8px;">
+          <img src="images/fb_icon.png" alt="Facebook" style="height: 20px; margin-right: 10px;">
+          <img src="images/x_icon.png" alt="X" style="height: 20px; margin-right: 10px;">
+          <img src="images/ig_icon.png" alt="Instagram" style="height: 20px;">
+        </div>
+      </div>
+
+      <!-- Contacts -->
+      <div style="flex: 1; min-width: 220px;">
+        <h4 style="margin-bottom: 10px; font-size: 14px;">CONTACTS</h4>
+        <p style="margin: 5px 0; font-size: 13px;">
+          <img src="images/call_icon.png" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+          (02) 8765 – 4321
+        </p>
+        <p style="margin: 5px 0; font-size: 13px;">
+          <img src="images/email_icon.png" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+          civilregistrysystemman@gmail.com
+        </p>
+      </div>
+
+      <!-- Office Hours -->
+      <div style="flex: 1; min-width: 220px;">
+        <h4 style="margin-bottom: 10px; font-size: 14px;">OFFICE HOURS</h4>
+        <p style="margin: 5px 0; font-size: 13px;">Monday to Friday</p>
+        <p style="margin: 5px 0; font-size: 13px;">8:00 AM – 9:00 PM</p>
+      </div>
+
+      <!-- Address -->
+      <div style="flex: 1; min-width: 220px;">
+        <h4 style="margin-bottom: 10px; font-size: 14px;">ADDRESS</h4>
+        <p style="margin: 5px 0; font-size: 13px;">Room 117, Ground Floor</p>
+        <p style="margin: 5px 0; font-size: 13px;">Manila City Hall</p>
+        <p style="margin: 5px 0; font-size: 13px;">Mayor Antonio J. Villegas Rd</p>
+        <p style="margin: 5px 0; font-size: 13px;">Ermita, Manila, Philippines</p>
+      </div>
+
+    </div>
+  </footer>
+</section>
+
 </body>
 </html>
+

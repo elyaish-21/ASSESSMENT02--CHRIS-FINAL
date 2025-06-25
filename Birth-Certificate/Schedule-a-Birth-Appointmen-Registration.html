@@ -460,7 +460,7 @@
     <div>
       <h3>Thank you for your feedback.</h3>
       <p>Your feedback is highly valued and is used to improve our service.</p>
-      <button onclick="closeFeedback()" style="background-color: #254c9a; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Done</button>
+      <button onclick="closeFeedback(); document.getElementById('appointmentForm').reset();" style="background-color: #254c9a; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Done</button>
     </div>
   </div>
 
@@ -561,7 +561,6 @@
         // Show confirmation modal
         document.getElementById('sms-confirmation').style.display = 'block';
         sendmail();
-        this.reset();
       });
 
       // Function to generate registry number - using the format from the second code
@@ -659,13 +658,49 @@
           
           document.getElementById("writtenFeedback").style.display = "none";
           document.getElementById("thankYouFeedback").style.display = "flex";
+          
+          // Clear feedback text for next time
+          document.getElementById("feedbackText").value = "";
+          selectedRating = 0;
+          highlightStars(0);
         } else {
           alert("Please enter your feedback.");
         }
       };
     }
+
+    // EmailJS function from the second code
+    function sendmail() {
+      const subject = document.getElementById("subject").getAttribute("value");
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const purpose = document.getElementById("purpose").value;
+      const childName = document.getElementById("childName").value;
+
+      // Prepare the email parameters
+      var templateParams = {
+        subject: subject,
+        name: name,
+        email: email,
+        phone: phone,
+        date: date,
+        time: time,
+        purpose: purpose,
+        childName: childName
+      };
+
+      // Send the email using EmailJS
+      emailjs.send('service_0x3j0x9', 'template_2c7q9b6', templateParams)
+        .then(function(response) {
+          console.log('SUCCESS!', response.status, response.text);
+        }, function(error) {
+          console.log('FAILED...', error);
+        });
+    }
   </script>
-  <script src="../email.js"></script>
 </body>
 
 </html>
