@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-  <title>Request for Death Certificate</title>
+  <title>Request for Death Certificate - Home Delivery</title>
   <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
 
   <style>
@@ -140,7 +138,7 @@
 
     .modal-content button {
       padding: 10px 20px;
-      background-color: #007bff;
+      background-color: #28a745;
       border: none;
       color: white;
       border-radius: 6px;
@@ -149,7 +147,7 @@
     }
 
     .modal-content button:hover {
-      background-color: #0069d9;
+      background-color: #218838;
     }
 
     .back-button {
@@ -220,17 +218,16 @@
       display: none;
     }
   </style>
-
-    </head>
-    <body>
-        <section>
-            <div class="container">
-              <a class="back-button" href="Death-service.html">Back</a>
-                <h2>Request for Death Certificate<br> (Home Delivery)</h2>
-                <div class="CertRequest">
-                    <form id="appointm" onsubmit="event.preventDefault(); showSMSConfirmation();">
-                        <label for="registry">Registry</label>
-                        <input type="text" id="regno" placeholder="Enter Registry Number" required>
+</head>
+<body>
+  <section>
+    <div class="container">
+      <a class="back-button" href="Death-service.html">Back</a>
+      <h2>Request for Death Certificate<br> (Home Delivery)</h2>
+      <div class="CertRequest">
+        <form id="appointm" onsubmit="event.preventDefault(); showSMSConfirmation();">
+          <label for="registry">Registry</label>
+          <input type="text" id="regno" placeholder="Enter Registry Number" required>
 
           <label for="fullname">Fullname</label>
           <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
@@ -305,12 +302,13 @@
             </div>
           </div>
 
-
           <label for="contact">Contact No.</label>
-          <input type="tel" id="contact" placeholder="Contact No." required>
+          <input type="tel" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="09XX-XXX-XXXX" required>
+          <div id="contact-error" class="error-message">Please enter a valid contact number (09XX-XXX-XXXX)</div>
 
           <label for="email">Email Address</label>
-          <input type="email" id="email" placeholder="Email Address" required>
+          <input type="email" id="email" placeholder="your@email.com" required>
+          <div id="email-error" class="error-message">Please enter a valid email address</div>
 
           <label for="Upload">Upload Both Valid ID of the Parents</label>
           <input type="file" id="idupload" accept="image/*,application/pdf">
@@ -325,16 +323,43 @@
     </div>
   </section>
 
-        <div id="sms-confirmation">
-            <div class="modal-content">
-              <h3>Request Submitted!</h3>
-              <p>You will receive an SMS shortly confirming your request.</p>
-              <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
-            </div>
-        </div>
+  <div id="sms-confirmation">
+    <div class="modal-content">
+      <h3>Request Submitted!</h3>
+      <p>
+        You will receive a confirmation message via SMS and Email once the certificate is ready for delivery.<br><br>
+        <b>Death Certificate Fee: ₱150.00 per copy</b><br>
+        <b>Delivery Fee: ₱50.00</b><br>
+        <b>Total Amount Due: ₱<span id="totalAmount">200.00</span></b><br><br>
+        <b>You will now be redirected to the Payment Transaction page.</b>
+      </p>
+      <button onclick="proceedToDeathCertificatePayment()">Proceed to Payment</button>
+    </div>
+  </div>
 
   <div class="gtranslate_wrapper"></div>
   <script>
+    // Service configuration - MOVED TO TOP OF SCRIPT SECTION
+  const services = {
+    death: {
+      title: "Death Services",
+      offers: {
+        death_certificate: {  
+          name: "Request for Death Certificate (Home Delivery)",
+          baseFee: 150,
+          description: "Death certificate with home delivery service",
+          deliveryFee: 50
+        }
+      }
+    }
+  };
+
+  const currentService = {
+    type: "death",
+    offer: "death_certificate" // Fixed typo in offer name (was "death_certificate")
+  };
+
+    // Keep the translation script first
     window.gtranslateSettings = {
       "default_language": "en",
       "wrapper_selector": ".gtranslate_wrapper",
@@ -342,14 +367,52 @@
       "switcher_vertical_position": "bottom",
       "flag_style": "3d"
     }
-  </script>
-  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
-  <script>
+    // District to Barangay mapping for Manila
+    const districtBarangays = {
+      "District I": ["Binondo", "Quiapo", "San Nicolas", "Santa Cruz", "Tondo I", "Tondo II"],
+      "District II": ["Ermita", "Intramuros", "Malate", "Paco", "Pandacan", "Port Area", "San Miguel", "San Andres"],
+      "District III": ["Santa Ana", "Santa Mesa"],
+      "District IV": ["Sampaloc East", "Sampaloc West", "San Isidro", "San Jose", "San Juan", "San Rafael", "Santa Mesa", "Santo Cristo", "Santo Domingo", "Talayan"],
+      "District V": ["Pandacan", "San Andres Bukid", "Santa Ana"],
+      "District VI": ["Paco", "San Andres Bukid", "Santa Ana"]
+    };
+
+    // Get dropdown elements
+    const districtDropdown = document.getElementById('delivery-district');
+    const barangayDropdown = document.getElementById('delivery-barangay');
+
+    // Populate barangays based on district selection
+    if (districtDropdown) {
+      districtDropdown.addEventListener('change', function() {
+        const selectedDistrict = this.value;
+        barangayDropdown.innerHTML = '<option value="">Select Barangay</option>';
+        
+        if (selectedDistrict && districtBarangays[selectedDistrict]) {
+          districtBarangays[selectedDistrict].forEach(barangay => {
+            const option = document.createElement('option');
+            option.value = barangay;
+            option.textContent = barangay;
+            barangayDropdown.appendChild(option);
+          });
+        }
+      });
+    }
+
+    function generateRegistryNumber() {
+      const now = new Date();
+      return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+        .getTime()
+        .toString()
+        .slice(-5)}`;
+    }
+
     function sendToDashboard() {
       const fullName = document.getElementById("fullName").value;
       const requestType = "Request for Death Certificate (Home Delivery)";
-      const registryNumber = document.getElementById("regno").value;
+      const registryNumber = generateRegistryNumber();
       const dateRegistered = new Date().toLocaleDateString();
 
       const record = {
@@ -365,42 +428,102 @@
       localStorage.setItem("DeathRecords", JSON.stringify(records));
     }
 
-            function showSMSConfirmation() {
-              document.getElementById('sms-confirmation').style.display = 'block';
-              sendToDashboard();
-              document.querySelector('form').reset();
-            }
-        </script>
-        <script>
-          // date
-          const deceasedDateInput = document.getElementById("date");
-          const today = new Date();
-        
-          const maxDate = today.toISOString().split("T")[0];
-          deceasedDateInput.setAttribute("max", maxDate);
-        
-          document.getElementById("appointment").addEventListener("submit", function(event) {
-              event.preventDefault();
-              document.getElementById("successMsg").style.display = "block";
-              this.reset();
-          });
-          
-          // Mobile number format
-          const phoneInput = document.getElementById("contact");
-        
-          phoneInput.addEventListener("input", function () {
-          let value = phoneInput.value.replace(/\D/g, ""); 
-          if (value.length > 4) {
-              value = value.slice(0, 4) + "-" + value.slice(4);
-          }
-          if (value.length > 8) {
-              value = value.slice(0, 8) + "-" + value.slice(8, 12);
-          }
-          phoneInput.value = value;
-          });
-        </script>
-        <script>
+    function showSMSConfirmation() {
+      // Validate form first
+      if (!validateForm()) {
+        return;
+      }
+      
+      // Calculate total amount
+      const copies = parseInt(document.getElementById("copies").value) || 1;
+      const baseFee = services.death.offers.death_certificate.baseFee;
+      const deliveryFee = services.death.offers.death_certificate.deliveryFee;
+      const totalAmount = (baseFee * copies) + deliveryFee;
+      
+      // Update the total amount in the modal
+      document.getElementById("totalAmount").textContent = totalAmount.toFixed(2);
+      
+      sendToDashboard();
+      // Show the confirmation modal
+      document.getElementById('sms-confirmation').style.display = 'block';
+      // Reset the form fields
+      document.getElementById('appointm').reset();
+    }
 
-        </script>
-    </body>
+    function proceedToDeathCertificatePayment() {
+      // Redirect to payment.html with the correct service and offer for death certificate
+       // Modified to use the service configuration properly
+    const copies = parseInt(document.getElementById("copies").value) || 1;
+    const baseFee = services.death.offers.death_certificate.baseFee;
+    const deliveryFee = services.death.offers.death_certificate.deliveryFee;
+    const totalAmount = (baseFee * copies) + deliveryFee;
+      window.location.href = "../payment.html?service=death&offer=death_certificate";
+    }
+
+    function validateForm() {
+      let isValid = true;
+      
+      // Validate contact number
+      const contactPattern = /^09\d{2}-\d{3}-\d{4}$/;
+      const contactInput = document.getElementById('contact');
+      const contactError = document.getElementById('contact-error');
+      
+      if (!contactPattern.test(contactInput.value)) {
+        contactError.style.display = 'block';
+        isValid = false;
+      } else {
+        contactError.style.display = 'none';
+      }
+      
+      // Validate email
+      const emailInput = document.getElementById('email');
+      const emailError = document.getElementById('email-error');
+      
+      if (!emailInput.validity.valid) {
+        emailError.style.display = 'block';
+        isValid = false;
+      } else {
+        emailError.style.display = 'none';
+      }
+      
+      // Validate district
+      if (!districtDropdown.value) {
+        document.getElementById('delivery-district-error').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('delivery-district-error').style.display = 'none';
+      }
+      
+      // Validate barangay
+      if (!barangayDropdown.value) {
+        document.getElementById('delivery-barangay-error').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('delivery-barangay-error').style.display = 'none';
+      }
+      
+      return isValid;
+    }
+
+    // Date validation
+    const deceasedDateInput = document.getElementById("date");
+    if (deceasedDateInput) {
+      const today = new Date();
+      const maxDate = today.toISOString().split("T")[0];
+      deceasedDateInput.setAttribute("max", maxDate);
+    }
+
+    // Phone number formatting
+    const phoneInput = document.getElementById("contact");
+    if (phoneInput) {
+      phoneInput.addEventListener("input", function() {
+        let value = this.value.replace(/\D/g, "");
+        if (value.length > 4) value = value.slice(0, 4) + "-" + value.slice(4);
+        if (value.length > 8) value = value.slice(0, 8) + "-" + value.slice(8, 12);
+        this.value = value;
+      });
+    }
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+</body>
 </html>

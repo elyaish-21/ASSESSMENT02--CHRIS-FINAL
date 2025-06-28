@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Correction of Death Certificate</title>
@@ -160,6 +159,14 @@
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             }
+
+            /* Error message styles */
+            .error-message {
+              color: #e74c3c;
+              font-size: 0.85rem;
+              margin-top: 5px;
+              display: none;
+            }
           </style>
     </head>
     <body>
@@ -226,10 +233,12 @@
                     </div>
 
                     <label for="contact">Contact No.</label>
-                    <input type="tel" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="####-###-####" required>
+                    <input type="tel" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="09XX-XXX-XXXX" required>
+                    <div id="contact-error" class="error-message">Please enter a valid contact number (09XX-XXX-XXXX)</div>
 
-                    <label for="email">Email No.</label>
-                    <input type="email" id="email" placeholder="ex. youremail22@gmail.com" required>
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                    <div id="email-error" class="error-message">Please enter a valid email address</div>
 
                     <label for="documents">Upload Supporting Documents</label>
                     <input type="file" id="documents" multiple accept="image/*,application/pdf">
@@ -251,8 +260,7 @@
             <div class="modal-content">
               <h3>Request Submitted!</h3>
               <p>
-                You will receive a confirmation message via SMS and Email once the correction has been completed.<br>
-                <br>
+                You will receive a confirmation message via SMS and Email once the correction has been completed.<br><br>
                 <b>Request for Correction of Death Certificate Fee: ₱150.00</b><br>
                 <b>You will now be redirected to the Payment Transaction page.</b>
               </p>
@@ -273,10 +281,20 @@
         <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
         <script>
+            function generateRegistryNumber() {
+              const now = new Date();
+              return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+                .toString()
+                .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+                .getTime()
+                .toString()
+                .slice(-5)}`;
+            }
+
             function sendToDashboard() {
               const fullName = document.getElementById("fullName").value;
               const requestType = "Request for Correction of Death Certificate";
-              const registryNumber = document.getElementById("registry").value;
+              const registryNumber = generateRegistryNumber();
               const dateRegistered = new Date().toLocaleDateString();
 
               const record = {
@@ -293,48 +311,90 @@
             }
 
             function showSMSConfirmation() {
-            document.getElementById('sms-confirmation').style.display = 'block';
-            sendToDashboard();
-            document.querySelector('form').reset();
-          
-            document.getElementById('otherCorrectionContainer').style.display = 'none';
-          }
+              // Validate form first
+              if (!validateForm()) {
+                return;
+              }
+              
+              sendToDashboard();
+              // Show the confirmation modal
+              document.getElementById('sms-confirmation').style.display = 'block';
+              // Reset the form fields
+              document.getElementById('appointment').reset();
+            }
 
-          function proceedToDeathCorrectionPayment() {
-            window.location.href = "../payment.html?service=death&offer=death_correction";
-          }
+            function proceedToDeathCorrectionPayment() {
+              // Redirect to payment.html with the correct service and offer for death correction
+              window.location.href = "../payment.html?service=death&offer=death_correction";
+            }
+
+            function validateForm() {
+              let isValid = true;
+              
+              // Validate contact number
+              const contactPattern = /^09\d{2}-\d{3}-\d{4}$/;
+              const contactInput = document.getElementById('contact');
+              const contactError = document.getElementById('contact-error');
+              
+              if (!contactPattern.test(contactInput.value)) {
+                contactError.style.display = 'block';
+                isValid = false;
+              } else {
+                contactError.style.display = 'none';
+              }
+              
+              // Validate email
+              const emailInput = document.getElementById('email');
+              const emailError = document.getElementById('email-error');
+              
+              if (!emailInput.validity.valid) {
+                emailError.style.display = 'block';
+                isValid = false;
+              } else {
+                emailError.style.display = 'none';
+              }
+              
+              return isValid;
+            }
         </script>
 
-<script>
-    // date
-  const deceasedDateInput = document.getElementById("date");
-  const today = new Date();
+        <script>
+            // date
+            const deceasedDateInput = document.getElementById("date");
+            const today = new Date();
 
-  const maxDate = today.toISOString().split("T")[0];
-  deceasedDateInput.setAttribute("max", maxDate);
+            const maxDate = today.toISOString().split("T")[0];
+            deceasedDateInput.setAttribute("max", maxDate);
 
-  document.getElementById("appointment").addEventListener("submit", function(event) {
-      event.preventDefault();
-      document.getElementById("successMsg").style.display = "block";
-      this.reset();
-  });
-  
-  // Mobile number format
-  const phoneInput = document.getElementById("contact");
+            document.getElementById("appointment").addEventListener("submit", function(event) {
+                event.preventDefault();
+                document.getElementById("successMsg").style.display = "block";
+                this.reset();
+            });
+            
+            // Mobile number format
+            const phoneInput = document.getElementById("contact");
 
-  phoneInput.addEventListener("input", function () {
-  let value = phoneInput.value.replace(/\D/g, ""); 
-  if (value.length > 4) {
-      value = value.slice(0, 4) + "-" + value.slice(4);
-  }
-  if (value.length > 8) {
-      value = value.slice(0, 8) + "-" + value.slice(8, 12);
-}
-phoneInput.value = value;
-}); 
-</script>
-<script>
+            phoneInput.addEventListener("input", function () {
+              let value = phoneInput.value.replace(/\D/g, ""); 
+              if (value.length > 4) {
+                  value = value.slice(0, 4) + "-" + value.slice(4);
+              }
+              if (value.length > 8) {
+                  value = value.slice(0, 8) + "-" + value.slice(8, 12);
+              }
+              phoneInput.value = value;
+            });
 
-</script>
+            // Show other correction field when "Others" is selected
+            document.getElementById('type').addEventListener('change', function() {
+              const otherContainer = document.getElementById('otherCorrectionContainer');
+              if (this.value === 'others') {
+                otherContainer.style.display = 'block';
+              } else {
+                otherContainer.style.display = 'none';
+              }
+            });
+        </script>
     </body>
 </html>

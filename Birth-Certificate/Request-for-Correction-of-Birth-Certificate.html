@@ -1,504 +1,377 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Request for Correction of Birth Certificate</title>
-  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Golos Text', sans-serif;
-        background: url('birth-bg-new.png') no-repeat bottom left fixed;
-        background-size: auto;
-        background-color: #f8f7f2;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Request for Correction of Birth Certificate</title>
+ <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Golos Text', sans-serif;
+      background: url('birth-bg-new.png') no-repeat bottom left fixed;
+      background-size: auto;
+      background-color: #f8f7f2;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-      .form-card {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 40px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        max-width: 600px;
-        width: 100%;
-      }
+    .form-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      max-width: 600px;
+      width: 100%;
+    }
 
-      h2 {
-        text-align: center;
-        margin-bottom: 25px;
-        font-size: 1.8rem;
-        color: #333;
-      }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      color: #333;
+    }
 
-      label {
-        font-weight: 500;
-        margin-top: 15px;
-        display: block;
-        color: #555;
-      }
+    label {
+      font-weight: 500;
+      margin-top: 15px;
+      display: block;
+      color: #555;
+    }
 
-      input[type="text"],
-      input[type="date"],
-      input[type="email"],
-      select {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-sizing: border-box;
-        margin-top: 5px;
-        font-size: 1rem;
-        transition: border-color 0.3s;
-      }
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      margin-top: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
 
-      input[type="text"]:focus,
-      input[type="date"]:focus,
-      input[type="email"]:focus,
-      select:focus {
-        border-color: #007bff;
-        outline: none;
-      }
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      border-color: #007bff;
+      outline: none;
+    }
 
-      input[type="file"] {
-        margin-top: 8px;
-      }
+    input[type="file"] {
+      margin-top: 8px;
+    }
 
-      input[type="checkbox"] {
-        margin-right: 8px;
-      }
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
 
-      input:focus::placeholder {
-        color: transparent;
-      }
+    input:focus::placeholder {
+      color: transparent;
+    }
 
-      button {
-        margin-top: 25px;
-        width: 100%;
-        padding: 12px;
-        background-color: #2980b9;
-        border: none;
-        color: white;
-        font-weight: bold;
-        border-radius: 8px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #2980b9;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-      button:hover {
-        background-color: #0069d9;
-      }
+    button:hover {
+      background-color: #0069d9;
+    }
 
-      /* Confirmation Modal */
-      #sms-confirmation {
-        display: none;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background-color: rgba(0,0,0,0.5);
-        z-index: 1000;
-      }
+    /* Confirmation Modal */
+    #sms-confirmation {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
 
-      .modal-content {
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        width: 90%;
-        max-width: 400px;
-        margin: 15% auto;
-        text-align: center;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      }
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      margin: 15% auto;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
 
-      .modal-content h3 {
-        margin-bottom: 15px;
-        color: #333;
-      }
+    .modal-content h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
 
-      .modal-content p {
-        margin-bottom: 20px;
-        color: #555;
-      }
+    .modal-content p {
+      margin-bottom: 20px;
+      color: #555;
+    }
 
-      .modal-content button {
-        padding: 10px 20px;
-        background-color: #28a745;
-        border: none;
-        color: white;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
+    .modal-content button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-      .modal-content button:hover {
-        background-color: #218838;
-      }
+    .modal-content button:hover {
+      background-color: #218838;
+    }
 
-      .back-button {
-        display: inline-block;
-        margin: 20px 0 20px 10px; /* Push to left */
-        text-align: center;
-        padding: 10px 15px;
-        background-color: #f70707;
-        text-decoration: none;
-        color: #e9e3e3;
-        border-radius: 5px;
-        font-weight: bold;
-      }
+    .back-button {
+      display: inline-block;
+      margin: 20px 0 20px 10px; /* Push to left */
+      text-align: center;
+      padding: 10px 15px;
+      background-color: #f70707;
+      text-decoration: none;
+      color: #e9e3e3;
+      border-radius: 5px;
+      font-weight: bold;
+    }
 
-      .back-button:hover {
-        background-color: #f10707;
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      }
-      .address-selector {
-    margin-top: 10px;
-  }
-
-  .address-level {
-    margin-bottom: 10px;
-  }
-
-  .address-level label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-  }
-
-  .address-final {
-    margin-top: 15px;
-  }
-
-  .address-final input {
-    margin-top: 5px;
-  }
-
-  .disabled-select {
-    background-color: #f5f5f5;
-    color: #666;
-    cursor: not-allowed;
-  }
-
-  .error-message {
-    color: #e74c3c;
-    font-size: 0.85rem;
-    margin-top: 5px;
-    display: none;
-  }
-
-    </style>
-  </head>
-  <body>
-    <script>
-    // Service configuration
-    const services = {
-      birth: {
-        title: "Birth Services",
-        offers: {
-          birth_correction: {  
-            name: "Registration of Live Birth",
-            baseFee: 100,
-            description: "Correction of errors in birth records",
-            rushFee: 50
-          }
+    .back-button:hover {
+      background-color: #f10707;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <script>
+  const services = {
+    birth: {
+      title: "Birth Services",
+      offers: {
+        birth_correction: {  
+          name: "Birth Certificate Correction",
+          baseFee: 500,
+          description: "Correction of birth certificate details",
+          rushFee: 100
         }
       }
-    };
+    }
+  };
 
-    const currentService = {
-      type: "birth",
-      offer: "birth_correction" 
-    };
-  </script>
-  <div class="form-card">
-    <a class="back-button" href="birth-service.html">Back</a>
-    <h2>Request for Correction of Birth Certificate</h2>
+  const currentService = {
+    type: "birth",
+    offer: "birth_correction"
+  };
+</script>
+<div class="form-card">
+  <a class="back-button" href="birth-service.html">Back</a>
+  <h2>Request for Correction of Birth Certificate</h2>
 
-    <form id="appointment" onsubmit="event.preventDefault(); submitCorrectionForm();">
-      <label for="regno">Registry Number <span style="color: red;">*</span></label>
-      <input type="text" id="regno" placeholder="Enter the Registry Number from your COLB" required>
+  <form id="appointment" onsubmit="event.preventDefault(); showSMSConfirmation();">
+    <label for="regno">Registry Number <span style="color: red;">*</span></label>
+    <input type="text" id="regno" placeholder="Enter the Registry Number from your COLB" required>
 
-      <label for="fullname">Full Name</label>
-      <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
+    <label for="fullname">Full Name</label>
+    <input type="text" id="fullName" placeholder="Last Name, First Name, Middle Name" required>
 
-      <label for="date">Date of Birth</label>
-      <input type="date" id="date" required>
+    <label for="date">Date of Birth</label>
+    <input type="date" id="date" required>
 
-    <label>Place of Birth</label>
-  <div class="address-selector">
-    <div class="address-level">
-      <label>Region</label>
-      <select id="birth-region" required class="disabled-select" disabled>
-        <option value="NCR" selected>National Capital Region (NCR)</option>
-      </select>
-    </div>
+    <label for="fathername">Father's Full Name</label>
+    <input type="text" id="fathername" placeholder="Last Name, First Name, Middle Initial" required>
 
-    <div class="address-level">
-      <label>City/Municipality</label>
-      <select id="birth-city" required class="disabled-select" disabled>
-        <option value="MANILA" selected>City of Manila</option>
-      </select>
-    </div>
+    <label for="mothername">Mother's Maiden Name</label>
+    <input type="text" id="mothername" placeholder="Last Name, First Name, Middle Initial" required>
 
-    <div class="address-level">
-      <label>District</label>
-      <select id="birth-district" required>
-        <option value="">Select District</option>
-        <option value="District I">District I</option>
-        <option value="District II">District II</option>
-        <option value="District III">District III</option>
-        <option value="District IV">District IV</option>
-        <option value="District V">District V</option>
-        <option value="District VI">District VI</option>
-      </select>
-      <div id="birth-district-error" class="error-message">Please select a district</div>
-    </div>
+   <label for="correctionType">What Type of Correction?</label>
+<select id="correctionType" onchange="toggleOtherCorrection()" required>
+  <option value="" disabled selected>Select Correction Type</option>
+  <option value="Name">Name</option>
+  <option value="Date of Birth">Date of Birth</option>
+  <option value="Place of Birth">Place of Birth</option>
+  <option value="Parent's Name">Parent's Name</option>
+  <option value="Gender">Gender</option>
+  <option value="Incorrect Place of Birth">Incorrect Place of Birth</option>
+  <option value="Missing First Name, Middle Name, or Last Name">Missing First Name, Middle Name, or Last Name</option>
+  <option value="Wrong Marital Status of Parents">Wrong Marital Status of Parents</option>
+  <option value="Other">Other</option>
+</select>
 
-    <div class="address-level">
-      <label>Barangay</label>
-      <select id="birth-barangay" required>
-        <option value="">Select Barangay</option>
-        <!-- Dynamically filled via JS -->
-      </select>
-      <div id="birth-barangay-error" class="error-message">Please select a barangay</div>
-    </div>
-
-    <div class="address-final">
-      <label>Specific Location (Hospital, Clinic, Home Address, etc.)</label>
-      <input type="text" id="birth-location" placeholder="e.g. Fabella Hospital, Tondo" required>
-      <div id="birth-location-error" class="error-message">Please specify place of birth</div>
-    </div>
-  </div>
+<div id="otherCorrectionContainer" style="display: none; margin-top: 10px;">
+  <input type="text" id="otherCorrection" placeholder="Please specify the correction" />
+</div>
 
 
-      <label for="fathername">Father's Full Name</label>
-      <input type="text" id="fathername" placeholder="Last Name, First Name, Middle Initial" required>
+    <label for="reason">Reason for Correction</label>
+    <input type="text" id="reason" required>
 
-      <label for="mothername">Mother's Maiden Name</label>
-      <input type="text" id="mothername" placeholder="Last Name, First Name, Middle Initial" required>
+    <label for="contact">Contact Number</label>
+    <input type="text" id="contact" placeholder="09XX-XXX-XXXX" maxlength="13" required>
+    <div id="contact-error" class="error-message">Please enter a valid contact number (09XX-XXX-XXXX)</div>
 
-    <label for="correctionType">What Type of Correction?</label>
-  <select id="correctionType" onchange="toggleOtherCorrection()" required>
-    <option value="" disabled selected>Select Correction Type</option>
-    <option value="Name">Name</option>
-    <option value="Date of Birth">Date of Birth</option>
-    <option value="Place of Birth">Place of Birth</option>
-    <option value="Parent's Name">Parent's Name</option>
-    <option value="Gender">Gender</option>
-    <option value="Incorrect Place of Birth">Incorrect Place of Birth</option>
-    <option value="Missing First Name, Middle Name, or Last Name">Missing First Name, Middle Name, or Last Name</option>
-    <option value="Wrong Marital Status of Parents">Wrong Marital Status of Parents</option>
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="your@email.com" required>
+    <div id="email-error" class="error-message">Please enter a valid email address</div>
 
-    <option value="Other">Other</option>
-  </select>
+    <label for="documents">Upload Supporting Documents</label>
+    <input type="file" id="documents" multiple accept="image/*,application/pdf">
 
-  <div id="otherCorrectionContainer" style="display: none; margin-top: 10px;">
-    <input type="text" id="otherCorrection" placeholder="Please specify the correction" />
-  </div>
+    <label style="margin-top: 20px;">
+      <input type="checkbox" required> I certify that the information provided is true and correct.
+    </label>
 
-
-      <label for="reason">Reason for Correction</label>
-      <input type="text" id="reason" required>
-
-  <label for="mobile">Contact Number</label>
-  <input type="text" id="mobile" placeholder="09XX-XXX-XXXX" maxlength="13" required>
-  <div id="mobileError" class="error-message">Please use format: 09XX-XXX-XXXX</div>
-
-
-  <label for="email">Email Address</label>
-  <input type="email" id="email" placeholder="example@email.com" required>
-  <div id="email-error" class="error-message">Email must contain '@' and be valid</div>
-
-
-      <label for="documents">Upload Supporting Documents</label>
-      <input type="file" id="documents" multiple accept="image/*,application/pdf">
-
-      <label style="margin-top: 20px;">
-        <input type="checkbox" required> I certify that the information provided is true and correct.
-      </label>
-
-      <button type="submit">Submit Request</button>
-    </form>
-  </div>
+    <button type="submit">Submit Request</button>
+  </form>
+</div>
 
 <!-- Confirmation Modal -->
 <div id="sms-confirmation">
   <div class="modal-content">
     <h3>Request Submitted!</h3>
     <p>
-      You will receive a confirmation message via SMS and Email once the correction has been completed.<br>
-      <br>
-      <b>Request for Correction of Birth Certificate Fee: ₱100.00</b>
+      You will receive an SMS shortly confirming your request.<br><br>
+      <b>Request for Birth Certificate Correction Fee: ₱500.00</b><br>
       <b>You will now be redirected to the Payment Transaction page.</b>
     </p>
-    <button onclick="proceedToCorrectionPayment()">Proceed to Payment</button>
+    <button onclick="proceedToBirthCorrectionPayment()">Proceed to Payment</button>
   </div>
 </div>
 
-  <div class="gtranslate_wrapper"></div>
-  <script>
-    window.gtranslateSettings = {
-      "default_language":"en",
-      "wrapper_selector":".gtranslate_wrapper",
-      "switcher_horizontal_position":"right",
-      "switcher_vertical_position":"bottom",
-      "flag_style":"3d"
-    }
-  </script>
-  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-
-  <script>
-  function generateRegistryNumber() {
-    const now = new Date();
-    return `REG-${now.getFullYear()}${(now.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
-      .getTime()
-      .toString()
-      .slice(-5)}`;
+<div class="gtranslate_wrapper"></div>
+<script>
+  window.gtranslateSettings = {
+    "default_language":"en",
+    "wrapper_selector":".gtranslate_wrapper",
+    "switcher_horizontal_position":"right",
+    "switcher_vertical_position":"bottom",
+    "flag_style":"3d"
   }
-  function sendToDashboard() {
-    const fullName = document.getElementById("fullName").value;
-    const requestType = "Request for Correction of Birth Certificate";
-    const registryNumber = generateRegistryNumber();
-    const dateRegistered = new Date().toLocaleDateString();
+</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
-    const record = {
-      name: fullName,
-      type: requestType,
-      regNo: registryNumber,
-      dateRegistered: dateRegistered,
-    };
+<script>
+function generateRegistryNumber() {
+  const now = new Date();
+  return `REG-${now.getFullYear()}${(now.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now
+    .getTime()
+    .toString()
+    .slice(-5)}`;
+}
 
-    // Save to localStorage (or send via API)
-    const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
-    records.push(record);
-    localStorage.setItem("BirthRecords", JSON.stringify(records));
+function toggleOtherCorrection() {
+  const correctionType = document.getElementById('correctionType').value;
+  const otherContainer = document.getElementById('otherCorrectionContainer');
+  otherContainer.style.display = correctionType === 'Other' ? 'block' : 'none';
+  if (correctionType !== 'Other') {
+    document.getElementById('otherCorrection').value = '';
+  }
+}
+
+function sendToDashboard() {
+  const fullName = document.getElementById("fullName").value;
+  const requestType = "Request for Correction of Birth Certificate";
+  const registryNumber = generateRegistryNumber();
+  const dateRegistered = new Date().toLocaleDateString();
+
+  const record = {
+    name: fullName,
+    type: requestType,
+    regNo: registryNumber,
+    dateRegistered: dateRegistered,
+  };
+
+  // Save to localStorage (or send via API)
+  const records = JSON.parse(localStorage.getItem("BirthRecords")) || [];
+  records.push(record);
+  localStorage.setItem("BirthRecords", JSON.stringify(records));
+}
+
+function showSMSConfirmation() {
+  // Validate form first
+  const contactPattern = /^09\d{2}-\d{3}-\d{4}$/;
+  const contactInput = document.getElementById('contact');
+  const emailInput = document.getElementById('email');
+  
+  if (!contactPattern.test(contactInput.value)) {
+    document.getElementById('contact-error').style.display = 'block';
+    return;
+  } else {
+    document.getElementById('contact-error').style.display = 'none';
+  }
+  
+  if (!emailInput.validity.valid) {
+    document.getElementById('email-error').style.display = 'block';
+    return;
+  } else {
+    document.getElementById('email-error').style.display = 'none';
   }
 
-  // Main submit function for this form
-  function submitCorrectionForm() {
-    sendToDashboard();
-    // Show the confirmation modal
-    document.getElementById('sms-confirmation').style.display = 'block';
-    // Reset the form fields
-    document.getElementById('appointment').reset();
-    // Hide the "Other" correction input if visible
-    document.getElementById('otherCorrectionContainer').style.display = 'none';
-  }
+  sendToDashboard();
+  // Show the confirmation modal
+  document.getElementById('sms-confirmation').style.display = 'block';
+  // Reset the form fields
+  document.getElementById('appointment').reset();
+  // Hide the "Other" correction input if visible
+  document.getElementById('otherCorrectionContainer').style.display = 'none';
+}
 
-  // Proceed to payment for correction
-  function proceedToCorrectionPayment() {
-    // Redirect to payment.html with the correct service and offer for correction
-    window.location.href = "../payment.html?service=birth&offer=birth_correction";
-  }
-  </script>
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const mobileInput = document.getElementById("mobile");
-    const mobileError = document.getElementById("mobileError");
-    const pattern = /^09\d{2}-\d{3}-\d{4}$/;
+function proceedToBirthCorrectionPayment() {
+  // Redirect to payment.html with the correct service and offer for birth correction
+  window.location.href = "../payment.html?service=birth&offer=birth_correction";
+}
+</script>
+<script>
+  // date
+  const deceasedDateInput = document.getElementById("date");
+  const today = new Date();
 
-    mobileInput.addEventListener("input", () => {
-      let numbersOnly = mobileInput.value.replace(/\D/g, ""); // Remove non-digits
+  const maxDate = today.toISOString().split("T")[0];
+  deceasedDateInput.setAttribute("max", maxDate);
 
-      // Limit to 11 digits max
-      if (numbersOnly.length > 11) numbersOnly = numbersOnly.slice(0, 11);
-
-      // Auto-format to 09XX-XXX-XXXX
-      if (numbersOnly.length > 4 && numbersOnly.length <= 7) {
-        mobileInput.value = `${numbersOnly.slice(0, 4)}-${numbersOnly.slice(4)}`;
-      } else if (numbersOnly.length > 7) {
-        mobileInput.value = `${numbersOnly.slice(0, 4)}-${numbersOnly.slice(4, 7)}-${numbersOnly.slice(7)}`;
-      } else {
-        mobileInput.value = numbersOnly;
-      }
-
-      // Real-time validation
-      if (pattern.test(mobileInput.value)) {
-        mobileError.style.display = "none";
-        mobileInput.setCustomValidity("");
-      } else {
-        mobileError.style.display = "inline";
-        mobileInput.setCustomValidity("Invalid format");
-      }
-    });
+  document.getElementById("appointment").addEventListener("submit", function(event) {
+      event.preventDefault();
+      document.getElementById("successMsg").style.display = "block";
+      this.reset();
   });
-  </script>
+  
+  // Mobile number format
+  const phoneInput = document.getElementById("contact");
 
-
-
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const birthDistrictSelect = document.getElementById('birth-district');
-    const birthBarangaySelect = document.getElementById('birth-barangay');
-    const birthDistrictError = document.getElementById('birth-district-error');
-    const birthBarangayError = document.getElementById('birth-barangay-error');
-    const birthLocationError = document.getElementById('birth-location-error');
-
-    const manilaDistricts = {
-      'District I': ['Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz', 'Tondo I', 'Tondo II'],
-      'District II': ['Ermita', 'Intramuros', 'Malate', 'Paco', 'Pandacan', 'Port Area', 'San Miguel', 'San Andres'],
-      'District III': ['Santa Ana', 'Santa Mesa'],
-      'District IV': ['Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose', 'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo', 'Santo Domingo', 'Talayan'],
-      'District V': ['Pandacan', 'San Andres Bukid', 'Santa Ana'],
-      'District VI': ['Paco', 'San Andres Bukid', 'Santa Ana']
-    };
-
-    birthDistrictSelect.addEventListener('change', function () {
-      const selectedDistrict = this.value;
-      birthBarangaySelect.innerHTML = '<option value="">Select Barangay</option>';
-
-      if (manilaDistricts[selectedDistrict]) {
-        manilaDistricts[selectedDistrict].forEach(barangay => {
-          const option = document.createElement('option');
-          option.value = barangay;
-          option.textContent = barangay;
-          birthBarangaySelect.appendChild(option);
-        });
-      }
-    });
-
-    // Optional: Form validation
-    const form = document.getElementById('delayedBirthForm'); // change ID if needed
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        let isValid = true;
-
-        if (!birthDistrictSelect.value) {
-          showError(birthDistrictError, 'Please select a district');
-          isValid = false;
-        } else hideError(birthDistrictError);
-
-        if (!birthBarangaySelect.value) {
-          showError(birthBarangayError, 'Please select a barangay');
-          isValid = false;
-        } else hideError(birthBarangayError);
-
-        if (!document.getElementById('birth-location').value.trim()) {
-          showError(birthLocationError, 'Please specify place of birth');
-          isValid = false;
-        } else hideError(birthLocationError);
-
-        if (!isValid) e.preventDefault();
-      });
-    }
-
-    function showError(el, msg) {
-      el.textContent = msg;
-      el.style.display = 'block';
-    }
-
-    function hideError(el) {
-      el.style.display = 'none';
-    }
+  phoneInput.addEventListener("input", function () {
+  let value = phoneInput.value.replace(/\D/g, ""); 
+  if (value.length > 4) {
+      value = value.slice(0, 4) + "-" + value.slice(4);
+  }
+  if (value.length > 8) {
+      value = value.slice(0, 8) + "-" + value.slice(8, 12);
+  }
+  phoneInput.value = value;
   });
-  </script>
-
+</script>
 
 <script src="payment.js"></script>
 </body>
