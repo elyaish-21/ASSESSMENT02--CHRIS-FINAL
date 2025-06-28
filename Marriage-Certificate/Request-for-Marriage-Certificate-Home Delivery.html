@@ -10,7 +10,7 @@
       background:
          url('marriage-bg-new.png') no-repeat bottom right fixed,
          url('m-bird-bg.png') no-repeat top left fixed;
-      background-size: 500px auto, 300px auto; /* size for each i   mage */
+      background-size: 500px auto, 300px auto;
       background-color: #f8f7f2;
       margin: 0;
       padding: 0;
@@ -143,7 +143,7 @@
 
     .back-button {
       display: inline-block;
-      margin: 20px 0 20px 10px; /* Push to left */
+      margin: 20px 0 20px 10px;
       text-align: center;
       padding: 10px 15px;
       background-color: #f70707;
@@ -157,6 +157,86 @@
       background-color: #f10707;
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Feedback Modal Styles */
+    #feedbackPrompt, #writtenFeedback, #thankYouFeedback {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #feedbackPrompt > div, 
+    #writtenFeedback > div, 
+    #thankYouFeedback > div {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    
+    #feedbackPrompt span, 
+    #writtenFeedback span {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #777;
+    }
+    
+    #feedbackPrompt h3, 
+    #writtenFeedback p, 
+    #thankYouFeedback h3 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    
+    #starContainer {
+      font-size: 30px;
+      margin: 20px 0;
+      color: #ffc107;
+    }
+    
+    #starContainer span {
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    
+    #starsSelected {
+      font-size: 30px;
+      color: #ffc107;
+      margin-bottom: 15px;
+    }
+    
+    #feedbackText {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    
+    #thankYouFeedback p {
+      margin-bottom: 25px;
+      color: #555;
+    }
+    
+    .error-message {
+      color: red;
+      font-size: 0.8rem;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -195,12 +275,6 @@
 
     <label for="wifename">Wife's Full Name</label>
     <input type="text" id="wifename" placeholder="Last Name, First Name, Middle Initial" required>
-
-    <label for="marriagedate">Date of Marriage</label>
-    <input type="date" id="marriagedate" required>
-
-    <label for="marriageplace">Place of Marriage</label>
-    <input type="text" id="marriageplace" required>
 
     <label for="purpose">Purpose of Request</label>
     <input type="text" id="purpose" required>
@@ -293,6 +367,37 @@
   </div>
 </div>
 
+<!-- Feedback Prompt: Star Rating -->
+<div id="feedbackPrompt">
+  <div>
+    <span onclick="closeFeedback()">&times;</span>
+    <h3>Would you like to leave feedback about your experience?</h3>
+    <div id="starContainer"></div>
+    <button onclick="showFeedbackForm()" style="background-color: #ed2224; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Continue</button>
+  </div>
+</div>
+
+<!-- Feedback Text Input -->
+<div id="writtenFeedback">
+  <div>
+    <span onclick="closeFeedback()">&times;</span>
+    <div id="starsSelected">★★★★★</div>
+    <p>Tell us a bit more about why you chose <span id="starCount">5</span> stars</p>
+    <textarea id="feedbackText" rows="4" placeholder="e.g., fast and easy to understand"></textarea>
+    <br /><br />
+    <button onclick="submitFeedback()" style="background-color: #ed2224; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Submit</button>
+  </div>
+</div>
+
+<!-- Thank You Prompt -->
+<div id="thankYouFeedback">
+  <div>
+    <h3>Thank you for your feedback.</h3>
+    <p>Your feedback is highly valued and is used to improve our service.</p>
+    <button onclick="closeFeedback(); document.getElementById('RequestHomeDelivery').reset();" style="background-color: #254c9a; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Done</button>
+  </div>
+</div>
+
 <div class="gtranslate_wrapper"></div>
 <script>
   window.gtranslateSettings = {
@@ -306,6 +411,129 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
+   // Barangay data for each district
+  const barangaysByDistrict = {
+    'District I': [
+      'Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz',
+      'Tondo I', 'Tondo II'
+    ],
+    'District II': [
+      'Ermita', 'Intramuros', 'Malate', 'Paco',
+      'Pandacan', 'Port Area', 'San Miguel', 'San Andres'
+    ],
+    'District III': [
+      'Santa Ana', 'Santa Mesa'
+    ],
+    'District IV': [
+      'Sampaloc East', 'Sampaloc West', 'San Isidro', 'San Jose',
+      'San Juan', 'San Rafael', 'Santa Mesa', 'Santo Cristo',
+      'Santo Domingo', 'Talayan'
+    ],
+    'District V': [
+      'Pandacan', 'San Andres Bukid', 'Santa Ana'
+    ],
+    'District VI': [
+      'Paco', 'San Andres Bukid', 'Santa Ana'
+    ]
+  };
+
+  // Initialize district and barangay selection
+  document.addEventListener('DOMContentLoaded', function() {
+    const districtSelect = document.getElementById('delivery-district');
+    const barangaySelect = document.getElementById('delivery-barangay');
+    
+    // Populate barangays when district changes
+    districtSelect.addEventListener('change', function() {
+      const selectedDistrict = this.value;
+      barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+      
+      if (selectedDistrict && barangaysByDistrict[selectedDistrict]) {
+        barangaysByDistrict[selectedDistrict].forEach(barangay => {
+          const option = document.createElement('option');
+          option.value = barangay;
+          option.textContent = barangay;
+          barangaySelect.appendChild(option);
+        });
+      }
+    });
+    
+    // Initialize star rating for feedback
+    initStarRating();
+  });
+
+  // Feedback functionality
+  let selectedRating = 5;
+  
+  // Initialize star rating
+  function initStarRating() {
+    const starContainer = document.getElementById('starContainer');
+    starContainer.innerHTML = '';
+    
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('span');
+      star.innerHTML = '★';
+      star.dataset.rating = i;
+      star.style.cursor = 'pointer';
+      star.style.filter = i <= selectedRating ? 'none' : 'grayscale(100%)';
+      
+      star.addEventListener('mouseover', function() {
+        highlightStars(i);
+      });
+      
+      star.addEventListener('mouseout', function() {
+        highlightStars(selectedRating);
+      });
+      
+      star.addEventListener('click', function() {
+        selectedRating = i;
+        document.getElementById('starCount').textContent = i;
+        highlightStars(selectedRating);
+      });
+      
+      starContainer.appendChild(star);
+    }
+  }
+  
+  function highlightStars(count) {
+    const stars = document.querySelectorAll('#starContainer span');
+    stars.forEach((star, index) => {
+      star.style.filter = index < count ? 'none' : 'grayscale(100%)';
+    });
+    
+    // Update the stars in the feedback form
+    const feedbackStars = document.getElementById('starsSelected');
+    feedbackStars.innerHTML = '★'.repeat(count) + '☆'.repeat(5 - count);
+  }
+  
+  function showFeedbackForm() {
+    document.getElementById('feedbackPrompt').style.display = 'none';
+    document.getElementById('writtenFeedback').style.display = 'flex';
+  }
+  
+  function submitFeedback() {
+    const feedbackText = document.getElementById('feedbackText').value;
+    
+    // Here you would typically send the feedback to your server
+    console.log('Feedback submitted:', {
+      rating: selectedRating,
+      comments: feedbackText
+    });
+    
+    document.getElementById('writtenFeedback').style.display = 'none';
+    document.getElementById('thankYouFeedback').style.display = 'flex';
+  }
+  
+  function closeFeedback() {
+    document.getElementById('feedbackPrompt').style.display = 'none';
+    document.getElementById('writtenFeedback').style.display = 'none';
+    document.getElementById('thankYouFeedback').style.display = 'none';
+  }
+  
+  function showFeedbackPrompt() {
+    document.getElementById('feedbackPrompt').style.display = 'flex';
+    initStarRating();
+  }
+
   function sendToDashboard() {
     const fullName = document.getElementById("applicantName").value;
     const requestType = "Request for Marriage Certificate (Home Delivery)";
@@ -333,40 +561,28 @@
     document.getElementById('sms-confirmation').style.display = 'block';
     sendToDashboard();
     document.querySelector('form').reset();
+    
+    // Show feedback prompt after a delay (you might want to trigger this after payment is complete)
+    setTimeout(showFeedbackPrompt, 2000);
   }
 
   // Add this function for payment redirection
   function proceedToMarriageDeliveryPayment() {
     window.location.href = "../payment.html?service=marriage&offer=marriage_delivery";
   }
-</script>
-<script>
-  // date
-  const marriagedate = document.getElementById("marriagedate");
-  const today = new Date();
 
-  // Set the maximum date to today's date
-  const maxDate = today.toISOString().split("T")[0];
-  marriagedate.setAttribute("max", maxDate);
-
-  document.getElementById("RequestHomeDelivery").addEventListener("submit", function(event) {
-      event.preventDefault();
-      submitForm();
-      document.getElementById("successMsg").style.display = "block";
-      this.reset();
-  });
   // Mobile number format
   const phoneInput = document.getElementById("contact");
 
   phoneInput.addEventListener("input", function () {
-  let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
-  if (value.length > 4) {
-      value = value.slice(0, 4) + "-" + value.slice(4);
-  }
-  if (value.length > 8) {
-      value = value.slice(0, 8) + "-" + value.slice(8, 12);
-  }
-  phoneInput.value = value;
+    let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
+    if (value.length > 4) {
+        value = value.slice(0, 4) + "-" + value.slice(4);
+    }
+    if (value.length > 8) {
+        value = value.slice(0, 8) + "-" + value.slice(8, 12);
+    }
+    phoneInput.value = value;
   });
 </script>
 </body>

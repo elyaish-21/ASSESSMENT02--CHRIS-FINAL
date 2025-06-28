@@ -93,7 +93,10 @@
       background-color: #0069d9;
     }
 
-    #sms-confirmation {
+    #sms-confirmation,
+    #feedbackPrompt,
+    #writtenFeedback,
+    #thankYouFeedback {
       display: none;
       position: fixed;
       top: 0; left: 0;
@@ -154,6 +157,44 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+    
+    /* Feedback specific styles */
+    .star {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 5px;
+      transition: color 0.2s;
+    }
+    
+    .star:hover,
+    .star.active {
+      color: #ffcc00;
+    }
+    
+    #feedbackText {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      resize: vertical;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #888;
+    }
+    
+    #starsSelected {
+      font-size: 30px;
+      color: #ffcc00;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -192,12 +233,6 @@
 
     <label for="wifename">Wife's Full Name</label>
     <input type="text" id="wifename" name="wifename" placeholder="Last Name, First Name, Middle Name" required>
-
-    <label for="marriagedate">Date of Marriage</label>
-    <input type="date" id="marriagedate" name="marriagedate" required>
-
-    <label for="placeofmarriage">Place of Marriage</label>
-    <input type="text" id="placeofmarriage" name="placeofmarriage" required>
 
     <label for="correctionType">What Type of Correction?</label>
     <select id="correctionType" name="correctionType" onchange="toggleOtherCorrection()" required>
@@ -245,6 +280,7 @@
   </form>
 </div>
 
+<!-- Confirmation Modal -->
 <div id="sms-confirmation">
   <div class="modal-content">
     <h3>Request Submitted!</h3>
@@ -255,6 +291,43 @@
       <b>You will now be redirected to the Payment Transaction page.</b>
     </p>
     <button onclick="proceedToMarriageCorrectionPayment()">Proceed to Payment</button>
+  </div>
+</div>
+
+<!-- Feedback Prompt: Star Rating -->
+<div id="feedbackPrompt">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeFeedback()">&times;</span>
+    <h3>Would you like to leave feedback about your experience?</h3>
+    <div id="starContainer">
+      <span class="star" onclick="rate(1)">★</span>
+      <span class="star" onclick="rate(2)">★</span>
+      <span class="star" onclick="rate(3)">★</span>
+      <span class="star" onclick="rate(4)">★</span>
+      <span class="star" onclick="rate(5)">★</span>
+    </div>
+    <button onclick="showFeedbackForm()" style="background-color: #ed2224; margin-top: 20px;">Continue</button>
+  </div>
+</div>
+
+<!-- Feedback Text Input -->
+<div id="writtenFeedback">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeFeedback()">&times;</span>
+    <div id="starsSelected">★★★★★</div>
+    <p>Tell us a bit more about why you chose <span id="starCount">5</span> stars</p>
+    <textarea id="feedbackText" rows="4" placeholder="e.g., fast and easy to understand"></textarea>
+    <br /><br />
+    <button onclick="submitFeedback()" style="background-color: #ed2224;">Submit</button>
+  </div>
+</div>
+
+<!-- Thank You Prompt -->
+<div id="thankYouFeedback">
+  <div class="modal-content">
+    <h3>Thank you for your feedback.</h3>
+    <p>Your feedback is highly valued and is used to improve our service.</p>
+    <button onclick="closeFeedback(); document.getElementById('RequestForm').reset();" style="background-color: #254c9a;">Done</button>
   </div>
 </div>
 
@@ -271,75 +344,151 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
+    // Feedback system variables
+    let currentRating = 5;
+    
     function generateRegistryNumber() {
       const now = new Date();
       return `REG-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now.getTime().toString().slice(-5)}`;
     }
 
-  function sendToDashboard() {
-    const fullName = document.getElementById('applicantName').value;
-    const requestType = "Request for Correction of Marriage Certificate";
-    const registryNumber = generateRegistryNumber();
-    const dateRegistered = new Date().toLocaleDateString();
+    function sendToDashboard() {
+      const fullName = document.getElementById('applicantName').value;
+      const requestType = "Request for Correction of Marriage Certificate";
+      const registryNumber = generateRegistryNumber();
+      const dateRegistered = new Date().toLocaleDateString();
 
-    const record = {
-      name: fullName,
-      type: requestType,
-      regNo: registryNumber,
-      dateRegistered: dateRegistered,
-    };
+      const record = {
+        name: fullName,
+        type: requestType,
+        regNo: registryNumber,
+        dateRegistered: dateRegistered,
+      };
 
-    // Save to localStorage (or send via API)
-    const records = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
-    records.push(record);
-    localStorage.setItem("MarriageRecords", JSON.stringify(records));
-  }
-  
-  function showSMSConfirmation() {
-    sendToDashboard();
-    document.getElementById('sms-confirmation').style.display = 'block';
-    document.getElementById('RequestForm').reset();
-    document.getElementById('otherCorrectionContainer').style.display = 'none';
-  }
+      // Save to localStorage (or send via API)
+      const records = JSON.parse(localStorage.getItem("MarriageRecords")) || [];
+      records.push(record);
+      localStorage.setItem("MarriageRecords", JSON.stringify(records));
+    }
+    
+    function showSMSConfirmation() {
+      sendToDashboard();
+      document.getElementById('sms-confirmation').style.display = 'block';
+    }
 
-  function toggleOtherCorrection() {
-    const select = document.getElementById("correctionType");
-    const otherInput = document.getElementById("otherCorrectionContainer");
-    otherInput.style.display = select.value === "Other" ? "block" : "none";
-  }
+    function toggleOtherCorrection() {
+      const select = document.getElementById("correctionType");
+      const otherInput = document.getElementById("otherCorrectionContainer");
+      otherInput.style.display = select.value === "Other" ? "block" : "none";
+    }
 
-  // Add this function for payment redirection
-  function proceedToMarriageCorrectionPayment() {
-    window.location.href = "../payment.html?service=marriage&offer=marriage_correction";
-  }
-</script>
-<script>
-  // date
-  const marriagedate = document.getElementById("marriagedate");
-  const today = new Date();
+    function proceedToMarriageCorrectionPayment() {
+      document.getElementById('sms-confirmation').style.display = 'none';
+      // Redirect to payment page instead of showing feedback
+      window.location.href = "../payment.html?service=marriage&offer=marriage_correction";
+    }
+    
+    // This function would be called from your payment processing page
+    function checkPaymentCompletion() {
+      // This would be called when payment is successful
+      showFeedbackPrompt();
+    }
+    
+    // Feedback functions
+    function showFeedbackPrompt() {
+      document.getElementById('feedbackPrompt').style.display = 'block';
+    }
+    
+    function rate(rating) {
+      currentRating = rating;
+      const stars = document.querySelectorAll('#starContainer .star');
+      
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add('active');
+        } else {
+          star.classList.remove('active');
+        }
+      });
+    }
+    
+    function showFeedbackForm() {
+      document.getElementById('feedbackPrompt').style.display = 'none';
+      document.getElementById('writtenFeedback').style.display = 'block';
+      
+      // Update the stars display and count
+      const starsSelected = document.getElementById('starsSelected');
+      const starCount = document.getElementById('starCount');
+      
+      starsSelected.textContent = '★'.repeat(currentRating);
+      starCount.textContent = currentRating;
+    }
+    
+    function submitFeedback() {
+      const feedbackText = document.getElementById('feedbackText').value;
+      
+      // Here you would typically send the feedback to your server
+      console.log('Feedback submitted:', {
+        rating: currentRating,
+        comments: feedbackText
+      });
+      
+      document.getElementById('writtenFeedback').style.display = 'none';
+      document.getElementById('thankYouFeedback').style.display = 'block';
+      
+      // Reset form after a delay
+      setTimeout(() => {
+        document.getElementById('RequestForm').reset();
+        document.getElementById('otherCorrectionContainer').style.display = 'none';
+      }, 1000);
+    }
+    
+    function closeFeedback() {
+      document.getElementById('feedbackPrompt').style.display = 'none';
+      document.getElementById('writtenFeedback').style.display = 'none';
+      document.getElementById('thankYouFeedback').style.display = 'none';
+      // Redirect to home or confirmation page after feedback
+      window.location.href = "../index.html";
+    }
 
-  // Set the maximum date to today's date
-  const maxDate = today.toISOString().split("T")[0];
-  marriagedate.setAttribute("max", maxDate);
+    // Initialize with 5 stars by default
+    window.onload = function() {
+      rate(5);
+      
+      // date
+      const marriagedate = document.getElementById("marriagedate");
+      const today = new Date();
 
-  document.getElementById("RequestForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-      document.getElementById("successMsg").style.display = "block";
-      this.reset();
-  });
-  // Mobile number format
-  const phoneInput = document.getElementById("contact");
+      // Set the maximum date to today's date
+      const maxDate = today.toISOString().split("T")[0];
+      marriagedate.setAttribute("max", maxDate);
 
-  phoneInput.addEventListener("input", function () {
-  let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
-  if (value.length > 4) {
-      value = value.slice(0, 4) + "-" + value.slice(4);
-  }
-  if (value.length > 8) {
-      value = value.slice(0, 8) + "-" + value.slice(8, 12);
-  }
-  phoneInput.value = value;
-  });
+      document.getElementById("RequestForm").addEventListener("submit", function(event) {
+          event.preventDefault();
+          document.getElementById("successMsg").style.display = "block";
+          this.reset();
+      });
+      
+      // Mobile number format
+      const phoneInput = document.getElementById("contact");
+
+      phoneInput.addEventListener("input", function () {
+        let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
+        if (value.length > 4) {
+            value = value.slice(0, 4) + "-" + value.slice(4);
+        }
+        if (value.length > 8) {
+            value = value.slice(0, 8) + "-" + value.slice(8, 12);
+        }
+        phoneInput.value = value;
+      });
+
+      // Check if we're coming back from payment completion
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('payment_complete')) {
+        showFeedbackPrompt();
+      }
+    }
 </script>
 <script src="/payment.js"></script>
 </body>
