@@ -627,34 +627,47 @@ nav a:not(.sign-in):hover::after {
   </div>
 </section>
 
+<!-- BLOGS AND NEWS -->
+<section style="padding: 60px 5%; background: #f5f8fc; font-family: Arial, sans-serif;">
+  <h2 style="font-size: 36px; color: #e3342f; font-weight: bold; text-align: center; margin-bottom: 5px;">
+    BLOGS AND NEWS
+  </h2>
+  <p style="font-size: 14px; color: #2c2c2c; text-align: center; margin-bottom: 40px;">
+    Stay informed with the latest news and information on PSA certificates (birth, marriage, death, CENOMAR, CENODEATH), DFA passport requirements, the PhilSys National ID, and more. Find helpful guides on PSA birth certificate corrections, marriage certificate details, using death certificates for benefit claims, the importance of a PSA CENOMAR, and other important topics.
+  </p>
 
-<!-- BLOGS AND NEWS SECTION -->
-<section style="padding: 60px 5%; background: #f5f8fc; font-family: 'Arial', sans-serif;">
-     <h2 style="font-size: 36px; color: #e3342f; font-weight: bold; text-align: center; margin-bottom: 5px;">BLOGS AND NEWS</h2>
-    <p style="font-size: 14px; color: #2c2c2c; text-align: center; margin-bottom: 40px;">Stay informed with the latest news and information on PSA certificates (birth, marriage, death, CENOMAR, CENODEATH), DFA passport requirements, the PhilSys National ID, and more. Find helpful guides on PSA birth certificate corrections, marriage certificate details, using death certificates for benefit claims, the importance of a PSA CENOMAR, and other important topics.</p>
+  <div style="position: relative; overflow: visible;">
+    <button id="prevButton" style="position: absolute; left: -40px; top: 50%; transform: translateY(-50%); font-size: 2rem; background: none; border: none; color: #ec1c24; cursor: pointer; z-index: 2;">
+      &#10094;
+    </button>
 
-  <div style="position: relative;">
-    <button onclick="prevSlide()" style="position: absolute; left: -40px; top: 40%; transform: translateY(-50%); font-size: 2rem; background: none; border: none; color: #ec1c24; cursor: pointer; z-index: 2;">&#10094;</button>
+    <div id="blog-carousel" style="
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 20px 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    ">
+      <a href="https://psahelpline.ph/blogs/what-to-do-when-you-get-a-negative-certification-from-psa-instead-of-your-psa-birth-certificate" class="blog-card"><img src="images/news01.JPG" alt=""><h4>Blog 1</h4><p>What To Do When You Get a Negative Certification from PSA Instead of Your PSA Birth Certificaten</p></a>
+      <a href="https://psahelpline.ph/blogs/the-problem-with-dual-registration-of-civil-registry-documents" class="blog-card"><img src="images/news02.JPG" alt=""><h4>Blog 2</h4><p>The Problem with Dual Registration of Civil Registry Documents</p></a>
+      <a href="https://psahelpline.ph/blogs/philhealth-registration-for-kasambahays" class="blog-card"><img src="images/news03.JPG" alt=""><h4>Blog 3</h4><p>PhilHealth Registration for Kasambahays</p></a>
+      <a href="https://psahelpline.ph/blogs/dfa-launches-philippine-e-apostille-system-for-psa-certificate-authentication" class="blog-card"><img src="images/news04.JPG" alt=""><h4>Blog 4</h4><p>DFA Launches Philippine E-Apostille System for PSA Certificate Authentication</p></a>
+      <a href="https://psahelpline.ph/blogs/all-you-need-to-know-about-the-psa-online-appointment-system" class="blog-card"><img src="images/news05.JPG" alt=""><h4>Blog 5</h4><p>The PSA Online Appointment System: All You Need to Know</p></a>
+      <a href="https://psahelpline.ph/blogs/psa-outlets-and-where-to-find-them" class="blog-card"><img src="images/news06.JPG" alt=""><h4>Blog 6</h4><p>PSA CRS Outlets and Where to Find Them</p></a>
+    </div>
 
-    <div id="blog-carousel" style="display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 20px; padding: 20px 0; scrollbar-width: none;">
-      <!-- 9 Blog Cards -->
-      <a href="https://psahelpline.ph/blogs/what-to-do-when-you-get-a-negative-certification-from-psa-instead-of-your-psa-birth-certificate" class="blog-card"> <img src="images/news01.JPG" alt="Blog 1"><h4>Blog 1</h4><p>What To Do When You Get a Negative Certification from PSA Instead of Your PSA Birth Certificate</p></a>
-      <a href="https://psahelpline.ph/blogs/the-problem-with-dual-registration-of-civil-registry-documents" class="blog-card"> <img src="images/news02.JPG" alt="Blog 2"><h4>Blog 2</h4><p>The Problem with Dual Registration of Civil Registry Documents</p></a>
-      <a href="https://psahelpline.ph/blogs/philhealth-registration-for-kasambahays" class="blog-card"> <img src="images/news03.JPG" alt="Blog 3"><h4>Blog 3</h4><p>PhilHealth Registration for Kasambahays</p></a>
-      <a href="https://psahelpline.ph/blogs/dfa-launches-philippine-e-apostille-system-for-psa-certificate-authentication" class="blog-card"> <img src="images/news04.JPG" alt="Blog 4"><h4>Blog 4</h4><p>DFA Launches Philippine E-Apostille System for PSA Certificate Authentication</p></a>
-      <a href="https://psahelpline.ph/blogs/all-you-need-to-know-about-the-psa-online-appointment-system" class="blog-card"> <img src="images/news05.JPG" alt="Blog 5"><h4>Blog 5</h4><p>The PSA Online Appointment System: All You Need to Know</p></a>
-      <a href="https://psahelpline.ph/blogs/psa-outlets-and-where-to-find-them" class="blog-card"> <img src="images/news06.JPG" alt="Blog 6"><h4>Blog 6</h4><p>PSA CRS Outlets and Where to Find Them</p></a>
-     </div>
-
-    <button onclick="nextSlide()" style="position: absolute; right: -40px; top: 40%; transform: translateY(-50%); font-size: 2rem; background: none; border: none; color: #ec1c24; cursor: pointer; z-index: 2;">&#10095;</button>
+    <button id="nextButton" style="position: absolute; right: -40px; top: 50%; transform: translateY(-50%); font-size: 2rem; background: none; border: none; color: #ec1c24; cursor: pointer; z-index: 2;">
+      &#10095;
+    </button>
   </div>
 </section>
 
 <style>
   .blog-card {
-    min-width: 240px;
-    max-width: 240px;
-    flex-shrink: 0;
+    flex: 0 0 auto;
+    width: 240px;
     background: #fff;
     border: 2px solid #ec1c24;
     border-radius: 12px;
@@ -662,9 +675,8 @@ nav a:not(.sign-in):hover::after {
     text-align: left;
     color: #333;
     text-decoration: none;
-    transition: transform 0.3s, opacity 0.3s;
+    transition: transform 0.3s;
   }
-
   .blog-card img {
     width: 100%;
     border-radius: 8px;
@@ -672,57 +684,53 @@ nav a:not(.sign-in):hover::after {
     object-fit: cover;
     margin-bottom: 10px;
   }
-
   .blog-card h4 {
     margin: 0;
     font-size: 14px;
     font-weight: bold;
   }
-
   .blog-card p {
     font-size: 13px;
     margin: 8px 0 0;
   }
-
   #blog-carousel::-webkit-scrollbar {
     display: none;
   }
-
-/* Keep blog cards normal (no fade or zoom) */
-.blog-card {
-  opacity: 1 !important;
-  transform: scale(1) !important;
-}
-
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const blogCarousel = document.getElementById('blog-carousel');
-  let isDragging = false, startX, scrollLeft;
+  const nextButton = document.getElementById('nextButton');
+  const prevButton = document.getElementById('prevButton');
 
-  // Scroll arrows
-  window.nextSlide = function () {
+  nextButton.addEventListener('click', () => {
     blogCarousel.scrollBy({ left: 260, behavior: 'smooth' });
-  };
+  });
 
-  window.prevSlide = function () {
+  prevButton.addEventListener('click', () => {
     blogCarousel.scrollBy({ left: -260, behavior: 'smooth' });
-  };
+  });
 
-  // Drag to scroll
+  let isDragging = false;
+  let startX;
+  let scrollLeft;
+
   blogCarousel.addEventListener('mousedown', (e) => {
     isDragging = true;
     startX = e.pageX - blogCarousel.offsetLeft;
     scrollLeft = blogCarousel.scrollLeft;
+    blogCarousel.style.cursor = 'grabbing';
   });
 
   blogCarousel.addEventListener('mouseleave', () => {
     isDragging = false;
+    blogCarousel.style.cursor = 'grab';
   });
 
   blogCarousel.addEventListener('mouseup', () => {
     isDragging = false;
+    blogCarousel.style.cursor = 'grab';
   });
 
   blogCarousel.addEventListener('mousemove', (e) => {
@@ -733,21 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
     blogCarousel.scrollLeft = scrollLeft - walk;
   });
 
-  // Optional: Highlight center blog card
-  blogCarousel.addEventListener('scroll', () => {
-    const cards = document.querySelectorAll('.blog-card');
-    let center = blogCarousel.scrollLeft + blogCarousel.offsetWidth / 2;
-
-    cards.forEach(card => {
-      let boxCenter = card.offsetLeft + card.offsetWidth / 2;
-      let distance = Math.abs(center - boxCenter);
-      card.classList.remove('active');
-      if (distance < card.offsetWidth / 1.5) card.classList.add('active');
-    });
-  });
-
-  // Trigger highlight once
-  blogCarousel.dispatchEvent(new Event('scroll'));
+  blogCarousel.style.cursor = 'grab';
 });
 </script>
 
