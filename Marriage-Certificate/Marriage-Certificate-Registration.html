@@ -4,14 +4,15 @@
   <meta charset="UTF-8">
   <title>Marriage Certificate Registration</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
   <style>
     body{
       font-family: 'Golos Text', sans-serif;
        background:
          url('marriage-bg-new.png') no-repeat bottom right fixed,
          url('m-bird-bg.png') no-repeat top left fixed;
-      background-size: 500px auto, 300px auto; /* size for each i   mage */
+      background-size: 500px auto, 300px auto; /* size for each image */
       background-color: #f8f7f2;
       margin: 0;
       padding: 0;
@@ -21,7 +22,6 @@
       align-items: center;
     }
     .form-container {
-
       padding: 40px 0;
       min-height: 100vh;
       display: flex;
@@ -145,6 +145,75 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+
+    /* Location Group Styling */
+    .location-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .location-group input,
+    .location-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: white;
+      transition: border-color 0.3s ease;
+    }
+
+    .location-group input:focus,
+    .location-group select:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .location-group input[readonly],
+    .location-group select:disabled {
+      background-color: #f9fafb;
+      color: #4b5563;
+      cursor: not-allowed;
+      border-color: #e5e7eb;
+    }
+
+    .location-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #374151;
+      font-size: 0.95rem;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* Make the location field span full width */
+    .location-group .full-width {
+      grid-column: span 3;
+    }
+
+    /* Add some visual hierarchy to select elements */
+    .location-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+    @media (max-width: 700px) {
+      .location-group {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -158,9 +227,43 @@
       </fieldset>
       <fieldset>
         <legend>Marriage Details</legend>
-        <label>Date of Marriage:</label><input type="date" id="marriage_date" required>
-        <label>Place of Marriage:</label><input type="text" id="marriage_place" required>
-        <label>Officiant Name:</label><input type="text" id="officiant_name" placeholder="Last Name, First Name, Middle Initial" required>
+        <label>Date of Marriage:</label>
+        <input type="date" id="marriage_date" required>
+        
+        <label>Place of Marriage:</label>
+        <div class="location-group">
+          <!-- Region (fixed as NCR) -->
+          <input type="text" id="marriageRegion" value="National Capital Region (NCR)" readonly required>
+          
+          <!-- City/Municipality (fixed as City of Manila) -->
+          <input type="text" id="marriageCity" value="City of Manila" readonly required>
+          
+          <!-- District Dropdown -->
+          <select id="marriageDistrict" required onchange="updateMarriageBarangays()">
+            <option value="" disabled selected>Select District</option>
+            <option value="District I">District I</option>
+            <option value="District II">District II</option>
+            <option value="District III">District III</option>
+            <option value="District IV">District IV</option>
+            <option value="District V">District V</option>
+            <option value="District VI">District VI</option>
+          </select>
+          <div id="marriage-district-error" class="error-message">Please select a district</div>
+          
+          <!-- Barangay Dropdown -->
+          <select id="marriageBarangay" required>
+            <option value="" disabled selected>Select Barangay</option>
+            <!-- Options will be populated by JavaScript -->
+          </select>
+          <div id="marriage-barangay-error" class="error-message">Please select a barangay</div>
+          
+          <!-- Specific Location -->
+          <input type="text" id="marriageLocation" placeholder="Venue/Church/Street" required>
+          <div id="marriage-location-error" class="error-message">Please specify place of marriage</div>
+        </div>
+        
+        <label>Officiant Name:</label>
+        <input type="text" id="officiant_name" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Type of Ceremony:</label>
         <select id="ceremony_type" required>
           <option value="">-- Select --</option>
@@ -175,9 +278,46 @@
         <legend>Spouse 1 Details</legend>
         <label>Full Name:</label><input type="text" id="spouse1_name" placeholder="Last Name, First Name, Middle Name" required>
         <label>Date of Birth:</label><input type="date" id="spouse1_dob" required>
-        <label>Place of Birth:</label><input type="text" id="spouse1_birthplace" required>
+        
+        <label>Place of Birth:</label>
+        <div class="location-group">
+          <select id="spouse1_birthRegion" required>
+            <option value="" disabled selected>Select Region</option>
+            <option value="National Capital Region (NCR)">National Capital Region (NCR)</option>
+          </select>
+          
+          <input type="text" id="spouse1_birthCity" placeholder="City/Municipality" required>
+          
+          <input type="text" id="spouse1_birthBarangay" placeholder="Barangay" required>
+          
+          <input type="text" id="spouse1_birthLocation" placeholder="Hospital/Street (optional)">
+        </div>
+        
         <label>Nationality:</label><input type="text" id="spouse1_nationality" required>
-        <label>Address:</label><input type="text" id="spouse1_address" required>
+        
+        <label>Current Address:</label>
+        <div class="location-group">
+          <input type="text" id="spouse1_addressRegion" value="National Capital Region (NCR)" readonly required>
+          
+          <input type="text" id="spouse1_addressCity" value="City of Manila" readonly required>
+          
+          <select id="spouse1_addressDistrict" required onchange="updateAddressBarangays('spouse1')">
+            <option value="" disabled selected>Select District</option>
+            <option value="District I">District I</option>
+            <option value="District II">District II</option>
+            <option value="District III">District III</option>
+            <option value="District IV">District IV</option>
+            <option value="District V">District V</option>
+            <option value="District VI">District VI</option>
+          </select>
+          
+          <select id="spouse1_addressBarangay" required>
+            <option value="" disabled selected>Select Barangay</option>
+          </select>
+          
+          <input type="text" id="spouse1_addressLocation" placeholder="House No./Street" required>
+        </div>
+        
         <label>Father's Full Name:</label><input type="text" id="spouse1_father" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Mother's Full Name:</label><input type="text" id="spouse1_mother" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Civil Status (Before Marriage):</label>
@@ -197,9 +337,46 @@
         <legend>Spouse 2 Details</legend>
         <label>Full Name:</label><input type="text" id="spouse2_name" placeholder="Last Name, First Name, Middle Name" required>
         <label>Date of Birth:</label><input type="date" id="spouse2_dob" required>
-        <label>Place of Birth:</label><input type="text" id="spouse2_birthplace" required>
+        
+        <label>Place of Birth:</label>
+        <div class="location-group">
+          <select id="spouse2_birthRegion" required>
+            <option value="" disabled selected>Select Region</option>
+            <option value="National Capital Region (NCR)">National Capital Region (NCR)</option>
+          </select>
+          
+          <input type="text" id="spouse2_birthCity" placeholder="City/Municipality" required>
+          
+          <input type="text" id="spouse2_birthBarangay" placeholder="Barangay" required>
+          
+          <input type="text" id="spouse2_birthLocation" placeholder="Hospital/Street (optional)">
+        </div>
+        
         <label>Nationality:</label><input type="text" id="spouse2_nationality" required>
-        <label>Address:</label><input type="text" id="spouse2_address" required>
+        
+        <label>Current Address:</label>
+        <div class="location-group">
+          <input type="text" id="spouse2_addressRegion" value="National Capital Region (NCR)" readonly required>
+          
+          <input type="text" id="spouse2_addressCity" value="City of Manila" readonly required>
+          
+          <select id="spouse2_addressDistrict" required onchange="updateAddressBarangays('spouse2')">
+            <option value="" disabled selected>Select District</option>
+            <option value="District I">District I</option>
+            <option value="District II">District II</option>
+            <option value="District III">District III</option>
+            <option value="District IV">District IV</option>
+            <option value="District V">District V</option>
+            <option value="District VI">District VI</option>
+          </select>
+          
+          <select id="spouse2_addressBarangay" required>
+            <option value="" disabled selected>Select Barangay</option>
+          </select>
+          
+          <input type="text" id="spouse2_addressLocation" placeholder="House No./Street" required>
+        </div>
+        
         <label>Father's Full Name:</label><input type="text" id="spouse2_father" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Mother's Full Name:</label><input type="text" id="spouse2_mother" placeholder="Last Name, First Name, Middle Initial" required>
         <label>Civil Status (Before Marriage):</label>
@@ -217,7 +394,6 @@
 
       <fieldset>
         <legend>Upload Documents</legend>
-        <label>Marriage Contract or Certificate:</label><input type="file" required>
         <label>Valid IDs of both parties:</label><input type="file" multiple required>
         <label>Affidavit of Marriage (if applicable):</label><input type="file">
       </fieldset>
@@ -239,6 +415,57 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
+// Barangay data by district for marriage
+const marriageBarangaysByDistrict = {
+  "District I": ["Binondo", "Quiapo", "San Nicolas", "Santa Cruz", "Tondo I", "Tondo II"],
+  "District II": ["Ermita", "Intramuros", "Malate", "Paco", "Pandacan", "Port Area", "San Miguel", "San Andres"],
+  "District III": ["Santa Ana", "Santa Mesa"],
+  "District IV": ["Sampaloc East", "Sampaloc West", "San Isidro", "San Jose", "San Juan", "San Rafael", "Santa Mesa", "Santo Cristo", "Santo Domingo", "Talayan"],
+  "District V": ["Pandacan", "San Andres Bukid", "Santa Ana"],
+  "District VI": ["Paco", "San Andres Bukid", "Santa Ana"]
+};
+
+// Barangay data for current address (same as marriage)
+const addressBarangaysByDistrict = marriageBarangaysByDistrict;
+
+function updateMarriageBarangays() {
+  const districtSelect = document.getElementById("marriageDistrict");
+  const barangaySelect = document.getElementById("marriageBarangay");
+  const selectedDistrict = districtSelect.value;
+  
+  // Clear existing options
+  barangaySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+  
+  // Add new options based on selected district
+  if (selectedDistrict && marriageBarangaysByDistrict[selectedDistrict]) {
+    marriageBarangaysByDistrict[selectedDistrict].forEach(barangay => {
+      const option = document.createElement("option");
+      option.value = barangay;
+      option.textContent = barangay;
+      barangaySelect.appendChild(option);
+    });
+  }
+}
+
+function updateAddressBarangays(spousePrefix) {
+  const districtSelect = document.getElementById(`${spousePrefix}_addressDistrict`);
+  const barangaySelect = document.getElementById(`${spousePrefix}_addressBarangay`);
+  const selectedDistrict = districtSelect.value;
+  
+  // Clear existing options
+  barangaySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+  
+  // Add new options based on selected district
+  if (selectedDistrict && addressBarangaysByDistrict[selectedDistrict]) {
+    addressBarangaysByDistrict[selectedDistrict].forEach(barangay => {
+      const option = document.createElement("option");
+      option.value = barangay;
+      option.textContent = barangay;
+      barangaySelect.appendChild(option);
+    });
+  }
+}
+
 function clearCanvas(id) {
   const canvas = document.getElementById(id);
   const ctx = canvas.getContext("2d");
@@ -256,6 +483,12 @@ function clearAllFields() {
   document.getElementById("marriageForm").reset();
   clearCanvas("spouse1-signature");
   clearCanvas("spouse2-signature");
+  document.getElementById("marriageDistrict").selectedIndex = 0;
+  document.getElementById("marriageBarangay").innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+  document.getElementById("spouse1_addressDistrict").selectedIndex = 0;
+  document.getElementById("spouse1_addressBarangay").innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+  document.getElementById("spouse2_addressDistrict").selectedIndex = 0;
+  document.getElementById("spouse2_addressBarangay").innerHTML = '<option value="" disabled selected>Select Barangay</option>';
 }
 
 function sendToDashboard() {
@@ -282,14 +515,7 @@ function generateRegistryNumber() {
   return `REG-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now.getTime().toString().slice(-5)}`;
 }
 
-function submitMarriageForm() {
-  if (!confirm("Are you sure you want to submit and download the certificate?")) return;
-
-  if (isCanvasEmpty('spouse1-signature') || isCanvasEmpty('spouse2-signature')) {
-    alert('Please provide both signatures.');
-    return;
-  }
-
+function generateMarriageCertificate() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
@@ -297,16 +523,48 @@ function submitMarriageForm() {
   const groomDob = new Date(document.getElementById('spouse1_dob').value).toLocaleDateString();
   const groomNationality = document.getElementById('spouse1_nationality').value;
   const groomStatus = document.getElementById('spouse1_status').value;
-  const groomAddress = document.getElementById('spouse1_address').value;
+  
+  // Get groom's address details
+  const groomAddressDistrict = document.getElementById('spouse1_addressDistrict').value;
+  const groomAddressBarangay = document.getElementById('spouse1_addressBarangay').value;
+  const groomAddressLocation = document.getElementById('spouse1_addressLocation').value;
+  const groomAddress = `${groomAddressLocation}, ${groomAddressBarangay}, ${groomAddressDistrict}, City of Manila, NCR`;
+  
+  // Get groom's birthplace details
+  const groomBirthRegion = document.getElementById('spouse1_birthRegion').value;
+  const groomBirthCity = document.getElementById('spouse1_birthCity').value;
+  const groomBirthBarangay = document.getElementById('spouse1_birthBarangay').value;
+  const groomBirthLocation = document.getElementById('spouse1_birthLocation').value;
+  const groomBirthplace = groomBirthLocation ? 
+    `${groomBirthLocation}, ${groomBirthBarangay}, ${groomBirthCity}, ${groomBirthRegion}` :
+    `${groomBirthBarangay}, ${groomBirthCity}, ${groomBirthRegion}`;
 
   const brideName = document.getElementById('spouse2_name').value;
   const brideDob = new Date(document.getElementById('spouse2_dob').value).toLocaleDateString();
   const brideNationality = document.getElementById('spouse2_nationality').value;
   const brideStatus = document.getElementById('spouse2_status').value;
-  const brideAddress = document.getElementById('spouse2_address').value;
+  
+  // Get bride's address details
+  const brideAddressDistrict = document.getElementById('spouse2_addressDistrict').value;
+  const brideAddressBarangay = document.getElementById('spouse2_addressBarangay').value;
+  const brideAddressLocation = document.getElementById('spouse2_addressLocation').value;
+  const brideAddress = `${brideAddressLocation}, ${brideAddressBarangay}, ${brideAddressDistrict}, City of Manila, NCR`;
+  
+  // Get bride's birthplace details
+  const brideBirthRegion = document.getElementById('spouse2_birthRegion').value;
+  const brideBirthCity = document.getElementById('spouse2_birthCity').value;
+  const brideBirthBarangay = document.getElementById('spouse2_birthBarangay').value;
+  const brideBirthLocation = document.getElementById('spouse2_birthLocation').value;
+  const brideBirthplace = brideBirthLocation ? 
+    `${brideBirthLocation}, ${brideBirthBarangay}, ${brideBirthCity}, ${brideBirthRegion}` :
+    `${brideBirthBarangay}, ${brideBirthCity}, ${brideBirthRegion}`;
 
   const marriageDate = new Date(document.getElementById('marriage_date').value).toLocaleDateString();
-  const marriagePlace = document.getElementById('marriage_place').value;
+  const marriageDistrict = document.getElementById('marriageDistrict').value;
+  const marriageBarangay = document.getElementById('marriageBarangay').value;
+  const marriageLocation = document.getElementById('marriageLocation').value;
+  const marriagePlace = `${marriageLocation}, ${marriageBarangay}, ${marriageDistrict}, City of Manila, NCR`;
+  
   const officiantName = document.getElementById('officiant_name').value;
   const witnesses = document.getElementById('witnesses').value.split('\n');
 
@@ -314,30 +572,30 @@ function submitMarriageForm() {
   const registryNumber = generateRegistryNumber();
   const issueDate = `${today.toLocaleDateString('en-US', { month: 'long' })} ${today.getDate()}, ${today.getFullYear()}`;
 
-  doc.setFont("Times", "bold");
+  // Updated PDF layout to match second code
+  doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
-  doc.rect(10, 10, 190, 270);
-  doc.text("Republic of the Philippines", 105, 25, { align: "center" });
+  doc.text("Republic of the Philippines", 105, 20, { align: "center" });
   doc.setFontSize(12);
-  doc.text("City of Manila", 105, 32, { align: "center" });
-  doc.text("Civil Registry Office", 105, 38, { align: "center" });
-  doc.text("National Capital Region (NCR)", 105, 44, { align: "center" });
+  doc.text("City of Manila", 105, 27, { align: "center" });
+  doc.text("Civil Registry Office", 105, 34, { align: "center" });
+  doc.text("National Capital Region (NCR)", 105, 41, { align: "center" });
   doc.setFontSize(18);
-  doc.text("MARRIAGE CERTIFICATE", 105, 54, { align: "center" });
+  doc.text("MARRIAGE CERTIFICATE", 105, 55, { align: "center" });
 
   doc.setFontSize(12);
-  doc.setFont("Times", "normal");
+  doc.setFont("helvetica", "normal");
   doc.setLineHeightFactor(1.5);
 
-  let y = 65;
+  let y = 70;
   const lines = [
     "This certifies that:",
-    `${groomName}, born on ${groomDob},`,
+    `${groomName}, born on ${groomDob} in ${groomBirthplace},`,
     `of legal age, ${groomNationality}, and ${groomStatus},`,
     `residing at ${groomAddress},`,
     "",
     "and",
-    `${brideName}, born on ${brideDob},`,
+    `${brideName}, born on ${brideDob} in ${brideBirthplace},`,
     `of legal age, ${brideNationality}, and ${brideStatus},`,
     `residing at ${brideAddress},`,
     "",
@@ -349,7 +607,9 @@ function submitMarriageForm() {
     "",
     "The ceremony was witnessed by the undersigned witnesses:",
     `Witness 1: ${witnesses[0] || "________________"}`,
-    `Witness 2: ${witnesses[1] || "________________"}`
+    `Witness 2: ${witnesses[1] || "________________"}`,
+    "",
+    `Registry No.: ${registryNumber}`
   ];
   lines.forEach(line => {
     doc.text(line, 105, y, { align: "center" });
@@ -366,36 +626,95 @@ function submitMarriageForm() {
   doc.addImage(s2Image, "PNG", 120, y, 60, 30);
 
   y += 35;
-  doc.setFont("Times", "bold");
+  doc.setFont("helvetica", "bold");
   doc.text(groomName, 60, y, { align: "center" });
   doc.text(brideName, 150, y, { align: "center" });
   y += 7;
-  doc.setFont("Times", "normal");
+  doc.setFont("helvetica", "normal");
   doc.text("(Signature of Groom)", 60, y, { align: "center" });
   doc.text("(Signature of Bride)", 150, y, { align: "center" });
 
   y += 15;
-  doc.setFont("Times", "bold");
+  doc.setFont("helvetica", "bold");
   doc.text(officiantName, 105, y, { align: "center" });
   y += 7;
-  doc.setFont("Times", "normal");
+  doc.setFont("helvetica", "normal");
   doc.text("(Officiating Officer)", 105, y, { align: "center" });
 
   y += 15;
   doc.text(`Issued this ${issueDate} at Manila, Philippines.`, 105, y, { align: "center" });
 
-  y += 10;
-  doc.setFont("Times", "italic");
-  doc.text(`Registry No.: ${registryNumber}`, 105, y, { align: "center" });
+  // Border
+  doc.setLineWidth(1);
+  doc.rect(10, 10, 190, y + 20);
 
-  doc.save("Marriage_Certificate.pdf");
+  return doc;
+}
 
-  sendToDashboard();
+function submitMarriageForm() {
+  // Validate all required fields
+  const requiredInputs = document.querySelectorAll('[required]');
+  let isValid = true;
 
-  clearAllFields();
+  for (const input of requiredInputs) {
+    if (!input.value) {
+      input.style.borderColor = 'red';
+      isValid = false;
+    } else {
+      input.style.borderColor = '#ccc';
+    }
+  }
+
+  if (!isValid) {
+    Swal.fire('Error', 'Please fill out all required fields.', 'error');
+    return;
+  }
+
+  // Validate signatures
+  if (isCanvasEmpty('spouse1-signature') || isCanvasEmpty('spouse2-signature')) {
+    Swal.fire('Error', 'Please provide both signatures.', 'error');
+    return;
+  }
+
+  // Show confirmation dialog
+  Swal.fire({
+    title: 'Confirm Submission',
+    text: 'Are you sure you want to submit the form? A PDF certificate will be downloaded automatically.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, submit!',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      try {
+        const doc = generateMarriageCertificate();
+        const registryNumber = generateRegistryNumber();
+        const fileName = `Marriage_Certificate_${registryNumber}.pdf`;
+        
+        doc.save(fileName);
+        
+        sendToDashboard();
+        
+        Swal.fire({
+          title: 'Success!',
+          html: `Your form has been submitted successfully!<br><br>
+                 Your certificate <strong>${fileName}</strong> has been downloaded automatically.`,
+          icon: 'success'
+        }).then(() => {
+          clearAllFields();
+        });
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+        Swal.fire('Error', 'Failed to generate PDF. Please try again.', 'error');
+      }
+    }
+  });
 }
 
 window.onload = () => {
+  // Initialize signature canvases
   ["spouse1-signature", "spouse2-signature"].forEach(id => {
     const canvas = document.getElementById(id);
     const ctx = canvas.getContext("2d");
@@ -418,20 +737,18 @@ window.onload = () => {
       ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
     });
   });
+
+  // Initialize date restrictions
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("marriage_date").setAttribute("max", today);
+  document.getElementById("spouse1_dob").setAttribute("max", today);
+  document.getElementById("spouse2_dob").setAttribute("max", today);
+
+  // Initialize barangay dropdowns
+  updateMarriageBarangays();
+  updateAddressBarangays('spouse1');
+  updateAddressBarangays('spouse2');
 };
-</script>
-<script>
-  // date
-const deceasedDateInput = document.getElementById("marriage_date");
-const spouse1Date = document.getElementById("spouse1_dob");
-const spouse2Date = document.getElementById("spouse2_dob");
-const today = new Date();
-
-const maxDate = today.toISOString().split("T")[0];
-deceasedDateInput.setAttribute("max", maxDate);
-spouse1Date.setAttribute("max", maxDate);
-spouse2Date.setAttribute("max", maxDate);
-
 </script>
 </body>
 </html>
