@@ -703,15 +703,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const blogCarousel = document.getElementById('blog-carousel');
   const nextButton = document.getElementById('nextButton');
   const prevButton = document.getElementById('prevButton');
+  const cards = Array.from(blogCarousel.children);
+  const cardWidth = cards[0].offsetWidth + 20; // card + gap
+
+  // Clone all cards and append to the end
+  cards.forEach(card => {
+    const clone = card.cloneNode(true);
+    blogCarousel.appendChild(clone);
+  });
+
+  // Also prepend clones to the start (optional, smoother reverse)
+  cards.forEach(card => {
+    const clone = card.cloneNode(true);
+    blogCarousel.insertBefore(clone, blogCarousel.firstChild);
+  });
+
+  // Adjust initial scroll position to be at the start of original items
+  blogCarousel.scrollLeft = cardWidth * cards.length;
 
   nextButton.addEventListener('click', () => {
-    blogCarousel.scrollBy({ left: 260, behavior: 'smooth' });
+    blogCarousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
   });
 
   prevButton.addEventListener('click', () => {
-    blogCarousel.scrollBy({ left: -260, behavior: 'smooth' });
+    blogCarousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
   });
 
+  // Infinite scroll logic
+  blogCarousel.addEventListener('scroll', () => {
+    const maxScroll = cardWidth * cards.length * 2;
+
+    if (blogCarousel.scrollLeft <= 0) {
+      // Scrolled past the start clones, jump forward
+      blogCarousel.scrollLeft = cardWidth * cards.length;
+    } else if (blogCarousel.scrollLeft >= maxScroll - blogCarousel.offsetWidth) {
+      // Scrolled past the end clones, jump back
+      blogCarousel.scrollLeft = cardWidth * cards.length - blogCarousel.offsetWidth;
+    }
+  });
+
+  // Drag to scroll
   let isDragging = false;
   let startX;
   let scrollLeft;
@@ -744,6 +775,7 @@ document.addEventListener('DOMContentLoaded', () => {
   blogCarousel.style.cursor = 'grab';
 });
 </script>
+
 
 
 <!-- Review Section Start -->
