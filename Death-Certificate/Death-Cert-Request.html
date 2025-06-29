@@ -222,6 +222,25 @@
   </style>
 </head>
 <body>
+<script> 
+  const services = {
+     title: "Death Services",
+    offers: {
+      death_delivery: {
+        name: "Death Delivery Registration",
+        baseFee: 150,
+        description: "Registration of death delivery details",
+        rushFee: 50
+      }
+    }
+  };
+
+  const currentService = {
+    type: "death",
+    offer: "death_certificate" 
+  };
+</script>
+
   <section>
     <div class="container">
       <a class="back-button" href="Death-service.html">Back</a>
@@ -341,25 +360,6 @@
 
   <div class="gtranslate_wrapper"></div>
   <script>
-    // Service configuration - MOVED TO TOP OF SCRIPT SECTION
-  const services = {
-    death: {
-      title: "Death Services",
-      offers: {
-        death_certificate: {  
-          name: "Request for Death Certificate (Home Delivery)",
-          baseFee: 150,
-          description: "Death certificate with home delivery service",
-          deliveryFee: 50
-        }
-      }
-    }
-  };
-
-  const currentService = {
-    type: "death",
-    offer: "death_certificate" // Fixed typo in offer name (was "death_certificate")
-  };
 
     // Keep the translation script first
     window.gtranslateSettings = {
@@ -453,12 +453,8 @@
     }
 
     function proceedToDeathCertificatePayment() {
-      // Redirect to payment.html with the correct service and offer for death certificate
-       // Modified to use the service configuration properly
-    const copies = parseInt(document.getElementById("copies").value) || 1;
-    const baseFee = services.death.offers.death_certificate.baseFee;
-    const deliveryFee = services.death.offers.death_certificate.deliveryFee;
-    const totalAmount = (baseFee * copies) + deliveryFee;
+      document.getElementById('sms-confirmation').style.display = 'none';
+      // Redirect to payment page instead of showing feedback
       window.location.href = "../payment.html?service=death&offer=death_certificate";
     }
 
@@ -527,5 +523,6 @@
     }
   </script>
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+  <script src="/payment.js"></script>
 </body>
 </html>

@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Registration of Delayed Death Certificate</title>
             <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
             <link rel="icon" href="/images/cris_logo.png" type="image/x-icon">
-
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+            <script type="text/javascript">
+                (function() {
+                    emailjs.init({
+                        publicKey: "7AaFlXLN7NgxISD0p",
+                    });
+                })();
+            </script>
 
         <style>
              body {
@@ -15,7 +22,7 @@
             background:
                 url('death-bg-new.png') no-repeat bottom left fixed,
                 url('d-bird-bg.png') no-repeat top right fixed;
-          background-size: 500px auto, 300px auto; /* size for each image */
+          background-size: 500px auto, 300px auto;
           background-color: #f8f7f2;
           min-height: 100vh;
           background-attachment: fixed;
@@ -213,9 +220,120 @@
                 background-color: #218838;
             }
 
+            /* Feedback Styles */
+            #feedbackPrompt {
+                display: none;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100vw; height: 100vh;
+                background: rgba(0,0,0,0.4);
+                z-index: 10000;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #feedbackPrompt > div {
+                background: white;
+                padding: 30px 40px;
+                border-radius: 12px;
+                text-align: center;
+                position: relative;
+                width: 90%;
+                max-width: 500px;
+            }
+
+            #feedbackPrompt span {
+                position: absolute;
+                top: 10px; right: 15px;
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+            #starContainer {
+                display: flex;
+                justify-content: center;
+                margin: 20px 0;
+            }
+
+            #starContainer .star {
+                font-size: 2.5rem;
+                color: #ccc;
+                cursor: pointer;
+                margin: 0 5px;
+                transition: color 0.2s;
+            }
+
+            #starContainer .star.highlighted,
+            #starContainer .star.selected {
+                color: #ed2224;
+            }
+
+            #writtenFeedback {
+                display: none;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100vw; height: 100vh;
+                background: rgba(0,0,0,0.4);
+                z-index: 10001;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #writtenFeedback > div {
+                background: white;
+                padding: 30px 40px;
+                border-radius: 12px;
+                text-align: center;
+                position: relative;
+                width: 90%;
+                max-width: 500px;
+            }
+
+            #writtenFeedback span {
+                position: absolute;
+                top: 10px; right: 15px;
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+            #starsSelected {
+                font-size: 2rem;
+                color: #ed2224;
+                margin-bottom: 15px;
+            }
+
+            #feedbackText {
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                margin-top: 15px;
+                min-height: 100px;
+            }
+
+            #thankYouFeedback {
+                display: none;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100vw; height: 100vh;
+                background: rgba(0,0,0,0.4);
+                z-index: 10002;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #thankYouFeedback > div {
+                background: white;
+                padding: 30px 40px;
+                border-radius: 12px;
+                text-align: center;
+                width: 90%;
+                max-width: 500px;
+            }
+
             .back-button {
             display: inline-block;
-            margin: 20px 0 20px 10px; /* Push to left */
+            margin: 20px 0 20px 10px;
             text-align: center;
             padding: 10px 15px;
             background-color: #f70707;
@@ -229,6 +347,13 @@
             background-color: #f10707;
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .error-message {
+                color: #ef4444;
+                font-size: 0.85rem;
+                margin-top: 6px;
+                display: none;
             }
         </style>
 
@@ -246,7 +371,7 @@
                       <li><strong>Affidavit of Delayed Registration:</strong>This need to be signed by the Hospital, Attendant at death or nearest relative</li>
                       <li><strong>Certificate of Burial/Cremation:</strong>This provides proof of the deceased disposition.</li>
                       <li><strong>Negative Ceritification(PSA):</strong>This confirms the death has already been released in PSA but not registered in PSA database.</li>
-                      <li><strong>Valid ID:</strong> Government-issued IDs (e.g., Passport, Driver’s License, UMID, PhilHealth ID, Voter’s ID)</li>
+                      <li><strong>Valid ID:</strong> Government-issued IDs (e.g., Passport, Driver's License, UMID, PhilHealth ID, Voter's ID)</li>
                     </ul>
                 
                     <h3>📝 Optional</h3>
@@ -257,55 +382,102 @@
 
                 <h1>Delayed Registration for Death Certificate</h1>
                 <div class="DelayedRegistration">
-                    <form id="appointment" onsubmit="event.preventDefault(); showSMSConfirmation();">
+                    <form id="appointment">
                         <label for="name">Name of the Requester</label>
                         <input type="text" id="fullName" placeholder="Last Name, First Name Middle Initial" required>
+                        <div id="fullName-error" class="error-message">Please enter your full name</div>
 
                         <label for="deceased">Deceased Name</label>
                         <input type="text" id="deceased" placeholder="Last Name, First Name Middle Initial" required>
+                        <div id="deceased-error" class="error-message">Please enter the deceased's name</div>
 
                         <label for="reason">Reason for Delayed</label>
                         <input type="text" id="reason" placeholder="Reason" required>
+                        <div id="reason-error" class="error-message">Please provide a reason</div>
 
                         <label for="date">Date the Deceased Died</label>
                         <input type="date" id="date" required>
+                        <div id="date-error" class="error-message">Please select a date</div>
 
                         <label for="time">Time the Deceased Died</label>
                         <input type="time" id="time" required>
+                        <div id="time-error" class="error-message">Please select a time</div>
 
                         <label for="mobile">Mobile no.</label>
                         <input type="text" id="mobile" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="####-###-####" required>
+                        <div id="mobile-error" class="error-message">Please enter a valid mobile number (####-###-####)</div>
 
                         <label for="email">Email</label>
                         <input type="email" id="email" placeholder="ex. Jm2312@gmail.com" required>
+                        <div id="email-error" class="error-message">Please enter a valid email address</div>
 
                         <h3>Upload Documents</h3>
                         <label for="DeathCertificate">Death Certificate</label>
-                        <input type="file" accept="image/*,application/pdf" >
+                        <input type="file" id="DeathCertificate" accept="image/*,application/pdf" required>
+                        <div id="DeathCertificate-error" class="error-message">Please upload the death certificate</div>
 
                         <label for="affidavit">Affidavit of Delayed Registration</label>
-                        <input type="file" accept="image/*,application/pdf" >
+                        <input type="file" id="affidavit" accept="image/*,application/pdf" required>
+                        <div id="affidavit-error" class="error-message">Please upload the affidavit</div>
 
                         <label for="ValidID">Valid ID</label>
-                        <input type="file" accept="image/*,application/pdf" >
-                        <label for="CertOfBurialOrCrem">Certificate of Burial/Cremation</label>
-                        <input type="file" accept="image/*,application/pdf" >
-                        <label for="Negative-PSA">Negative Ceritification (PSA)</label>
-                        <input type="file" accept="image/*,application/pdf" >
-                        <label for="Autopsy">Autopsy Report (OPTIONAL)</label>
-                        <input type="file" accept="image/*,application/pdf" >
+                        <input type="file" id="ValidID" accept="image/*,application/pdf" required>
+                        <div id="ValidID-error" class="error-message">Please upload a valid ID</div>
 
-                        <button type="submit" class="submit">Submit</button>
+                        <label for="CertOfBurialOrCrem">Certificate of Burial/Cremation</label>
+                        <input type="file" id="CertOfBurialOrCrem" accept="image/*,application/pdf" required>
+                        <div id="CertOfBurialOrCrem-error" class="error-message">Please upload the certificate</div>
+
+                        <label for="Negative-PSA">Negative Ceritification (PSA)</label>
+                        <input type="file" id="Negative-PSA" accept="image/*,application/pdf" required>
+                        <div id="Negative-PSA-error" class="error-message">Please upload the negative certification</div>
+
+                        <label for="Autopsy">Autopsy Report (OPTIONAL)</label>
+                        <input type="file" id="Autopsy" accept="image/*,application/pdf">
+
+                        <button type="button" class="submit" onclick="submitDeathForm()">Submit</button>
                     </form>
                 </div>
             </div>
         </section>
 
+        <!-- Confirmation Modal -->
         <div id="sms-confirmation">
             <div class="modal-content">
-              <h3>Request Submitted!</h3>
-              <p>You will receive a confirmation message via SMS and Email once the Registration has been completed.</p>
-              <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+                <h3>Your request has been submitted successfully!</h3>
+                <p>Please wait for a confirmation via SMS or email.</p>
+                <p>You will receive an update within 3 working days regarding your request.</p>
+                <button id="confirm-ok-button">OK</button>
+            </div>
+        </div>
+
+        <!-- Feedback Prompt: Star Rating -->
+        <div id="feedbackPrompt">
+            <div>
+                <span onclick="closeFeedback()">&times;</span>
+                <h3>Would you like to leave feedback about your experience?</h3>
+                <div id="starContainer"></div>
+            </div>
+        </div>
+
+        <!-- Feedback Text Input -->
+        <div id="writtenFeedback">
+            <div>
+                <span onclick="closeFeedback()">&times;</span>
+                <div id="starsSelected">★★★★★</div>
+                <p>Tell us a bit more about why you chose <span id="starCount">0</span> stars</p>
+                <textarea id="feedbackText" rows="4" placeholder="e.g., fast and easy to understand"></textarea>
+                <br /><br />
+                <button onclick="submitFeedback()" style="background-color: #ed2224; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Submit</button>
+            </div>
+        </div>
+
+        <!-- Thank You Prompt -->
+        <div id="thankYouFeedback">
+            <div>
+                <h3>Thank you for your feedback.</h3>
+                <p>Your feedback is highly valued and is used to improve our service.</p>
+                <button onclick="closeFeedback(); document.getElementById('appointment').reset();" style="background-color: #254c9a; color: white; padding: 10px 20px; border-radius: 8px; border: none;">Done</button>
             </div>
         </div>
 
@@ -351,41 +523,218 @@
                 localStorage.setItem("DeathRecords", JSON.stringify(records));
             }
 
-            function showSMSConfirmation() {
-            document.getElementById('sms-confirmation').style.display = 'block';
-            sendToDashboard();
-            document.querySelector('form').reset();
-          
-            document.getElementById('otherCorrectionContainer').style.display = 'none';
-          }
-        </script>
-        <script>
-            // date
-            const deceasedDateInput = document.getElementById("date");
-            const today = new Date();
-          
-            // Set the maximum date to today's date
-            const maxDate = today.toISOString().split("T")[0];
-            deceasedDateInput.setAttribute("max", maxDate);
+            function clearAllFields() {
+                document.getElementById("appointment").reset();
+                // Reset date restrictions
+                const today = new Date().toISOString().split("T")[0];
+                document.getElementById("date").setAttribute("max", today);
+            }
 
-            document.getElementById("appointment").addEventListener("submit", function(event) {
-                event.preventDefault();
-                document.getElementById("successMsg").style.display = "block";
-                this.reset();
-            });
+            function validateForm() {
+                // Validate all required fields
+                const requiredInputs = document.querySelectorAll('[required]');
+                let isValid = true;
+
+                for (const input of requiredInputs) {
+                    const errorElement = document.getElementById(`${input.id}-error`);
+                    if (!input.value && input.type !== 'file') {
+                        input.style.borderColor = 'red';
+                        if (errorElement) errorElement.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        input.style.borderColor = '#ccc';
+                        if (errorElement) errorElement.style.display = 'none';
+                    }
+                }
+
+                // Validate file inputs
+                const requiredFiles = ['DeathCertificate', 'affidavit', 'ValidID', 'CertOfBurialOrCrem', 'Negative-PSA'];
+                for (const fileId of requiredFiles) {
+                    const fileInput = document.getElementById(fileId);
+                    const errorElement = document.getElementById(`${fileId}-error`);
+                    if (!fileInput.files || fileInput.files.length === 0) {
+                        fileInput.style.borderColor = 'red';
+                        if (errorElement) errorElement.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        fileInput.style.borderColor = '#ccc';
+                        if (errorElement) errorElement.style.display = 'none';
+                    }
+                }
+
+                return isValid;
+            }
+
+            function submitDeathForm() {
+                if (!validateForm()) {
+                    Swal.fire('Error', 'Please fill out all required fields and upload all required documents.', 'error');
+                    return;
+                }
+
+                // Show confirmation dialog
+                Swal.fire({
+                    title: 'Confirm Submission',
+                    text: 'Are you sure you want to submit the delayed death registration?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, submit!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        sendToDashboard();
+                        sendmail();
+                        document.getElementById('sms-confirmation').style.display = 'block';
+                    }
+                });
+            }
+
+            // EmailJS function
+            function sendmail() {
+                const subject = "Delayed Death Certificate Registration";
+                const name = document.getElementById("fullName").value;
+                const email = document.getElementById("email").value;
+                const phone = document.getElementById("mobile").value;
+                const deceasedName = document.getElementById("deceased").value;
+                const date = document.getElementById("date").value;
+                const time = document.getElementById("time").value;
+                const reason = document.getElementById("reason").value;
+
+                // Prepare the email parameters
+                var templateParams = {
+                    subject: subject,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    deceasedName: deceasedName,
+                    date: date,
+                    time: time,
+                    reason: reason
+                };
+
+                // Send the email using EmailJS
+                emailjs.send('service_0x3j0x9', 'template_2c7q9b6', templateParams)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                    });
+            }
+
             // Mobile number format
             const phoneInput = document.getElementById("mobile");
 
             phoneInput.addEventListener("input", function () {
-            let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
-            if (value.length > 4) {
-                value = value.slice(0, 4) + "-" + value.slice(4);
-            }
-            if (value.length > 8) {
-                value = value.slice(0, 8) + "-" + value.slice(8, 12);
-            }
-            phoneInput.value = value;
+                let value = phoneInput.value.replace(/\D/g, ""); // Remove all non-digit characters
+                if (value.length > 4) {
+                    value = value.slice(0, 4) + "-" + value.slice(4);
+                }
+                if (value.length > 8) {
+                    value = value.slice(0, 8) + "-" + value.slice(8, 12);
+                }
+                phoneInput.value = value;
             });
+
+            // Initialize date restrictions
+            window.onload = () => {
+                const today = new Date().toISOString().split("T")[0];
+                document.getElementById("date").setAttribute("max", today);
+                
+                // Initialize feedback system
+                initFeedbackSystem();
+                
+                // Connect OK button to show feedback
+                document.getElementById('confirm-ok-button').addEventListener('click', function() {
+                    document.getElementById('sms-confirmation').style.display = 'none';
+                    showFeedbackPrompt();
+                });
+            };
+
+            function initFeedbackSystem() {
+                const starContainer = document.getElementById("starContainer");
+                let selectedRating = 0;
+
+                // Clear container first
+                starContainer.innerHTML = '';
+
+                // Create 5 stars
+                for (let i = 1; i <= 5; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.innerHTML = '★';
+                    star.dataset.rating = i;
+                    
+                    star.addEventListener('click', function() {
+                        selectedRating = i;
+                        highlightStars(selectedRating);
+                        showWrittenFeedback(selectedRating);
+                    });
+
+                    star.addEventListener('mouseover', function() {
+                        highlightStars(i);
+                    });
+
+                    star.addEventListener('mouseout', function() {
+                        highlightStars(selectedRating);
+                    });
+
+                    starContainer.appendChild(star);
+                }
+
+                function highlightStars(rating) {
+                    const stars = document.querySelectorAll('.star');
+                    stars.forEach((star, index) => {
+                        star.classList.remove('highlighted', 'selected');
+                        
+                        if (index < rating) {
+                            star.classList.add('highlighted');
+                        }
+                        
+                        if (index < selectedRating) {
+                            star.classList.add('selected');
+                        }
+                    });
+                }
+
+                window.showWrittenFeedback = function(rating) {
+                    document.getElementById("feedbackPrompt").style.display = "none";
+                    document.getElementById("writtenFeedback").style.display = "flex";
+                    document.getElementById("starCount").textContent = rating;
+                    document.getElementById("starsSelected").innerHTML = "★".repeat(rating) + "☆".repeat(5 - rating);
+                };
+
+                window.closeFeedback = function() {
+                    document.getElementById("feedbackPrompt").style.display = "none";
+                    document.getElementById("writtenFeedback").style.display = "none";
+                    document.getElementById("thankYouFeedback").style.display = "none";
+                };
+
+                window.showFeedbackPrompt = function() {
+                    document.getElementById("feedbackPrompt").style.display = "flex";
+                };
+
+                window.submitFeedback = function() {
+                    const feedback = document.getElementById("feedbackText").value.trim();
+                    if (feedback) {
+                        // Here you would typically send the feedback to your server
+                        console.log("Feedback submitted:", {
+                            rating: selectedRating,
+                            comments: feedback
+                        });
+                        
+                        document.getElementById("writtenFeedback").style.display = "none";
+                        document.getElementById("thankYouFeedback").style.display = "flex";
+                        
+                        // Clear feedback text for next time
+                        document.getElementById("feedbackText").value = "";
+                        selectedRating = 0;
+                        highlightStars(0);
+                    } else {
+                        alert("Please enter your feedback.");
+                    }
+                };
+            }
         </script>
     </body>
 </html>

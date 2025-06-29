@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Marriage License Registration</title>
-    <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
-    <link rel="icon" href="/images/cris_logo.png" type="image/x-icon">
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <link rel="icon" href="/images/cris_logo.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
     body {
       font-family: 'Golos Text', sans-serif;
-       background:
-         url('marriage-bg-new.png') no-repeat bottom right fixed,
-         url('m-bird-bg.png') no-repeat top left fixed;
-      background-size: 500px auto, 300px auto; /* size for each i   mage */
+      background:
+        url('marriage-bg-new.png') no-repeat bottom right fixed,
+        url('m-bird-bg.png') no-repeat top left fixed;
+      background-size: 500px auto, 300px auto;
       background-color: #f8f7f2;
       margin: 0;
       padding: 0;
@@ -21,13 +22,22 @@
       justify-content: center;
       align-items: center;
     }
+    
+    .form-container {
+      padding: 40px 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .form-card {
       background: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-      max-width: 700px;
-      width: 100%;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 900px;
+      width: 95%;
     }
 
     h2 {
@@ -48,13 +58,16 @@
     input[type="date"],
     input[type="email"],
     input[type="tel"],
-    input[type="file"] {
+    input[type="file"],
+    select,
+    textarea {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
       box-sizing: border-box;
       margin-top: 5px;
+      margin-bottom: 15px;
       font-size: 1rem;
       transition: border-color 0.3s;
     }
@@ -62,9 +75,12 @@
     input[type="text"]:focus,
     input[type="date"]:focus,
     input[type="email"]:focus,
-    input[type="tel"]:focus {
+    input[type="tel"]:focus,
+    select:focus,
+    textarea:focus {
       border-color: #28a745;
       outline: none;
+      box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
     }
 
     input:focus::placeholder {
@@ -74,68 +90,24 @@
     button {
       margin-top: 25px;
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background-color: #2980b9;
+      color: #fff;
       border: none;
-      color: white;
-      font-weight: bold;
       border-radius: 8px;
-      font-size: 1rem;
+      font-size: 1.1rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #218838;
-    }
-
-    #confirmation-message {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-      margin: 15% auto;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-content h3 {
-      margin-bottom: 15px;
-      color: #333;
-    }
-
-    .modal-content p {
-      margin-bottom: 20px;
-      color: #555;
-    }
-
-    .modal-content button {
-      padding: 10px 20px;
-      background-color: #28a745;
-      border: none;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .modal-content button:hover {
-      background-color: #218838;
+      background-color: #1c5980;
     }
 
     .back-button {
       display: inline-block;
-      margin: 20px 0 20px 10px; /* Push to left */
+      margin: 20px 0 20px 10px;
       text-align: center;
       padding: 10px 15px;
       background-color: #f70707;
@@ -150,72 +122,190 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+
+    .location-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .location-group input,
+    .location-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: white;
+      transition: border-color 0.3s ease;
+    }
+
+    .location-group input:focus,
+    .location-group select:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .location-group input[readonly],
+    .location-group select:disabled {
+      background-color: #f9fafb;
+      color: #4b5563;
+      cursor: not-allowed;
+      border-color: #e5e7eb;
+    }
+
+    .location-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #374151;
+      font-size: 0.95rem;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .location-group .full-width {
+      grid-column: span 3;
+    }
+
+    .location-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+    @media (max-width: 700px) {
+      .location-group {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 150px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      cursor: crosshair;
+      background-color: #fafafa;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    .clear-btn {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 12px;
+      margin-bottom: 15px;
+      background-color: #6c757d;
+      border-radius: 4px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .clear-btn:hover {
+      background-color: #5a6268;
+    }
   </style>
 </head>
 <body>
 
-<div class="form-card">
-  <a class="back-button" href="marriage-service.html">Back</a>
-  <h2>Marriage License Registration</h2>
-  <form id="LicenseForm" onsubmit="event.preventDefault(); showConfirmation();">
-    <label for="applicantName">Applicant Full Name</label>
-    <input type="text" id="applicantName" placeholder="Last Name, First Name, Middle Name" required>
-    <hr>
-    <label for="brideName">Full Name of Bride</label>
-    <input type="text" id="brideName" name="brideName" placeholder="Last Name, First Name, Middle Name" required>
+<div class="form-container">
+  <div class="form-card">
+    <a class="back-button" href="marriage-service.html">Back</a>
+    <h2>Marriage License Registration</h2>
+    <form id="LicenseForm">
+      <label for="applicantName">Applicant Full Name</label>
+      <input type="text" id="applicantName" placeholder="Last Name, First Name, Middle Name" required>
+      
+      <hr>
+      
+      <label for="brideName">Full Name of Bride</label>
+      <input type="text" id="brideName" name="brideName" placeholder="Last Name, First Name, Middle Name" required>
 
-    <label for="brideDOB">Bride's Date of Birth</label>
-    <input type="date" id="brideDOB" name="brideDOB" required>
+      <label for="brideDOB">Bride's Date of Birth</label>
+      <input type="date" id="brideDOB" name="brideDOB" required>
 
-    <label for="groomName">Full Name of Groom</label>
-    <input type="text" id="groomName" name="groomName" placeholder="Last Name, First Name, Middle Name" required>
+      <label for="groomName">Full Name of Groom</label>
+      <input type="text" id="groomName" name="groomName" placeholder="Last Name, First Name, Middle Name" required>
 
-    <label for="groomDOB">Groom's Date of Birth</label>
-    <input type="date" id="groomDOB" name="groomDOB" required>
+      <label for="groomDOB">Groom's Date of Birth</label>
+      <input type="date" id="groomDOB" name="groomDOB" required>
 
-    <label for="marriageDate">Intended Date of Marriage</label>
-    <input type="date" id="marriageDate" name="marriageDate" required>
+      <label for="marriageDate">Intended Date of Marriage</label>
+      <input type="date" id="marriageDate" name="marriageDate" required>
 
-    <label for="place">Place of Marriage</label>
-    <input type="text" id="place" name="place" required>
+      <label>Place of Marriage:</label>
+      <div class="location-group">
+        <input type="text" id="marriageRegion" value="National Capital Region (NCR)" readonly required>
+        <input type="text" id="marriageCity" value="City of Manila" readonly required>
+        <select id="marriageDistrict" required onchange="updateMarriageBarangays()">
+          <option value="" disabled selected>Select District</option>
+          <option value="District I">District I</option>
+          <option value="District II">District II</option>
+          <option value="District III">District III</option>
+          <option value="District IV">District IV</option>
+          <option value="District V">District V</option>
+          <option value="District VI">District VI</option>
+        </select>
+        <div id="marriage-district-error" class="error-message">Please select a district</div>
+        <select id="marriageBarangay" required>
+          <option value="" disabled selected>Select Barangay</option>
+        </select>
+        <div id="marriage-barangay-error" class="error-message">Please select a barangay</div>
+        <input type="text" id="marriageLocation" placeholder="Venue/Church/Street" required>
+        <div id="marriage-location-error" class="error-message">Please specify place of marriage</div>
+      </div>
 
-    <label for="contact">Contact Number</label>
-    <input type="text" id="contact" name="contact" required>
+      <label for="contact">Contact Number</label>
+      <input type="tel" id="contact" name="contact" placeholder="09XX-XXX-XXXX" required>
 
-    <label for="email">Email Address</label>
-    <input type="email" id="email" name="email" required>
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required>
 
-    <label for="brideID">Bride's Valid ID (PDF)</label>
-    <input type="file" id="brideID" name="brideID" accept=".pdf" required>
+      <label for="brideID">Bride's Valid ID (PDF)</label>
+      <input type="file" id="brideID" name="brideID" accept=".pdf" required>
 
-    <label for="groomID">Groom's Valid ID (PDF)</label>
-    <input type="file" id="groomID" name="groomID" accept=".pdf" required>
+      <label for="groomID">Groom's Valid ID (PDF)</label>
+      <input type="file" id="groomID" name="groomID" accept=".pdf" required>
 
-    <label for="birthCerts">Birth Certificates (PDF)</label>
-    <input type="file" id="birthCerts" name="birthCerts" accept=".pdf" required>
+      <label for="birthCerts">Birth Certificates (PDF)</label>
+      <input type="file" id="birthCerts" name="birthCerts" accept=".pdf" required>
 
-    <label for="cenomar">CENOMAR (PDF)</label>
-    <input type="file" id="cenomar" name="cenomar" accept=".pdf" required>
+      <label for="cenomar">CENOMAR (PDF)</label>
+      <input type="file" id="cenomar" name="cenomar" accept=".pdf" required>
 
-    <label for="parentalConsent">Parental Consent (if under 21, PDF)</label>
-    <input type="file" id="parentalConsent" name="parentalConsent" accept=".pdf">
+      <label for="parentalConsent">Parental Consent (if under 21, PDF)</label>
+      <input type="file" id="parentalConsent" name="parentalConsent" accept=".pdf">
 
-    <label for="marriageCounseling">Marriage Counseling Certificate (PDF)</label>
-    <input type="file" id="marriageCounseling" name="marriageCounseling" accept=".pdf" required>
+      <label for="marriageCounseling">Marriage Counseling Certificate (PDF)</label>
+      <input type="file" id="marriageCounseling" name="marriageCounseling" accept=".pdf" required>
 
-    <label style="margin-top: 20px;">
-      <input type="checkbox" required> I certify that the information provided is true and correct.
-    </label>
+      <label>Bride's Signature (Draw Below):</label>
+      <canvas id="bride-signature" tabindex="0"></canvas>
+      <button type="button" class="clear-btn" onclick="clearCanvas('bride-signature')">Clear Signature</button>
 
-    <button type="submit">Submit Application</button>
-  </form>
-</div>
+      <label>Groom's Signature (Draw Below):</label>
+      <canvas id="groom-signature" tabindex="0"></canvas>
+      <button type="button" class="clear-btn" onclick="clearCanvas('groom-signature')">Clear Signature</button>
 
-<div id="confirmation-message">
-  <div class="modal-content">
-    <h3>Application Submitted!</h3>
-    <p>Your marriage license application has been submitted. You will receive a confirmation via SMS and email shortly.</p>
-    <button onclick="document.getElementById('confirmation-message').style.display='none'">OK</button>
+      <label style="margin-top: 20px;">
+        <input type="checkbox" required> I certify that the information provided is true and correct.
+      </label>
+
+      <button type="button" onclick="submitLicenseForm()">Submit Application</button>
+    </form>
   </div>
 </div>
 
@@ -232,7 +322,49 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 <script>
-    function generateRegistryNumber() {
+  // Barangay data by district for marriage
+  const marriageBarangaysByDistrict = {
+    "District I": ["Binondo", "Quiapo", "San Nicolas", "Santa Cruz", "Tondo I", "Tondo II"],
+    "District II": ["Ermita", "Intramuros", "Malate", "Paco", "Pandacan", "Port Area", "San Miguel", "San Andres"],
+    "District III": ["Santa Ana", "Santa Mesa"],
+    "District IV": ["Sampaloc East", "Sampaloc West", "San Isidro", "San Jose", "San Juan", "San Rafael", "Santa Mesa", "Santo Cristo", "Santo Domingo", "Talayan"],
+    "District V": ["Pandacan", "San Andres Bukid", "Santa Ana"],
+    "District VI": ["Paco", "San Andres Bukid", "Santa Ana"]
+  };
+
+  function updateMarriageBarangays() {
+    const districtSelect = document.getElementById("marriageDistrict");
+    const barangaySelect = document.getElementById("marriageBarangay");
+    const selectedDistrict = districtSelect.value;
+
+    // Clear existing options
+    barangaySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+
+    // Add new options based on selected district
+    if (selectedDistrict && marriageBarangaysByDistrict[selectedDistrict]) {
+      marriageBarangaysByDistrict[selectedDistrict].forEach(barangay => {
+        const option = document.createElement("option");
+        option.value = barangay;
+        option.textContent = barangay;
+        barangaySelect.appendChild(option);
+      });
+    }
+  }
+
+  function clearCanvas(id) {
+    const canvas = document.getElementById(id);
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function isCanvasEmpty(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext("2d");
+    const pixelBuffer = new Uint32Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
+    return !pixelBuffer.some(color => color !== 0);
+  }
+
+  function generateRegistryNumber() {
     const now = new Date();
     return `REG-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}-${now.getTime().toString().slice(-5)}`;
   }
@@ -256,37 +388,127 @@
     localStorage.setItem("MarriageRecords", JSON.stringify(records));
   }
 
-  function showConfirmation() {
-    sendToDashboard();
-    document.getElementById('confirmation-message').style.display = 'block';
-    document.querySelector('form').reset();
+  function clearAllFields() {
+    document.getElementById("LicenseForm").reset();
+    clearCanvas("bride-signature");
+    clearCanvas("groom-signature");
+    document.getElementById("marriageDistrict").selectedIndex = 0;
+    document.getElementById("marriageBarangay").innerHTML = '<option value="" disabled selected>Select Barangay</option>';
   }
-</script>
-<script>
-  // date
-const intendedDate = document.getElementById("marriageDate");
-const brideDate = document.getElementById("brideDOB");
-const groomDate = document.getElementById("groomDOB");
-const today = new Date();
 
-const maxDate = today.toISOString().split("T")[0];
-intendedDate.setAttribute("max", maxDate);
-brideDate.setAttribute("max", maxDate);
-groomDate.setAttribute("max", maxDate);
+  function submitLicenseForm() {
+    // Validate all required fields
+    const requiredInputs = document.querySelectorAll('[required]');
+    let isValid = true;
 
-// Mobile number format
-const phoneInput = document.getElementById("contact");
+    for (const input of requiredInputs) {
+      if (!input.value && input.type !== 'file') {
+        input.style.borderColor = 'red';
+        isValid = false;
+      } else {
+        input.style.borderColor = '#ccc';
+      }
+    }
 
-phoneInput.addEventListener("input", function () {
-let value = phoneInput.value.replace(/\D/g, ""); 
-if (value.length > 4) {
-    value = value.slice(0, 4) + "-" + value.slice(4);
-}
-if (value.length > 8) {
-    value = value.slice(0, 8) + "-" + value.slice(8, 12);
-}
-phoneInput.value = value;
-}); 
+    // Validate file inputs
+    const requiredFiles = ['brideID', 'groomID', 'birthCerts', 'cenomar', 'marriageCounseling'];
+    for (const fileId of requiredFiles) {
+      const fileInput = document.getElementById(fileId);
+      if (!fileInput.files || fileInput.files.length === 0) {
+        fileInput.style.borderColor = 'red';
+        isValid = false;
+      } else {
+        fileInput.style.borderColor = '#ccc';
+      }
+    }
+
+    // Validate signatures
+    if (isCanvasEmpty('bride-signature') || isCanvasEmpty('groom-signature')) {
+      Swal.fire('Error', 'Please provide both signatures.', 'error');
+      return;
+    }
+
+    if (!isValid) {
+      Swal.fire('Error', 'Please fill out all required fields and upload all required documents.', 'error');
+      return;
+    }
+
+    // Show confirmation dialog
+    Swal.fire({
+      title: 'Confirm Submission',
+      text: 'Are you sure you want to submit the marriage license application?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, submit!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        sendToDashboard();
+        
+        Swal.fire({
+          title: 'Success!',
+          html: `Your marriage license application has been submitted successfully!<br><br>
+                 You will receive a confirmation via SMS and email shortly.`,
+          icon: 'success'
+        }).then(() => {
+          clearAllFields();
+        });
+      }
+    });
+  }
+
+  // Mobile number format
+  const phoneInput = document.getElementById("contact");
+
+  phoneInput.addEventListener("input", function () {
+    let value = phoneInput.value.replace(/\D/g, ""); 
+    if (value.length > 4) {
+      value = value.slice(0, 4) + "-" + value.slice(4);
+    }
+    if (value.length > 8) {
+      value = value.slice(0, 8) + "-" + value.slice(8, 12);
+    }
+    phoneInput.value = value;
+  });
+
+  window.onload = () => {
+    // Initialize signature canvases
+    ["bride-signature", "groom-signature"].forEach(id => {
+      const canvas = document.getElementById(id);
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+
+      canvas.addEventListener("mousedown", () => drawing = true);
+      canvas.addEventListener("mouseup", () => { drawing = false; ctx.beginPath(); });
+      canvas.addEventListener("mouseout", () => drawing = false);
+      canvas.addEventListener("mousemove", (e) => {
+        if (!drawing) return;
+        const rect = canvas.getBoundingClientRect();
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "#000";
+        ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+      });
+    });
+
+    // Initialize date restrictions
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("brideDOB").setAttribute("max", today);
+    document.getElementById("groomDOB").setAttribute("max", today);
+    
+    // Set minimum date for marriage date (today) and no maximum (future dates allowed)
+    document.getElementById("marriageDate").setAttribute("min", today);
+
+    // Initialize barangay dropdowns
+    updateMarriageBarangays();
+  };
 </script>
 </body>
 </html>

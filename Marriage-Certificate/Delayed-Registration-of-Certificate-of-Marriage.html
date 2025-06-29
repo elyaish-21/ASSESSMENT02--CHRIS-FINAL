@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Delayed Registration of Certificate of Marriage</title>
-    <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
-    <link rel="icon" href="/images/cris_logo.png" type="image/x-icon">
+  <link href="https://fonts.cdnfonts.com/css/golos-text" rel="stylesheet" />
+  <link rel="icon" href="/images/cris_logo.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
     body {
-     font-family: 'Golos Text', sans-serif;
-       background:
-         url('marriage-bg-new.png') no-repeat bottom right fixed,
-         url('m-bird-bg.png') no-repeat top left fixed;
-      background-size: 500px auto, 300px auto; /* size for each i   mage */
+      font-family: 'Golos Text', sans-serif;
+      background:
+        url('marriage-bg-new.png') no-repeat bottom right fixed,
+        url('m-bird-bg.png') no-repeat top left fixed;
+      background-size: 500px auto, 300px auto;
       background-color: #f8f7f2;
       margin: 0;
       padding: 0;
@@ -82,6 +83,7 @@
     select:focus {
       border-color: #3498db;
       outline: none;
+      box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
     }
 
     input:focus::placeholder {
@@ -94,7 +96,7 @@
 
     button {
       margin-top: 30px;
-      padding: 12px 20px;
+      padding: 14px 20px;
       background-color: #2980b9;
       color: white;
       border: none;
@@ -107,7 +109,7 @@
     }
 
     button:hover {
-      background-color: #218838;
+      background-color: #1c5980;
     }
 
     p {
@@ -117,50 +119,9 @@
       line-height: 1.6;
     }
 
-    /* Modal Styling */
-    #sms-confirmation {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-content {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 400px;
-      margin: 15% auto;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-content h3 {
-      margin-top: 0;
-      color: #2c3e50;
-    }
-
-    .modal-content button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #2980b9;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .modal-content button:hover {
-      background-color: #218838;
-    }
-
     .back-button {
       display: inline-block;
-      margin: 20px 0 20px 10px; /* Push to left */
+      margin: 20px 0 20px 10px;
       text-align: center;
       padding: 10px 15px;
       background-color: #f70707;
@@ -175,66 +136,295 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+
+    .location-group {
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      background-color: #f9f9f9;
+    }
+
+    .location-group input[type="text"],
+    .location-group select {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 1rem;
+      background-color: #fff;
+    }
+
+    .location-group input[readonly] {
+      background-color: #f0f0f0;
+      color: #555;
+      cursor: not-allowed;
+    }
+
+    .location-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 16px;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: -5px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .file-error {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 150px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      cursor: crosshair;
+      background-color: #fafafa;
+    }
+
+    .clear-btn {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 12px;
+      margin-bottom: 15px;
+      background-color: #6c757d;
+      border-radius: 4px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .clear-btn:hover {
+      background-color: #5a6268;
+    }
+
+    /* Feedback Modal Styles */
+    .feedback-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .feedback-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .feedback-content h2 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    .rating-stars {
+      margin: 20px 0;
+      text-align: center;
+      font-size: 30px;
+    }
+
+    .rating-stars span {
+      cursor: pointer;
+      margin: 0 5px;
+    }
+
+    .feedback-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .feedback-buttons button {
+      margin: 0;
+      width: 48%;
+    }
+
+    .feedback-success {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .feedback-success-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .feedback-success-content h2 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    .feedback-success-content button {
+      margin-top: 20px;
+      width: auto;
+      padding: 10px 20px;
+    }
   </style>
 </head>
 <body>
   <div class="form-container">
     <a class="back-button" href="marriage-service.html">Back</a>
     <h1>Delayed Registration of Certificate of Marriage</h1>
-    <form id="marriage-form" onsubmit="event.preventDefault(); showSMSConfirmation();">
+    <form id="marriage-form">
       <fieldset>
         <legend>Marriage Details</legend>
         <label>Spouse 1 Full Name:</label>
         <input type="text" name="spouse1_name" placeholder="Last Name, First Name, Middle Initial" required>
+        <div id="spouse1-error" class="error-message">Please enter spouse 1's full name</div>
+        
         <label>Spouse 2 Full Name:</label>
         <input type="text" name="spouse2_name" placeholder="Last Name, First Name, Middle Initial" required>
+        <div id="spouse2-error" class="error-message">Please enter spouse 2's full name</div>
+        
         <label>Date of Marriage:</label>
         <input type="date" id="marriage_date" name="marriage_date" required>
+        <div id="marriage-date-error" class="error-message">Please select a valid marriage date</div>
+        
         <label>Place of Marriage:</label>
-        <input type="text" name="marriage_place" required>
+        <div class="location-group">
+          <input type="text" id="marriageRegion" value="National Capital Region (NCR)" readonly required>
+          <input type="text" id="marriageCity" value="City of Manila" readonly required>
+          <select id="marriageDistrict" required onchange="updateMarriageBarangays()">
+            <option value="" disabled selected>Select District</option>
+            <option value="District I">District I</option>
+            <option value="District II">District II</option>
+            <option value="District III">District III</option>
+            <option value="District IV">District IV</option>
+            <option value="District V">District V</option>
+            <option value="District VI">District VI</option>
+          </select>
+          <div id="marriage-district-error" class="error-message">Please select a district</div>
+          <select id="marriageBarangay" required>
+            <option value="" disabled selected>Select Barangay</option>
+          </select>
+          <div id="marriage-barangay-error" class="error-message">Please select a barangay</div>
+          <input type="text" id="marriageLocation" placeholder="Venue/Church/Street" required>
+          <div id="marriage-location-error" class="error-message">Please specify place of marriage</div>
+        </div>
+        
         <label>Name of Solemnizing Officer:</label>
         <input type="text" name="solemnizing_officer" placeholder="Last Name, First Name, Middle Initial" required>
+        <div id="officer-error" class="error-message">Please enter the solemnizing officer's name</div>
       </fieldset>
 
       <fieldset>
         <legend>Required Documents</legend>
         <label>Certificate of Marriage (4 copies):</label>
-        <input type="file" name="marriage_certificate" required>
+        <input type="file" name="marriage_certificate" accept=".pdf,.jpg,.jpeg,.png" required>
+        <div id="certificate-error" class="file-error">Please upload the marriage certificate</div>
+        
         <label>Marriage License:</label>
-        <input type="file" name="marriage_license" required>
+        <input type="file" name="marriage_license" accept=".pdf,.jpg,.jpeg,.png" required>
+        <div id="license-error" class="file-error">Please upload the marriage license</div>
+        
         <label>Authorization to Solemnize Marriage:</label>
-        <input type="file" name="authorization_to_solemnize" required>
+        <input type="file" name="authorization_to_solemnize" accept=".pdf,.jpg,.jpeg,.png" required>
+        <div id="authorization-error" class="file-error">Please upload the authorization</div>
+        
         <label>Affidavit for Delayed Registration:</label>
-        <input type="file" name="affidavit_delayed_registration" required>
+        <input type="file" name="affidavit_delayed_registration" accept=".pdf,.jpg,.jpeg,.png" required>
+        <div id="affidavit-error" class="file-error">Please upload the affidavit</div>
+        
         <label>Affidavit of Cohabitation (if applicable):</label>
-        <input type="file" name="affidavit_cohabitation">
+        <input type="file" name="affidavit_cohabitation" accept=".pdf,.jpg,.jpeg,.png">
+        
         <label>Request for Celebration in Other Place (if applicable):</label>
-        <input type="file" name="request_other_place">
+        <input type="file" name="request_other_place" accept=".pdf,.jpg,.jpeg,.png">
       </fieldset>
 
       <fieldset>
         <legend>Applicant Information</legend>
         <label>Applicant Full Name:</label>
         <input type="text" id="applicant_name" name="applicant_name" placeholder="Last Name, First Name, Middle Name" required>
+        <div id="applicant-error" class="error-message">Please enter your full name</div>
+        
         <label>Contact Number:</label>
-        <input type="text" id="contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" name="contact_number" required>
+        <input type="tel" id="contact" name="contact_number" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="09XX-XXX-XXXX" required>
+        <div id="contact-error" class="error-message">Please enter a valid contact number (09XX-XXX-XXXX)</div>
+        
         <label>Email Address:</label>
         <input type="email" name="email" required>
-        <label>Address:</label>
-        <textarea name="address" rows="3" required></textarea>
+        <div id="email-error" class="error-message">Please enter a valid email address</div>
+        
+        <label>Applicant's Signature (Draw Below):</label>
+        <canvas id="applicant-signature" tabindex="0"></canvas>
+        <button type="button" class="clear-btn" onclick="clearCanvas('applicant-signature')">Clear Signature</button>
+        <div id="signature-error" class="error-message">Please provide your signature</div>
       </fieldset>
 
       <p><strong>Note:</strong> Incomplete data/requirements will not be accepted. Only documents with official receipts will be processed.</p>
-      <button type="submit">Submit Request</button>
+      <button type="button" onclick="submitMarriageForm()">Submit Request</button>
     </form>
   </div>
 
-  <!-- Confirmation Modal -->
-  <div id="sms-confirmation">
-    <div class="modal-content">
-      <h3>Request Submitted!</h3>
-      <p>You will receive a confirmation message via SMS and Email once the correction has been processed.</p>
-      <button onclick="document.getElementById('sms-confirmation').style.display='none'">OK</button>
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="feedback-modal">
+    <div class="feedback-content">
+      <h2>Feedback Form</h2>
+      <p>Please rate your experience with this service:</p>
+      
+      <div class="rating-stars" id="ratingStars">
+        <span onmouseover="setRating(1)" onclick="submitRating(1)">☆</span>
+        <span onmouseover="setRating(2)" onclick="submitRating(2)">☆</span>
+        <span onmouseover="setRating(3)" onclick="submitRating(3)">☆</span>
+        <span onmouseover="setRating(4)" onclick="submitRating(4)">☆</span>
+        <span onmouseover="setRating(5)" onclick="submitRating(5)">☆</span>
+      </div>
+      
+      <label for="feedbackComments">Comments (optional):</label>
+      <textarea id="feedbackComments" rows="4" placeholder="Share your experience or suggestions for improvement"></textarea>
+      
+      <div class="feedback-buttons">
+        <button onclick="closeFeedbackModal()" style="background-color: #e74c3c;">Cancel</button>
+        <button onclick="submitFeedback()">Submit Feedback</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Success Modal -->
+  <div id="feedbackSuccess" class="feedback-success">
+    <div class="feedback-success-content">
+      <h2>Thank You!</h2>
+      <p>Your feedback has been submitted successfully.</p>
+      <p>We appreciate your time and will use your feedback to improve our services.</p>
+      <button onclick="closeFeedbackSuccess()">Close</button>
     </div>
   </div>
 
@@ -251,6 +441,49 @@
   <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
   <script>
+    // Barangay data by district
+    const barangaysByDistrict = {
+      'District I': ['Binondo', 'Quiapo', 'San Nicolas', 'Santa Cruz', 'Sampaloc (Part)', 'San Miguel', 'Sta. Mesa (Part)'],
+      'District II': ['Ermita', 'Intramuros', 'Malate', 'Paco', 'Port Area', 'San Andres Bukid', 'Santa Ana'],
+      'District III': ['Sta. Mesa (Part)', 'Alemanda', 'Sta. Mesa Proper', 'San Jose', 'Sta. Mesa Heights', 'Addition Hills', 'Barangka', 'Greenhills', 'Hagdan Bato Libis', 'Mabini-J. Rizal', 'Maysilo', 'New Zañiga', 'Plainview', 'Pleasant Hills', 'Rivera', 'San Perfecto', 'Vergara', 'Wack-Wack'],
+      'District IV': ['San Juan', 'Mandaluyong', 'San Felipe Neri', 'Barangka Drive', 'Barangka Ibaba', 'Barangka Ilaya', 'Barangka Itaas', 'Burol', 'Daang Bakal', 'Hagdang Bato Itaas', 'Harapin Ang Bukas', 'Highway Hills', 'Hulo', 'Mauway', 'Namayan', 'Ortigas Avenue', 'Pag-Asa', 'Plainview', 'Pleasant Hills', 'Poblacion', 'San Jose', 'Vergara', 'Wack-Wack Greenhills'],
+      'District V': ['Paco', 'Pandacan', 'San Andres Bukid', 'Santa Ana', 'Santa Mesa (Part)'],
+      'District VI': ['Paco', 'San Isidro', 'San Antonio', 'San Vicente', 'Santa Cruz', 'Sta. Mesa (Part)', 'Tondo I', 'Tondo II']
+    };
+
+    function updateMarriageBarangays() {
+      const districtSelect = document.getElementById('marriageDistrict');
+      const barangaySelect = document.getElementById('marriageBarangay');
+      const selectedDistrict = districtSelect.value;
+      
+      // Clear previous options except the first one
+      barangaySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+      
+      if (!selectedDistrict) return;
+      
+      // Add barangays for selected district
+      const barangays = barangaysByDistrict[selectedDistrict] || [];
+      barangays.forEach(barangay => {
+        const option = document.createElement('option');
+        option.value = barangay;
+        option.textContent = barangay;
+        barangaySelect.appendChild(option);
+      });
+    }
+
+    function clearCanvas(id) {
+      const canvas = document.getElementById(id);
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function isCanvasEmpty(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext("2d");
+      const pixelBuffer = new Uint32Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
+      return !pixelBuffer.some(color => color !== 0);
+    }
+
     function generateRegistryNumber() {
       const now = new Date();
       return `DS-${now.getFullYear()}${(now.getMonth() + 1)
@@ -280,33 +513,238 @@
       localStorage.setItem("MarriageRecords", JSON.stringify(records));
     }
 
-    function showSMSConfirmation() {
-      document.getElementById("sms-confirmation").style.display = "block";
-      sendToDashboard();
-      document.getElementById("marriage-form").reset();
+    function validateForm() {
+      let isValid = true;
+      
+      // Validate text inputs
+      const requiredInputs = document.querySelectorAll('input[required]:not([type="file"])');
+      requiredInputs.forEach(input => {
+        const errorId = input.name + '-error';
+        const errorElement = document.getElementById(errorId) || 
+                            document.getElementById(input.id + '-error');
+        
+        if (!input.value) {
+          input.style.borderColor = '#e74c3c';
+          if (errorElement) errorElement.style.display = 'block';
+          isValid = false;
+        } else {
+          input.style.borderColor = '#ccc';
+          if (errorElement) errorElement.style.display = 'none';
+        }
+      });
+      
+      // Validate email
+      const emailInput = document.querySelector('input[type="email"]');
+      const emailError = document.getElementById('email-error');
+      if (emailInput && !emailInput.checkValidity()) {
+        emailInput.style.borderColor = '#e74c3c';
+        if (emailError) emailError.style.display = 'block';
+        isValid = false;
+      } else if (emailInput) {
+        emailInput.style.borderColor = '#ccc';
+        if (emailError) emailError.style.display = 'none';
+      }
+      
+      // Validate phone
+      const phoneInput = document.getElementById('contact');
+      const phoneError = document.getElementById('contact-error');
+      if (phoneInput && !/^\d{4}-\d{3}-\d{4}$/.test(phoneInput.value)) {
+        phoneInput.style.borderColor = '#e74c3c';
+        if (phoneError) phoneError.style.display = 'block';
+        isValid = false;
+      } else if (phoneInput) {
+        phoneInput.style.borderColor = '#ccc';
+        if (phoneError) phoneError.style.display = 'none';
+      }
+      
+      // Validate select elements
+      const requiredSelects = document.querySelectorAll('select[required]');
+      requiredSelects.forEach(select => {
+        const errorId = select.id + '-error';
+        const errorElement = document.getElementById(errorId);
+        
+        if (!select.value) {
+          select.style.borderColor = '#e74c3c';
+          if (errorElement) errorElement.style.display = 'block';
+          isValid = false;
+        } else {
+          select.style.borderColor = '#ccc';
+          if (errorElement) errorElement.style.display = 'none';
+        }
+      });
+      
+      // Validate file inputs
+      const requiredFiles = document.querySelectorAll('input[type="file"][required]');
+      requiredFiles.forEach(fileInput => {
+        const errorId = fileInput.name + '-error';
+        const errorElement = document.getElementById(errorId);
+        
+        if (!fileInput.files || fileInput.files.length === 0) {
+          fileInput.style.borderColor = '#e74c3c';
+          if (errorElement) errorElement.style.display = 'block';
+          isValid = false;
+        } else {
+          fileInput.style.borderColor = '#ccc';
+          if (errorElement) errorElement.style.display = 'none';
+        }
+      });
+      
+      // Validate signature
+      const signatureCanvas = document.getElementById('applicant-signature');
+      const signatureError = document.getElementById('signature-error');
+      if (signatureCanvas && isCanvasEmpty('applicant-signature')) {
+        signatureError.style.display = 'block';
+        isValid = false;
+      } else if (signatureCanvas) {
+        signatureError.style.display = 'none';
+      }
+      
+      return isValid;
     }
-  </script>
-  <script>
-    // date
-    const deceasedDateInput = document.getElementById("marriage_date");
-    const today = new Date();
-  
-    const maxDate = today.toISOString().split("T")[0];
-    deceasedDateInput.setAttribute("max", maxDate);
-    
-    // Mobile number format
-    const phoneInput = document.getElementById("contact");
-  
-    phoneInput.addEventListener("input", function () {
-    let value = phoneInput.value.replace(/\D/g, ""); 
-    if (value.length > 4) {
-        value = value.slice(0, 4) + "-" + value.slice(4);
+
+    // Feedback Modal Functions
+    let currentRating = 0;
+
+    function setRating(rating) {
+      currentRating = rating;
+      const stars = document.querySelectorAll('#ratingStars span');
+      stars.forEach((star, index) => {
+        star.textContent = index < rating ? '★' : '☆';
+      });
     }
-    if (value.length > 8) {
-        value = value.slice(0, 8) + "-" + value.slice(8, 12);
+
+    function submitRating(rating) {
+      setRating(rating);
     }
-    phoneInput.value = value;
-    });
+
+    function showFeedbackModal() {
+      document.getElementById('feedbackModal').style.display = 'flex';
+    }
+
+    function closeFeedbackModal() {
+      document.getElementById('feedbackModal').style.display = 'none';
+      resetRating();
+    }
+
+    function showFeedbackSuccess() {
+      document.getElementById('feedbackSuccess').style.display = 'flex';
+    }
+
+    function closeFeedbackSuccess() {
+      document.getElementById('feedbackSuccess').style.display = 'none';
+    }
+
+    function resetRating() {
+      currentRating = 0;
+      const stars = document.querySelectorAll('#ratingStars span');
+      stars.forEach(star => {
+        star.textContent = '☆';
+      });
+      document.getElementById('feedbackComments').value = '';
+    }
+
+    function submitFeedback() {
+      const comments = document.getElementById('feedbackComments').value;
+      
+      // Here you would typically send the feedback to your server
+      // For this example, we'll just log it and show the success message
+      console.log('Feedback submitted:', {
+        rating: currentRating,
+        comments: comments
+      });
+      
+      closeFeedbackModal();
+      showFeedbackSuccess();
+      
+      // Reset the form
+      resetRating();
+    }
+
+    function submitMarriageForm() {
+      if (!validateForm()) {
+        Swal.fire('Error', 'Please fill out all required fields correctly.', 'error');
+        return;
+      }
+
+      Swal.fire({
+        title: 'Confirm Submission',
+        text: 'Are you sure you want to submit this delayed registration request?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#2980b9',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, submit!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sendToDashboard();
+          
+          Swal.fire({
+            title: 'Success!',
+            html: `Your delayed registration request has been submitted successfully!<br><br>
+                   You will receive a confirmation via SMS and email shortly.`,
+            icon: 'success'
+          }).then(() => {
+            document.getElementById('marriage-form').reset();
+            clearCanvas('applicant-signature');
+            document.getElementById('marriageDistrict').selectedIndex = 0;
+            document.getElementById('marriageBarangay').innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+            
+            // Show feedback modal after successful submission
+            setTimeout(showFeedbackModal, 1000);
+          });
+        }
+      });
+    }
+
+    // Initialize the form
+    window.onload = function() {
+      // Initialize signature canvas
+      const canvas = document.getElementById('applicant-signature');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+
+        canvas.addEventListener('mousedown', () => drawing = true);
+        canvas.addEventListener('mouseup', () => { drawing = false; ctx.beginPath(); });
+        canvas.addEventListener('mouseout', () => drawing = false);
+        canvas.addEventListener('mousemove', (e) => {
+          if (!drawing) return;
+          const rect = canvas.getBoundingClientRect();
+          ctx.lineWidth = 2;
+          ctx.lineCap = 'round';
+          ctx.strokeStyle = '#000';
+          ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        });
+      }
+
+      // Initialize date restrictions
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('marriage_date').setAttribute('max', today);
+
+      // Initialize barangay dropdown
+      updateMarriageBarangays();
+
+      // Phone number formatting
+      const phoneInput = document.getElementById('contact');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+          let value = phoneInput.value.replace(/\D/g, ''); 
+          if (value.length > 4) {
+            value = value.slice(0, 4) + '-' + value.slice(4);
+          }
+          if (value.length > 8) {
+            value = value.slice(0, 8) + '-' + value.slice(8, 12);
+          }
+          phoneInput.value = value;
+        });
+      }
+    };
   </script>
 </body>
 </html>
