@@ -423,9 +423,6 @@
     </form>
   </div>
 
-  <!-- Suject to email -->
-  <span id="subject" value="Birth"></span>
-
   <!-- Confirmation Modal -->
   <div id="sms-confirmation">
     <div class="modal-content">
@@ -673,29 +670,18 @@
 
     // EmailJS function from the second code
     function sendmail() {
-      const subject = document.getElementById("subject").getAttribute("value");
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const phone = document.getElementById("phone").value;
-      const date = document.getElementById("date").value;
-      const time = document.getElementById("time").value;
-      const purpose = document.getElementById("purpose").value;
-      const childName = document.getElementById("childName").value;
 
       // Prepare the email parameters
       var templateParams = {
-        subject: subject,
-        name: name,
-        email: email,
-        phone: phone,
-        date: date,
-        time: time,
-        purpose: purpose,
-        childName: childName
+        name : document.getElementById("name").value,
+        subject : "Birth",
+        email : document.getElementById("email").value,
+        date : document.getElementById("date").value,
+        time : document.getElementById("time").value,
       };
 
       // Send the email using EmailJS
-      emailjs.send('service_0x3j0x9', 'template_2c7q9b6', templateParams)
+      emailjs.send('service_hsg4yqe', 'template_69gbsmo', templateParams)
         .then(function(response) {
           console.log('SUCCESS!', response.status, response.text);
         }, function(error) {

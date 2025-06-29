@@ -469,7 +469,6 @@
                     <button type="submit" class="submit">Submit</button>
                 </form>
             </div>
-            <span id="subject" value="Death"></span>
         </div>
     </section>
 
@@ -717,29 +716,17 @@
 
         // EmailJS function
         function sendmail() {
-            const subject = document.getElementById("subject").getAttribute("value");
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
-            const date = document.getElementById("date").value;
-            const time = document.getElementById("time").value;
-            const purpose = document.getElementById("purpose").value;
-            const deceasedName = document.getElementById("deceased").value;
-
             // Prepare the email parameters
             var templateParams = {
-                subject: subject,
-                name: name,
-                email: email,
-                phone: phone,
-                date: date,
-                time: time,
-                purpose: purpose,
-                deceasedName: deceasedName
+                name : document.getElementById("name").value,
+                subject : "Death",
+                email : document.getElementById("email").value,
+                date : document.getElementById("date").value,
+                time : document.getElementById("time").value,
             };
 
             // Send the email using EmailJS
-            emailjs.send('service_0x3j0x9', 'template_2c7q9b6', templateParams)
+            emailjs.send('service_hsg4yqe', 'template_69gbsmo', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                 }, function(error) {
